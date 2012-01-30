@@ -1,0 +1,16 @@
+body {
+	width: 60em;
+	margin: 0;
+}
+
+.thumb {
+	width: 5em;
+	height: 5em;
+	background-color: #cfff8d;
+	float: left;
+	margin-right: 1.25em;
+}
+
+.thumb-first {
+	margin-left: 1.25em;
+}

@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  FeedListView.h
 //  I'm Traveling
 //
 //  Created by 전 수열 on 12. 1. 18..
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIPullDownWebViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface FeedListView : UIPullDownWebViewController
 
 @end
