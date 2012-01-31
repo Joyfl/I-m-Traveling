@@ -1,23 +1,23 @@
 //
-//  ProfileView.m
+//  PeopleView.m
 //  I'm Traveling
 //
-//  Created by 전 수열 on 12. 1. 26..
+//  Created by 전 수열 on 12. 1. 27..
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "ProfileView.h"
+#import "PeopleViewController.h"
 #import "Const.h"
 
-@implementation ProfileView
+@implementation PeopleViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-		self.title = @"My Profile";
+		self.title = @"People";
 		
-		[self loadURL:URL_PROFILE];
+		[self loadURL:HTML_INDEX];
     }
     return self;
 }

@@ -20,6 +20,9 @@
 
 - (NSString *)getHtmlFromUrl:(NSString *)url;
 
+- (void)clear;
+- (void)callJSONFunction:(NSString *)functionName json:(NSString *)json;
+
 @property (nonatomic, retain) UIWebView *webView;
 
 @end

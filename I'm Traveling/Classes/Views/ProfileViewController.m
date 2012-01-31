@@ -1,29 +1,23 @@
 //
-//  UploadView.m
+//  ProfileView.m
 //  I'm Traveling
 //
-//  Created by 전 수열 on 12. 1. 24..
+//  Created by 전 수열 on 12. 1. 26..
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "ShareView.h"
+#import "ProfileViewController.h"
 #import "Const.h"
 
-@implementation ShareView
+@implementation ProfileViewController
 
-- (id)init
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    if( self = [super init] )
-	{
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButtonTouch)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+		self.title = @"My Profile";
 		
-		UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onUploadButtonTouch)];
-		self.navigationItem.rightBarButtonItem = uploadButton;
-		
-		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
-//		[self loadHtmlFile:@"feed_list"];
-		[self loadURL:URL_SHARE];
+		[self loadURL:HTML_INDEX];
     }
     return self;
 }
@@ -64,18 +58,6 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - selectors
-
-- (void)onCancelButtonTouch
-{
-	[self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)onUploadButtonTouch
-{
-	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

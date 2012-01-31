@@ -6,11 +6,11 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "RegionView.h"
+#import "RegionViewController.h"
 #import "SettingsManager.h"
 #import "Const.h"
 
-@implementation RegionView
+@implementation RegionViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {

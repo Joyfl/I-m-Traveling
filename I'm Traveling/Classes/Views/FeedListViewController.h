@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIPullDownWebViewController.h"
 
-@interface FeedListView : UIPullDownWebViewController
+@interface FeedListViewController : UIPullDownWebViewController
 
 @end

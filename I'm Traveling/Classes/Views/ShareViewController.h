@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIWebViewController.h"
 
-@interface ShareView : UIWebViewController
+@interface ShareViewController : UIWebViewController
 
 @end

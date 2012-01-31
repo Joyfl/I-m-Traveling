@@ -9,7 +9,7 @@
 #import "UIPullDownWebViewController.h"
 #import "ThumbnailView.h"
 
-@interface FeedDetailView : UIPullDownWebViewController
+@interface FeedDetailViewController : UIPullDownWebViewController
 {
 	ThumbnailView *thumbView;
 	

@@ -6,10 +6,15 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "FeedDetailView.h"
+#import "FeedDetailViewController.h"
 #import "Const.h"
 
-@implementation FeedDetailView
+@interface FeedDetailViewController (Private)
+
+@end
+
+
+@implementation FeedDetailViewController
 
 @synthesize feedId;
 
@@ -17,12 +22,10 @@
 {
     if( self = [super init] )
 	{
-		messagePrefix = @"imtraveling:";
-		
 		thumbView = [[ThumbnailView alloc] init];
 		[self.webView.scrollView addSubview:thumbView.view];
 		
-		[self loadURL:URL_FEED_DETAIL];
+		[self loadURL:HTML_INDEX];
     }
 	
     return self;
@@ -75,14 +78,12 @@
 
 - (void)reloadWebView
 {
-//	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%@", API_FEED_DETAIL, feedId]];
+	[self clear];
+	
+	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%@", API_FEED_DETAIL, feedId]];
+	[self callJSONFunction:@"createFeedDetailByJSON" json:json];
 	
 	[self webViewDidFinishReloading];
 }
-
-#pragma mark - javascript functions
-
-
-// createFeedDetail(feed_id, user_id, profile_image_url, name, place, region, time, pictures, info, review, map_info, num_likes, comments, liked)
 
 @end

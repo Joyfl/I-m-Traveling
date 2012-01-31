@@ -16,6 +16,8 @@
 {
 	if( self = [super init] )
 	{
+		messagePrefix = @"imtraveling:";
+		
 		self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		self.webView.delegate = self;
 		[self.view addSubview:webView];
@@ -110,6 +112,21 @@
 {
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
 	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
+#pragma mark - Javascript Functions
+
+- (void)clear
+{
+	NSLog( @"clear" );
+	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
+}
+
+- (void)callJSONFunction:(NSString *)functionName json:(NSString *)json
+{
+	NSString *func = [NSString stringWithFormat:@"%@('%@');", functionName, json];
+	NSLog( @"%@", func );
+	[webView stringByEvaluatingJavaScriptFromString:func];
 }
 
 @end

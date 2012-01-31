@@ -6,23 +6,20 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "FeedListView.h"
-#import "FeedDetailView.h"
-#import "RegionView.h"
+#import "FeedListViewController.h"
+#import "FeedDetailViewController.h"
+#import "RegionViewController.h"
+#import "MapViewController.h"
 #import "Const.h"
-#import "SBJson.h"
 
-@interface FeedListView (Private)
+@interface FeedListViewController (Private)
 
 - (void)deselectAlignButtons;
-
-- (void)addFeed:(NSString *)feedId :(NSString *)userId :(NSString *)profileImgUrl :(NSString *)name :(NSString *)place :(NSString *)time :(NSString *)region :(NSString *)pictureUrl :(NSString *)review :(NSString *)numLikes :(NSString *)numComments;
-- (void)removeAllFeeds;
 
 @end
 
 
-@implementation FeedListView
+@implementation FeedListViewController
 
 enum {
 	kTagNewButton = 0,
@@ -35,8 +32,6 @@ enum {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
 	{
-		messagePrefix = @"imtraveling:";
-		
 		// left
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
@@ -125,7 +120,7 @@ enum {
 	
 //	[self loadHtmlFile:@"feed_list"];
 	
-	[self loadURL:URL_FEED_LIST];
+	[self loadURL:HTML_INDEX];
 }
 
 - (void)viewDidUnload
@@ -155,42 +150,20 @@ enum {
 	if( [page isEqualToString:@"feed_detail"] )
 	{
 		NSLog( @"feed_detail" );
-		FeedDetailView *detail = [[FeedDetailView alloc] init];
+		FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
 		detail.feedId = [args objectAtIndex:1];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }
 
-#pragma mark - pull to refresh web view
+#pragma mark - UIPullDownWebViewController
 
 - (void)reloadWebView
 {
-	NSLog( @"reload webview" );
-	
-	[self removeAllFeeds];
+	[self clear];
 	
 	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@", API_FEED_LIST]];
-	SBJsonParser *parser = [[SBJsonParser alloc] init];
-	NSMutableArray *feeds = [parser objectWithString:json];
-	
-	for( int i = 0; i < feeds.count; i++ )
-	{
-		NSMutableDictionary *feed = [feeds objectAtIndex:i];
-		
-		NSString *feedId = [feed objectForKey:@"FeedID"];
-		NSString *userId = [feed objectForKey:@"UserID"];
-		NSString *profileImgUrl = [NSString stringWithFormat:@"%@%@.jpg", API_PROFILE_IMAGE, userId];
-		NSString *name = [feed objectForKey:@"Name"];
-		NSString *place = [feed objectForKey:@"Place"];
-		NSString *time = [feed objectForKey:@"Time"];
-		NSString *region = [feed objectForKey:@"Region"];
-		NSString *pictureUrl = [NSString stringWithFormat:@"%@%@_%@_%@", API_FEED_PICTURE, userId, feedId, [feed objectForKey:@"PicUrl"]];
-		NSString *review = [feed objectForKey:@"Review"];
-		NSString *numLikes = [feed objectForKey:@"Num_Likes"];
-		NSString *numComments = [feed objectForKey:@"Num_Comments"];
-		
-		[self addFeed:feedId :userId :profileImgUrl :name :place :time :region :pictureUrl :review :numLikes :numComments];
-	}
+	[self callJSONFunction:@"AddFeedsByJSON" json:json];
 	
 	[self webViewDidFinishReloading];
 }
@@ -199,13 +172,15 @@ enum {
 
 - (void)onRegionButtonTouch
 {
-	RegionView *regionView = [[RegionView alloc] init];
-	[self.navigationController pushViewController:regionView animated:YES];
+	RegionViewController *regionViewController = [[RegionViewController alloc] init];
+	[self.navigationController pushViewController:regionViewController animated:YES];
 }
 
 - (void)onMapButtonTouch
 {
 	NSLog( @"map" );
+	MapViewController *mapViewController = [[MapViewController alloc] init];
+	[self.navigationController pushViewController:mapViewController animated:YES];
 }
 
 - (void)onAlignButtonTouch:(id)sender
@@ -251,22 +226,6 @@ enum {
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).highlighted = NO;
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).enabled = YES;
 	}
-}
-
-#pragma mark - javascript functions
-
-- (void)addFeed:(NSString *)feedId :(NSString *)userId :(NSString *)profileImgUrl :(NSString *)name :(NSString *)place :(NSString *)time :(NSString *)region :(NSString *)pictureUrl :(NSString *)review :(NSString *)numLikes :(NSString *)numComments
-{
-	// addFeed(feed_id, user_id profile_image_url, name, place, time, region, picture_url, review, num_likes, num_comments)
-	NSString *func = [NSString stringWithFormat:@"addFeed(%@, %@, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %@, %@);", feedId, userId, profileImgUrl, name, place, time, region, pictureUrl, review, numLikes, numComments];
-//	NSLog( @"%@", func );
-	[webView stringByEvaluatingJavaScriptFromString:func];
-}
-
-- (void)removeAllFeeds
-{
-	NSLog( @"removeAllFeeds" );
-	[webView stringByEvaluatingJavaScriptFromString:@"removeAllFeeds();"];
 }
 
 @end

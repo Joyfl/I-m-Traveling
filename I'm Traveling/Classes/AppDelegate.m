@@ -7,10 +7,10 @@
 //
 
 #import "AppDelegate.h"
-#import "FeedListView.h"
-#import "ShareView.h"
-#import "PeopleView.h"
-#import "ProfileView.h"
+#import "FeedListViewController.h"
+#import "ShareViewController.h"
+#import "PeopleViewController.h"
+#import "ProfileViewController.h"
 
 @implementation AppDelegate
 
@@ -31,11 +31,11 @@
 	tabBarController = [[UITabBarController alloc] init];
 	tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tab_bar.png"];
 	
-	UINavigationController *feedNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListView alloc] init]];
+	UINavigationController *feedNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
 	feedNavigationController.title = @"Feed";
 	feedNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_feed.png"] retain];
 	
-	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListView alloc] init]];
+	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
 	tripNavigationController.title = @"Trip";
 	tripNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_trip.png"] retain];
 	
@@ -46,11 +46,11 @@
 	[uploadButton setImage:[[UIImage imageNamed:@"tab_share.png"] retain] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
-	UINavigationController *peopleNavigationController = [[UINavigationController alloc] initWithRootViewController:[[PeopleView alloc] init]];
+	UINavigationController *peopleNavigationController = [[UINavigationController alloc] initWithRootViewController:[[PeopleViewController alloc] init]];
 	peopleNavigationController.title = @"People";
 	peopleNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_people.png"] retain]; 
 	
-	UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:[[ProfileView alloc] init]];
+	UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
 	profileNavigationController.title = @"Profile";
 	profileNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_profile.png"] retain];
 	
@@ -66,6 +66,7 @@
 	
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+	
     return YES;
 }
 
@@ -112,10 +113,10 @@
 
 - (void)onUploadButtonTouch
 {
-	ShareView *shareView = [[ShareView alloc] init];
-	UINavigationController *shareViewController = [[UINavigationController alloc] initWithRootViewController:shareView];
-	[shareViewController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-	[tabBarController presentModalViewController:shareViewController animated:YES];
+	ShareViewController *shareViewController = [[ShareViewController alloc] init];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareViewController];
+	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
+	[tabBarController presentModalViewController:navigationController animated:YES];
 }
 
 @end

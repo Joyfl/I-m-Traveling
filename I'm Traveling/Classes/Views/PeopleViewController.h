@@ -8,6 +8,6 @@
 
 #import "UIWebViewController.h"
 
-@interface PeopleView : UIWebViewController
+@interface PeopleViewController : UIWebViewController
 
 @end
