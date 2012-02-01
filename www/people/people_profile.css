@@ -1,0 +1,167 @@
+body
+{
+	overflow-x:hidden;
+	background-color: #ffeeee;
+	margin: 0em;
+	padding: 0em;
+	font-family: "Helvetica";
+}
+
+a
+{
+	text-decoration: none;
+	color: #000000;
+}
+
+ul
+{
+	margin: 0.5em;
+	padding: 0em;
+	float: left;
+}
+
+#profile
+{
+	background-image: linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -o-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -moz-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -webkit-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -ms-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.14, rgb(242,220,200)),
+		color-stop(0.49, rgb(226,206,186))
+	);
+	
+	margin: 0em;
+	padding: 0em;
+	clear: both;
+	height: 3.6em;
+}
+
+.profileImageWrap
+{
+	position: relative;
+	width: 2.6em;
+	height: 2.6em;
+	padding: 0em;
+	float: left;
+	margin: 0.5em;
+	border: 0px solid #ffffff;
+	border-radius: 0.4em;
+}
+
+.profileImage
+{
+	width: 2.6em;
+	height: 2.6em;
+	border: 0px solid #ffffff;
+	border-radius: 0.4em;
+}
+
+.leftBlock
+{
+	float: left;
+	height: 3em;
+	margin-top: 0.6em;
+}
+
+.rightBlock
+{
+	float: right;
+	height: 3em;
+	margin-top: 0.6em;
+	margin-right: 0.5em;
+	text-align: center;
+}
+
+.userName
+{
+	float: left;
+	text-align: left;
+	font-size: 0.8em;
+	height: 1.4em;
+	color: #555555;
+}
+
+.region
+{
+	clear: both;
+	text-align: left;
+	font-size: 1.33em;
+	font-weight: bold;
+}
+
+.notice
+{
+	float: right;
+	text-align: center;
+	font-size: 0.8em;
+	height: 2em;
+	width: 3em;
+	font-weight: bold;
+	margin-top: 1.1em;
+}
+
+#info
+{
+	clear: both;
+	margin-top: 0.5em;
+	height: 3.5em;
+}
+
+.wrap
+{
+	width: 29%;
+	float: left;
+	border: 0em solid #000000;
+	border-radius: 0.6em;
+	margin-left: 0.5em;
+	background-color: #cc9999;
+}
+
+.text
+{
+	clear: both;
+	text-align: center;
+	font-size: 1em;
+}
+
+.num
+{
+	text-align: center;
+	font-size: 2em;
+}
+
+#more
+{
+	clear: both;
+	margin: 0.5em;
+	border: 0em solid #000000;
+	border-radius: 0.6em;
+	background-color: #ccaaaa;
+	padding: 0em;
+}
+
+#more_feeds
+{
+	display: block;
+	padding: 0.5em;
+}
+
+#more_trips
+{
+	display: block;
+	border-top: 1px solid #aa8888;
+	padding: 0.5em;
+}
+
+.button
+{
+	position: relative;
+	float: right;
+	color: #aa8888;
+}
