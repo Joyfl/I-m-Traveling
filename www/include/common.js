@@ -39,10 +39,11 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _left
 function fillListContent(content, callback, _thumbnailImageSrc, _likes, _comments, _review)
 {
 	var thumbnailWrap = createClassElement("div", "thumbnailWrap", content);
-	var thumbnailImage = createClassElement("img", "thumbnailImage", thumbnailWrap);
-	var feedback = createClassElement("div", "feedback", content);
+	var feedback = createClassElement("div", "feedback", thumbnailWrap);
 	var miniComments = createClassElement("div", "miniComments", feedback);
 	var miniLikes = createClassElement("div", "miniLikes", feedback);
+	var thumbnailImage = createClassElement("img", "thumbnailImage", thumbnailWrap);
+	var info = createClassElement("div", "info", content);
 	var review = createClassElement("div", "review", content);
 	
 	thumbnailImage.src = _thumbnailImageSrc;
@@ -53,18 +54,15 @@ function fillListContent(content, callback, _thumbnailImageSrc, _likes, _comment
 	thumbnailImage.onclick = callback;
 }
 
-function fillDetailContent(content, callback, _thumbnailImageSrc, _likes, _comments, _info, _review)
+function fillDetailContent(content, callback, _thumbnailImageSrc, _info, _review)
 {
 	var thumbnailWrap = createClassElement("div", "thumbnailWrap", content);
 	var thumbnailImage = createClassElement("img", "thumbnailImage", thumbnailWrap);
-	var feedback = createClassElement("div", "feedback", content);
-	var miniComments = createClassElement("div", "miniComments", feedback);
-	var miniLikes = createClassElement("div", "miniLikes", feedback);
+	var info = createClassElement("div", "info", content);
 	var review = createClassElement("div", "review", content);
 	
 	thumbnailImage.src = _thumbnailImageSrc;
-	miniLikes.innerText = "☆ " + _likes;
-	miniComments.innerText = "▣ " + _comments;
+	info.innerText = _info;
 	review.innerText = _review;
 	
 	thumbnailImage.onclick = callback;
@@ -128,7 +126,7 @@ function createFeedDetail(feed_id, trip_id, user_id, profile_image_url, name, ti
 	var content = createClassElement("div", "content", wrap);
 	var callback = document.location = "imtraveling:googleMap:" + "{\"lat\":\"" + map_info.lat + "\",\"lng\":\"" + map_info.lng + "\"}";
 	var map = positionToStaticMapUrl(map_info, 0x000033, "S", "260x192", "false");
-	fillDetailContent(content, callback, map, num_likes, num_comments, info, review);
+	fillDetailContent(content, callback, map, info, review);
 }
 
 /*function createTripDetail(trip_id, user_id, profile_image_url, name, time, trip_title, region, companions, review, map_info, num_feeds, num_likes, num_comments, comments, liked)
