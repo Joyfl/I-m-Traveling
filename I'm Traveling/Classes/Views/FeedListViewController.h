@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "UIPullDownWebViewController.h"
+#import "MapViewController.h"
 
 @interface FeedListViewController : UIPullDownWebViewController
+{
+	MapViewController *mapViewController;
+}
 
 @end

@@ -11,7 +11,7 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	MKMapView *mapView;
+	MKMapView *feedMapView;
 	CLLocationManager *locationManager;
 }
 @end

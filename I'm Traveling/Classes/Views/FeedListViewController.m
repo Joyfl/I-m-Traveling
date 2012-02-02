@@ -9,7 +9,6 @@
 #import "FeedListViewController.h"
 #import "FeedDetailViewController.h"
 #import "RegionViewController.h"
-#import "MapViewController.h"
 #import "Const.h"
 
 @interface FeedListViewController (Private)
@@ -92,6 +91,8 @@ enum {
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, mapBarButtonItem, nil];
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
+		
+		mapViewController = [[MapViewController alloc] init];
     }
     return self;
 }
@@ -179,8 +180,7 @@ enum {
 - (void)onMapButtonTouch
 {
 	NSLog( @"map" );
-	MapViewController *mapViewController = [[MapViewController alloc] init];
-	[self.navigationController pushViewController:mapViewController animated:YES];
+	[self.navigationController pushViewController:mapViewController animated:NO];
 }
 
 - (void)onAlignButtonTouch:(id)sender
