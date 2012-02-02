@@ -80,7 +80,7 @@
 {
 	[self clear];
 	
-	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%@", API_FEED_DETAIL, feedId]];
+	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedId]];
 	[self callJSONFunction:@"createFeedDetailByJSON" json:json];
 	
 	[self webViewDidFinishReloading];

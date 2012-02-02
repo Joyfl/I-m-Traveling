@@ -13,9 +13,9 @@
 {
 	ThumbnailView *thumbView;
 	
-	NSString *feedId;
+	NSInteger feedId;
 }
 
-@property (nonatomic, retain) NSString *feedId;
+@property (nonatomic, assign) NSInteger feedId;
 
 @end
