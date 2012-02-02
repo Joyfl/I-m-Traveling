@@ -28,9 +28,6 @@
 		
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.delegate = self;
-		
-		[locationManager startUpdatingLocation];
-		[feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
     }
     return self;
 }
@@ -52,13 +49,28 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 }
-*/
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	[locationManager startUpdatingLocation];
+	[feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	
+	[locationManager stopUpdatingLocation];
+	[feedMapView setUserTrackingMode:MKUserTrackingModeNone];
+}
 
 - (void)viewDidUnload
 {
