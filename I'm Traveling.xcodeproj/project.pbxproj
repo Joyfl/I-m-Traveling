@@ -36,7 +36,6 @@
 		0300E72B14D23E6B00611039 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72414D23E6B00611039 /* ProfileViewController.m */; };
 		0300E72C14D23E6B00611039 /* RegionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72614D23E6B00611039 /* RegionViewController.m */; };
 		0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72814D23E6B00611039 /* ShareViewController.m */; };
-		0300E73014D23EBC00611039 /* PeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72F14D23EBC00611039 /* PeopleViewController.m */; };
 		0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0309901914CB31DD00715F5A /* QuartzCore.framework */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
 		03508C7B14D95FC90057D723 /* FeedMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 03508C7A14D95FC90057D723 /* FeedMarker.m */; };
@@ -105,8 +104,6 @@
 		0300E72614D23E6B00611039 /* RegionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionViewController.m; sourceTree = "<group>"; };
 		0300E72714D23E6B00611039 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		0300E72814D23E6B00611039 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
-		0300E72E14D23EBC00611039 /* PeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleViewController.h; sourceTree = "<group>"; };
-		0300E72F14D23EBC00611039 /* PeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleViewController.m; sourceTree = "<group>"; };
 		0309901914CB31DD00715F5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		03508C7914D95FC90057D723 /* FeedMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedMarker.h; sourceTree = "<group>"; };
@@ -236,8 +233,6 @@
 				03FDD10E14D4534D006E453A /* FeedDetailViewController.m */,
 				0300E72714D23E6B00611039 /* ShareViewController.h */,
 				0300E72814D23E6B00611039 /* ShareViewController.m */,
-				0300E72E14D23EBC00611039 /* PeopleViewController.h */,
-				0300E72F14D23EBC00611039 /* PeopleViewController.m */,
 				0300E72314D23E6B00611039 /* ProfileViewController.h */,
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				0300E72514D23E6B00611039 /* RegionViewController.h */,
@@ -427,7 +422,6 @@
 				0300E72B14D23E6B00611039 /* ProfileViewController.m in Sources */,
 				0300E72C14D23E6B00611039 /* RegionViewController.m in Sources */,
 				0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */,
-				0300E73014D23EBC00611039 /* PeopleViewController.m in Sources */,
 				03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */,
 				03FDD11614D465F8006E453A /* ThumbnailView.m in Sources */,
 				039B582D14D67B2400E5212C /* MapViewController.m in Sources */,

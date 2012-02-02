@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "FeedListViewController.h"
 #import "ShareViewController.h"
-#import "PeopleViewController.h"
 #import "ProfileViewController.h"
 
 @implementation AppDelegate
@@ -35,31 +34,21 @@
 	feedNavigationController.title = @"Feed";
 	feedNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_feed.png"] retain];
 	
-	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
-	tripNavigationController.title = @"Trip";
-	tripNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_trip.png"] retain];
-	
 	UINavigationController *shareNavigationController = [[UINavigationController alloc] init];
 	shareNavigationController.title = @"Upload";
 	
-	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 130.0, -6.0, 64.0, 60.0 )];
+	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
 	[uploadButton setImage:[[UIImage imageNamed:@"tab_share.png"] retain] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
-	
-	UINavigationController *peopleNavigationController = [[UINavigationController alloc] initWithRootViewController:[[PeopleViewController alloc] init]];
-	peopleNavigationController.title = @"People";
-	peopleNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_people.png"] retain]; 
 	
 	UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
 	profileNavigationController.title = @"Profile";
 	profileNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_profile.png"] retain];
 	
-	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, tripNavigationController, [[UINavigationController alloc] init], peopleNavigationController, profileNavigationController, nil];
+	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UINavigationController alloc] init], profileNavigationController, nil];
 	[tabBarController.tabBar addSubview:uploadButton];
 	
 	[feedNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-	[tripNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-	[peopleNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[profileNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	
 	[self.window addSubview:tabBarController.view];
