@@ -18,8 +18,6 @@
 - (void)loadURL:(NSString *)urlString;
 - (void)messageFromWebView:(NSString *)msg;
 
-- (NSString *)getHtmlFromUrl:(NSString *)url;
-
 - (void)clear;
 - (void)callJSONFunction:(NSString *)functionName json:(NSString *)json;
 

@@ -8,6 +8,7 @@
 
 #import "FeedDetailViewController.h"
 #import "Const.h"
+#import "Utils.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -80,7 +81,7 @@
 {
 	[self clear];
 	
-	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedId]];
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedId]];
 	[self callJSONFunction:@"createFeedDetailByJSON" json:json];
 	
 	[self webViewDidFinishReloading];

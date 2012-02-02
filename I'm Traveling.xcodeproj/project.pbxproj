@@ -60,6 +60,7 @@
 		039F63FE14C5CEE6002EC78F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039F63FD14C5CEE6002EC78F /* CoreGraphics.framework */; };
 		039F640414C5CEE6002EC78F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 039F640214C5CEE6002EC78F /* InfoPlist.strings */; };
 		039F640614C5CEE6002EC78F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 039F640514C5CEE6002EC78F /* main.m */; };
+		03AD0FED14DB3AEE00D9573D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD0FEC14DB3AEE00D9573D /* Utils.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 		03FDD11614D465F8006E453A /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD11514D465F8006E453A /* ThumbnailView.m */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,8 @@
 		039F640314C5CEE6002EC78F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		039F640514C5CEE6002EC78F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		039F640714C5CEE6002EC78F /* I'm Traveling-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "I'm Traveling-Prefix.pch"; sourceTree = "<group>"; };
+		03AD0FEB14DB3AEE00D9573D /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		03AD0FEC14DB3AEE00D9573D /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
 		03FDD11414D465F8006E453A /* ThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailView.h; sourceTree = "<group>"; };
@@ -207,6 +210,8 @@
 				0300E6FC14D1A93100611039 /* UIPullDownWebViewController.m */,
 				0300E6DA14D1A93100611039 /* EGORefreshTableHeaderView.h */,
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
+				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
+				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
 			);
@@ -427,6 +432,7 @@
 				03FDD11614D465F8006E453A /* ThumbnailView.m in Sources */,
 				039B582D14D67B2400E5212C /* MapViewController.m in Sources */,
 				03508C7B14D95FC90057D723 /* FeedMarker.m in Sources */,
+				03AD0FED14DB3AEE00D9573D /* Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

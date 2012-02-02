@@ -106,14 +106,6 @@
 	
 }
 
-#pragma mark - utils
-
-- (NSString *)getHtmlFromUrl:(NSString *)url
-{
-	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-}
-
 #pragma mark - Javascript Functions
 
 - (void)clear

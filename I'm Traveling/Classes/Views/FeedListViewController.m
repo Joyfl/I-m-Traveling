@@ -10,6 +10,7 @@
 #import "FeedDetailViewController.h"
 #import "RegionViewController.h"
 #import "Const.h"
+#import "Utils.h"
 
 @interface FeedListViewController (Private)
 
@@ -163,7 +164,7 @@ enum {
 {
 	[self clear];
 	
-	NSString *json = [self getHtmlFromUrl:[NSString stringWithFormat:@"%@", API_FEED_LIST]];
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@", API_FEED_LIST]];
 	[self callJSONFunction:@"AddFeedsByJSON" json:json];
 	
 	[self webViewDidFinishReloading];
