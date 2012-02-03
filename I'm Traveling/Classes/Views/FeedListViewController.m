@@ -11,10 +11,12 @@
 #import "RegionViewController.h"
 #import "Const.h"
 #import "Utils.h"
+#import "FeedObject.h"
 
 @interface FeedListViewController (Private)
 
 - (void)deselectAlignButtons;
+- (void)addFeed:(FeedObject *)feedObj;
 
 @end
 
@@ -122,7 +124,7 @@ enum {
 	
 //	[self loadHtmlFile:@"feed_list"];
 	
-	[self loadURL:HTML_INDEX];
+	[self loadURL:HTML_FEED_LIST];
 }
 
 - (void)viewDidUnload
@@ -165,7 +167,25 @@ enum {
 	[self clear];
 	
 	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@", API_FEED_LIST]];
-	[self callJSONFunction:@"AddFeedsByJSON" json:json];
+	NSArray *feeds = [Utils parseJSON:json];
+	for( NSDictionary *feed in feeds )
+	{
+		FeedObject *feedObj = [[FeedObject alloc] init];
+		feedObj.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+		feedObj.userId = [[feed objectForKey:@"user_id"] integerValue];
+		feedObj.name = [feed objectForKey:@"name"];
+		feedObj.profileImageURL = [[NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObj.userId] retain];
+		feedObj.place = [feed objectForKey:@"place"];
+		feedObj.region = [feed objectForKey:@"region"];
+		feedObj.time = [feed objectForKey:@"time"];
+		feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, [feed objectForKey:@"picture_id"]] retain];
+		feedObj.review = [feed objectForKey:@"review"];
+		feedObj.numLikes = [[feed objectForKey:@"place"] integerValue];
+		feedObj.numComments = [[feed objectForKey:@"place"] integerValue];
+		
+//		NSLog( @"%@", feedObj );
+		[self addFeed:feedObj];
+	}
 	
 	[self webViewDidFinishReloading];
 }
@@ -211,6 +231,28 @@ enum {
 - (void)alertMsg:(NSString *)msg:(NSString *)title
 {
 	[[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil] show];
+}
+
+#pragma mark - Javascript Functions
+
+- (void)addFeed:(FeedObject *)feedObj
+{
+	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+					   feedObj.feedId,
+					   feedObj.userId,
+					   feedObj.profileImageURL,
+					   feedObj.name,
+					   feedObj.time,
+					   feedObj.place,
+					   feedObj.region,
+					   feedObj.pictureURL,
+					   feedObj.review,
+					   feedObj.numLikes,
+					   feedObj.numComments] retain];
+	
+	[webView stringByEvaluatingJavaScriptFromString:func];
+	
+	NSLog( @"%@", func );
 }
 
 #pragma mark - utils

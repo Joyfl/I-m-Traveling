@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SBJson.h"
 
 @interface Utils : NSObject
 
 + (NSString *)getHtmlFromUrl:(NSString *)url;
++ (id)parseJSON:(NSString *)json;
 
 @end

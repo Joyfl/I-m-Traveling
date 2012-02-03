@@ -114,11 +114,4 @@
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
 }
 
-- (void)callJSONFunction:(NSString *)functionName json:(NSString *)json
-{
-	NSString *func = [NSString stringWithFormat:@"%@('%@');", functionName, json];
-	NSLog( @"%@", func );
-	[webView stringByEvaluatingJavaScriptFromString:func];
-}
-
 @end

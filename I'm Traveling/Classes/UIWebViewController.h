@@ -19,7 +19,6 @@
 - (void)messageFromWebView:(NSString *)msg;
 
 - (void)clear;
-- (void)callJSONFunction:(NSString *)functionName json:(NSString *)json;
 
 @property (nonatomic, retain) UIWebView *webView;
 

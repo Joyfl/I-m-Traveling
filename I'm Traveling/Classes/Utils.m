@@ -16,4 +16,10 @@
 	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
++ (id)parseJSON:(NSString *)json
+{
+	SBJsonParser *parser = [[SBJsonParser alloc] init];
+	return [parser objectWithString:json];
+}
+
 @end

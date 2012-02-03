@@ -26,7 +26,7 @@
 		thumbView = [[ThumbnailView alloc] init];
 		[self.webView.scrollView addSubview:thumbView.view];
 		
-		[self loadURL:HTML_INDEX];
+		[self loadURL:HTML_FEED_DETAIL];
     }
 	
     return self;
@@ -82,7 +82,7 @@
 	[self clear];
 	
 	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedId]];
-	[self callJSONFunction:@"createFeedDetailByJSON" json:json];
+	
 	
 	[self webViewDidFinishReloading];
 }
