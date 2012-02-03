@@ -22,9 +22,9 @@ function clear()
 
 function positionToStaticMapUrl(mapInfo, color, marker, size, sensor)
 {
-	var url = "http://maps.googleapis.com/maps/api/staticmap?center=" + pos;
+	var url = "http://maps.googleapis.com/maps/api/staticmap?center=";
 	var pos = mapInfo.lat + "," + mapInfo.lng;
-	return url + "&markers=color:" + color + "|label:" + marker + "|" + pos + "&size=" + size + "&sensor=" + sensor;
+	return url + pos + "&markers=color:" + color + "|label:" + marker + "|" + pos + "&size=" + size + "&sensor=" + sensor;
 }
 
 function traceToStaticMapUrl(mapInfo, color, weight, size, sensor)
