@@ -8,7 +8,7 @@
 
 #import "MapViewController.h"
 #import "FeedDetailViewController.h"
-#import "FeedMarker.h"
+#import "FeedObject.h"
 
 @implementation MapViewController
 
@@ -124,7 +124,7 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	FeedMarker *marker = (FeedMarker *)view.annotation;
+	FeedObject *marker = (FeedObject *)view.annotation;
 	FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
 	detail.feedId = marker.feedId;
 	
@@ -144,7 +144,7 @@
 	// 랜덤하게 어노테이션 찍어줌
 	if( arc4random() % 100 < 10 )
 	{
-		FeedMarker *marker = [[FeedMarker alloc] init];
+		FeedObject *marker = [[FeedObject alloc] init];
 		marker.coordinate = feedMapView.userLocation.coordinate;
 		marker.title = @"Title";
 		marker.subtitle = @"Subtitle";
