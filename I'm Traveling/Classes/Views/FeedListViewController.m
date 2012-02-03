@@ -96,6 +96,8 @@ enum {
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
 		
 		mapViewController = [[MapViewController alloc] init];
+		
+		feedObjects = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -155,7 +157,8 @@ enum {
 	{
 		NSLog( @"feed_detail" );
 		FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
-		detail.feedId = [[args objectAtIndex:1] integerValue];
+		detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]];
+//		detail.feedId = [[args objectAtIndex:1] integerValue];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }
@@ -183,7 +186,6 @@ enum {
 		feedObj.numLikes = [[feed objectForKey:@"place"] integerValue];
 		feedObj.numComments = [[feed objectForKey:@"place"] integerValue];
 		
-//		NSLog( @"%@", feedObj );
 		[self addFeed:feedObj];
 	}
 	
@@ -228,15 +230,12 @@ enum {
 	}
 }
 
-- (void)alertMsg:(NSString *)msg:(NSString *)title
-{
-	[[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:nil] show];
-}
-
 #pragma mark - Javascript Functions
 
 - (void)addFeed:(FeedObject *)feedObj
 {
+	[feedObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
+	
 	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.feedId,
 					   feedObj.userId,

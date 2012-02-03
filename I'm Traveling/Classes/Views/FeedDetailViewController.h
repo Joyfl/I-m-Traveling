@@ -7,15 +7,16 @@
 //
 
 #import "UIPullDownWebViewController.h"
-#import "ThumbnailView.h"
+#import "FeedImageView.h"
+#import "FeedObject.h"
 
 @interface FeedDetailViewController : UIPullDownWebViewController
 {
-	ThumbnailView *thumbView;
+	FeedImageView *feedImageView;
 	
-	NSInteger feedId;
+	FeedObject *feedObject;
 }
 
-@property (nonatomic, assign) NSInteger feedId;
+@property (nonatomic, retain) FeedObject *feedObject;
 
 @end

@@ -13,6 +13,8 @@
 @interface FeedListViewController : UIPullDownWebViewController
 {
 	MapViewController *mapViewController;
+	
+	NSMutableDictionary *feedObjects;
 }
 
 @end

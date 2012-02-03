@@ -7,24 +7,28 @@
 //
 
 #import "FeedDetailViewController.h"
+#import "FeedObject.h"
 #import "Const.h"
 #import "Utils.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface FeedDetailViewController (Private)
+
+- (void)createFeedDetail:(FeedObject *)feedObj;
 
 @end
 
 
 @implementation FeedDetailViewController
 
-@synthesize feedId;
+@synthesize feedObject;
 
 - (id)init
 {
     if( self = [super init] )
 	{
-		thumbView = [[ThumbnailView alloc] init];
-		[self.webView.scrollView addSubview:thumbView.view];
+		feedImageView = [[FeedImageView alloc] init];
+		[self.webView.scrollView addSubview:feedImageView.view];
 		
 		[self loadURL:HTML_FEED_DETAIL];
     }
@@ -81,10 +85,37 @@
 {
 	[self clear];
 	
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedId]];
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedObject.feedId]];
+	NSDictionary *feed = [Utils parseJSON:json];
 	
+	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
+	feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+	feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+	
+	[self createFeedDetail:feedObject];
 	
 	[self webViewDidFinishReloading];
+}
+
+#pragma mark - Javascript Function
+
+- (void)createFeedDetail:(FeedObject *)feedObj
+{
+	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+					   feedObj.tripId,
+					   feedObj.userId,
+					   feedObj.profileImageURL,
+					   feedObj.name,
+					   feedObj.time,
+					   feedObj.place,
+					   feedObj.region,
+					   feedObj.review,
+					   feedObj.numLikes,
+					   feedObj.numComments] retain];
+	
+	[webView stringByEvaluatingJavaScriptFromString:func];
+	
+	NSLog( @"%@", func );
 }
 
 @end

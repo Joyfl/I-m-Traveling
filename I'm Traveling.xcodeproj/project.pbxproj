@@ -38,7 +38,6 @@
 		0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72814D23E6B00611039 /* ShareViewController.m */; };
 		0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0309901914CB31DD00715F5A /* QuartzCore.framework */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
-		03508C7B14D95FC90057D723 /* FeedMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 03508C7A14D95FC90057D723 /* FeedMarker.m */; };
 		037BD98414D57274008B325C /* tab_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD97814D57274008B325C /* tab_bar.png */; };
 		037BD98514D57274008B325C /* tab_bar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD97914D57274008B325C /* tab_bar@2x.png */; };
 		037BD98614D57274008B325C /* tab_feed.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD97A14D57274008B325C /* tab_feed.png */; };
@@ -51,6 +50,7 @@
 		037BD98D14D57274008B325C /* tab_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD98114D57274008B325C /* tab_share@2x.png */; };
 		037BD98E14D57274008B325C /* tab_trip.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD98214D57274008B325C /* tab_trip.png */; };
 		037BD98F14D57274008B325C /* tab_trip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 037BD98314D57274008B325C /* tab_trip@2x.png */; };
+		0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0386A2C414DBE07D00B867C7 /* FeedMarker.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
 		039B583414D67C6600E5212C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583314D67C6600E5212C /* MapKit.framework */; };
@@ -75,7 +75,7 @@
 		03AD101814DBCEE600D9573D /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD101714DBCEE600D9573D /* FeedObject.m */; };
 		03AD101B14DBCF1800D9573D /* UserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD101A14DBCF1800D9573D /* UserObject.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
-		03FDD11614D465F8006E453A /* ThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD11514D465F8006E453A /* ThumbnailView.m */; };
+		03FDD11614D465F8006E453A /* FeedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD11514D465F8006E453A /* FeedImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -120,8 +120,6 @@
 		0300E72814D23E6B00611039 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		0309901914CB31DD00715F5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
-		03508C7914D95FC90057D723 /* FeedMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedMarker.h; sourceTree = "<group>"; };
-		03508C7A14D95FC90057D723 /* FeedMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedMarker.m; sourceTree = "<group>"; };
 		037BD97814D57274008B325C /* tab_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_bar.png; sourceTree = "<group>"; };
 		037BD97914D57274008B325C /* tab_bar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_bar@2x.png"; sourceTree = "<group>"; };
 		037BD97A14D57274008B325C /* tab_feed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_feed.png; sourceTree = "<group>"; };
@@ -134,6 +132,8 @@
 		037BD98114D57274008B325C /* tab_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_share@2x.png"; sourceTree = "<group>"; };
 		037BD98214D57274008B325C /* tab_trip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_trip.png; sourceTree = "<group>"; };
 		037BD98314D57274008B325C /* tab_trip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_trip@2x.png"; sourceTree = "<group>"; };
+		0386A2C314DBE07D00B867C7 /* FeedMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedMarker.h; sourceTree = "<group>"; };
+		0386A2C414DBE07D00B867C7 /* FeedMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedMarker.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		039B582C14D67B2400E5212C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		039B583114D67C2100E5212C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -174,14 +174,14 @@
 		03AD100714DBCE0800D9573D /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		03AD100814DBCE0800D9573D /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		03AD100914DBCE0800D9573D /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		03AD101614DBCEE600D9573D /* FeedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FeedObject.h; sourceTree = "<group>"; };
+		03AD101614DBCEE600D9573D /* FeedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedObject.h; sourceTree = "<group>"; };
 		03AD101714DBCEE600D9573D /* FeedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedObject.m; sourceTree = "<group>"; };
 		03AD101914DBCF1800D9573D /* UserObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserObject.h; sourceTree = "<group>"; };
 		03AD101A14DBCF1800D9573D /* UserObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserObject.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
-		03FDD11414D465F8006E453A /* ThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbnailView.h; sourceTree = "<group>"; };
-		03FDD11514D465F8006E453A /* ThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbnailView.m; sourceTree = "<group>"; };
+		03FDD11414D465F8006E453A /* FeedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedImageView.h; sourceTree = "<group>"; };
+		03FDD11514D465F8006E453A /* FeedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -281,8 +281,8 @@
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				0300E72514D23E6B00611039 /* RegionViewController.h */,
 				0300E72614D23E6B00611039 /* RegionViewController.m */,
-				03FDD11414D465F8006E453A /* ThumbnailView.h */,
-				03FDD11514D465F8006E453A /* ThumbnailView.m */,
+				03FDD11414D465F8006E453A /* FeedImageView.h */,
+				03FDD11514D465F8006E453A /* FeedImageView.m */,
 				039B582B14D67B2400E5212C /* MapViewController.h */,
 				039B582C14D67B2400E5212C /* MapViewController.m */,
 			);
@@ -304,8 +304,8 @@
 				03AD101714DBCEE600D9573D /* FeedObject.m */,
 				03AD101914DBCF1800D9573D /* UserObject.h */,
 				03AD101A14DBCF1800D9573D /* UserObject.m */,
-				03508C7914D95FC90057D723 /* FeedMarker.h */,
-				03508C7A14D95FC90057D723 /* FeedMarker.m */,
+				0386A2C314DBE07D00B867C7 /* FeedMarker.h */,
+				0386A2C414DBE07D00B867C7 /* FeedMarker.m */,
 			);
 			name = Objects;
 			path = Classes/Objects;
@@ -506,9 +506,8 @@
 				0300E72C14D23E6B00611039 /* RegionViewController.m in Sources */,
 				0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */,
 				03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */,
-				03FDD11614D465F8006E453A /* ThumbnailView.m in Sources */,
+				03FDD11614D465F8006E453A /* FeedImageView.m in Sources */,
 				039B582D14D67B2400E5212C /* MapViewController.m in Sources */,
-				03508C7B14D95FC90057D723 /* FeedMarker.m in Sources */,
 				03AD0FED14DB3AEE00D9573D /* Utils.m in Sources */,
 				03AD100A14DBCE0800D9573D /* NSObject+SBJson.m in Sources */,
 				03AD100B14DBCE0800D9573D /* SBJsonParser.m in Sources */,
@@ -524,6 +523,7 @@
 				03AD101514DBCE0800D9573D /* SBJsonWriter.m in Sources */,
 				03AD101814DBCEE600D9573D /* FeedObject.m in Sources */,
 				03AD101B14DBCF1800D9573D /* UserObject.m in Sources */,
+				0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

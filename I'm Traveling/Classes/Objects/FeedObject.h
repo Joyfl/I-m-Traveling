@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface FeedObject : NSObject <MKAnnotation>
+@interface FeedObject : NSObject
 {
 	NSInteger feedId;
 	NSInteger tripId;
@@ -21,7 +21,8 @@
 	NSString *time;
 	NSString *pictureURL;
 	NSString *review;
-	CLLocationCoordinate2D mapInfo;
+	CLLocationDegrees latitude;
+	CLLocationDegrees longitude;
 	NSInteger numLikes;
 	NSInteger numComments;
 }
@@ -36,13 +37,9 @@
 @property (nonatomic, retain) NSString *time;
 @property (nonatomic, retain) NSString *pictureURL;
 @property (nonatomic, retain) NSString *review;
-@property (nonatomic, assign) CLLocationCoordinate2D *mapInfo;
+@property (nonatomic, assign) CLLocationDegrees latitude;
+@property (nonatomic, assign) CLLocationDegrees longitude;
 @property (nonatomic, assign) NSInteger numLikes;
 @property (nonatomic, assign) NSInteger numComments;
-
-// MKAnnotation
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *subtitle;
-@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 @end
