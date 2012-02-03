@@ -8,6 +8,6 @@
 
 #import "UIWebViewController.h"
 
-@interface ThumbnailView : UIWebViewController
+@interface FeedImageView : UIWebViewController
 
 @end

@@ -6,9 +6,10 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "ThumbnailView.h"
+#import "FeedImageView.h"
+#import "Const.h"
 
-@implementation ThumbnailView
+@implementation FeedImageView
 
 - (id)init
 {
@@ -20,7 +21,8 @@
 		webView.scrollView.alwaysBounceHorizontal = NO;
 		webView.scrollView.alwaysBounceVertical = NO;
 		webView.scrollView.pagingEnabled = YES;
-		[self loadHtmlFile:@"feed_detail"];
+//		[self loadHtmlFile:@"feed_detail"];
+		[self loadURL:HTML_FEED_IMAGE];
 	}
 	
     return self;
