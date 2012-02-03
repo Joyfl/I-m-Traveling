@@ -35,22 +35,6 @@ body
 
 .content
 {
-	/*
-	background-image: linear-gradient(bottom, rgb(245,231,218) 14%, rgb(245,229,214) 36%);
-	background-image: -o-linear-gradient(bottom, rgb(245,231,218) 14%, rgb(245,229,214) 36%);
-	background-image: -moz-linear-gradient(bottom, rgb(245,231,218) 14%, rgb(245,229,214) 36%);
-	background-image: -webkit-linear-gradient(bottom, rgb(245,231,218) 14%, rgb(245,229,214) 36%);
-	background-image: -ms-linear-gradient(bottom, rgb(245,231,218) 14%, rgb(245,229,214) 36%);
-	
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0.14, rgb(245,231,218)),
-		color-stop(0.36, rgb(245,229,214))
-	);
-	*/
-	background-color: rgb(245,231,218);
 	clear: both;
 	padding-top: 1em;
 	padding-bottom: 1em;
@@ -82,7 +66,7 @@ body
 	width: 80%;
 }
 
-.userName
+.leftTop
 {
 	float: left;
 	font-size: 0.8em;
@@ -162,11 +146,6 @@ body
 	margin-right: 7%;
 }
 
-.info
-{
-	
-}
-
 .review
 {
 	clear: both;
@@ -180,55 +159,4 @@ body
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
-}
-
-.imageScroll
-{
-	height: 6em;
-}
-
-.commentWrap
-{
-	margin-top: 0.5em;
-}
-
-.comment
-{
-	clear: both;
-	height: 3.6em;
-}
-
-.comment .lowerWrap .leftBottom
-{
-	font-size: 1em;
-	font-weight: normal;
-}
-
-.buttonTwo
-{
-	float: left;
-	width: 39.5%;
-	margin: 0em;
-	margin-left: 7%;
-	height: 2em;
-	background-color: #ccaaaa;
-	border-radius: 0.7em;
-	text-align: center;
-	padding-top: 0.6em;
-	font-weight: bold;
-	color: #aa5555;
-}
-
-.buttonOne
-{
-	width: 86%;
-	margin: 0em;
-	margin-left: 7%;
-	height: 2em;
-	background-color: #ccaaaa;
-	border-radius: 0.7em;
-	text-align: center;
-	padding-top: 0.6em;
-	font-weight: bold;
-	color: #aa5555;
 }
