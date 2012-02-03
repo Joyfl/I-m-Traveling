@@ -7,6 +7,19 @@ body
 	font-family: "Helvetica";
 }
 
+#page
+{
+	margin: 0em;
+	padding: 0em;
+}
+
+#scroll
+{
+	margin: 0em;
+	padding: 0em;
+	overflow-x: scroll;
+}
+
 .wrap
 {
 	margin: 0em;
@@ -159,4 +172,9 @@ body
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
+}
+
+.detailImage
+{
+	position: absolute;
 }

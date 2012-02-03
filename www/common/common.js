@@ -7,11 +7,6 @@ path = new Array({"lat":"40.737102","lng":"-73.990318"}, {"lat":"40.749825","lng
 
 // Functions
 
-function refresh()
-{
-	addFeed(1, 1, "../resource/face.jpg", "Nana", "09 JAN", "Las Vegas", "KOR", "../resource/thumbnail.jpg", "review", 3, 3);
-}
-
 function createClassElement(type, className, parent)
 {
 	component = document.createElement(type);
@@ -30,6 +25,7 @@ function createIdElement(type, id, parent)
 
 function clear()
 {
-	document.body.removeChild(document.getElementById("page"));
+	var page = document.getElementById("page");
+	if(page) document.body.removeChild(page);
 	createIdElement("div", "page", document.body);
 }
