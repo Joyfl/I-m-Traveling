@@ -23,9 +23,61 @@ function createIdElement(type, id, parent)
 	return component;
 }
 
+function createGap(height, parent)
+{
+	gap = document.createElement("div");
+	gap.className = "gap";
+	parent.appendChild(gap);
+	gap.style.height = intToWidth(height);
+	return gap;
+}
+
 function clear()
 {
 	var page = document.getElementById("page");
 	if(page) document.body.removeChild(page);
 	createIdElement("div", "page", document.body);
 }
+
+function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _leftBottom, _rightBottom)
+{
+	var profileImage = createClassElement("img", "profileImage", title);
+	
+	var upperWrap = createClassElement("div", "upperWrap", title);
+	var lowerWrap = createClassElement("div", "lowerWrap", title);
+	
+	var userName = createClassElement("div", "leftTop", upperWrap);
+	var rightTop = createClassElement("div", "rightTop", upperWrap);
+	var leftBottom = createClassElement("div", "leftBottom", lowerWrap);
+	var rightBottom = createClassElement("div", "rightBottom", lowerWrap);
+	
+	profileImage.src = _profileImageSrc;
+	userName.innerText = _userName;
+	
+	rightTop.innerText = _rightTop;
+	leftBottom.innerText = _leftBottom;
+	rightBottom.innerText = _rightBottom;
+	
+	var profile = function(){};
+	
+	profileImage.onclick = profile;
+	userName.onclick = profile;
+}
+
+function fillContent(content, _likes, onLike, _comments, onComment, _review)
+{
+	var review = createClassElement("div", "review", content);
+	var action = createClassElement("div", "action", content);
+	
+	var likeButton = createClassElement("div", "likeButton", action);
+	var commentButton = createClassElement("div", "commentButton", action);
+	
+	review.innerText = _review;
+	likeButton.innerText = "☆ " + _likes;
+	likeButton.onclick = onLike;
+	commentButton.innerText = "▣ " + _comments;
+	commentButton.onclick = onComment;
+}
+
+function widthToInt(width) { return Number(width.slice(0, width.length - 2)); }
+function intToWidth(value) { return value.toString() + "px"; }
