@@ -79,7 +79,7 @@ body
 	width: 80%;
 }
 
-.leftTop
+.userName
 {
 	float: left;
 	font-size: 0.8em;
@@ -87,7 +87,7 @@ body
 	color: #555555;
 }
 
-.rightTop
+.time
 {
 	float: right;
 	text-align: right;
@@ -96,14 +96,14 @@ body
 	font-weight: bold;
 }
 
-.leftBottom
+.place
 {
 	float: left;
 	font-size: 1.33em;
 	font-weight: bold;
 }
 
-.rightBottom
+.region
 {
 	float: right;
 	top: 3em;
@@ -149,6 +149,16 @@ body
 	padding: 0.5em;
 }
 
+.likeButton
+{
+	
+}
+
+.commentButton
+{
+	
+}
+
 .gap
 {
 	margin: 0em;
@@ -161,4 +171,27 @@ body
 	position: absolute;
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+#mainPicture
+{
+	width: 86%;
+	height: 180px;
+	margin-left: 7%;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+}
+
+.mainButton
+{
+	font-size: 1.5em;
+	text-align: center;
+	width: 60%;
+	height: 1.5em;
+	margin-left: 20%;
+	margin-top: 0.5em;
+	padding-top: 0.1em;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+	background-color: #aa8888;
 }

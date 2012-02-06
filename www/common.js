@@ -65,24 +65,24 @@ function clear()
 
 // Filling Functions
 
-function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _leftBottom, _rightBottom)
+function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _region)
 {
 	var profileImage = makeClass("img", "profileImage", title);
 	
 	var upperWrap = makeClass("div", "upperWrap", title);
 	var lowerWrap = makeClass("div", "lowerWrap", title);
 	
-	var userName = makeClass("div", "leftTop", upperWrap);
-	var rightTop = makeClass("div", "rightTop", upperWrap);
-	var leftBottom = makeClass("div", "leftBottom", lowerWrap);
-	var rightBottom = makeClass("div", "rightBottom", lowerWrap);
+	var userName = makeClass("div", "userName", upperWrap);
+	var time = makeClass("div", "time", upperWrap);
+	var place = makeClass("div", "place", lowerWrap);
+	var region = makeClass("div", "region", lowerWrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	
-	rightTop.innerText = _rightTop;
-	leftBottom.innerText = _leftBottom;
-	rightBottom.innerText = _rightBottom;
+	time.innerText = _time;
+	place.innerText = _place;
+	region.innerText = _region;
 	
 	var profile = function(){};
 	
@@ -172,9 +172,9 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 
 function modifyFeedDetail(feed_id, _time, _place, _region, _review, num_likes, num_comments)
 {	
-	(getClass("rightTop")[0]).innerText = _time;
-	(getClass("leftBottom")[0]).innerText = _place;
-	(getClass("rightBottom")[0]).innerText = _region;
+	(getClass("time")[0]).innerText = _time;
+	(getClass("place")[0]).innerText = _place;
+	(getClass("region")[0]).innerText = _region;
 	(getClass("review")[0]).innerText = _review;
 	(getClass("likeButton")[0]).innerText = num_likes;
 	(getClass("commentButton")[0]).innerText = num_comments;
@@ -184,27 +184,16 @@ function createMainPage()
 {
 	var wrap = makeClass("div", "wrap", getId("page"));
 	createGap(10, wrap);
-	makeClass("img", "picture", wrap).src = pic2;
-	createGap(20, wrap);
+	makeId("img", "mainPicture", wrap).src = pic2;
 	
+	var login = makeClass("div", "mainButton", wrap);
+	var signUp = makeClass("div", "mainButton", wrap);
+	var cancel = makeClass("div", "mainButton", wrap);
+	
+	login.innerText = "Login";
+	signUp.innerText = "Sign Up";
+	cancel.innerText = "Cancel";
 }
-
-/*function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
-{
-	var wrap = makeClass("div", "wrap", getId("page"));
-	
-	var title = makeClass("div", "title", wrap);
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
-	
-	var gap = createGap(10, wrap);
-	var picture = makeClass("img", "picture", wrap);
-	picture.src = picture_url;
-	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
-	
-	var content = makeClass("div", "content", wrap);
-	fillContent(content, feed_id, num_likes, num_comments, review);
-}*/
-
 
 function createLoginPage()
 {
