@@ -11,19 +11,60 @@
 #import "FeedObject.h"
 #import "FeedMarker.h"
 
+@interface MapViewController (Private)
+
+- (void)deselectAlignButtons;
+
+@end
+
+
 @implementation MapViewController
 
 @synthesize feedObjects;
+
+enum {
+	kTagAllButton = 0,
+	kTagFollowingButton = 1
+};
 
 - (id)init
 {
 	if( self = [super init] )
 	{
+		// left
 		UIBarButtonItem *gpsButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onGPSButtonTouch)];
+		
 		self.navigationItem.leftBarButtonItem = gpsButton;
 		
+		
+		// title
+		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 150.0, 31.0 )];
+		
+		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 75.0, 31.0 )];
+		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new.png"] retain] forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateHighlighted];
+		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateDisabled];
+		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
+		newButton.tag = kTagAllButton;
+		[alignButtons addSubview:newButton];
+		[newButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+		
+		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 75, 0, 76.0, 31.0 )];
+		[followingButton setImage:[[UIImage imageNamed:@"button_following.png"] retain] forState:UIControlStateNormal];
+		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateHighlighted];
+		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateDisabled];
+		[followingButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
+		followingButton.tag = kTagFollowingButton;
+		[alignButtons addSubview:followingButton];
+		
+		self.navigationItem.titleView = alignButtons;
+		
+		
+		// right
 		UIBarButtonItem *listButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onListButtonTouch)];
+		
 		self.navigationItem.rightBarButtonItem = listButton;
+		
 		
 		feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		feedMapView.delegate = self;
@@ -163,6 +204,26 @@
 	[feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
+- (void)onAlignButtonTouch:(id)sender
+{
+	[self deselectAlignButtons];
+	
+	UIButton *button = (UIButton *)sender;
+	button.highlighted = YES;
+	button.enabled = NO;
+	
+	switch( button.tag )
+	{
+		// new
+		case 0:
+			break;
+			
+		// popular
+		case 1:
+			break;
+	}
+}
+
 - (void)onListButtonTouch
 {
 	[UIView beginAnimations:nil context:NULL];
@@ -170,6 +231,18 @@
 	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
 	[self.navigationController popViewControllerAnimated:NO];
 	[UIView commitAnimations];
+}
+
+
+#pragma mark - utils
+
+- (void)deselectAlignButtons
+{
+	for( int i = 0; i < 2; i++ )
+	{
+		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).highlighted = NO;
+		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).enabled = YES;
+	}
 }
 
 @end

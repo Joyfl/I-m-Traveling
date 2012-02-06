@@ -54,16 +54,16 @@ enum {
 		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new.png"] retain] forState:UIControlStateNormal];
 		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateHighlighted];
 		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateDisabled];
-		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
+		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		newButton.tag = kTagNewButton;
 		[alignButtons addSubview:newButton];
-		[newButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+		[newButton sendActionsForControlEvents:UIControlEventTouchDown];
 		
 		UIButton *popularButton = [[UIButton alloc] initWithFrame:CGRectMake( 75.0, 0, 75.0, 31.0 )];
 		[popularButton setImage:[[UIImage imageNamed:@"button_popular.png"] retain] forState:UIControlStateNormal];
 		[popularButton setImage:[[UIImage imageNamed:@"button_popular_selected.png"] retain] forState:UIControlStateHighlighted];
 		[popularButton setImage:[[UIImage imageNamed:@"button_popular_selected.png"] retain] forState:UIControlStateDisabled];
-		[popularButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
+		[popularButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		popularButton.tag = kTagPopularButton;
 		[alignButtons addSubview:popularButton];
 		
@@ -226,11 +226,11 @@ enum {
 			break;
 		
 		// popular
-		case 2:
+		case 1:
 			break;
 		
 		// following
-		case 1:
+		case 2:
 			break;
 	}
 }
@@ -260,11 +260,6 @@ enum {
 }
 
 #pragma mark - utils
-
-- (void)selectAlignButton:(UIButton *)button
-{
-	button.selected = YES;
-}
 
 - (void)deselectAlignButtons
 {
