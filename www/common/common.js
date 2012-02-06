@@ -34,7 +34,7 @@ function createGap(height, parent)
 
 function clear()
 {
-	var page = document.getElementById("page");
+	var page = getId("page");
 	if(page) document.body.removeChild(page);
 	createIdElement("div", "page", document.body);
 }
@@ -64,7 +64,7 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _left
 	userName.onclick = profile;
 }
 
-function fillContent(content, _likes, onLike, _comments, onComment, _review)
+function fillContent(content, feed_id, _likes, _comments, _review)
 {
 	var review = createClassElement("div", "review", content);
 	var action = createClassElement("div", "action", content);
@@ -74,10 +74,14 @@ function fillContent(content, _likes, onLike, _comments, onComment, _review)
 	
 	review.innerText = _review;
 	likeButton.innerText = "☆ " + _likes;
-	likeButton.onclick = onLike;
+	likeButton.onclick = function() {};
 	commentButton.innerText = "▣ " + _comments;
-	commentButton.onclick = onComment;
+	commentButton.onclick = function() {};
 }
 
 function widthToInt(width) { return Number(width.slice(0, width.length - 2)); }
 function intToWidth(value) { return value.toString() + "px"; }
+
+function getId(_id) { return document.getElementById(_id); }
+function getName(_name) { return document.getElementsByName(_name); }
+function getClass(_name) { return document.getElementsByClassName(_name); }

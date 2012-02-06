@@ -26,6 +26,15 @@ body
 	padding: 0em;
 }
 
+#dummy
+{
+	margin: 0em;
+	padding: 0em;
+	position: fixed;
+	top: 0em;
+	width: 100%;
+}
+
 .title
 {
 	background-image: linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
@@ -161,3 +170,41 @@ body
 	padding-left: 10px;
 	padding-right: 10px;
 }
+
+#rightTop
+{
+	
+}
+
+#leftTop
+{
+	
+}
+
+#rightBottom
+{
+	
+}
+
+#review
+{
+	
+}
+
+#likeButton
+{
+	
+}
+
+#commentButton
+{
+	
+}
+/*
+getId("rightTop").innerText = _time;
+getId("leftBottom").innerText = _place;
+getId("rightBottom").innerText = _region;
+getId("review").innerText = _review;
+getId("likeButton").innerText = num_likes;
+getId("commentButton").innerText = num_comments;
+*/

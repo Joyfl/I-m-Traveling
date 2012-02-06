@@ -16,7 +16,7 @@ function loadFeedImage(index, feed_image_url)
 {
 	if(imageWidth * (index + 1) > widthToInt(document.body.style.width))
 		document.body.style.width = intToWidth(imageWidth * (index + 1));
-	var image = createClassElement("img", "detailImage", document.getElementById("scroll"));
+	var image = createClassElement("img", "detailImage", getId("scroll"));
 	image.style.width = intToWidth(imageWidth - 2 * margin);
 	image.style.height = intToWidth(imageHeight);
 	image.style.left = intToWidth(imageWidth * index);

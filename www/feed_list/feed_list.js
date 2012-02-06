@@ -10,7 +10,7 @@ function init()
 
 function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = createClassElement("div", "wrap", document.getElementById("page"));
+	var wrap = createClassElement("div", "wrap", getId("page"));
 	
 	var title = createClassElement("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
@@ -20,11 +20,8 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	picture.src = picture_url;
 	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 	
-	var onLike = function() {};
-	var onComment = function() {};
-	
 	var content = createClassElement("div", "content", wrap);
-	fillContent(content, num_likes, onLike, num_comments, onComment, review);
+	fillContent(content, feed_id, num_likes, num_comments, review);
 }
 
 function fillGap(gap, pictureUrl)
