@@ -165,7 +165,11 @@
 
 - (void)onListButtonTouch
 {
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDuration:0.75];
+	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
 	[self.navigationController popViewControllerAnimated:NO];
+	[UIView commitAnimations];
 }
 
 @end

@@ -48,6 +48,9 @@
 	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UINavigationController alloc] init], profileNavigationController, nil];
 	[tabBarController.tabBar addSubview:uploadButton];
 	
+	// FeedListViewController에서 MapViewController로 전환될 때 네비게이션바의 위쪽 둥근 모서리를 자연스럽게 처리하기 위해 배경을 검은색으로 설정.
+	tabBarController.view.backgroundColor = [[UIColor alloc] initWithWhite:0 alpha:1.0];
+	
 	[feedNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[profileNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	
