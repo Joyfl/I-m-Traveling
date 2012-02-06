@@ -5,10 +5,10 @@
 
 function init()
 {
-	createFeedDetail(1, 1, "../resource/face.jpg", "바나나", "19 JAN", "Las Vegas", "KOR", "review", 3, 5);
+	//createFeedDetail(1, 1, "../resource/face.jpg", "바나나", "19 JAN", "Las Vegas", "KOR", "review", 3, 5);
 }
 
-function createFeedDetail(trip_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
+function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
 {
 	var wrap = createClassElement("div", "wrap", document.getElementById("page"));
 	
@@ -24,7 +24,7 @@ function createFeedDetail(trip_id, user_id, profile_image_url, name, time, place
 	fillContent(content, 0, onLike, 0, onComment, review);
 }
 
-function modifyFeedDetail(time, place, region, review, num_likes, num_comments)
+function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_comments)
 {
 	
 }
