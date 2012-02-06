@@ -83,7 +83,7 @@ enum {
 		UIButton *mapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		[mapButton setBackgroundImage:[[UIImage imageNamed:@"button_map.png"] retain] forState:UIControlStateNormal];
 		[mapButton setFrame:CGRectMake( 0.0f, 0.0f, 25.0f, 25.0f )];
-		[mapButton addTarget:self action:@selector( onMapButtonTouch ) forControlEvents:UIControlEventTouchDown];
+		[mapButton addTarget:self action:@selector( onMapButtonTouch ) forControlEvents:UIControlEventTouchUpInside];
 		
 		UIBarButtonItem *mapBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:mapButton];
 		mapBarButtonItem.style = UIBarButtonItemStyleBordered;
