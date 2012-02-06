@@ -170,12 +170,12 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	fillContent(content, feed_id, num_likes, num_comments, review);
 }
 
-function modifyFeedDetail(feed_id, _time, _place, _region, _review, num_likes, num_comments)
+function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_comments)
 {	
-	(getClass("time")[0]).innerText = _time;
-	(getClass("place")[0]).innerText = _place;
-	(getClass("region")[0]).innerText = _region;
-	(getClass("review")[0]).innerText = _review;
+	(getClass("time")[0]).innerText = time;
+	(getClass("place")[0]).innerText = place;
+	(getClass("region")[0]).innerText = region;
+	(getClass("review")[0]).innerText = review;
 	(getClass("likeButton")[0]).innerText = num_likes;
 	(getClass("commentButton")[0]).innerText = num_comments;
 }
@@ -193,16 +193,23 @@ function createMainPage()
 	login.innerText = "Login";
 	signUp.innerText = "Sign Up";
 	cancel.innerText = "Cancel";
+	
+	login.onclick = function() {};
+	signUp.onclick = function() {};
+	calcel.onclick = function() {};
 }
 
 function createLoginPage()
 {
+	
 }
 
 function createSignUp()
 {
+	
 }
 
 function createUpload()
 {
+	
 }
