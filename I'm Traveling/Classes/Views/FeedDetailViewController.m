@@ -15,6 +15,7 @@
 @interface FeedDetailViewController (Private)
 
 - (void)createFeedDetail:(FeedObject *)feedObj;
+- (void)modifyFeedDetail:(FeedObject *)feedObj;
 
 @end
 
@@ -101,11 +102,28 @@
 
 - (void)createFeedDetail:(FeedObject *)feedObj
 {
-	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *func = [[NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.tripId,
+					   feedObj.feedId,
 					   feedObj.userId,
 					   feedObj.profileImageURL,
 					   feedObj.name,
+					   feedObj.time,
+					   feedObj.place,
+					   feedObj.region,
+					   feedObj.review,
+					   feedObj.numLikes,
+					   feedObj.numComments] retain];
+	
+	[webView stringByEvaluatingJavaScriptFromString:func];
+	
+	NSLog( @"%@", func );
+}
+
+- (void)modifyFeedDetail:(FeedObject *)feedObj
+{
+	NSString *func = [[NSString stringWithFormat:@"modifyFeedDetail(%d, %d, '%@', '%@', '%@', '%@', %d)",
+					   feedObj.feedId,
 					   feedObj.time,
 					   feedObj.place,
 					   feedObj.region,
