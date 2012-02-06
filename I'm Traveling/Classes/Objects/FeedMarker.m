@@ -10,6 +10,6 @@
 
 @implementation FeedMarker
 
-@synthesize title, subtitle, coordinate;
+@synthesize feedId, title, subtitle, coordinate;
 
 @end

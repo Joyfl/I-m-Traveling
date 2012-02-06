@@ -95,9 +95,10 @@ enum {
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
 		
-		mapViewController = [[MapViewController alloc] init];
-		
 		feedObjects = [[NSMutableDictionary alloc] init];
+		
+		mapViewController = [[MapViewController alloc] init];
+		mapViewController.feedObjects = feedObjects;
     }
     return self;
 }
@@ -158,7 +159,6 @@ enum {
 		NSLog( @"feed_detail" );
 		FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
 		detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]];
-//		detail.feedId = [[args objectAtIndex:1] integerValue];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }

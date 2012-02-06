@@ -13,5 +13,10 @@
 {
 	MKMapView *feedMapView;
 	CLLocationManager *locationManager;
+	
+	NSMutableDictionary *feedObjects;
 }
+
+@property (nonatomic, retain) NSMutableDictionary *feedObjects;
+
 @end

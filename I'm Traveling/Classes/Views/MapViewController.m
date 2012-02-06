@@ -13,6 +13,8 @@
 
 @implementation MapViewController
 
+@synthesize feedObjects;
+
 - (id)init
 {
 	if( self = [super init] )
@@ -125,9 +127,9 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	FeedObject *marker = (FeedObject *)view.annotation;
+	FeedMarker *marker = (FeedMarker *)view.annotation;
 	FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
-//	detail.feedId = marker.feedId;
+	detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInt:marker.feedId]];
 	
 	[self.navigationController pushViewController:detail animated:YES];
 }
@@ -145,11 +147,11 @@
 	// 랜덤하게 어노테이션 찍어줌
 	if( arc4random() % 100 < 10 )
 	{
-		FeedMarker *marker = [[FeedObject alloc] init];
-		marker.coordinate = feedMapView.userLocation.coordinate;
+		FeedMarker *marker = [[FeedMarker alloc] init];
+		marker.feedId = 1;
 		marker.title = @"Title";
 		marker.subtitle = @"Subtitle";
-		marker.feedId = 1;
+		marker.coordinate = feedMapView.userLocation.coordinate;
 		[feedMapView addAnnotation:marker];
 	}
 }

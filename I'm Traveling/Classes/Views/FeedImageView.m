@@ -15,7 +15,7 @@
 {
 	if( self = [super init] )
 	{
-		webView.frame = CGRectMake( 0, 38.0, 320.0, 300.0 );
+		webView.frame = CGRectMake( 0, 38.0, 320.0, 200.0 );
 		webView.scrollView.showsHorizontalScrollIndicator = NO;
 		webView.scrollView.showsVerticalScrollIndicator = NO;
 		webView.scrollView.alwaysBounceHorizontal = NO;

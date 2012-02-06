@@ -9,11 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "FeedObject.h"
 
-@interface FeedMarker : FeedObject <MKAnnotation>
+@interface FeedMarker : NSObject <MKAnnotation>
 {
-	
+	NSInteger feedId;
+	NSString *title;
+	NSString *subtitle;
+	CLLocationCoordinate2D coordinate;
 }
 
+@property (nonatomic, assign) NSInteger feedId;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
