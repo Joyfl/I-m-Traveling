@@ -1,0 +1,164 @@
+body
+{
+	overflow-x: hidden;
+	background-color: rgb(245,231,218);
+	margin: 0em;
+	padding: 0em;
+	font-family: "Helvetica";
+}
+
+#page
+{
+	margin: 0em;
+	padding: 0em;
+}
+
+#scroll
+{
+	margin: 0em;
+	padding: 0em;
+	overflow-x: scroll;
+	height: 0em;
+}
+
+.wrap
+{
+	margin: 0em;
+	padding: 0em;
+}
+
+.title
+{
+	background-image: linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -o-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -moz-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -webkit-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	background-image: -ms-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
+	
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.14, rgb(242,220,200)),
+		color-stop(0.49, rgb(226,206,186))
+	);
+	
+	clear: both;
+	height: 3.6em;
+}
+
+.content
+{
+	clear: both;
+	height: 3em;
+}
+
+.profileImage
+{
+	width: 2.6em;
+	height: 2.6em;
+	margin: 0.5em;
+	float: left;
+	border: 0px solid #ffffff;
+	border-radius: 0.4em;
+}
+
+.upperWrap
+{
+	float: left;
+	height: 1em;
+	margin-top: 0.6em;
+	width: 80%;
+}
+
+.lowerWrap
+{
+	float: left;
+	height: 1.4em;
+	margin-top: 0.3em;
+	width: 80%;
+}
+
+.leftTop
+{
+	float: left;
+	font-size: 0.8em;
+	height: 1.4em;
+	color: #555555;
+}
+
+.rightTop
+{
+	float: right;
+	text-align: right;
+	font-size: 0.8em;
+	height: 1.8em;
+	font-weight: bold;
+}
+
+.leftBottom
+{
+	float: left;
+	font-size: 1.33em;
+	font-weight: bold;
+}
+
+.rightBottom
+{
+	float: right;
+	top: 3em;
+	text-align: right;
+	font-size: 0.8em;
+	color: rgb(139, 113, 91);
+	margin-top: 0.5em;
+}
+
+.picture
+{
+	width: 86%;
+	height: 300px;
+	margin-left: 7%;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+}
+
+.review
+{
+	float: left;
+	font-size: 1em;
+	width: 70%;
+	height: 2em;
+	padding: 0.5em;
+	
+	margin: 0em;
+	margin-left: 7%;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+}
+
+.action
+{
+	width: 7%;
+	height: 2em;
+	margin: 0em;
+	margin-right: 7%;
+	float: right;
+	padding: 0.5em;
+}
+
+.gap
+{
+	margin: 0em;
+	padding: 0em;
+	width: 100%;
+}
+
+.detailImage
+{
+	position: absolute;
+	padding-left: 10px;
+	padding-right: 10px;
+}
