@@ -20,6 +20,7 @@ function init()
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "review", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	createMainPage();
 }
 
 
@@ -27,7 +28,7 @@ function init()
 
 // Basic Functions
 
-function createClassElement(type, className, parent)
+function makeClass(type, className, parent)
 {
 	component = document.createElement(type);
 	component.className = className;
@@ -35,7 +36,7 @@ function createClassElement(type, className, parent)
 	return component;
 }
 
-function createIdElement(type, id, parent)
+function makeId(type, id, parent)
 {
 	component = document.createElement(type);
 	component.id = id;
@@ -47,8 +48,8 @@ function createGap(height, parent)
 {
 	gap = document.createElement("div");
 	gap.className = "gap";
-	parent.appendChild(gap);
 	gap.style.height = intToWidth(height);
+	parent.appendChild(gap);
 	return gap;
 }
 
@@ -56,7 +57,7 @@ function clear()
 {
 	var page = getId("page");
 	if(page) document.body.removeChild(page);
-	createIdElement("div", "page", document.body);
+	makeId("div", "page", document.body);
 }
 
 
@@ -66,15 +67,15 @@ function clear()
 
 function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _leftBottom, _rightBottom)
 {
-	var profileImage = createClassElement("img", "profileImage", title);
+	var profileImage = makeClass("img", "profileImage", title);
 	
-	var upperWrap = createClassElement("div", "upperWrap", title);
-	var lowerWrap = createClassElement("div", "lowerWrap", title);
+	var upperWrap = makeClass("div", "upperWrap", title);
+	var lowerWrap = makeClass("div", "lowerWrap", title);
 	
-	var userName = createClassElement("div", "leftTop", upperWrap);
-	var rightTop = createClassElement("div", "rightTop", upperWrap);
-	var leftBottom = createClassElement("div", "leftBottom", lowerWrap);
-	var rightBottom = createClassElement("div", "rightBottom", lowerWrap);
+	var userName = makeClass("div", "leftTop", upperWrap);
+	var rightTop = makeClass("div", "rightTop", upperWrap);
+	var leftBottom = makeClass("div", "leftBottom", lowerWrap);
+	var rightBottom = makeClass("div", "rightBottom", lowerWrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
@@ -91,23 +92,18 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _rightTop, _left
 
 function fillContent(content, feed_id, _likes, _comments, _review)
 {
-	var review = createClassElement("div", "review", content);
-	var action = createClassElement("div", "action", content);
+	var review = makeClass("div", "review", content);
+	var action = makeClass("div", "action", content);
 	
-	var likeButton = createClassElement("div", "likeButton", action);
-	var commentButton = createClassElement("div", "commentButton", action);
+	var likeButton = makeClass("div", "likeButton", action);
+	var commentButton = makeClass("div", "commentButton", action);
 	
 	review.innerText = _review;
 	likeButton.innerText = "☆ " + _likes;
-	likeButton.onclick = function() {};
 	commentButton.innerText = "▣ " + _comments;
+	
+	likeButton.onclick = function() {};
 	commentButton.onclick = function() {};
-}
-
-function fillGap(gap, pictureUrl)
-{
-	var picture = createClassElement("img", "picture", gap);
-	picture.src = pictureUrl;
 }
 
 
@@ -129,18 +125,19 @@ function getClass(_name) { return document.getElementsByClassName(_name); }
 
 function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = createClassElement("div", "wrap", getId("page"));
+	var wrap = makeClass("div", "wrap", getId("page"));
 	
-	var title = createClassElement("div", "title", wrap);
+	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 	
 	var gap = createGap(10, wrap);
-	var picture = createClassElement("img", "picture", wrap);
+	var picture = makeClass("img", "picture", wrap);
 	picture.src = picture_url;
-	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 	
-	var content = createClassElement("div", "content", wrap);
+	var content = makeClass("div", "content", wrap);
 	fillContent(content, feed_id, num_likes, num_comments, review);
+	
+	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 }
 
 function loadFeedImage(index, feed_image_url)
@@ -149,11 +146,11 @@ function loadFeedImage(index, feed_image_url)
 	if(scroll == null)
 	{
 		document.body.style.width = intToWidth(imageWidth);
-		scroll = createIdElement("div", "scroll", getId("page"));
+		scroll = makeId("div", "scroll", getId("page"));
 	}
 	if(imageWidth * (index + 1) > widthToInt(document.body.style.width))
 		document.body.style.width = intToWidth(imageWidth * (index + 1));
-	var image = createClassElement("img", "detailImage", scroll);
+	var image = makeClass("img", "detailImage", scroll);
 	image.style.width = intToWidth(imageWidth - 2 * margin);
 	image.style.height = intToWidth(imageHeight);
 	image.style.left = intToWidth(imageWidth * index);
@@ -162,14 +159,14 @@ function loadFeedImage(index, feed_image_url)
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
 {
-	var wrap = createClassElement("div", "wrap", getId("page"));
+	var wrap = makeClass("div", "wrap", getId("page"));
 	
-	var title = createClassElement("div", "title", wrap);
+	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 	
 	var gap = createGap(210, wrap);
 	
-	var content = createClassElement("div", "content", wrap);
+	var content = makeClass("div", "content", wrap);
 	fillContent(content, feed_id, num_likes, num_comments, review);
 }
 
@@ -181,4 +178,42 @@ function modifyFeedDetail(feed_id, _time, _place, _region, _review, num_likes, n
 	(getClass("review")[0]).innerText = _review;
 	(getClass("likeButton")[0]).innerText = num_likes;
 	(getClass("commentButton")[0]).innerText = num_comments;
+}
+
+function createMainPage()
+{
+	var wrap = makeClass("div", "wrap", getId("page"));
+	createGap(10, wrap);
+	makeClass("img", "picture", wrap).src = pic2;
+	createGap(20, wrap);
+	
+}
+
+/*function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
+{
+	var wrap = makeClass("div", "wrap", getId("page"));
+	
+	var title = makeClass("div", "title", wrap);
+	fillTitle(title, user_id, profile_image_url, name, time, place, region);
+	
+	var gap = createGap(10, wrap);
+	var picture = makeClass("img", "picture", wrap);
+	picture.src = picture_url;
+	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+	
+	var content = makeClass("div", "content", wrap);
+	fillContent(content, feed_id, num_likes, num_comments, review);
+}*/
+
+
+function createLoginPage()
+{
+}
+
+function createSignUp()
+{
+}
+
+function createUpload()
+{
 }
