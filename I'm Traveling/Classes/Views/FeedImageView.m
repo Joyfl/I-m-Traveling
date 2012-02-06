@@ -22,7 +22,7 @@
 		webView.scrollView.alwaysBounceVertical = NO;
 		webView.scrollView.pagingEnabled = YES;
 //		[self loadHtmlFile:@"feed_detail"];
-		[self loadURL:HTML_FEED_IMAGE];
+		[self loadURL:HTML_INDEX];
 	}
 	
     return self;

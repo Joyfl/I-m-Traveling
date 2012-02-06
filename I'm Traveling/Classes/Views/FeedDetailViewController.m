@@ -31,7 +31,7 @@
 		feedImageView = [[FeedImageView alloc] init];
 		[self.webView.scrollView addSubview:feedImageView.view];
 		
-		[self loadURL:HTML_FEED_DETAIL];
+		[self loadURL:HTML_INDEX];
     }
 	
     return self;

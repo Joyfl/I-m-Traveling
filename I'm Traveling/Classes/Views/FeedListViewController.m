@@ -127,7 +127,7 @@ enum {
 	
 //	[self loadHtmlFile:@"feed_list"];
 	
-	[self loadURL:HTML_FEED_LIST];
+	[self loadURL:HTML_INDEX];
 }
 
 - (void)viewDidUnload
@@ -181,7 +181,7 @@ enum {
 		feedObj.place = [feed objectForKey:@"place"];
 		feedObj.region = [feed objectForKey:@"region"];
 		feedObj.time = [feed objectForKey:@"time"];
-		feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, [feed objectForKey:@"picture_id"]] retain];
+		feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, feedObj.feedId] retain];
 		feedObj.review = [feed objectForKey:@"review"];
 		feedObj.numLikes = [[feed objectForKey:@"place"] integerValue];
 		feedObj.numComments = [[feed objectForKey:@"place"] integerValue];

@@ -17,7 +17,7 @@
     if (self) {
 		self.title = @"My Profile";
 		
-		[self loadURL:HTML_FEED_PROFILE];
+		[self loadURL:HTML_INDEX];
     }
     return self;
 }
