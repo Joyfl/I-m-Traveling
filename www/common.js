@@ -20,7 +20,8 @@ function init()
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "review", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
-	createMainPage();
+	//createMainPage();
+	createLoginPage();
 }
 
 
@@ -159,7 +160,7 @@ function loadFeedImage(index, feed_image_url)
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = getId("page");
 	
 	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
@@ -182,8 +183,8 @@ function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_c
 
 function createMainPage()
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
-	createGap(10, wrap);
+	var wrap = getId("page");
+	
 	makeId("img", "mainPicture", wrap).src = pic2;
 	
 	var login = makeClass("div", "mainButton", wrap);
@@ -197,19 +198,4 @@ function createMainPage()
 	login.onclick = function() {};
 	signUp.onclick = function() {};
 	calcel.onclick = function() {};
-}
-
-function createLoginPage()
-{
-	
-}
-
-function createSignUp()
-{
-	
-}
-
-function createUpload()
-{
-	
 }

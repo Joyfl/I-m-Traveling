@@ -116,7 +116,6 @@ body
 .picture
 {
 	width: 86%;
-	height: 300px;
 	margin-left: 7%;
 	border: 0px solid #ffffff;
 	border-radius: 0.7em;
@@ -126,7 +125,7 @@ body
 {
 	float: left;
 	font-size: 1em;
-	width: 70%;
+	width: 60%;
 	height: 2em;
 	padding: 0.5em;
 	
@@ -141,7 +140,7 @@ body
 
 .action
 {
-	width: 7%;
+	width: 14%;
 	height: 2em;
 	margin: 0em;
 	margin-right: 7%;
@@ -177,6 +176,7 @@ body
 {
 	width: 86%;
 	height: 180px;
+	margin-top: 1em;
 	margin-left: 7%;
 	border: 0px solid #ffffff;
 	border-radius: 0.7em;
