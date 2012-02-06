@@ -20,6 +20,7 @@
 		
 		self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		self.webView.delegate = self;
+		self.webView.scrollView.showsHorizontalScrollIndicator = NO;
 		[self.view addSubview:webView];
 	}
 	
