@@ -54,6 +54,14 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - setters
+
+- (void)setFeedObject:(FeedObject *)obj
+{
+	feedObject = obj;
+	self.navigationItem.title = feedObject.place;
+}
+
 #pragma mark - View lifecycle
 
 /*
