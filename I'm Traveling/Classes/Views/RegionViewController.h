@@ -11,6 +11,7 @@
 @interface RegionViewController : UITableViewController
 {
 	NSArray *regions;
+	UITableViewCell *lastCell;
 }
 
 @end

@@ -246,7 +246,7 @@ enum {
 {
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.75];
-	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:YES];
+	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
 	[self.navigationController popViewControllerAnimated:NO];
 	[UIView commitAnimations];
 }

@@ -24,7 +24,7 @@
 
 - (id)init
 {
-//	settings = [NSMutableDictionary dictionaryWithContentsOfFile:[(NSString *)[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"]];
+	settings = [[NSMutableDictionary alloc] initWithDictionary:[NSDictionary dictionaryWithContentsOfFile:[(NSString *)[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"]]];
 	
 	if( settings == nil )
 	{
@@ -37,12 +37,12 @@
 	return self;
 }
 
-- (id)getSettingForKey:(NSString *)key
+- (id)getSettingForKey:(id)key
 {
 	return [settings objectForKey:key];
 }
 
-- (void)setSetting:(id)data forKey:(NSString *)key
+- (void)setSetting:(id)data forKey:(id)key
 {
 	[settings setObject:data forKey:key];
 }
