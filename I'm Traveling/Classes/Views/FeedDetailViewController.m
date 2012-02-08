@@ -108,18 +108,15 @@
 	feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
 	for( int i = 0; i < feedObjectsOfTrip.count; i++ )
 	{
-		if( [[feedObjectsOfTrip objectAtIndex:i] integerValue] == feedObject.feedId )
+		NSDictionary *feed = (NSDictionary *)[feedObjectsOfTrip objectAtIndex:i];
+		FeedMarker *marker = [[FeedMarker alloc] init];
+		marker.feedId = [[feed objectForKey:@"id"] integerValue];
+		marker.coordinate = CLLocationCoordinate2DMake( [[feed objectForKey:@"latitude"] doubleValue], [[feed objectForKey:@"longitude"] doubleValue] );
+		[feedMapView addAnnotation:marker];
+		
+		if( marker.feedId == feedObject.feedId )
 		{
 			currentFeedIndex = i;
-			
-			FeedMarker *marker = [[FeedMarker alloc] init];
-			marker.feedId = feedObject.feedId;
-			marker.title = @"a";
-			marker.subtitle = @"b";
-			marker.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
-			[feedMapView addAnnotation:marker];
-			
-			break;
 		}
 	}
 	
