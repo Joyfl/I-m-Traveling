@@ -17,6 +17,7 @@
 
 - (void)deselectAlignButtons;
 - (void)addFeed:(FeedObject *)feedObj;
+- (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to;
 
 @end
 
@@ -169,7 +170,14 @@ enum {
 {
 	[self clear];
 	
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@", API_FEED_LIST]];
+	[self loadFeedsFrom:0 to:10];
+	
+	[self webViewDidFinishReloading];
+}
+
+- (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to
+{
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, orderType, from, to]];
 	NSArray *feeds = [Utils parseJSON:json];
 	for( NSDictionary *feed in feeds )
 	{
@@ -188,8 +196,6 @@ enum {
 		
 		[self addFeed:feedObj];
 	}
-	
-	[self webViewDidFinishReloading];
 }
 
 #pragma mark - selectors
@@ -223,16 +229,21 @@ enum {
 	{
 		// new
 		case 0:
+			orderType = 0;
 			break;
 		
 		// popular
 		case 1:
+			orderType = 1;
 			break;
 		
 		// following
 		case 2:
+			orderType = 2;
 			break;
 	}
+	
+	[self reloadWebView];
 }
 
 #pragma mark - Javascript Functions

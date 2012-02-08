@@ -112,6 +112,7 @@
 - (void)clear
 {
 	NSLog( @"clear" );
+	
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
 }
 

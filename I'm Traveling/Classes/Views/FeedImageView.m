@@ -66,4 +66,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+# pragma mark - Javascript Functions
+
+- (void)loadFeedImage
+{
+	
+}
+
 @end
