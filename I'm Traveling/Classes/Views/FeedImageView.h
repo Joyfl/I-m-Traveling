@@ -10,4 +10,6 @@
 
 @interface FeedImageView : UIWebViewController
 
+- (void)loadFeedImage:(NSInteger)index url:(NSString *)url;
+
 @end

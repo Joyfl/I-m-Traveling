@@ -9,6 +9,13 @@
 #import "FeedImageView.h"
 #import "Const.h"
 
+@interface FeedImageView (Private)
+
+
+
+@end
+
+
 @implementation FeedImageView
 
 - (id)init
@@ -66,11 +73,22 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-# pragma mark - Javascript Functions
+# pragma mark - Web View
 
-- (void)loadFeedImage
+- (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	
+}
+
+# pragma mark - Javascript Functions
+
+- (void)loadFeedImage:(NSInteger)index url:(NSString *)url
+{
+	NSString *func = [[NSString stringWithFormat:@"loadFeedImage(%d, '%@')", index, url] retain];
+	
+	[webView stringByEvaluatingJavaScriptFromString:func];
+	
+	NSLog( @"%@", func );
 }
 
 @end

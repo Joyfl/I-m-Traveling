@@ -9,12 +9,17 @@
 #import "UIPullDownWebViewController.h"
 #import "FeedImageView.h"
 #import "FeedObject.h"
+#import <MapKit/MapKit.h>
 
-@interface FeedDetailViewController : UIPullDownWebViewController
+@interface FeedDetailViewController : UIPullDownWebViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	FeedImageView *feedImageView;
-	
 	FeedObject *feedObject;
+	
+	FeedImageView *feedImageView;
+	MKMapView *feedMapView;
+	
+	NSMutableArray *feedObjectsOfTrip;
+	NSInteger currentFeedIndex;
 }
 
 @property (nonatomic, retain) FeedObject *feedObject;

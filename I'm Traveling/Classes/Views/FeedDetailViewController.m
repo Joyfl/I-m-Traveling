@@ -11,6 +11,7 @@
 #import "Const.h"
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
+#import "FeedMarker.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -30,6 +31,14 @@
 	{
 		feedImageView = [[FeedImageView alloc] init];
 		[self.webView.scrollView addSubview:feedImageView.view];
+		
+		self.webView.scrollView.showsVerticalScrollIndicator = NO;
+		
+		feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 267, 320, 100 )];
+		feedMapView.delegate = self;
+		feedMapView.scrollEnabled = NO;
+		feedMapView.zoomEnabled = NO;
+		[self.view addSubview:feedMapView];
 		
 		[self loadURL:HTML_INDEX];
     }
@@ -90,12 +99,31 @@
 	NSDictionary *feed = [Utils parseJSON:json];
 	
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
-	feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
-	feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
-	
+	feedObject.latitude = 37.242; //[[feed objectForKey:@"latitude"] doubleValue];
+	feedObject.longitude = 131.861; //[[feed objectForKey:@"longitude"] doubleValue];
 	[self createFeedDetail:feedObject];
 	
-	[self webViewDidFinishReloading];
+	feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 2000, 2000 );
+	
+	feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
+	for( int i = 0; i < feedObjectsOfTrip.count; i++ )
+	{
+		if( [[feedObjectsOfTrip objectAtIndex:i] integerValue] == feedObject.feedId )
+		{
+			currentFeedIndex = i;
+			
+			FeedMarker *marker = [[FeedMarker alloc] init];
+			marker.feedId = feedObject.feedId;
+			marker.title = @"a";
+			marker.subtitle = @"b";
+			marker.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
+			[feedMapView addAnnotation:marker];
+			
+			break;
+		}
+	}
+	
+	[feedImageView loadFeedImage:currentFeedIndex url:feedObject.pictureURL];
 }
 
 #pragma mark - Javascript Function
@@ -134,6 +162,20 @@
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
 	NSLog( @"%@", func );
+}
+
+# pragma mark - Map
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+	static NSString *pinId = @"pin";
+	MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
+	if( pin == nil )
+	{
+		pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
+	}
+	
+	return pin;
 }
 
 @end
