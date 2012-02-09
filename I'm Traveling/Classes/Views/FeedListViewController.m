@@ -160,6 +160,7 @@ enum {
 		NSLog( @"feed_detail" );
 		FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
 		detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]];
+		detail.type = 0;
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }

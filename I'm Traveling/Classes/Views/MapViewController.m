@@ -189,6 +189,7 @@ enum {
 	FeedMarker *marker = (FeedMarker *)view.annotation;
 	FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
 	detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInt:marker.feedId]];
+	detail.type = 1;
 	
 	[self.navigationController pushViewController:detail animated:YES];
 }

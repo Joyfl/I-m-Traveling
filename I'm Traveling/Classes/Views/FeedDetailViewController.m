@@ -23,7 +23,7 @@
 
 @implementation FeedDetailViewController
 
-@synthesize feedObject;
+@synthesize feedObject, type;
 
 - (id)init
 {
@@ -103,22 +103,23 @@
 {
 	[self clear];
 	
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d", API_FEED_DETAIL, feedObject.feedId]];
+	NSLog( @"type = %d", type );
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
 	NSDictionary *feed = [Utils parseJSON:json];
 	
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
-	feedObject.latitude = 37.242; //[[feed objectForKey:@"latitude"] doubleValue];
-	feedObject.longitude = 131.861; //[[feed objectForKey:@"longitude"] doubleValue];
+	feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+	feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 	[self createFeedDetail:feedObject];
 	
-	feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 2000, 2000 );
+	feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 );
 	
 	feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
 	for( int i = 0; i < feedObjectsOfTrip.count; i++ )
 	{
 		NSDictionary *feed = (NSDictionary *)[feedObjectsOfTrip objectAtIndex:i];
 		FeedMarker *marker = [[FeedMarker alloc] init];
-		marker.feedId = [[feed objectForKey:@"id"] integerValue];
+		marker.feedId = [[feed objectForKey:@"feed_id"] integerValue];
 		marker.coordinate = CLLocationCoordinate2DMake( [[feed objectForKey:@"latitude"] doubleValue], [[feed objectForKey:@"longitude"] doubleValue] );
 		[feedMapView addAnnotation:marker];
 		
