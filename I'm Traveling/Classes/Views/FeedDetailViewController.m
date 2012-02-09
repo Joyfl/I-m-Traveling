@@ -12,6 +12,8 @@
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
 #import "FeedMarker.h"
+#import "FeedLineAnnotation.h"
+#import "FeedLineAnnotationView.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -103,7 +105,6 @@
 {
 	[self clear];
 	
-	NSLog( @"type = %d", type );
 	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
 	NSDictionary *feed = [Utils parseJSON:json];
 	
@@ -115,19 +116,28 @@
 	feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 );
 	
 	feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
+	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:feedObjectsOfTrip.count];
+	
 	for( int i = 0; i < feedObjectsOfTrip.count; i++ )
 	{
 		NSDictionary *feed = (NSDictionary *)[feedObjectsOfTrip objectAtIndex:i];
 		FeedMarker *marker = [[FeedMarker alloc] init];
 		marker.feedId = [[feed objectForKey:@"feed_id"] integerValue];
-		marker.coordinate = CLLocationCoordinate2DMake( [[feed objectForKey:@"latitude"] doubleValue], [[feed objectForKey:@"longitude"] doubleValue] );
+		
+		double latitude = [[feed objectForKey:@"latitude"] doubleValue];
+		double longitude = [[feed objectForKey:@"longitude"] doubleValue];
+		marker.coordinate = CLLocationCoordinate2DMake( latitude, longitude );
+		
 		[feedMapView addAnnotation:marker];
 		
 		if( marker.feedId == feedObject.feedId )
-		{
 			currentFeedIndex = i;
-		}
+		
+		[locations addObject:[[[CLLocation alloc] initWithLatitude:latitude longitude:longitude] autorelease]];
 	}
+	
+	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:feedMapView];
+	[feedMapView addAnnotation:lineAnnotation];
 	
 	[feedImageView loadFeedImage:currentFeedIndex url:feedObject.pictureURL];
 }
@@ -174,6 +184,12 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
+	if( [annotation isKindOfClass:[FeedLineAnnotation class]] )
+	{
+		FeedLineAnnotationView *lineAnnotationView = [[FeedLineAnnotationView alloc] initWithAnnotation:annotation mapView:feedMapView];
+		return lineAnnotationView;
+	}
+	
 	static NSString *pinId = @"pin";
 	MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
 	if( pin == nil )

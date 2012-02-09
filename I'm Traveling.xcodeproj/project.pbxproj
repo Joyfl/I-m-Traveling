@@ -30,6 +30,8 @@
 		030922D214E0383F001BA2A1 /* button_list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 030922C614E0383F001BA2A1 /* button_list@2x.png */; };
 		0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0309901914CB31DD00715F5A /* QuartzCore.framework */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
+		0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */; };
+		0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */; };
 		0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0386A2C414DBE07D00B867C7 /* FeedMarker.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
@@ -92,6 +94,10 @@
 		030922C614E0383F001BA2A1 /* button_list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_list@2x.png"; sourceTree = "<group>"; };
 		0309901914CB31DD00715F5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		0356C0B714E3BABF005B099E /* FeedLineAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLineAnnotation.h; sourceTree = "<group>"; };
+		0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotation.m; sourceTree = "<group>"; };
+		0356C0BA14E3BB9F005B099E /* FeedLineAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLineAnnotationView.h; sourceTree = "<group>"; };
+		0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotationView.m; sourceTree = "<group>"; };
 		0386A2C314DBE07D00B867C7 /* FeedMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedMarker.h; sourceTree = "<group>"; };
 		0386A2C414DBE07D00B867C7 /* FeedMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedMarker.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -208,6 +214,8 @@
 				03FDD11514D465F8006E453A /* FeedImageView.m */,
 				039B582B14D67B2400E5212C /* MapViewController.h */,
 				039B582C14D67B2400E5212C /* MapViewController.m */,
+				0356C0BA14E3BB9F005B099E /* FeedLineAnnotationView.h */,
+				0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,6 +256,8 @@
 				03AD101A14DBCF1800D9573D /* UserObject.m */,
 				0386A2C314DBE07D00B867C7 /* FeedMarker.h */,
 				0386A2C414DBE07D00B867C7 /* FeedMarker.m */,
+				0356C0B714E3BABF005B099E /* FeedLineAnnotation.h */,
+				0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -442,6 +452,8 @@
 				03AD101814DBCEE600D9573D /* FeedObject.m in Sources */,
 				03AD101B14DBCF1800D9573D /* UserObject.m in Sources */,
 				0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */,
+				0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */,
+				0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
