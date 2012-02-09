@@ -41,7 +41,7 @@ enum {
 		
 		UIButton *regionButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		[regionButton setBackgroundImage:[[UIImage imageNamed:@"button_region.png"] retain] forState:UIControlStateNormal];
-		[regionButton setFrame:CGRectMake( 0.0f, 0.0f, 25.0f, 25.0f )];
+		[regionButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[regionButton addTarget:self action:@selector(onRegionButtonTouch) forControlEvents:UIControlEventTouchUpInside];		
 		
 		UIBarButtonItem *regionBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:regionButton];
@@ -83,7 +83,7 @@ enum {
 		
 		UIButton *mapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		[mapButton setBackgroundImage:[[UIImage imageNamed:@"button_map.png"] retain] forState:UIControlStateNormal];
-		[mapButton setFrame:CGRectMake( 0.0f, 0.0f, 25.0f, 25.0f )];
+		[mapButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[mapButton addTarget:self action:@selector( onMapButtonTouch ) forControlEvents:UIControlEventTouchUpInside];
 		
 		UIBarButtonItem *mapBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:mapButton];

@@ -38,7 +38,7 @@ enum {
 		
 		UIButton *gpsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		[gpsButton setBackgroundImage:[[UIImage imageNamed:@"button_gps.png"] retain] forState:UIControlStateNormal];
-		[gpsButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
+		[gpsButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[gpsButton addTarget:self action:@selector(onGPSButtonTouch) forControlEvents:UIControlEventTouchUpInside];		
 		
 		UIBarButtonItem *gpsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:gpsButton];
@@ -76,7 +76,7 @@ enum {
 		
 		UIButton *listButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		[listButton setBackgroundImage:[[UIImage imageNamed:@"button_list.png"] retain] forState:UIControlStateNormal];
-		[listButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0, 31.0f )];
+		[listButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[listButton addTarget:self action:@selector(onListButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 		
 		UIBarButtonItem *listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
@@ -165,10 +165,8 @@ enum {
 	
 	NSArray *feeds = [Utils parseJSON:json];
 	
-	for( NSInteger i = 0; i < feeds.count; i++ )
+	for( NSDictionary *feed in feeds )
 	{
-		NSDictionary *feed = [feeds objectAtIndex:i];
-		
 		FeedObject *feedObject = [[FeedObject alloc] init];
 		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
 		
@@ -178,10 +176,24 @@ enum {
 		feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
 		feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 		annotation.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
-		[_feedMapView addAnnotation:annotation];
+		
+		BOOL alreadyExists = NO;
+		
+#warning 이미 존재하는지 검사하는거 발로짬
+		for( FeedAnnotation *existAnnotation in _feedMapView.annotations )
+		{
+			if( existAnnotation.coordinate.latitude == annotation.coordinate.latitude
+			 && existAnnotation.coordinate.longitude == annotation.coordinate.longitude )
+			{
+				alreadyExists = YES;
+				break;
+			}
+		}
+		
+		if( !alreadyExists )
+			[_feedMapView addAnnotation:annotation];
 		
 		[_feedMapObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
-		NSLog( @"a" );
 	}
 }
 
