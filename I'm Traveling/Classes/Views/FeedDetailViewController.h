@@ -13,17 +13,16 @@
 
 @interface FeedDetailViewController : UIPullDownWebViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	NSInteger type; // 0 : From List, 1 : From Map
-	FeedObject *feedObject;
+	NSInteger _type; // 0 : From List, 1 : From Map
+	FeedObject *_feedObject;
 	
-	FeedImageView *feedImageView;
-	MKMapView *feedMapView;
+	FeedImageView *_feedImageView;
+	MKMapView *_feedMapView;
 	
-	NSMutableArray *feedObjectsOfTrip;
-	NSInteger currentFeedIndex;
+	NSMutableArray *_feedObjectsOfTrip;
+	NSInteger _currentFeedIndex;
 }
 
-@property (nonatomic, retain) FeedObject *feedObject;
-@property (nonatomic, assign) NSInteger type;
+- (id)initWithFeedObject:(FeedObject *)feedObject type:(NSInteger)type;
 
 @end

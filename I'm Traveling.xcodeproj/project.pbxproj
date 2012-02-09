@@ -32,7 +32,7 @@
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
 		0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */; };
 		0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */; };
-		0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = 0386A2C414DBE07D00B867C7 /* FeedMarker.m */; };
+		0386A2C514DBE07E00B867C7 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0386A2C414DBE07D00B867C7 /* FeedAnnotation.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
 		039B583414D67C6600E5212C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583314D67C6600E5212C /* MapKit.framework */; };
@@ -98,8 +98,8 @@
 		0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotation.m; sourceTree = "<group>"; };
 		0356C0BA14E3BB9F005B099E /* FeedLineAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLineAnnotationView.h; sourceTree = "<group>"; };
 		0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotationView.m; sourceTree = "<group>"; };
-		0386A2C314DBE07D00B867C7 /* FeedMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedMarker.h; sourceTree = "<group>"; };
-		0386A2C414DBE07D00B867C7 /* FeedMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedMarker.m; sourceTree = "<group>"; };
+		0386A2C314DBE07D00B867C7 /* FeedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FeedAnnotation.h; sourceTree = "<group>"; };
+		0386A2C414DBE07D00B867C7 /* FeedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedAnnotation.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		039B582C14D67B2400E5212C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		039B583114D67C2100E5212C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -254,8 +254,8 @@
 				03AD101714DBCEE600D9573D /* FeedObject.m */,
 				03AD101914DBCF1800D9573D /* UserObject.h */,
 				03AD101A14DBCF1800D9573D /* UserObject.m */,
-				0386A2C314DBE07D00B867C7 /* FeedMarker.h */,
-				0386A2C414DBE07D00B867C7 /* FeedMarker.m */,
+				0386A2C314DBE07D00B867C7 /* FeedAnnotation.h */,
+				0386A2C414DBE07D00B867C7 /* FeedAnnotation.m */,
 				0356C0B714E3BABF005B099E /* FeedLineAnnotation.h */,
 				0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */,
 			);
@@ -451,7 +451,7 @@
 				03AD101514DBCE0800D9573D /* SBJsonWriter.m in Sources */,
 				03AD101814DBCEE600D9573D /* FeedObject.m in Sources */,
 				03AD101B14DBCF1800D9573D /* UserObject.m in Sources */,
-				0386A2C514DBE07E00B867C7 /* FeedMarker.m in Sources */,
+				0386A2C514DBE07E00B867C7 /* FeedAnnotation.m in Sources */,
 				0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */,
 				0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */,
 			);

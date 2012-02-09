@@ -10,8 +10,8 @@
 
 @interface RegionViewController : UITableViewController
 {
-	NSArray *regions;
-	UITableViewCell *lastCell;
+	NSArray *_regions;
+	UITableViewCell *_lastCell;
 }
 
 @end

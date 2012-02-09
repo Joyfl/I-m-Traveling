@@ -11,7 +11,7 @@
 #import "Const.h"
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
-#import "FeedMarker.h"
+#import "FeedAnnotation.h"
 #import "FeedLineAnnotation.h"
 #import "FeedLineAnnotationView.h"
 
@@ -25,22 +25,23 @@
 
 @implementation FeedDetailViewController
 
-@synthesize feedObject, type;
-
-- (id)init
+- (id)initWithFeedObject:(FeedObject *)feedObject type:(NSInteger)type
 {
     if( self = [super init] )
 	{
-		feedImageView = [[FeedImageView alloc] init];
-		[self.webView.scrollView addSubview:feedImageView.view];
+		_feedObject = feedObject;
+		_type = type;
+		
+		_feedImageView = [[FeedImageView alloc] init];
+		[self.webView.scrollView addSubview:_feedImageView.view];
 		
 		self.webView.scrollView.showsVerticalScrollIndicator = NO;
 		
-		feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 267, 320, 100 )];
-		feedMapView.delegate = self;
-		feedMapView.scrollEnabled = NO;
-		feedMapView.zoomEnabled = NO;
-		[self.view addSubview:feedMapView];
+		_feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 267, 320, 100 )];
+		_feedMapView.delegate = self;
+		_feedMapView.scrollEnabled = NO;
+		_feedMapView.zoomEnabled = NO;
+		[self.view addSubview:_feedMapView];
 		
 		[self loadURL:HTML_INDEX];
     }
@@ -60,8 +61,8 @@
 
 - (void)setFeedObject:(FeedObject *)obj
 {
-	feedObject = obj;
-	self.navigationItem.title = feedObject.place;
+	_feedObject = obj;
+	self.navigationItem.title = _feedObject.place;
 }
 
 #pragma mark - View lifecycle
@@ -105,41 +106,41 @@
 {
 	[self clear];
 	
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, _feedObject.feedId, _type]];
 	NSDictionary *feed = [Utils parseJSON:json];
 	
-	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
-	feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
-	feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
-	[self createFeedDetail:feedObject];
+	_feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
+	_feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+	_feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+	[self createFeedDetail:_feedObject];
 	
-	feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 );
+	_feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( _feedObject.latitude, _feedObject.longitude ), 200, 200 );
 	
-	feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
-	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:feedObjectsOfTrip.count];
+	_feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
+	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:_feedObjectsOfTrip.count];
 	
-	for( int i = 0; i < feedObjectsOfTrip.count; i++ )
+	for( int i = 0; i < _feedObjectsOfTrip.count; i++ )
 	{
-		NSDictionary *feed = (NSDictionary *)[feedObjectsOfTrip objectAtIndex:i];
-		FeedMarker *marker = [[FeedMarker alloc] init];
-		marker.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+		NSDictionary *feed = (NSDictionary *)[_feedObjectsOfTrip objectAtIndex:i];
+		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
+		annotation.feedId = [[feed objectForKey:@"feed_id"] integerValue];
 		
 		double latitude = [[feed objectForKey:@"latitude"] doubleValue];
 		double longitude = [[feed objectForKey:@"longitude"] doubleValue];
-		marker.coordinate = CLLocationCoordinate2DMake( latitude, longitude );
+		annotation.coordinate = CLLocationCoordinate2DMake( latitude, longitude );
 		
-		[feedMapView addAnnotation:marker];
+		[_feedMapView addAnnotation:annotation];
 		
-		if( marker.feedId == feedObject.feedId )
-			currentFeedIndex = i;
+		if( annotation.feedId == _feedObject.feedId )
+			_currentFeedIndex = i;
 		
 		[locations addObject:[[[CLLocation alloc] initWithLatitude:latitude longitude:longitude] autorelease]];
 	}
 	
-	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:feedMapView];
-	[feedMapView addAnnotation:lineAnnotation];
+	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:_feedMapView];
+	[_feedMapView addAnnotation:lineAnnotation];
 	
-	[feedImageView loadFeedImage:currentFeedIndex url:feedObject.pictureURL];
+	[_feedImageView loadFeedImage:_currentFeedIndex url:_feedObject.pictureURL];
 }
 
 #pragma mark - Javascript Function
@@ -186,7 +187,7 @@
 {
 	if( [annotation isKindOfClass:[FeedLineAnnotation class]] )
 	{
-		FeedLineAnnotationView *lineAnnotationView = [[FeedLineAnnotationView alloc] initWithAnnotation:annotation mapView:feedMapView];
+		FeedLineAnnotationView *lineAnnotationView = [[FeedLineAnnotationView alloc] initWithAnnotation:annotation mapView:_feedMapView];
 		return lineAnnotationView;
 	}
 	

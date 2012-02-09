@@ -10,7 +10,7 @@
 
 @interface SettingsManager : NSObject
 {
-	NSMutableDictionary *settings;
+	NSMutableDictionary *_settings;
 }
 
 + (SettingsManager *)manager;

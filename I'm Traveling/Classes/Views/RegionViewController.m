@@ -18,7 +18,7 @@
     if (self) {
 		self.title = @"Select Region";
 		
-		regions = [[NSArray alloc] initWithObjects:@"All", @"Korea", @"USA", @"Japan", @"China", nil];
+		_regions = [[NSArray alloc] initWithObjects:@"All", @"Korea", @"USA", @"Japan", @"China", nil];
     }
     return self;
 }
@@ -88,7 +88,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return regions.count;
+    return _regions.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,7 +100,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-	NSString *region = [regions objectAtIndex:indexPath.row];
+	NSString *region = [_regions objectAtIndex:indexPath.row];
 	cell.textLabel.text = region;
 	
 	NSString static *key = SETTING_KEY_REGION;
@@ -108,7 +108,7 @@
 	if( [region isEqualToString:selectedRegion] )
 	{
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-		lastCell = cell;
+		_lastCell = cell;
 	}
     
     return cell;
@@ -118,11 +118,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if( lastCell )
-		lastCell.accessoryType = UITableViewCellAccessoryNone;
+	if( _lastCell )
+		_lastCell.accessoryType = UITableViewCellAccessoryNone;
 	
 	NSString static *key = SETTING_KEY_REGION;
-	NSString *region = [regions objectAtIndex:indexPath.row];
+	NSString *region = [_regions objectAtIndex:indexPath.row];
 	[[SettingsManager manager] setSetting:region forKey:key];
 	[[SettingsManager manager] flush];
 	
@@ -138,7 +138,7 @@
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
 	
-	lastCell = cell;
+	_lastCell = cell;
 	
 //	NSLog( @"%@", selectedRegions );
 }

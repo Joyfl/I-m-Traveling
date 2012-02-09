@@ -12,11 +12,11 @@
 
 @interface FeedListViewController : UIPullDownWebViewController
 {
-	MapViewController *mapViewController;
+	MapViewController *_mapViewController;
 	
-	NSMutableDictionary *feedObjects;
+	NSMutableDictionary *_feedObjects;
 	
-	NSInteger orderType;
+	NSInteger _orderType;
 }
 
 @end

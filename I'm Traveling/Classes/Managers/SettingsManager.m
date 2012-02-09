@@ -24,37 +24,37 @@
 
 - (id)init
 {
-	settings = [[NSMutableDictionary alloc] initWithDictionary:[NSDictionary dictionaryWithContentsOfFile:[(NSString *)[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"]]];
+	_settings = [[NSMutableDictionary alloc] initWithDictionary:[NSDictionary dictionaryWithContentsOfFile:[(NSString *)[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"]]];
 	
-	if( settings == nil )
+	if( _settings == nil )
 	{
-		settings = [[NSMutableDictionary alloc] init];
+		_settings = [[NSMutableDictionary alloc] init];
 		[self flush];
 	}
 	
-	NSLog( @"%@", settings );
+	NSLog( @"%@", _settings );
 	
 	return self;
 }
 
 - (id)getSettingForKey:(id)key
 {
-	return [settings objectForKey:key];
+	return [_settings objectForKey:key];
 }
 
 - (void)setSetting:(id)data forKey:(id)key
 {
-	[settings setObject:data forKey:key];
+	[_settings setObject:data forKey:key];
 }
 
 - (BOOL)flush
 {
-	return [settings writeToFile:[[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"] atomically:YES];
+	return [_settings writeToFile:[[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"] atomically:YES];
 }
 
 - (void)dealloc
 {
-	[settings dealloc];
+	[_settings dealloc];
 	[super dealloc];
 }
 

@@ -9,7 +9,7 @@
 #import "MapViewController.h"
 #import "FeedDetailViewController.h"
 #import "FeedObject.h"
-#import "FeedMarker.h"
+#import "FeedAnnotation.h"
 
 @interface MapViewController (Private)
 
@@ -84,12 +84,12 @@ enum {
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, listBarButtonItem, nil];		
 		
 		
-		feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
-		feedMapView.delegate = self;
-		[self.view addSubview:feedMapView];
+		_feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
+		_feedMapView.delegate = self;
+		[self.view addSubview:_feedMapView];
 		
-		locationManager = [[CLLocationManager alloc] init];
-		locationManager.delegate = self;
+		_locationManager = [[CLLocationManager alloc] init];
+		_locationManager.delegate = self;
     }
     return self;
 }
@@ -122,16 +122,16 @@ enum {
 {
 	[super viewDidAppear:animated];
 	
-	[locationManager startUpdatingLocation];
-	[feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+	[_locationManager startUpdatingLocation];
+	[_feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
 	
-	[locationManager stopUpdatingLocation];
-	[feedMapView setUserTrackingMode:MKUserTrackingModeNone];
+	[_locationManager stopUpdatingLocation];
+	[_feedMapView setUserTrackingMode:MKUserTrackingModeNone];
 }
 
 - (void)viewDidUnload
@@ -156,7 +156,7 @@ enum {
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-	if( annotation == feedMapView.userLocation )
+	if( annotation == _feedMapView.userLocation )
 	{
 		mapView.userLocation.title = @"Current Location";
 		return nil;
@@ -181,15 +181,13 @@ enum {
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-	[feedMapView setUserTrackingMode:MKUserTrackingModeNone];
+	[_feedMapView setUserTrackingMode:MKUserTrackingModeNone];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	FeedMarker *marker = (FeedMarker *)view.annotation;
-	FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
-	detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInt:marker.feedId]];
-	detail.type = 1;
+	FeedAnnotation *annotation = (FeedAnnotation *)view.annotation;
+	FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[feedObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]] type:1];
 	
 	[self.navigationController pushViewController:detail animated:YES];
 }
@@ -207,12 +205,12 @@ enum {
 	// 랜덤하게 어노테이션 찍어줌
 	if( arc4random() % 100 < 10 )
 	{
-		FeedMarker *marker = [[FeedMarker alloc] init];
-		marker.feedId = 1;
-		marker.title = @"Title";
-		marker.subtitle = @"Subtitle";
-		marker.coordinate = feedMapView.userLocation.coordinate;
-		[feedMapView addAnnotation:marker];
+		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
+		annotation.feedId = 1;
+		annotation.title = @"Title";
+		annotation.subtitle = @"Subtitle";
+		annotation.coordinate = _feedMapView.userLocation.coordinate;
+		[_feedMapView addAnnotation:annotation];
 	}
 }
 
@@ -220,7 +218,7 @@ enum {
 
 - (void)onGPSButtonTouch
 {
-	[feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+	[_feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)onAlignButtonTouch:(id)sender

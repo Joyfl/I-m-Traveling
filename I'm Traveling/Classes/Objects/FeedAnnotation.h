@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FeedObject.h"
 
-@interface FeedMarker : NSObject <MKAnnotation>
+@interface FeedAnnotation : NSObject <MKAnnotation>
 {
 	NSInteger feedId;
 	NSString *title;

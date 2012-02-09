@@ -96,10 +96,10 @@ enum {
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
 		
-		feedObjects = [[NSMutableDictionary alloc] init];
+		_feedObjects = [[NSMutableDictionary alloc] init];
 		
-		mapViewController = [[MapViewController alloc] init];
-		mapViewController.feedObjects = feedObjects;
+		_mapViewController = [[MapViewController alloc] init];
+		_mapViewController.feedObjects = _feedObjects;
     }
     return self;
 }
@@ -158,9 +158,7 @@ enum {
 	if( [page isEqualToString:@"feed_detail"] )
 	{
 		NSLog( @"feed_detail" );
-		FeedDetailViewController *detail = [[FeedDetailViewController alloc] init];
-		detail.feedObject = [feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]];
-		detail.type = 0;
+		FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]] type:0];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }
@@ -178,7 +176,7 @@ enum {
 
 - (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to
 {
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, orderType, from, to]];
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to]];
 	NSArray *feeds = [Utils parseJSON:json];
 	for( NSDictionary *feed in feeds )
 	{
@@ -214,7 +212,7 @@ enum {
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.75];
 	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
-	[self.navigationController pushViewController:mapViewController animated:NO];
+	[self.navigationController pushViewController:_mapViewController animated:NO];
 	[UIView commitAnimations];
 }
 
@@ -230,17 +228,17 @@ enum {
 	{
 		// new
 		case 0:
-			orderType = 0;
+			_orderType = 0;
 			break;
 		
 		// popular
 		case 1:
-			orderType = 1;
+			_orderType = 1;
 			break;
 		
 		// following
 		case 2:
-			orderType = 2;
+			_orderType = 2;
 			break;
 	}
 	
@@ -251,7 +249,7 @@ enum {
 
 - (void)addFeed:(FeedObject *)feedObj
 {
-	[feedObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
+	[_feedObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
 	
 	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.feedId,

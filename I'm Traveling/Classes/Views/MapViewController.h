@@ -11,10 +11,10 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	MKMapView *feedMapView;
-	CLLocationManager *locationManager;
+	MKMapView *_feedMapView;
+	CLLocationManager *_locationManager;
 	
-	NSMutableDictionary *feedObjects;
+	NSMutableDictionary *_feedObjects;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *feedObjects;

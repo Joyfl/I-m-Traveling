@@ -6,9 +6,9 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "FeedMarker.h"
+#import "FeedAnnotation.h"
 
-@implementation FeedMarker
+@implementation FeedAnnotation
 
 @synthesize feedId, title, subtitle, coordinate;
 
