@@ -176,6 +176,8 @@
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
+				03508C7714D95F340057D723 /* Objects */,
+				03AD0FEF14DBCE0800D9573D /* SBJSON */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -247,8 +249,7 @@
 				0386A2C314DBE07D00B867C7 /* FeedMarker.h */,
 				0386A2C414DBE07D00B867C7 /* FeedMarker.m */,
 			);
-			name = Objects;
-			path = Classes/Objects;
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		039F63EA14C5CEE6002EC78F = {
@@ -287,8 +288,6 @@
 			isa = PBXGroup;
 			children = (
 				0300E6D714D1A93100611039 /* Classes */,
-				03508C7714D95F340057D723 /* Objects */,
-				03AD0FEF14DBCE0800D9573D /* SBJSON */,
 				039F640014C5CEE6002EC78F /* Supporting Files */,
 			);
 			path = "I'm Traveling";
@@ -336,8 +335,7 @@
 				03AD100814DBCE0800D9573D /* SBJsonWriter.h */,
 				03AD100914DBCE0800D9573D /* SBJsonWriter.m */,
 			);
-			name = SBJSON;
-			path = Classes/SBJSON;
+			path = SBJSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,7 +508,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "I'm Traveling/I'm Traveling-Prefix.pch";
 				INFOPLIST_FILE = "I'm Traveling/I'm Traveling-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -521,7 +521,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "I'm Traveling/I'm Traveling-Prefix.pch";
 				INFOPLIST_FILE = "I'm Traveling/I'm Traveling-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
