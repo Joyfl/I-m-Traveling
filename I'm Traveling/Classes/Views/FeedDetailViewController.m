@@ -29,7 +29,7 @@
 {
     if( self = [super init] )
 	{
-		_feedObject = feedObject;
+		_feedObject = [feedObject retain];
 		_type = type;
 		
 		_feedImageView = [[FeedImageView alloc] init];
@@ -43,6 +43,8 @@
 		_feedMapView.zoomEnabled = NO;
 		[self.view addSubview:_feedMapView];
 		
+		self.navigationItem.title = _feedObject.place;
+		
 		[self loadURL:HTML_INDEX];
     }
 	
@@ -55,14 +57,6 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - setters
-
-- (void)setFeedObject:(FeedObject *)obj
-{
-	_feedObject = obj;
-	self.navigationItem.title = _feedObject.place;
 }
 
 #pragma mark - View lifecycle
@@ -109,19 +103,36 @@
 	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, _feedObject.feedId, _type]];
 	NSDictionary *feed = [Utils parseJSON:json];
 	
+	// type이 0, 1, 2일 경우에 공통적으로 해당
 	_feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
-	_feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
-	_feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+	_feedObject.review = [feed objectForKey:@"review"];
+	
+	// type이 0일 경우에 해당
+	if( !_feedObject.latitude ) _feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+	if( !_feedObject.longitude ) _feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+	
+	// type이 1, 2일 경우에 공통적으로 해당
+	if( !_feedObject.userId ) _feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
+	if( !_feedObject.region ) _feedObject.region = [feed objectForKey:@"region"];
+	if( !_feedObject.time ) _feedObject.time = [feed objectForKey:@"time"];
+	if( !_feedObject.numLikes ) _feedObject.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
+	if( !_feedObject.numComments ) _feedObject.numComments = [[feed objectForKey:@"num_comments"] integerValue];
+	if( !_feedObject.pictureURL ) _feedObject.pictureURL = [NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, _feedObject.userId, _feedObject.feedId];
+	if( !_feedObject.profileImageURL ) _feedObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, _feedObject.userId];
+	
+	// type이 2일 경우에만 해당
+	if( !_feedObject.place ) _feedObject.place = [feed objectForKey:@"place"];
+	
 	[self createFeedDetail:_feedObject];
 	
 	_feedMapView.region = MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( _feedObject.latitude, _feedObject.longitude ), 200, 200 );
 	
-	_feedObjectsOfTrip = [feed objectForKey:@"all_feeds"];
-	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:_feedObjectsOfTrip.count];
+	NSArray *allFeeds = [feed objectForKey:@"all_feeds"];
+	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
 	
-	for( int i = 0; i < _feedObjectsOfTrip.count; i++ )
+	for( int i = 0; i < allFeeds.count; i++ )
 	{
-		NSDictionary *feed = (NSDictionary *)[_feedObjectsOfTrip objectAtIndex:i];
+		NSDictionary *feed = (NSDictionary *)[allFeeds objectAtIndex:i];
 		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
 		annotation.feedId = [[feed objectForKey:@"feed_id"] integerValue];
 		
@@ -132,7 +143,17 @@
 		[_feedMapView addAnnotation:annotation];
 		
 		if( annotation.feedId == _feedObject.feedId )
+		{
 			_currentFeedIndex = i;
+			[_feedDetailObjects setObject:_feedObject forKey:[NSNumber numberWithInt:_feedObject.feedId]];
+		}
+		else
+		{
+			FeedObject *feedObj = [[FeedObject alloc] init];
+			feedObj.feedId = annotation.feedId;
+			feedObj.latitude = latitude;
+			feedObj.longitude = longitude;
+		}
 		
 		[locations addObject:[[[CLLocation alloc] initWithLatitude:latitude longitude:longitude] autorelease]];
 	}

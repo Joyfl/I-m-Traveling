@@ -96,10 +96,9 @@ enum {
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
 		
-		_feedObjects = [[NSMutableDictionary alloc] init];
+		_feedListObjects = [[NSMutableDictionary alloc] init];
 		
 		_mapViewController = [[MapViewController alloc] init];
-		_mapViewController.feedObjects = _feedObjects;
     }
     return self;
 }
@@ -158,7 +157,7 @@ enum {
 	if( [page isEqualToString:@"feed_detail"] )
 	{
 		NSLog( @"feed_detail" );
-		FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]] type:0];
+		FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]] type:0];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
 }
@@ -249,7 +248,7 @@ enum {
 
 - (void)addFeed:(FeedObject *)feedObj
 {
-	[_feedObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
+	[_feedListObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
 	
 	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.feedId,

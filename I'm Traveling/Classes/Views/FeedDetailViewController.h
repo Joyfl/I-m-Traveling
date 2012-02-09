@@ -19,7 +19,7 @@
 	FeedImageView *_feedImageView;
 	MKMapView *_feedMapView;
 	
-	NSMutableArray *_feedObjectsOfTrip;
+	NSMutableDictionary *_feedDetailObjects;
 	NSInteger _currentFeedIndex;
 }
 

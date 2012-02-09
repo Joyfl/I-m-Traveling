@@ -10,6 +10,7 @@
 
 #define API_FEED_LIST			@"http://64.23.67.161/feed_list.php"
 #define API_FEED_DETAIL			@"http://64.23.67.161/feed_detail.php"
+#define API_FEED_MAP			@"http://64.23.67.161/feed_map.php"
 #define API_FEED_IMAGE			@"http://64.23.67.161/feed/"
 #define API_PROFILE_IMAGE		@"http://64.23.67.161/profile/"
 

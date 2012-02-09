@@ -14,7 +14,7 @@
 {
 	MapViewController *_mapViewController;
 	
-	NSMutableDictionary *_feedObjects;
+	NSMutableDictionary *_feedListObjects;
 	
 	NSInteger _orderType;
 }

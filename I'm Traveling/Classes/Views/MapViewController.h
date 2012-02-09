@@ -14,9 +14,10 @@
 	MKMapView *_feedMapView;
 	CLLocationManager *_locationManager;
 	
-	NSMutableDictionary *_feedObjects;
+	NSMutableDictionary *_feedMapObjects;
+	
+	NSInteger _orderType;
+	NSInteger _currentCellId;
 }
-
-@property (nonatomic, retain) NSMutableDictionary *feedObjects;
 
 @end

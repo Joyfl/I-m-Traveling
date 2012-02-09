@@ -10,17 +10,18 @@
 #import "FeedDetailViewController.h"
 #import "FeedObject.h"
 #import "FeedAnnotation.h"
+#import "Utils.h"
+#import "Const.h"
 
 @interface MapViewController (Private)
 
 - (void)deselectAlignButtons;
+- (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude;
 
 @end
 
 
 @implementation MapViewController
-
-@synthesize feedObjects;
 
 enum {
 	kTagAllButton = 0,
@@ -83,6 +84,7 @@ enum {
 		
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, listBarButtonItem, nil];		
 		
+		_feedMapObjects = [[NSMutableDictionary alloc] init];
 		
 		_feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_feedMapView.delegate = self;
@@ -90,6 +92,8 @@ enum {
 		
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
+		
+//		NSLog( @"cellId : %d", [self getCellIdWithLatitude:37.5655 longitude:126.938] );
     }
     return self;
 }
@@ -147,6 +151,40 @@ enum {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Network
+
+- (void)loadFeeds
+{
+	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude]];
+	NSLog( @"%@", [NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude] );
+	if( [json hasPrefix:@"{"] )
+	{
+		NSLog( @"%@", json );
+		return;
+	}
+	
+	NSArray *feeds = [Utils parseJSON:json];
+	
+	for( NSInteger i = 0; i < feeds.count; i++ )
+	{
+		NSDictionary *feed = [feeds objectAtIndex:i];
+		
+		FeedObject *feedObject = [[FeedObject alloc] init];
+		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
+		
+		feedObject.feedId = annotation.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+		feedObject.place = annotation.title = [feed objectForKey:@"place"];
+		feedObject.name = annotation.subtitle = [feed objectForKey:@"name"];
+		feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+		feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+		annotation.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
+		[_feedMapView addAnnotation:annotation];
+		
+		[_feedMapObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
+		NSLog( @"a" );
+	}
+}
+
 #pragma mark - map
 
 - (void)mapView:(MKMapView *)mapView didChangeUserTrackingMode:(MKUserTrackingMode)mode animated:(BOOL)animated
@@ -187,7 +225,7 @@ enum {
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	FeedAnnotation *annotation = (FeedAnnotation *)view.annotation;
-	FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[feedObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]] type:1];
+	FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedMapObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]] type:1];
 	
 	[self.navigationController pushViewController:detail animated:YES];
 }
@@ -197,20 +235,14 @@ enum {
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	NSLog( @"update" );
-//	mapView.region = 
-//	mapView.userLocation = newLocation;// MKCoordinateRegionMakeWithDistance( newLocation.coordinate, 100, 100 );
-//	mapView 
 	
-#warning temp code
-	// 랜덤하게 어노테이션 찍어줌
-	if( arc4random() % 100 < 10 )
+	NSInteger newCellId = [self getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	NSLog( @"currentCellId : %d", _currentCellId );
+	NSLog( @"newCellId     : %d", newCellId );
+	if( _currentCellId != newCellId && _feedMapView.userLocation.coordinate.latitude != 0.0 && _feedMapView.userLocation.coordinate.longitude != 0.0 )
 	{
-		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
-		annotation.feedId = 1;
-		annotation.title = @"Title";
-		annotation.subtitle = @"Subtitle";
-		annotation.coordinate = _feedMapView.userLocation.coordinate;
-		[_feedMapView addAnnotation:annotation];
+		[self loadFeeds];
+		_currentCellId = newCellId;
 	}
 }
 
@@ -233,10 +265,12 @@ enum {
 	{
 		// new
 		case 0:
+			_orderType = 0;
 			break;
 			
 		// popular
 		case 1:
+			_orderType = 1;
 			break;
 	}
 }
@@ -260,6 +294,12 @@ enum {
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).highlighted = NO;
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).enabled = YES;
 	}
+}
+
+- (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude
+{
+	return ABS( round( ( latitude + 90 ) * 100 ) / 100 ) * 100 * 36000 + ABS( round( ( longitude + 180 ) * 100 ) / 100 ) * 100;
+//	((ABS(ROUND(경도 + 90,2)) * 100) * 36000) + ((ABS(ROUND(위도 + 180,2)) * 100));
 }
 
 @end
