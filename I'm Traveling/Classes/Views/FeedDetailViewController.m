@@ -17,6 +17,7 @@
 
 @interface FeedDetailViewController (Private)
 
+- (void)loadFeedDetail;
 - (void)createFeedDetail:(FeedObject *)feedObj;
 - (void)modifyFeedDetail:(FeedObject *)feedObj;
 
@@ -35,7 +36,7 @@
 		_feedImageView = [[FeedImageView alloc] init];
 		[self.webView.scrollView addSubview:_feedImageView.view];
 		
-		self.webView.scrollView.showsVerticalScrollIndicator = NO;
+		self.webView.scrollView.scrollEnabled = NO;
 		
 		_feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 267, 320, 100 )];
 		_feedMapView.delegate = self;
@@ -93,13 +94,12 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	[self reloadWebView];
+	[self clear];
+	[self performSelector:@selector(loadFeedDetail) withObject:nil afterDelay:0.5];
 }
 
-- (void)reloadWebView
+- (void)loadFeedDetail
 {
-	[self clear];
-	
 	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, _feedObject.feedId, _type]];
 	NSDictionary *feed = [Utils parseJSON:json];
 	
@@ -161,6 +161,7 @@
 	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:_feedMapView];
 	[_feedMapView addAnnotation:lineAnnotation];
 	
+	_feedImageView.currentFeedIndex = _currentFeedIndex;
 	[_feedImageView loadFeedImage:_currentFeedIndex url:_feedObject.pictureURL];
 }
 
@@ -199,7 +200,7 @@
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
-	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 # pragma mark - Map

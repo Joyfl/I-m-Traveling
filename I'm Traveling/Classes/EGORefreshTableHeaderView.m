@@ -171,7 +171,6 @@ static NSDateFormatter *refreshFormatter;
 			arrowImage.transform = CATransform3DIdentity;
 			[CATransaction commit];
 			
-			NSLog( @"normal" );
 			break;
 		case EGOOPullRefreshLoading:
 			
@@ -182,7 +181,6 @@ static NSDateFormatter *refreshFormatter;
 			arrowImage.hidden = YES;
 			[CATransaction commit];
 			
-			NSLog( @"loading" );
 			break;
 		case EGOOPullRefreshUpToDate:
         

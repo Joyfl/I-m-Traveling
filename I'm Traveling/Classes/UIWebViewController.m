@@ -90,7 +90,6 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-	NSLog( @"webview" );
 	if ( messagePrefix != nil && [[[request URL] absoluteString] hasPrefix:messagePrefix] )
 	{
 		NSString *msg = [[[[request URL] absoluteString] componentsSeparatedByString:messagePrefix] objectAtIndex:1];

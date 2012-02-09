@@ -9,7 +9,13 @@
 #import "UIWebViewController.h"
 
 @interface FeedImageView : UIWebViewController
+{
+	NSInteger currentFeedIndex;
+}
+
+@property (nonatomic, assign) NSInteger currentFeedIndex;
 
 - (void)loadFeedImage:(NSInteger)index url:(NSString *)url;
+- (void)scrollToCurrentFeed;
 
 @end

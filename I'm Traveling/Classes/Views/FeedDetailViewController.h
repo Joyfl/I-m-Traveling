@@ -6,12 +6,12 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "UIPullDownWebViewController.h"
+#import "UIWebViewController.h"
 #import "FeedImageView.h"
 #import "FeedObject.h"
 #import <MapKit/MapKit.h>
 
-@interface FeedDetailViewController : UIPullDownWebViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface FeedDetailViewController : UIWebViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
 	NSInteger _type; // 0 : From List, 1 : From Map
 	FeedObject *_feedObject;

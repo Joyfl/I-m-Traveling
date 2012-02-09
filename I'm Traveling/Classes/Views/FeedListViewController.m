@@ -156,7 +156,6 @@ enum {
 	NSString *page = [args objectAtIndex:0];
 	if( [page isEqualToString:@"feed_detail"] )
 	{
-		NSLog( @"feed_detail" );
 		FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]] type:0];
 		[self.navigationController pushViewController:detail animated:YES];
 	}
@@ -206,8 +205,6 @@ enum {
 
 - (void)onMapButtonTouch
 {
-	NSLog( @"map" );
-	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.75];
 	[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
@@ -265,7 +262,7 @@ enum {
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
-	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 #pragma mark - utils

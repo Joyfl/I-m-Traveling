@@ -18,6 +18,8 @@
 
 @implementation FeedImageView
 
+@synthesize currentFeedIndex;
+
 - (id)init
 {
 	if( self = [super init] )
@@ -77,7 +79,20 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	
+	[self clear];
+}
+
+- (void)messageFromWebView:(NSString *)msg
+{
+	if( [msg isEqualToString:@"scroll_to_current_feed"] )
+	{
+		[self scrollToCurrentFeed];
+	}
+}
+
+- (void)scrollToCurrentFeed
+{
+	webView.scrollView.contentOffset = CGPointMake( currentFeedIndex * 320.0, 0 );
 }
 
 # pragma mark - Javascript Functions
