@@ -21,7 +21,8 @@ function init()
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//createMainPage();
-	createLoginPage();
+	//createLoginPage();
+	//clear();
 }
 
 
