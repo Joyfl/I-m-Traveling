@@ -16,13 +16,14 @@ margin = 10;
 
 function init()
 {
+	//clear();
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
-	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "review", 3, 5);
+	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
+	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//createMainPage();
 	//createLoginPage();
-	//clear();
 }
 
 
@@ -110,7 +111,6 @@ function fillContent(content, feed_id, _likes, _comments, _review)
 
 
 
-
 // Supporting Functions
 
 function widthToInt(width) { return Number(width.slice(0, width.length - 2)); }
@@ -132,14 +132,22 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 	
-	var gap = createGap(10, wrap);
-	var picture = makeClass("img", "picture", wrap);
-	picture.src = picture_url;
+	createGap(14, wrap);
+	
+	var pictureWrap = makeClass("div", "pictureWrap", wrap);
+	var picture = makeClass("img", "picture", pictureWrap);
+	
+	createGap(8, wrap);
 	
 	var content = makeClass("div", "content", wrap);
-	fillContent(content, feed_id, num_likes, num_comments, review);
+	var reviewBox = makeClass("div", "review", content);
 	
-	picture.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+	reviewBox.innerHTML = review;
+	reviewBox.style.width = "80%";
+	picture.src = picture_url;
+	pictureWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+	
+	createGap(14, wrap);
 }
 
 function loadFeedImage(index, feed_image_url)
@@ -157,6 +165,7 @@ function loadFeedImage(index, feed_image_url)
 	image.style.height = intToWidth(imageHeight);
 	image.style.left = intToWidth(imageWidth * index);
 	image.src = feed_image_url;
+	document.location = "imtraveling:scroll_to_current_feed";
 }
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)

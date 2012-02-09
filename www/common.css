@@ -40,7 +40,7 @@ body
 .content
 {
 	clear: both;
-	height: 3em;
+	height: 3.5em;
 }
 
 .profileImage
@@ -115,9 +115,11 @@ body
 {
 	float: left;
 	font-size: 1em;
-	width: 60%;
-	height: 2em;
-	padding: 0.5em;
+	width: 64%;
+	height: 3em;
+	padding-left: 0.5em;
+	padding-top: 0.3em;
+	padding-right: 0.5em;
 	
 	margin-left: 7%;
 	white-space: pre-wrap;
@@ -125,6 +127,11 @@ body
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
+	
+	color: #604037;
+	background-color: #ddccb5;
+	border: 2px solid #604037;
+	border-radius: 5px;
 }
 
 .action
@@ -133,7 +140,25 @@ body
 	height: 2em;
 	margin-right: 7%;
 	float: right;
-	padding: 0.5em;
+}
+
+.likeButton
+{
+	color: #1111cc;
+	background-color: #aaaadd;
+	border: 2px solid #1111cc;
+	border-radius: 5px;
+	padding-left: 0.2em;
+}
+
+.commentButton
+{
+	margin-top: 0.2em;
+	color: #aa7500;
+	background-color: #ffe744;
+	border: 2px solid #aa7500;
+	border-radius: 5px;
+	padding-left: 0.2em;
 }
 
 .gap
