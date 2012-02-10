@@ -8,6 +8,8 @@ path = new Array({"lat":"40.737102","lng":"-73.990318"}, {"lat":"40.749825","lng
 imageWidth = 320;
 imageHeight = 200;
 margin = 10;
+iconLike = "resource/like.png";
+iconComment = "resource/comment.png";
 
 
 
@@ -20,8 +22,8 @@ function init()
 	
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
 	
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 3, 3);
 	
 	//createMainPage();
 	//createLoginPage();
@@ -29,9 +31,9 @@ function init()
 	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
 	//modifyTitle("20 JAN", "Los Angelos", "USA");
 	
-	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
+	//createFeedDetail(1, 1, "revivieweeviweviewevieweviewvieweviewevieweview", new Object(), new Array(), new Array());
 	
-	addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
+	//addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 }
 
 
@@ -106,6 +108,22 @@ function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 {
 	var cover = makeClass("div", "cover thumbnail", thumbnailWrap);
 	var thumbnail = makeClass("img", "thumbnail", thumbnailWrap);
+	var feedback = makeClass("div", "feedback", thumbnailWrap);
+	
+	var commentWrap = makeClass("div", "iconWrap", feedback);
+	var likeWrap = makeClass("div", "iconWrap", feedback);
+	
+	var likeIcon = makeClass("img", "icon", likeWrap);
+	var commentIcon = makeClass("img", "icon", commentWrap);
+	
+	var likeText = makeClass("div", "iconText likeText", likeWrap);
+	var commentText = makeClass("div", "iconText commentText", commentWrap);
+	
+	likeIcon.src = iconLike;
+	commentIcon.src = iconComment;
+	
+	likeText.innerText = _likes;
+	commentText.innerText = _comments;
 	
 	thumbnail.src = pictureUrl;
 	thumbnail.onload = function() { cover.style.height = intToPixel(thumbnail.clientHeight); }
@@ -139,12 +157,8 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	var thumbnailWrap = makeClass("div", "thumbnailWrap", wrap);
 	fillThumbnailWrap(thumbnailWrap, picture_url, num_likes, num_comments);
 	
-	createGap(8, wrap);
-	
 	var reviewText = makeClass("div", "review", wrap);
 	reviewText.innerText = review;
-	
-	createGap(14, wrap);
 	
 	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 }

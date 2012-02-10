@@ -16,7 +16,7 @@
 	src: url("font/HelveticaNeue 37 Thin Condensed.otf");
 }
 
-body
+html, body
 {
 	overflow-x: hidden;
 	background-color: #f5e7da;
@@ -117,20 +117,42 @@ body
 
 .feedback
 {
-	position: absolute;
+	position: relative;
 	margin-left: 93%;
-	height: 3em;
+	height: 1em;
 	width: 8em;
-	top: -3em;
+	top: -1.7em;
 	left: -8em;
 }
 
-.textLike
+.iconWrap
+{
+	width: 3em;
+	float: right;
+	margin-right: 0.5em;
+}
+
+.icon
+{
+	float: left;
+	width: 1em;
+	height: 1em;
+}
+
+.iconText
+{
+	width: 2em;
+	text-align: right;
+	float: left;
+	margin-top: 0.15em;
+}
+
+.likeText
 {
 	color: #4c5821;
 }
 
-.textComment
+.commentText
 {
 	color: #005c6b;
 }
@@ -138,13 +160,11 @@ body
 .review
 {
 	font-size: 1em;
-	width: 80%;
+	width: 86%;
 	height: 3em;
-	padding-left: 0.5em;
-	padding-top: 0.3em;
-	padding-right: 0.5em;
 	
 	margin-left: 7%;
+	margin-top: -0.9em;
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
@@ -161,13 +181,6 @@ body
 .gap
 {
 	width: 100%;
-}
-
-.detailImage
-{
-	position: absolute;
-	padding-left: 10px;
-	padding-right: 10px;
 }
 
 .simpleThumbnail
