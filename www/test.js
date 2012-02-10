@@ -20,7 +20,7 @@ function init()
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//createMainPage();
 	//createLoginPage();
@@ -51,7 +51,7 @@ function createGap(height, parent)
 {
 	gap = document.createElement("div");
 	gap.className = "gap";
-	gap.style.height = intToWidth(height);
+	gap.style.height = intToPixel(height);
 	parent.appendChild(gap);
 	return gap;
 }
@@ -109,12 +109,22 @@ function fillContent(content, feed_id, _likes, _comments, _review)
 	commentButton.onclick = function() {};
 }
 
+function fillThumbnailWrap(thumbnailWrap, feed_id, pictureUrl, _likes, _comments)
+{
+	var thumbnail = makeClass("img", "thumbnail", thumbnailWrap);
+	
+	
+	thumbnail.src = pictureUrl;
+	//pictureWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+	
+}
+
 
 
 // Supporting Functions
 
-function widthToInt(width) { return Number(width.slice(0, width.length - 2)); }
-function intToWidth(value) { return value.toString() + "px"; }
+function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
+function intToPixel(value) { return value.toString() + "px"; }
 
 function getId(_id) { return document.getElementById(_id); }
 function getName(_name) { return document.getElementsByName(_name); }
@@ -134,8 +144,8 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	
 	createGap(14, wrap);
 	
-	var pictureWrap = makeClass("div", "pictureWrap", wrap);
-	var picture = makeClass("img", "picture", pictureWrap);
+	var thumbnailWrap = makeClass("div", "thumbnailWrap", wrap);
+	fillThumbnailWrap(thumbnailWrap, feed_id, picture_url, num_likes, num_comments);
 	
 	createGap(8, wrap);
 	
@@ -144,8 +154,6 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	
 	reviewBox.innerHTML = review;
 	reviewBox.style.width = "80%";
-	picture.src = picture_url;
-	pictureWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 	
 	createGap(14, wrap);
 }
@@ -155,15 +163,15 @@ function loadFeedImage(index, feed_image_url)
 	var scroll = getId("scroll");
 	if(scroll == null)
 	{
-		document.body.style.width = intToWidth(imageWidth);
+		document.body.style.width = intToPixel(imageWidth);
 		scroll = makeId("div", "scroll", getId("page"));
 	}
-	if(imageWidth * (index + 1) > widthToInt(document.body.style.width))
-		document.body.style.width = intToWidth(imageWidth * (index + 1));
+	if(imageWidth * (index + 1) > pixelToInt(document.body.style.width))
+		document.body.style.width = intToPixel(imageWidth * (index + 1));
 	var image = makeClass("img", "detailImage", scroll);
-	image.style.width = intToWidth(imageWidth - 2 * margin);
-	image.style.height = intToWidth(imageHeight);
-	image.style.left = intToWidth(imageWidth * index);
+	image.style.width = intToPixel(imageWidth - 2 * margin);
+	image.style.height = intToPixel(imageHeight);
+	image.style.left = intToPixel(imageWidth * index);
 	image.src = feed_image_url;
 	document.location = "imtraveling:scroll_to_current_feed";
 }
@@ -187,8 +195,8 @@ function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_c
 	(getClass("place")[0]).innerText = place;
 	(getClass("region")[0]).innerText = region;
 	(getClass("review")[0]).innerText = review;
-	(getClass("likeButton")[0]).innerText = num_likes;
-	(getClass("commentButton")[0]).innerText = num_comments;
+	(getClass("likeButton")[0]).innerText = "☆ " + num_likes;
+	(getClass("commentButton")[0]).innerText = "▣ " + num_comments;
 }
 
 function createMainPage()
