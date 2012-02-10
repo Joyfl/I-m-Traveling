@@ -16,14 +16,20 @@ margin = 10;
 
 function init()
 {
-	//clear();
+	clear();
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
-	addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
-	addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//createMainPage();
 	//createLoginPage();
+	return;
+	var page = getId("page");
+	var form = makeClass("form", "asdf", page);
+	var textArea = makeClass("input", "asdf", form);
+	textArea.type = "textarea";
+	textArea.rows = "10";
 }
 
 
@@ -116,7 +122,7 @@ function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 	var thumbnail = makeClass("img", "thumbnail", thumbnailWrap);
 	
 	thumbnail.src = pictureUrl;
-	cover.style.height = intToPixel(thumbnail.clientHeight);
+	thumbnail.onload = function() { cover.style.height = intToPixel(thumbnail.clientHeight); }
 }
 
 
@@ -199,6 +205,12 @@ function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_c
 	(getClass("review")[0]).innerText = review;
 	(getClass("likeButton")[0]).innerText = "☆ " + num_likes;
 	(getClass("commentButton")[0]).innerText = "▣ " + num_comments;
+}
+
+function createTitle(user_id, profile_image_url, name, time, place, region)
+{
+	var title = makeClass("div", "title", getId("page"));
+	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 }
 
 function createMainPage()
