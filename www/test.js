@@ -213,6 +213,13 @@ function createTitle(user_id, profile_image_url, name, time, place, region)
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 }
 
+function modifyTitle(time, place, region)
+{
+	(getClass("time")[0]).innerText = time;
+	(getClass("place")[0]).innerText = place;
+	(getClass("region")[0]).innerText = region;
+}
+
 function createMainPage()
 {
 	var wrap = getId("page");
