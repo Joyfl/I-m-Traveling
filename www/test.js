@@ -16,12 +16,12 @@ margin = 10;
 
 function init()
 {
-	clear();
+	//clear();
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
 	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
 	addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//createMainPage();
 	//createLoginPage();
 }
@@ -71,6 +71,7 @@ function clear()
 function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _region)
 {
 	var profileImage = makeClass("img", "profileImage", title);
+	var cover = makeClass("div", "cover profileImage", title);
 	
 	var upperWrap = makeClass("div", "upperWrap", title);
 	var lowerWrap = makeClass("div", "lowerWrap", title);
@@ -109,14 +110,13 @@ function fillContent(content, feed_id, _likes, _comments, _review)
 	commentButton.onclick = function() {};
 }
 
-function fillThumbnailWrap(thumbnailWrap, feed_id, pictureUrl, _likes, _comments)
+function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 {
+	var cover = makeClass("div", "cover thumbnail", thumbnailWrap);
 	var thumbnail = makeClass("img", "thumbnail", thumbnailWrap);
 	
-	
 	thumbnail.src = pictureUrl;
-	//pictureWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
-	
+	cover.style.height = intToPixel(thumbnail.clientHeight);
 }
 
 
@@ -145,7 +145,7 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	createGap(14, wrap);
 	
 	var thumbnailWrap = makeClass("div", "thumbnailWrap", wrap);
-	fillThumbnailWrap(thumbnailWrap, feed_id, picture_url, num_likes, num_comments);
+	fillThumbnailWrap(thumbnailWrap, picture_url, num_likes, num_comments);
 	
 	createGap(8, wrap);
 	
@@ -156,6 +156,8 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	reviewBox.style.width = "80%";
 	
 	createGap(14, wrap);
+	
+	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 }
 
 function loadFeedImage(index, feed_image_url)
