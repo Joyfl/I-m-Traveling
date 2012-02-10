@@ -101,22 +101,6 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _
 	userName.onclick = profile;
 }
 
-function fillContent(content, feed_id, _likes, _comments, _review)
-{
-	var review = makeClass("div", "review", content);
-	var action = makeClass("div", "action", content);
-	
-	var likeButton = makeClass("div", "likeButton", action);
-	var commentButton = makeClass("div", "commentButton", action);
-	
-	review.innerText = _review;
-	likeButton.innerText = "☆ " + _likes;
-	commentButton.innerText = "▣ " + _comments;
-	
-	likeButton.onclick = function() {};
-	commentButton.onclick = function() {};
-}
-
 function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 {
 	var cover = makeClass("div", "cover thumbnail", thumbnailWrap);
@@ -156,9 +140,7 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	
 	createGap(8, wrap);
 	
-	var content = makeClass("div", "content", wrap);
-	var reviewWrap = makeClass("div", "review", content);
-	
+	var reviewWrap = makeClass("div", "review", wrap);
 	reviewWrap.innerText = review;
 	
 	createGap(14, wrap);
@@ -166,17 +148,9 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
 }
 
-function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
+function createFeedDetail(trip_id, feed_id, review, info, likes, comments)
 {
-	var wrap = getId("page");
 	
-	var title = makeClass("div", "title", wrap);
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
-	
-	var gap = createGap(210, wrap);
-	
-	var content = makeClass("div", "content", wrap);
-	fillContent(content, feed_id, num_likes, num_comments, review);
 }
 
 function createTitle(user_id, profile_image_url, name, time, place, region)
