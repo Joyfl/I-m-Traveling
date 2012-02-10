@@ -7,7 +7,7 @@
 body
 {
 	overflow-x: hidden;
-	background-color: rgb(245,231,218);
+	background-color: #f5e7da;
 	font-family: "Helvetica";
 }
 
@@ -19,20 +19,8 @@ body
 
 .title
 {
-	background-image: linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
-	background-image: -o-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
-	background-image: -moz-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
-	background-image: -webkit-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
-	background-image: -ms-linear-gradient(bottom, rgb(242,220,200) 14%, rgb(226,206,186) 49%);
-	
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0.14, rgb(242,220,200)),
-		color-stop(0.49, rgb(226,206,186))
-	);
-	
+	background-image: url('resource/gradient.png');
+	background-size: 100% 100%;
 	clear: both;
 	height: 3.6em;
 }
@@ -51,6 +39,10 @@ body
 	float: left;
 	border: 0px solid #ffffff;
 	border-radius: 0.4em;
+	
+	-moz-box-shadow: inset 0 0 5px 5px #888;
+	-webkit-box-shadow: inset 0 0 5px 5px#888;
+	box-shadow: inset 0 0 5px 5px #888;
 }
 
 .upperWrap
@@ -74,7 +66,7 @@ body
 	float: left;
 	font-size: 0.8em;
 	height: 1.4em;
-	color: #555555;
+	color: #473e4d;
 }
 
 .time
@@ -84,6 +76,7 @@ body
 	font-size: 0.8em;
 	height: 1.8em;
 	font-weight: bold;
+	color: #473e4d;
 }
 
 .place
@@ -91,6 +84,7 @@ body
 	float: left;
 	font-size: 1.33em;
 	font-weight: bold;
+	color: #140e17;
 }
 
 .region
@@ -99,16 +93,37 @@ body
 	top: 3em;
 	text-align: right;
 	font-size: 0.8em;
-	color: rgb(139, 113, 91);
+	color: #876d56;
 	margin-top: 0.5em;
 }
 
-.picture
+.thumbnail
 {
 	width: 86%;
 	margin-left: 7%;
 	border: 0px solid #ffffff;
 	border-radius: 0.7em;
+	box-shadow: inset 0 0 4px #000;
+}
+
+.feedback
+{
+	position: absolute;
+	margin-left: 93%;
+	height: 3em;
+	width: 8em;
+	top: -3em;
+	left: -8em;
+}
+
+.textLike
+{
+	color: #4c5821;
+}
+
+.textComment
+{
+	color: #005c6b;
 }
 
 .review
@@ -127,17 +142,12 @@ body
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
-	
-	color: #604037;
-	background-color: #ddccb5;
-	border: 2px solid #604037;
-	border-radius: 5px;
 }
 
 .action
 {
 	width: 14%;
-	height: 2em;
+	height: 3.5em;
 	margin-right: 7%;
 	float: right;
 }
