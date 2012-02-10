@@ -23,12 +23,6 @@ body
 	font-family: "Helvetica 75 Bold";
 }
 
-#scroll
-{
-	overflow-x: scroll;
-	height: 0em;
-}
-
 .title
 {
 	background-image: url("resource/gradient.png");
@@ -40,7 +34,6 @@ body
 .content
 {
 	clear: both;
-	height: 3.5em;
 }
 
 .profileImage
@@ -79,7 +72,8 @@ body
 {
 	font-family: "Helvetica 37 Thin Condensed";
 	float: left;
-	font-size: 0.8em;
+	font-size: 1em;
+	font-weight: bold;
 	height: 1.4em;
 	color: #473e4d;
 }
@@ -142,9 +136,8 @@ body
 
 .review
 {
-	float: left;
 	font-size: 1em;
-	width: 64%;
+	width: 80%;
 	height: 3em;
 	padding-left: 0.5em;
 	padding-top: 0.3em;
@@ -162,33 +155,6 @@ body
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-}
-
-.action
-{
-	width: 14%;
-	height: 3.5em;
-	margin-right: 7%;
-	float: right;
-}
-
-.likeButton
-{
-	color: #1111cc;
-	background-color: #aaaadd;
-	border: 2px solid #1111cc;
-	border-radius: 5px;
-	padding-left: 0.2em;
-}
-
-.commentButton
-{
-	margin-top: 0.2em;
-	color: #aa7500;
-	background-color: #ffe744;
-	border: 2px solid #aa7500;
-	border-radius: 5px;
-	padding-left: 0.2em;
 }
 
 .gap

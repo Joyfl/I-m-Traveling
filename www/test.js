@@ -17,19 +17,20 @@ margin = 10;
 function init()
 {
 	clear();
+	
 	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
-	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
-	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
+	
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	
 	//createMainPage();
 	//createLoginPage();
-	return;
-	var page = getId("page");
-	var form = makeClass("form", "asdf", page);
-	var textArea = makeClass("input", "asdf", form);
-	textArea.type = "textarea";
-	textArea.rows = "10";
+	
+	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
+	//modifyTitle("20 JAN", "Los Angelos", "USA");
+	
+	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
+	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
 }
 
 
@@ -156,32 +157,13 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	createGap(8, wrap);
 	
 	var content = makeClass("div", "content", wrap);
-	var reviewBox = makeClass("div", "review", content);
+	var reviewWrap = makeClass("div", "review", content);
 	
-	reviewBox.innerHTML = review;
-	reviewBox.style.width = "80%";
+	reviewWrap.innerText = review;
 	
 	createGap(14, wrap);
 	
 	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
-}
-
-function loadFeedImage(index, feed_image_url)
-{
-	var scroll = getId("scroll");
-	if(scroll == null)
-	{
-		document.body.style.width = intToPixel(imageWidth);
-		scroll = makeId("div", "scroll", getId("page"));
-	}
-	if(imageWidth * (index + 1) > pixelToInt(document.body.style.width))
-		document.body.style.width = intToPixel(imageWidth * (index + 1));
-	var image = makeClass("img", "detailImage", scroll);
-	image.style.width = intToPixel(imageWidth - 2 * margin);
-	image.style.height = intToPixel(imageHeight);
-	image.style.left = intToPixel(imageWidth * index);
-	image.src = feed_image_url;
-	document.location = "imtraveling:scroll_to_current_feed";
 }
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
@@ -195,16 +177,6 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	
 	var content = makeClass("div", "content", wrap);
 	fillContent(content, feed_id, num_likes, num_comments, review);
-}
-
-function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_comments)
-{	
-	(getClass("time")[0]).innerText = time;
-	(getClass("place")[0]).innerText = place;
-	(getClass("region")[0]).innerText = region;
-	(getClass("review")[0]).innerText = review;
-	(getClass("likeButton")[0]).innerText = "☆ " + num_likes;
-	(getClass("commentButton")[0]).innerText = "▣ " + num_comments;
 }
 
 function createTitle(user_id, profile_image_url, name, time, place, region)
