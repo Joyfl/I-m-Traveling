@@ -20,8 +20,6 @@ function init()
 {
 	clear();
 	
-	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
-	
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 3, 3);
 	
@@ -31,9 +29,11 @@ function init()
 	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
 	//modifyTitle("20 JAN", "Los Angelos", "USA");
 	
-	//createFeedDetail(1, 1, "revivieweeviweviewevieweviewvieweviewevieweview", new Object(), new Array(), new Array());
+	//createFeedDetail(1, 1, pic2, "revivieweeviweviewevieweviewvieweviewevieweview", new Object(), new Array(), new Array());
 	
-	//addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
+	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
+	
+	for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
 }
 
 
@@ -165,7 +165,7 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 
 function addSimpleFeed(feed_id, picture_url, place, time, review)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = makeClass("div", "singleComment", getId("page"));
 	
 	var cover = makeClass("div", "cover simpleThumbnail", wrap);
 	var simpleThumbnail = makeClass("img", "simpleThumbnail", wrap);
@@ -184,10 +184,42 @@ function addSimpleFeed(feed_id, picture_url, place, time, review)
 	
 	upperWrap.style.width = "63%";
 	lowerWrap.style.width = "63%";
+	wrap.style.height = intToPixel(70 + reviewText.clientHeight);
 }
 
-function createFeedDetail(trip_id, feed_id, review, info, likes, comments)
+function addComment(commentWrap, user_id, profile_image_url, name, time, content)
 {
+	var wrap = makeClass("div", "singleComment", commentWrap);
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var profileImage = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var nameText = makeClass("div", "userName", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var contentText = makeClass("div", "review", lowerWrap);
+	
+	profileImage.src = profile_image_url;
+	nameText.innerText = name;
+	timeText.innerText = time;
+	contentText.innerText = content;
+	wrap.style.height = intToPixel(24 + contentText.clientHeight);
+}
+
+function createFeedDetail(trip_id, feed_id, picture_url, review, info, likes, comments)
+{
+	var wrap = getId("page");
+	
+	var cover = makeClass("div", "cover detailImage", wrap);
+	var picture = makeClass("img", "detailImage", wrap);
+	var reviewText = makeClass("div", "review", wrap);
+	
+	reviewText.innerText = review;
+	picture.src = picture_url;
+	picture.onload = function() { cover.style.height = intToPixel(picture.clientHeight); }
+	
+	var infoWrap = makeClass("div", "infoWrap", wrap);
 	
 }
 
