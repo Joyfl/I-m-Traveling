@@ -30,7 +30,8 @@ function init()
 	//modifyTitle("20 JAN", "Los Angelos", "USA");
 	
 	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
-	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
+	
+	addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 }
 
 
@@ -140,12 +141,35 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	
 	createGap(8, wrap);
 	
-	var reviewWrap = makeClass("div", "review", wrap);
-	reviewWrap.innerText = review;
+	var reviewText = makeClass("div", "review", wrap);
+	reviewText.innerText = review;
 	
 	createGap(14, wrap);
 	
 	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+}
+
+function addSimpleFeed(feed_id, picture_url, place, time, review)
+{
+	var wrap = makeClass("div", "wrap", getId("page"));
+	
+	var cover = makeClass("div", "cover simpleThumbnail", wrap);
+	var simpleThumbnail = makeClass("img", "simpleThumbnail", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var placeText = makeClass("div", "place", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var reviewText = makeClass("div", "review", lowerWrap);
+	
+	simpleThumbnail.src = picture_url;
+	placeText.innerText = place;
+	timeText.innerText = time;
+	reviewText.innerText = review;
+	
+	upperWrap.style.width = "63%";
+	lowerWrap.style.width = "63%";
 }
 
 function createFeedDetail(trip_id, feed_id, review, info, likes, comments)
