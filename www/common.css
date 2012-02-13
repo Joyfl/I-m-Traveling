@@ -23,6 +23,12 @@ html, body
 	overflow-x: hidden;
 	background-color: #f5e7da;
 	font-family: "Helvetica 75 Bold";
+	
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 .cover
@@ -186,12 +192,6 @@ html, body
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
-	
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
 }
 
 

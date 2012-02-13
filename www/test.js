@@ -20,13 +20,7 @@ function init()
 	
 	//addFeedDetail(9, 1, infos, 3, likes, comments);
 	
-	//createMainPage();
-	//createLoginPage();
-	
-	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
-	//modifyTitle("20 JAN", "Los Angelos", "USA");
-	
-	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, likes, comments)
+	createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, likes, comments)
 	
 	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 	
