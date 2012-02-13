@@ -4,10 +4,10 @@ pic1 = "resource/face.jpg";
 pic2 = "resource/thumbnail.jpg";
 server = "http://imtraveling.joyfl.kr";
 comments = new Array({"profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"}, {"profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"});
-path = new Array({"lat":"40.737102","lng":"-73.990318"}, {"lat":"40.749825","lng":"-73.987963"}, {"lat":"40.752946","lng":"-73.987384"}, {"lat":"40.755823","lng":"-73.986397"});
-imageWidth = 320;
-imageHeight = 200;
-margin = 10;
+infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"});
+likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
+iconLike = "resource/like.png";
+iconComment = "resource/comment.png";
 
 
 
@@ -17,19 +17,64 @@ margin = 10;
 function init()
 {
 	//clear();
-	//for(var i = 0; i < 5; i++) loadFeedImage(i, pic2);
-	//createFeedDetail(1, 1, 1, pic1, "바나나", "19 JAN", "Las Vegas", "KOR", "revivieweeviweviewevieweviewvieweviewevieweview", 3, 5);
-	//modifyFeedDetail(1, "20 JAN", "Los Angelos", "USA", "review2", 4, 6);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "review", 3, 3);
+	//for(var i = 0; i < 3; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	
+	//addFeedDetail(1, 1, infos, 3, likes, comments);
+	
 	//createMainPage();
 	//createLoginPage();
+	
+	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
+	//modifyTitle("20 JAN", "Los Angelos", "USA");
+	
+	//createFeedDetail(1, 1, pic2, "revivieweeviweviewevieweviewvieweviewevieweview", new Object(), new Array(), new Array());
+	//test();
+	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
+	
+	//for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
+	
+	//clearExcept(2);
 }
 
 
 
 
 // Basic Functions
+
+n = 100;
+a = new Array();
+
+function test()
+{
+	a[0] = 0;
+	a[1] = 1;
+	var max = 0;
+	for(var i = 1; i < n; i++)
+	{
+		var temp = f(i);
+		if(temp > max)
+			max = temp;
+	}
+	document.write(max);
+}
+
+function f(i)
+{
+	if(!a[i])
+	{
+		if(i % 2 == 0)
+		{
+			return a[i] = (a[Math.floor(i/2)] + 1);
+		}
+		else {
+			return a[i] = (a[3*i + 1] + 1);
+		}
+	}
+	else {
+		if(i % 2 == 0)
+			return 
+	}
+}
 
 function makeClass(type, className, parent)
 {
@@ -63,6 +108,29 @@ function clear()
 	makeId("div", "page", document.body);
 }
 
+function clearExcept(feed_id)
+{
+	var target = "wrap_" + feed_id;
+	var page = getId("page");
+	var wraps = page.childNodes;
+	var ret;
+	for(var i = 0; i < wraps.length;)
+		if(wraps[i].id != target) page.removeChild(wraps[i]);
+		else ret = wraps[i++];
+	return ret;
+}
+
+function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
+function intToPixel(value) { return value.toString() + "px"; }
+function emToInt(value) { return Number(value.slice(0, value.length - 2)); }
+function intToEm(value) { return value.toString() + "em"; }
+function pixelToEm(value) { return value/16; }
+function emToPixel(value) { return value*16; }
+
+function getId(_id) { return document.getElementById(_id); }
+function getName(_name) { return document.getElementsByName(_name); }
+function getClass(_name) { return document.getElementsByClassName(_name); }
+
 
 
 
@@ -94,41 +162,45 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _
 	userName.onclick = profile;
 }
 
-function fillContent(content, feed_id, _likes, _comments, _review)
-{
-	var review = makeClass("div", "review", content);
-	var action = makeClass("div", "action", content);
-	
-	var likeButton = makeClass("div", "likeButton", action);
-	var commentButton = makeClass("div", "commentButton", action);
-	
-	review.innerText = _review;
-	likeButton.innerText = "☆ " + _likes;
-	commentButton.innerText = "▣ " + _comments;
-	
-	likeButton.onclick = function() {};
-	commentButton.onclick = function() {};
-}
-
 function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 {
-	var cover = makeClass("div", "cover thumbnail", thumbnailWrap);
-	var thumbnail = makeClass("img", "thumbnail", thumbnailWrap);
+	var cover = makeClass("div", "cover picture", thumbnailWrap);
+	var thumbnail = makeClass("img", "picture", thumbnailWrap);
+	var feedback = makeClass("div", "feedback", thumbnailWrap);
+	
+	var commentWrap = makeClass("div", "iconWrap", feedback);
+	var likeWrap = makeClass("div", "iconWrap", feedback);
+	
+	var likeIcon = makeClass("img", "icon", likeWrap);
+	var commentIcon = makeClass("img", "icon", commentWrap);
+	
+	var likeText = makeClass("div", "iconText likeText", likeWrap);
+	var commentText = makeClass("div", "iconText commentText", commentWrap);
+	
+	likeIcon.src = iconLike;
+	commentIcon.src = iconComment;
+	
+	likeText.innerText = _likes;
+	commentText.innerText = _comments;
 	
 	thumbnail.src = pictureUrl;
-	cover.style.height = intToPixel(thumbnail.clientHeight);
+	thumbnail.onload = function() { cover.style.height = intToPixel(thumbnail.clientHeight); }
 }
 
+function fillInfoList(infoList, info)
+{
+	var n = info.length;
+	for(var i = 0; i < n; i++)
+	{
+		var component = makeClass("div", "infoListComponent", infoList);
+		var leftWrap = makeClass("div", "leftWrap", component);
+		var rightWrap = makeClass("div", "rightWrap", component);
+		
+		leftWrap.innerText = info[i].key;
+		rightWrap.innerText = info[i].value;
+	}
+}
 
-
-// Supporting Functions
-
-function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
-function intToPixel(value) { return value.toString() + "px"; }
-
-function getId(_id) { return document.getElementById(_id); }
-function getName(_name) { return document.getElementsByName(_name); }
-function getClass(_name) { return document.getElementsByClassName(_name); }
 
 
 
@@ -137,7 +209,7 @@ function getClass(_name) { return document.getElementsByClassName(_name); }
 
 function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = makeId("div", "wrap_" + feed_id, getId("page"));
 	
 	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
@@ -147,58 +219,99 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	var thumbnailWrap = makeClass("div", "thumbnailWrap", wrap);
 	fillThumbnailWrap(thumbnailWrap, picture_url, num_likes, num_comments);
 	
-	createGap(8, wrap);
+	var reviewText = makeClass("div", "review", wrap);
+	reviewText.innerText = review;
 	
-	var content = makeClass("div", "content", wrap);
-	var reviewBox = makeClass("div", "review", content);
-	
-	reviewBox.innerHTML = review;
-	reviewBox.style.width = "80%";
-	
-	createGap(14, wrap);
-	
-	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id + ":" + window.pageYOffset; };
 }
 
-function loadFeedImage(index, feed_image_url)
+function addFeedDetail(trip_id, feed_id, info, num_all_feeds, likes, comments)
 {
-	var scroll = getId("scroll");
-	if(scroll == null)
-	{
-		document.body.style.width = intToPixel(imageWidth);
-		scroll = makeId("div", "scroll", getId("page"));
-	}
-	if(imageWidth * (index + 1) > pixelToInt(document.body.style.width))
-		document.body.style.width = intToPixel(imageWidth * (index + 1));
-	var image = makeClass("img", "detailImage", scroll);
-	image.style.width = intToPixel(imageWidth - 2 * margin);
-	image.style.height = intToPixel(imageHeight);
-	image.style.left = intToPixel(imageWidth * index);
-	image.src = feed_image_url;
-	document.location = "imtraveling:scroll_to_current_feed";
+	var wrap = clearExcept(feed_id);
+	
+	var infoList = makeClass("ul", "infoList", wrap);
+	fillInfoList(infoList, info);
+	
+	var button = makeClass("div", "singleButton", wrap);
+	button.innerText = num_all_feeds;
+	
+	var likeBar = makeClass("div", "likeBar", wrap);
+	fillLikeBar(likeBar, likes);
+	
+	var commentList = makeClass("div", "commentList", wrap);
+	fillCommentList(commentList, comments);
 }
 
-function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, review, num_likes, num_comments)
+function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, likes, comments)
+{
+	
+}
+
+function addSimpleFeed(feed_id, picture_url, place, time, review)
+{
+	var wrap = makeClass("div", "singleComment", getId("page"));
+	
+	var cover = makeClass("div", "cover simpleThumbnail", wrap);
+	var simpleThumbnail = makeClass("img", "simpleThumbnail", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var placeText = makeClass("div", "place", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var reviewText = makeClass("div", "review", lowerWrap);
+	
+	simpleThumbnail.src = picture_url;
+	placeText.innerText = place;
+	timeText.innerText = time;
+	reviewText.innerText = review;
+	
+	upperWrap.style.width = "63%";
+	lowerWrap.style.width = "63%";
+	wrap.style.height = intToPixel(70 + reviewText.clientHeight);
+}
+
+function addComment(commentWrap, user_id, profile_image_url, name, time, content)
+{
+	var wrap = makeClass("div", "singleComment", commentWrap);
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var profileImage = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var nameText = makeClass("div", "userName", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var contentText = makeClass("div", "review", lowerWrap);
+	
+	profileImage.src = profile_image_url;
+	nameText.innerText = name;
+	timeText.innerText = time;
+	contentText.innerText = content;
+	wrap.style.height = intToPixel(24 + contentText.clientHeight);
+}
+
+function createFeedDetail(trip_id, feed_id, picture_url, review, info, likes, comments)
 {
 	var wrap = getId("page");
 	
-	var title = makeClass("div", "title", wrap);
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
+	var cover = makeClass("div", "cover detailImage", wrap);
+	var picture = makeClass("img", "detailImage", wrap);
+	var reviewText = makeClass("div", "review", wrap);
 	
-	var gap = createGap(210, wrap);
+	reviewText.innerText = review;
+	picture.src = picture_url;
+	picture.onload = function() { cover.style.height = intToPixel(picture.clientHeight); }
 	
-	var content = makeClass("div", "content", wrap);
-	fillContent(content, feed_id, num_likes, num_comments, review);
+	var infoList = makeClass("ul", "infoList", wrap);
+	fillInfoList(infoList, info);
 }
 
-function modifyFeedDetail(feed_id, time, place, region, review, num_likes, num_comments)
-{	
+function modifyTitle(time, place, region)
+{
 	(getClass("time")[0]).innerText = time;
 	(getClass("place")[0]).innerText = place;
 	(getClass("region")[0]).innerText = region;
-	(getClass("review")[0]).innerText = review;
-	(getClass("likeButton")[0]).innerText = "☆ " + num_likes;
-	(getClass("commentButton")[0]).innerText = "▣ " + num_comments;
 }
 
 function createMainPage()
