@@ -248,6 +248,16 @@ html, body
 	margin-right: 7%;
 }
 
+.commentList
+{
+	list-style-type: none;
+}
+
+.comment
+{
+	width: 100%;
+}
+
 
 
 
