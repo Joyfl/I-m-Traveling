@@ -4,10 +4,8 @@ pic1 = "resource/face.jpg";
 pic2 = "resource/thumbnail.jpg";
 server = "http://imtraveling.joyfl.kr";
 comments = new Array({"profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"}, {"profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"});
-path = new Array({"lat":"40.737102","lng":"-73.990318"}, {"lat":"40.749825","lng":"-73.987963"}, {"lat":"40.752946","lng":"-73.987384"}, {"lat":"40.755823","lng":"-73.986397"});
-imageWidth = 320;
-imageHeight = 200;
-margin = 10;
+infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"});
+likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
 
@@ -21,6 +19,8 @@ function init()
 	clear();
 	for(var i = 0; i < 3; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
+	addFeedDetail(1, 1, infos, 3, likes, comments);
+	
 	//createMainPage();
 	//createLoginPage();
 	
@@ -33,7 +33,7 @@ function init()
 	
 	//for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
 	
-	clearExcept(2);
+	//clearExcept(2);
 }
 
 
@@ -113,22 +113,19 @@ function clearExcept(feed_id)
 	var target = "wrap_" + feed_id;
 	var page = getId("page");
 	var wraps = page.childNodes;
-	var temp;
-	for(var i = 0; i < n;)
-		if(wraps[i].id != target)
-		{
-			page.removeChild(wraps[i]);
-		}
-		else
-		{
-			i++;
-		}
+	var ret;
+	for(var i = 0; i < wraps.length;)
+		if(wraps[i].id != target) page.removeChild(wraps[i]);
+		else ret = wraps[i++];
+	return ret;
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToPixel(value) { return value.toString() + "px"; }
 function emToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToEm(value) { return value.toString() + "em"; }
+function pixelToEm(value) { return value/16; }
+function emToPixel(value) { return value*16; }
 
 function getId(_id) { return document.getElementById(_id); }
 function getName(_name) { return document.getElementsByName(_name); }
@@ -195,8 +192,9 @@ function fillInfoList(infoList, info)
 	var n = info.length;
 	for(var i = 0; i < n; i++)
 	{
-		var leftWrap = makeClass("div", "leftWrap", infoList);
-		var rightWrap = makeClass("div", "rightWrap", infoList);
+		var component = makeClass("div", "infoListComponent", infoList);
+		var leftWrap = makeClass("div", "leftWrap", component);
+		var rightWrap = makeClass("div", "rightWrap", component);
 		
 		leftWrap.innerText = info[i].key;
 		rightWrap.innerText = info[i].value;
@@ -225,6 +223,19 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	reviewText.innerText = review;
 	
 	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id; };
+}
+
+function addFeedDetail(trip_id, feed_id, info, num_all_feeds, likes, comments)
+{
+	var wrap = clearExcept(feed_id);
+	
+	var infoList = makeClass("ul", "infoList", wrap);
+	fillInfoList(infoList, info);
+}
+
+function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, likes, comments)
+{
+	
 }
 
 function addSimpleFeed(feed_id, picture_url, place, time, review)

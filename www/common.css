@@ -183,15 +183,31 @@ html, body
 	width: 100%;
 }
 
-.detailImage
+.infoList
 {
-	width: 86%;
+	list-style-type: none;
 	margin-left: 7%;
-	margin-right: 7%;
-	margin-top: 1em;
-	margin-bottom: 1em;
-	border: 0px solid #ffffff;
-	border-radius: 0.4em;
+	margin-top: -0.7em;
+	width: 86%;
+}
+
+.infoListComponent
+{
+	clear: both;
+	height: 1em;
+}
+
+.leftWrap
+{
+	float: left;
+	width: 43%;
+}
+
+.rightWrap
+{
+	text-align: right;
+	float: right;
+	width: 43%;
 }
 
 .simpleThumbnail
