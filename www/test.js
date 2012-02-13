@@ -19,8 +19,7 @@ iconComment = "resource/comment.png";
 function init()
 {
 	clear();
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
-	//addFeed(1, 1, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 3, 3);
+	for(var i = 0; i < 3; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
 	//createMainPage();
 	//createLoginPage();
@@ -29,16 +28,53 @@ function init()
 	//modifyTitle("20 JAN", "Los Angelos", "USA");
 	
 	//createFeedDetail(1, 1, pic2, "revivieweeviweviewevieweviewvieweviewevieweview", new Object(), new Array(), new Array());
-	
+	//test();
 	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 	
 	//for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
+	
+	clearExcept(2);
 }
 
 
 
 
 // Basic Functions
+
+n = 100;
+a = new Array();
+
+function test()
+{
+	a[0] = 0;
+	a[1] = 1;
+	var max = 0;
+	for(var i = 1; i < n; i++)
+	{
+		var temp = f(i);
+		if(temp > max)
+			max = temp;
+	}
+	document.write(max);
+}
+
+function f(i)
+{
+	if(!a[i])
+	{
+		if(i % 2 == 0)
+		{
+			return a[i] = (a[Math.floor(i/2)] + 1);
+		}
+		else {
+			return a[i] = (a[3*i + 1] + 1);
+		}
+	}
+	else {
+		if(i % 2 == 0)
+			return 
+	}
+}
 
 function makeClass(type, className, parent)
 {
@@ -71,6 +107,32 @@ function clear()
 	if(page) document.body.removeChild(page);
 	makeId("div", "page", document.body);
 }
+
+function clearExcept(feed_id)
+{
+	var target = "wrap_" + feed_id;
+	var page = getId("page");
+	var wraps = page.childNodes;
+	var temp;
+	for(var i = 0; i < n;)
+		if(wraps[i].id != target)
+		{
+			page.removeChild(wraps[i]);
+		}
+		else
+		{
+			i++;
+		}
+}
+
+function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
+function intToPixel(value) { return value.toString() + "px"; }
+function emToInt(value) { return Number(value.slice(0, value.length - 2)); }
+function intToEm(value) { return value.toString() + "em"; }
+
+function getId(_id) { return document.getElementById(_id); }
+function getName(_name) { return document.getElementsByName(_name); }
+function getClass(_name) { return document.getElementsByClassName(_name); }
 
 
 
@@ -128,16 +190,19 @@ function fillThumbnailWrap(thumbnailWrap, pictureUrl, _likes, _comments)
 	thumbnail.onload = function() { cover.style.height = intToPixel(thumbnail.clientHeight); }
 }
 
+function fillInfoList(infoList, info)
+{
+	var n = info.length;
+	for(var i = 0; i < n; i++)
+	{
+		var leftWrap = makeClass("div", "leftWrap", infoList);
+		var rightWrap = makeClass("div", "rightWrap", infoList);
+		
+		leftWrap.innerText = info[i].key;
+		rightWrap.innerText = info[i].value;
+	}
+}
 
-
-// Supporting Functions
-
-function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
-function intToPixel(value) { return value.toString() + "px"; }
-
-function getId(_id) { return document.getElementById(_id); }
-function getName(_name) { return document.getElementsByName(_name); }
-function getClass(_name) { return document.getElementsByClassName(_name); }
 
 
 
@@ -146,7 +211,7 @@ function getClass(_name) { return document.getElementsByClassName(_name); }
 
 function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = makeId("div", "wrap_" + feed_id, getId("page"));
 	
 	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
@@ -218,14 +283,8 @@ function createFeedDetail(trip_id, feed_id, picture_url, review, info, likes, co
 	picture.src = picture_url;
 	picture.onload = function() { cover.style.height = intToPixel(picture.clientHeight); }
 	
-	var infoWrap = makeClass("div", "infoWrap", wrap);
-	
-}
-
-function createTitle(user_id, profile_image_url, name, time, place, region)
-{
-	var title = makeClass("div", "title", getId("page"));
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
+	var infoList = makeClass("ul", "infoList", wrap);
+	fillInfoList(infoList, info);
 }
 
 function modifyTitle(time, place, region)
