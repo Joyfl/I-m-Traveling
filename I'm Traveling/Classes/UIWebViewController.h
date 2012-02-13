@@ -16,7 +16,7 @@
 
 - (void)loadHtmlFile:(NSString *)htmlFileName;
 - (void)loadURL:(NSString *)urlString;
-- (void)messageFromWebView:(NSString *)msg;
+- (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments;
 
 - (void)clear;
 

@@ -92,8 +92,13 @@
 {
 	if ( messagePrefix != nil && [[[request URL] absoluteString] hasPrefix:messagePrefix] )
 	{
-		NSString *msg = [[[[request URL] absoluteString] componentsSeparatedByString:messagePrefix] objectAtIndex:1];
-		[self messageFromWebView:msg];
+		NSString *data = [[NSMutableArray arrayWithArray:[[[request URL] absoluteString] componentsSeparatedByString:messagePrefix]] objectAtIndex:1];
+		NSMutableArray *arguments = [[NSMutableArray alloc] initWithArray:[data componentsSeparatedByString:@":"]];
+		
+		NSString *message = [arguments objectAtIndex:0];
+		[arguments removeObjectAtIndex:0];
+		
+		[self messageFromWebView:message arguements:arguments];
 		
 		return NO;
     }
@@ -101,7 +106,7 @@
 	return YES;
 }
 
-- (void)messageFromWebView:(NSString *)msg
+- (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
 	
 }
