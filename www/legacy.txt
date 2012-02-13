@@ -1,0 +1,158 @@
+/* For Later */
+
+.simpleThumbnail
+{
+	width: 6em;
+	height: 6em;
+	margin: 0.5em;
+	float: left;
+	border: 0px solid #ffffff;
+	border-radius: 0.4em;
+}
+
+.lowerWrap .review
+{
+	margin-left: 0em;
+	margin-top: 0.3em;
+	padding: 0em;
+	width: 100%;
+}
+
+.singleComment
+{
+	width: 100%;
+	border-top: 1px solid #e2ceba;
+}
+
+.singleComment .lowerWrap
+{
+	height: auto;
+}
+
+#mainPicture
+{
+	width: 86%;
+	height: 180px;
+	margin-top: 1em;
+	margin-left: 7%;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+}
+
+.mainButton
+{
+	font-size: 1.5em;
+	text-align: center;
+	width: 60%;
+	height: 1.5em;
+	margin-left: 20%;
+	margin-top: 0.5em;
+	padding-top: 0.1em;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+	background-color: #aa8888;
+}
+
+#loading
+{
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	top: 50%;
+	margin-top: -1em;
+	font-size: 3em;
+	text-shadow: 2px 2px 2px gray;
+}
+
+
+
+
+
+
+
+
+function addSimpleFeed(feed_id, picture_url, place, time, review)
+{
+	var wrap = makeClass("div", "singleComment", getId("page"));
+	
+	var cover = makeClass("div", "cover simpleThumbnail", wrap);
+	var simpleThumbnail = makeClass("img", "simpleThumbnail", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var placeText = makeClass("div", "place", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var reviewText = makeClass("div", "review", lowerWrap);
+	
+	simpleThumbnail.src = picture_url;
+	placeText.innerText = place;
+	timeText.innerText = time;
+	reviewText.innerText = review;
+	
+	upperWrap.style.width = "63%";
+	lowerWrap.style.width = "63%";
+	wrap.style.height = intToPixel(70 + reviewText.clientHeight);
+}
+
+function addComment(commentWrap, user_id, profile_image_url, name, time, content)
+{
+	var wrap = makeClass("div", "singleComment", commentWrap);
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var profileImage = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var nameText = makeClass("div", "userName", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var contentText = makeClass("div", "review", lowerWrap);
+	
+	profileImage.src = profile_image_url;
+	nameText.innerText = name;
+	timeText.innerText = time;
+	contentText.innerText = content;
+	wrap.style.height = intToPixel(24 + contentText.clientHeight);
+}
+
+function createFeedDetail(trip_id, feed_id, picture_url, review, info, likes, comments)
+{
+	var wrap = getId("page");
+	
+	var cover = makeClass("div", "cover detailImage", wrap);
+	var picture = makeClass("img", "detailImage", wrap);
+	var reviewText = makeClass("div", "review", wrap);
+	
+	reviewText.innerText = review;
+	picture.src = picture_url;
+	picture.onload = function() { cover.style.height = intToPixel(picture.clientHeight); }
+	
+	var infoList = makeClass("ul", "infoList", wrap);
+	fillInfoList(infoList, info);
+}
+
+function modifyTitle(time, place, region)
+{
+	(getClass("time")[0]).innerText = time;
+	(getClass("place")[0]).innerText = place;
+	(getClass("region")[0]).innerText = region;
+}
+
+function createMainPage()
+{
+	var wrap = getId("page");
+	
+	makeId("img", "mainPicture", wrap).src = pic2;
+	
+	var login = makeClass("div", "mainButton", wrap);
+	var signUp = makeClass("div", "mainButton", wrap);
+	var cancel = makeClass("div", "mainButton", wrap);
+	
+	login.innerText = "Login";
+	signUp.innerText = "Sign Up";
+	cancel.innerText = "Cancel";
+	
+	login.onclick = function() {};
+	signUp.onclick = function() {};
+	calcel.onclick = function() {};
+}
