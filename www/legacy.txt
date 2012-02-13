@@ -53,16 +53,7 @@
 	background-color: #aa8888;
 }
 
-#loading
-{
-	position: absolute;
-	text-align: center;
-	width: 100%;
-	top: 50%;
-	margin-top: -1em;
-	font-size: 3em;
-	text-shadow: 2px 2px 2px gray;
-}
+
 
 
 

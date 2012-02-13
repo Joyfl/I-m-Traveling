@@ -11,7 +11,6 @@ iconComment = "resource/comment.png";
 
 
 
-
 // Initialize 
 
 function init()
@@ -19,7 +18,7 @@ function init()
 	clear();
 	for(var i = 0; i < 3; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
-	addFeedDetail(1, 1, infos, 3, likes, comments);
+	//addFeedDetail(1, 1, infos, 3, likes, comments);
 	
 	//createMainPage();
 	//createLoginPage();
@@ -102,8 +101,18 @@ function fillInfoList(infoList, info)
 		var rightWrap = makeClass("div", "rightWrap", component);
 		
 		leftWrap.innerText = info[i].key;
-		rightWrap.innerText = info[i].value;
+		rightWrap.innerText = info[i].unit + " " + info[i].value;
 	}
+}
+
+function fillLikeBar(likeBar, likes)
+{
+	
+}
+
+function fillCommentList(commentList, comments)
+{
+	
 }
 
 
@@ -127,7 +136,9 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	var reviewText = makeClass("div", "review", wrap);
 	reviewText.innerText = review;
 	
-	thumbnailWrap.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id + ":" + window.pageYOffset; };
+	createGap(10, wrap);
+	
+	thumbnail.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset); };
 }
 
 function addFeedDetail(trip_id, feed_id, info, num_all_feeds, likes, comments)
