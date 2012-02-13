@@ -231,6 +231,15 @@ function addFeedDetail(trip_id, feed_id, info, num_all_feeds, likes, comments)
 	
 	var infoList = makeClass("ul", "infoList", wrap);
 	fillInfoList(infoList, info);
+	
+	var button = makeClass("div", "singleButton", wrap);
+	button.innerText = num_all_feeds;
+	
+	var likeBar = makeClass("div", "likeBar", wrap);
+	fillLikeBar(likeBar, likes);
+	
+	var commentList = makeClass("div", "commentList", wrap);
+	fillCommentList(commentList, comments);
 }
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, likes, comments)
