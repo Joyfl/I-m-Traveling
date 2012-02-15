@@ -7,7 +7,6 @@
 //
 
 #import "FeedListViewController.h"
-#import "FeedDetailViewController.h"
 #import "RegionViewController.h"
 #import "Const.h"
 #import "Utils.h"
@@ -150,15 +149,41 @@ enum {
 	[self reloadWebView];
 }
 
-- (void)messageFromWebView:(NSString *)msg
+- (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	NSArray *args = [msg componentsSeparatedByString:@":"];
-	NSString *page = [args objectAtIndex:0];
-	if( [page isEqualToString:@"feed_detail"] )
+	if( [message isEqualToString:@"feed_detail"] )
 	{
-		FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[args objectAtIndex:1] integerValue]]] type:0];
-		[self.navigationController pushViewController:detail animated:YES];
+		float offset = [[arguments objectAtIndex:1] floatValue];
+		
+		UIGraphicsBeginImageContext( CGSizeMake( 320, offset ) );
+		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
+		UIImage *upperImage = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		self.webView.scrollView.contentOffset = CGPointMake( 0, webView.scrollView.contentOffset.y + offset );
+		
+		UIGraphicsBeginImageContext( CGSizeMake( 320, 600 ) );
+		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
+		UIImage *lowerImage = UIGraphicsGetImageFromCurrentImageContext();
+		UIGraphicsEndImageContext();
+		
+		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
+		detailViewController.feedObject = [_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
+		detailViewController.upperImageView = [[UIImageView alloc] initWithImage:upperImage];
+		detailViewController.lowerImageView = [[UIImageView alloc] initWithImage:lowerImage];
+		detailViewController.lowerImageView.frame = CGRectMake( 0, offset, 320, detailViewController.lowerImageView.frame.size.height );
+		detailViewController.type = 0;
+		detailViewController.loaded = NO;
+		[detailViewController loadFeedDetailAfterDelay:0.1];
+		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
+}
+
+#pragma mark - scroll view
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	subWebView.scrollView.contentOffset = self.webView.scrollView.contentOffset;
 }
 
 #pragma mark - UIPullDownWebViewController
@@ -166,9 +191,7 @@ enum {
 - (void)reloadWebView
 {
 	[self clear];
-	
 	[self loadFeedsFrom:0 to:10];
-	
 	[self webViewDidFinishReloading];
 }
 
@@ -190,7 +213,8 @@ enum {
 		feedObj.review = [feed objectForKey:@"review"];
 		feedObj.numLikes = [[feed objectForKey:@"place"] integerValue];
 		feedObj.numComments = [[feed objectForKey:@"place"] integerValue];
-		
+		feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 		[self addFeed:feedObj];
 	}
 }

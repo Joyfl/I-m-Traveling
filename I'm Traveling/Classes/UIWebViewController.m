@@ -22,6 +22,13 @@
 		self.webView.delegate = self;
 		self.webView.scrollView.showsHorizontalScrollIndicator = NO;
 		[self.view addSubview:webView];
+		
+		UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake( 125, 50, 30, 40 )];
+		indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+		[indicatorView startAnimating];
+		
+		_loadingAlert = [[UIAlertView alloc] initWithTitle:@"Loading..." message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+		[_loadingAlert addSubview:indicatorView];
 	}
 	
 	return self;
@@ -118,6 +125,18 @@
 	NSLog( @"clear" );
 	
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
+}
+
+#pragma mark - Utils
+
+- (void)startBusy
+{
+	[_loadingAlert show];
+}
+
+- (void)stopBusy
+{
+	[_loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 @end

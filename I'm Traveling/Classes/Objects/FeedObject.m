@@ -10,6 +10,6 @@
 
 @implementation FeedObject
 
-@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, review, latitude, longitude, numLikes, numComments;
+@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, review, info, latitude, longitude, numAllFeeds, numLikes, numComments;
 
 @end

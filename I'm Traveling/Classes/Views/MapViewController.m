@@ -237,9 +237,13 @@ enum {
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	FeedAnnotation *annotation = (FeedAnnotation *)view.annotation;
-	FeedDetailViewController *detail = [[FeedDetailViewController alloc] initWithFeedObject:[_feedMapObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]] type:1];
-	
-	[self.navigationController pushViewController:detail animated:YES];
+	FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
+	detailViewController.feedObject = [_feedMapObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]];
+	detailViewController.type = 1;
+	detailViewController.loaded = NO;
+	[detailViewController.mapView setRegion:_feedMapView.region animated:NO];
+	[detailViewController loadFeedDetailAfterDelay:0.1];
+	[self.navigationController pushViewController:detailViewController animated:NO];
 }
 
 #pragma mark - CLLocationManagerDelegate

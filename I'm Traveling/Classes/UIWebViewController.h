@@ -12,6 +12,8 @@
 {
 	UIWebView *webView;
 	NSString *messagePrefix;
+	
+	UIAlertView *_loadingAlert;
 }
 
 - (void)loadHtmlFile:(NSString *)htmlFileName;
@@ -19,6 +21,9 @@
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments;
 
 - (void)clear;
+
+- (void)startBusy;
+- (void)stopBusy;
 
 @property (nonatomic, retain) UIWebView *webView;
 

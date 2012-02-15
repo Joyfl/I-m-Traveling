@@ -89,7 +89,6 @@
 		03AD101814DBCEE600D9573D /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD101714DBCEE600D9573D /* FeedObject.m */; };
 		03AD101B14DBCF1800D9573D /* UserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD101A14DBCF1800D9573D /* UserObject.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
-		03FDD11614D465F8006E453A /* FeedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD11514D465F8006E453A /* FeedImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -210,8 +209,6 @@
 		03AD101A14DBCF1800D9573D /* UserObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserObject.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
-		03FDD11414D465F8006E453A /* FeedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedImageView.h; sourceTree = "<group>"; };
-		03FDD11514D465F8006E453A /* FeedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +263,8 @@
 			children = (
 				0300E72114D23E6B00611039 /* FeedListViewController.h */,
 				0300E72214D23E6B00611039 /* FeedListViewController.m */,
+				039B582B14D67B2400E5212C /* MapViewController.h */,
+				039B582C14D67B2400E5212C /* MapViewController.m */,
 				03FDD10D14D4534D006E453A /* FeedDetailViewController.h */,
 				03FDD10E14D4534D006E453A /* FeedDetailViewController.m */,
 				0300E72714D23E6B00611039 /* ShareViewController.h */,
@@ -274,10 +273,6 @@
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				0300E72514D23E6B00611039 /* RegionViewController.h */,
 				0300E72614D23E6B00611039 /* RegionViewController.m */,
-				03FDD11414D465F8006E453A /* FeedImageView.h */,
-				03FDD11514D465F8006E453A /* FeedImageView.m */,
-				039B582B14D67B2400E5212C /* MapViewController.h */,
-				039B582C14D67B2400E5212C /* MapViewController.m */,
 				0356C0BA14E3BB9F005B099E /* FeedLineAnnotationView.h */,
 				0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */,
 			);
@@ -562,7 +557,6 @@
 				0300E72C14D23E6B00611039 /* RegionViewController.m in Sources */,
 				0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */,
 				03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */,
-				03FDD11614D465F8006E453A /* FeedImageView.m in Sources */,
 				039B582D14D67B2400E5212C /* MapViewController.m in Sources */,
 				03AD0FED14DB3AEE00D9573D /* Utils.m in Sources */,
 				03AD100A14DBCE0800D9573D /* NSObject+SBJson.m in Sources */,

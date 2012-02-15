@@ -7,22 +7,37 @@
 //
 
 #import "UIWebViewController.h"
-#import "FeedImageView.h"
 #import "FeedObject.h"
 #import <MapKit/MapKit.h>
 
-@interface FeedDetailViewController : UIWebViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface FeedDetailViewController : UIWebViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	NSInteger _type; // 0 : From List, 1 : From Map
-	FeedObject *_feedObject;
+	NSInteger type; // 0 : From List, 1 : From Map
+	FeedObject *feedObject;
 	
-	FeedImageView *_feedImageView;
-	MKMapView *_feedMapView;
+	UIScrollView *_scrollView;
+	MKMapView *_mapView;
 	
 	NSMutableDictionary *_feedDetailObjects;
-	NSInteger _currentFeedIndex;
+	
+	UIImageView *upperImageView;
+	UIImageView *lowerImageView;
+	
+	BOOL loaded;
+	BOOL animationFinished;
+	BOOL loadingFinished;
 }
 
-- (id)initWithFeedObject:(FeedObject *)feedObject type:(NSInteger)type;
++ (FeedDetailViewController *)viewController;
+
+- (void)loadFeedDetail;
+- (void)loadFeedDetailAfterDelay:(NSTimeInterval)delay;
+
+@property (nonatomic, retain) FeedObject *feedObject;
+@property (nonatomic, assign) NSInteger type;
+@property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic, retain) UIImageView *upperImageView;
+@property (nonatomic, retain) UIImageView *lowerImageView;
+@property (nonatomic, assign) BOOL loaded;
 
 @end

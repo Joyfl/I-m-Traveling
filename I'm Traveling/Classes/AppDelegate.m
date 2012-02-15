@@ -59,6 +59,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 	
+	// 미리 객체를 만들어놓음
+	[FeedDetailViewController viewController];
+	
     return YES;
 }
 

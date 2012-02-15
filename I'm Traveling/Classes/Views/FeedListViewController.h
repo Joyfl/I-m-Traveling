@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "UIPullDownWebViewController.h"
+#import "FeedDetailViewController.h"
 #import "MapViewController.h"
 
 @interface FeedListViewController : UIPullDownWebViewController
 {
 	MapViewController *_mapViewController;
+	
+	UIWebView *subWebView;
 	
 	NSMutableDictionary *_feedListObjects;
 	
