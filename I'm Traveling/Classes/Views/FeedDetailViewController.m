@@ -29,7 +29,7 @@
 
 @implementation FeedDetailViewController
 
-@synthesize feedObject, type, mapView=_mapView, upperImageView, lowerImageView, loaded;
+@synthesize feedObject, type, mapView=_mapView, upperImageView, lowerImageView, loaded, originalRegion;
 
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
@@ -69,7 +69,6 @@
 //			[[self.webView.scrollView.subviews objectAtIndex:i] setHidden:YES];
 		
 		[self loadURL:HTML_INDEX];
-
 		
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, MAP_HEIGHT )];
 		_mapView.delegate = self;
@@ -78,6 +77,20 @@
 		[self.view addSubview:_mapView];
 		
 		[self.view addSubview:_scrollView];
+		
+		
+		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+		leftSpacer.width = 4;
+		
+		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		[backButton setBackgroundImage:[[UIImage imageNamed:@"button_back.png"] retain] forState:UIControlStateNormal];
+		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
+		[backButton addTarget:self action:@selector(onBackButtonTouch) forControlEvents:UIControlEventTouchUpInside];		
+		
+		UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+		backBarButtonItem.style = UIBarButtonItemStyleBordered;
+		
+		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backBarButtonItem, nil];
     }
 	
     return self;
@@ -102,13 +115,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	[_scrollView addSubview:self.webView];
-	
 	if( loaded ) return;
 	
 	[self clear];
-	
-	[_mapView removeAnnotations:_mapView.annotations];
 	
 	// 현재 피드의 어노테이션은 미리 찍어둠
 	FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
@@ -127,6 +136,9 @@
 		[self.view addSubview:upperImageView];
 		[self.view addSubview:lowerImageView];
 		
+		upperImageViewOriginalY = upperImageView.frame.origin.y;
+		lowerImageViewOriginalY = lowerImageView.frame.origin.y;
+		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
@@ -138,11 +150,6 @@
 	self.navigationItem.title = feedObject.place;
 	
 	loaded = YES;
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[self.webView removeFromSuperview];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -232,7 +239,8 @@
 	// type 0의 애니메이션은 viewDidAppear에서
 	if( type == 1 )
 	{
-		self.webView.frame = CGRectMake( 0, 367, 320, 367 );
+		[_scrollView addSubview:self.webView];
+		self.webView.frame = CGRectMake( 0, 467, 320, 367 );
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
@@ -322,6 +330,11 @@
 
 #pragma mark - others
 
+- (void)setOriginalRegion:(MKCoordinateRegion)region
+{
+	_mapView.region = originalRegion = region;
+}
+
 - (void)onAnimationFinished
 {
 	if( loadingFinished )
@@ -332,11 +345,10 @@
 
 - (void)removeUpperAndLowerImages
 {
+	[_scrollView addSubview:self.webView];
+	
 	[upperImageView removeFromSuperview];
 	[lowerImageView removeFromSuperview];
-	
-	upperImageView = nil;
-	lowerImageView = nil;
 }
 
 - (void)resizeContentHeight
@@ -346,6 +358,61 @@
 	frame.size.height = height;
 	self.webView.frame = frame;
 	_scrollView.contentSize = CGSizeMake( 320, height + 100 );
+}
+
+- (void)onBackButtonTouch
+{
+	if( type == 0 )
+	{
+		[self.webView removeFromSuperview];
+		
+		[self.view addSubview:upperImageView];
+		[self.view addSubview:lowerImageView];
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		upperImageView.frame = CGRectMake( 0, upperImageViewOriginalY, 320, upperImageView.frame.size.height );
+		lowerImageView.frame = CGRectMake( 0, lowerImageViewOriginalY, 320, lowerImageView.frame.size.height );
+		[UIView commitAnimations];
+	}
+	else if( type == 1 )
+	{
+		[_mapView setRegion:originalRegion animated:YES];
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		self.webView.frame = CGRectMake( 0, 367, 320, self.webView.frame.size.height );
+		[UIView commitAnimations];
+	}
+	
+	[self performSelector:@selector(onBackAnimationFinished) withObject:nil afterDelay:0.5];
+	
+	// 선 제거
+	for( id<MKAnnotation> annotation in _mapView.annotations )
+	{
+		if( [annotation isKindOfClass:[FeedLineAnnotation class]] )
+			[_mapView removeAnnotation:annotation];
+	}
+}
+
+- (void)onBackAnimationFinished
+{
+	if( type == 0 )
+	{
+		[upperImageView removeFromSuperview];
+		[lowerImageView removeFromSuperview];
+	}
+	else if( type == 1 )
+	{
+		[self.webView removeFromSuperview];
+	}
+	
+	[self.navigationController popViewControllerAnimated:NO];
+	_scrollView.contentOffset = CGPointZero;
+	
+	[_mapView removeAnnotations:_mapView.annotations];
 }
 
 @end

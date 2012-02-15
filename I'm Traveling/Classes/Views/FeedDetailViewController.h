@@ -22,10 +22,16 @@
 	
 	UIImageView *upperImageView;
 	UIImageView *lowerImageView;
+	float upperImageViewOriginalY;
+	float lowerImageViewOriginalY;
 	
-	BOOL loaded;
+	BOOL loaded; // 로드된 적이 있는지 (viewDidAppear는 다른 탭으로 전환했다가 다시 돌아와도 호출되기 때문에 중복 로드 방지)
+	
+	// type = 0일 경우 애니메이션과 로딩이 모두 끝난 후에 upperImageView와 lowerImageView를 제거함
 	BOOL animationFinished;
 	BOOL loadingFinished;
+	
+	MKCoordinateRegion originalRegion; // type = 2일 경우 back버튼을 눌러 맵으로 돌아갈 때 자연스러운 애니메이션을 위해 필요.
 }
 
 + (FeedDetailViewController *)viewController;
@@ -39,5 +45,6 @@
 @property (nonatomic, retain) UIImageView *upperImageView;
 @property (nonatomic, retain) UIImageView *lowerImageView;
 @property (nonatomic, assign) BOOL loaded;
+@property (nonatomic, assign) MKCoordinateRegion originalRegion;
 
 @end

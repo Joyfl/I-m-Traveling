@@ -153,6 +153,8 @@ enum {
 {
 	if( [message isEqualToString:@"feed_detail"] )
 	{
+		float originalOffset = webView.scrollView.contentOffset.y;
+		
 		float offset = [[arguments objectAtIndex:1] floatValue];
 		
 		UIGraphicsBeginImageContext( CGSizeMake( 320, offset ) );
@@ -166,6 +168,8 @@ enum {
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *lowerImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
+		
+		self.webView.scrollView.contentOffset = CGPointMake( 0, originalOffset );
 		
 		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
 		detailViewController.feedObject = [_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
