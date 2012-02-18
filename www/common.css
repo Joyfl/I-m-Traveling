@@ -21,14 +21,19 @@
 html, body
 {
 	overflow-x: hidden;
-	background-color: #f5e7da;
 	font-family: "Helvetica 75 Bold";
-	
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+	
+	background-color: transparent;
+}
+
+#page
+{
+	background-color: #f5e7da;
 }
 
 .cover
@@ -127,7 +132,7 @@ html, body
 
 .thumbnail
 {
-	margin-bottom: -0.9em;
+	margin-top: 0.8em;
 }
 
 .picture
@@ -186,7 +191,8 @@ html, body
 	width: 86%;
 	
 	margin-left: 7%;
-	top: -0.9em;
+	margin-top: 0.5em;
+	
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
@@ -203,7 +209,7 @@ html, body
 {
 	list-style-type: none;
 	margin-left: 7%;
-	margin-top: -0.5em;
+	margin-top: 0em;
 	width: 86%;
 }
 
@@ -231,7 +237,7 @@ html, body
 	width: 86%;
 	margin-left: 7%;
 	margin-right: 7%;
-	margin-top: 0.5em;
+	margin-top: 0.4em;
 	height: 1.5em;
 	padding-top: 0.5em;
 	text-align: center;
@@ -242,7 +248,6 @@ html, body
 .likeBar
 {
 	margin-top: 0.4em;
-	margin-bottom: 0.4em;
 	width: 86%;
 	margin-left: 7%;
 	margin-right: 7%;

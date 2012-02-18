@@ -16,9 +16,10 @@ iconComment = "resource/comment.png";
 function init()
 {
 	//clear();
-	//for(var i = 0; i < 10; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "revivieweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
-	//addFeedDetail(9, 1, infos, 3, likes, comments);
+	//for(var i = 0; i < 10; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	
+	//addFeedDetail(9, 1, infos, 3, 4, 5);
 	
 	//createMainPage();
 	//createLoginPage();
@@ -45,20 +46,16 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	var title = makeClass("div", "title", wrap);
 	fillTitle(title, user_id, profile_image_url, name, time, place, region);
 	
-	createGap(14, wrap);
-	
 	var thumbnail = makeClass("div", "thumbnail", wrap);
 	fillThumbnail(thumbnail, picture_url, num_likes, num_comments, isThumbnail);
 	
 	var reviewText = makeClass("div", "review", wrap);
 	reviewText.innerText = review;
 	
-	createGap(10, wrap);
-	
-	thumbnail.onclick = function() { document.location = "imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset); };
+	thumbnail.onclick = function() { call("imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
 }
 
-function fillFeedContents(wrap, info, trip_id, num_all_feeds, likes, comments)
+function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 {
 	var infoList = makeClass("ul", "infoList", wrap);
 	fillInfoList(infoList, info);
@@ -67,10 +64,9 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, likes, comments)
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
 	var likeBar = makeClass("div", "likeBar", wrap);
-	fillLikeBar(likeBar, likes);
+	fillLikeBar(likeBar, num_likes);
 	
-	var commentList = makeClass("ul", "commentList", wrap);
-	fillCommentList(commentList, comments);
+	createGap(emToPixel(0.3), wrap);
 	
 	button.onclick = function() {};
 }
@@ -106,7 +102,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 	var cover = makeClass("div", "cover picture", thumbnail);
 	var picture = makeClass("img", "picture", thumbnail);
 	
-	if(isThumbnail)
+	if(!isThumbnail)
 	{
 		var feedback = makeClass("div", "feedback", thumbnail);
 	
@@ -119,7 +115,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeText = makeClass("div", "iconText likeText", likeWrap);
 		var commentText = makeClass("div", "iconText commentText", commentWrap);
 		
-		likeIcon.src = iconLike;
+		likeIcon.src = iconLik
 		commentIcon.src = iconComment;
 		
 		likeText.innerText = _likes;
@@ -127,7 +123,11 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 	}
 	
 	picture.src = pictureUrl;
-	picture.onload = function() { cover.style.height = intToPixel(picture.clientHeight); }
+	picture.onload = function(){
+		var value = intToPixel(picture.clientHeight);
+		cover.style.height = value;
+		thumbnail.style.height = value;
+	};
 }
 
 function fillInfoList(infoList, info)
@@ -144,9 +144,9 @@ function fillInfoList(infoList, info)
 	}
 }
 
-function fillLikeBar(likeBar, likes)
+function fillLikeBar(likeBar, num_likes)
 {
-	likeBar.innerText = likes.length + " people likes this feed.";
+	likeBar.innerText = num_likes + " people likes this feed.";
 }
 
 function fillCommentList(commentList, comments)
@@ -173,19 +173,18 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
 }
 
-function addFeedDetail(trip_id, feed_id, info, num_all_feeds, likes, comments)
+function addFeedDetail(trip_id, feed_id, info, num_all_feeds, num_likes)
 {
-	fillFeedContents(clearExcept(feed_id), info, trip_id, num_all_feeds, likes, comments);
+	fillFeedContents(clearExcept(feed_id), info, trip_id, num_all_feeds, num_likes);
+	call("imtraveling:detail_finished");
 }
 
-function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, likes, comments)
+function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
 	var wrap = makeClass("div", "wrap", getId("page"));
-	
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
-	fillFeedContents(wrap, info, trip_id, num_all_feeds, likes, comments);
-	
-	getClass("thumbnail")[0].style.marginBottom = "0em";
+	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
+	call("imtraveling:detail_finished");
 }
 
 
@@ -247,3 +246,6 @@ function emToPixel(value) { return value*16; }
 function getId(_id) { return document.getElementById(_id); }
 function getName(_name) { return document.getElementsByName(_name); }
 function getClass(_name) { return document.getElementsByClassName(_name); }
+function getHeight() { return document.body.clientHeight; }
+
+function call(value) { document.location = value; }
