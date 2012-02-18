@@ -192,48 +192,30 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 
 // Basic Functions
 
-function makeClass(type, className, parent)
-{
+function makeClass(type, className, parent) {
 	component = document.createElement(type);
 	component.className = className;
 	parent.appendChild(component);
 	return component;
 }
-
-function makeId(type, id, parent)
-{
+function makeId(type, id, parent) {
 	component = document.createElement(type);
 	component.id = id;
 	parent.appendChild(component);
 	return component;
 }
 
-function createGap(height, parent)
-{
+function createGap(height, parent) {
 	gap = document.createElement("div");
 	gap.className = "gap";
 	gap.style.height = intToPixel(height);
 	parent.appendChild(gap);
 	return gap;
 }
-
-function clear()
-{
+function clear() {
 	var page = getId("page");
 	if(page) document.body.removeChild(page);
 	makeId("div", "page", document.body);
-}
-
-function clearExcept(feed_id)
-{
-	var target = "wrap_" + feed_id;
-	var page = getId("page");
-	var wraps = page.childNodes;
-	var ret;
-	for(var i = 0; i < wraps.length;)
-		if(wraps[i].id != target) page.removeChild(wraps[i]);
-		else ret = wraps[i++];
-	return ret;
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
@@ -246,6 +228,9 @@ function emToPixel(value) { return value*16; }
 function getId(_id) { return document.getElementById(_id); }
 function getName(_name) { return document.getElementsByName(_name); }
 function getClass(_name) { return document.getElementsByClassName(_name); }
-function getHeight() { return document.body.clientHeight; }
+
+/* 전수열꺼 */
+function getHeight() { alert(document.body.clientHeight); return document.body.clientHeight; }
+function getWidth() { return document.body.clientWidth; }
 
 function call(value) { document.location = value; }
