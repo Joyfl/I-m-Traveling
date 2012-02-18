@@ -115,7 +115,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeText = makeClass("div", "iconText likeText", likeWrap);
 		var commentText = makeClass("div", "iconText commentText", commentWrap);
 		
-		likeIcon.src = iconLik
+		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
 		
 		likeText.innerText = _likes;

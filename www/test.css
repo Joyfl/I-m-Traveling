@@ -4,18 +4,8 @@
 {
 	margin: 0em;
 	padding: 0em;
-}
-
-@font-face
-{
-	font-family: "Helvetica 75 Bold";
-	src: url("font/HelveticaNeue 75 Bold.otf");
-}
-
-@font-face
-{
-	font-family: "Helvetica 37 Thin Condensed";
-	src: url("font/HelveticaNeue 37 Thin Condensed.otf");
+	border: 0;
+	font-size: 1em;
 }
 
 html, body
@@ -27,11 +17,10 @@ html, body
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-	
 	background-color: transparent;
 }
 
-#page, .pseudo
+#page, .wrap, .pseudo
 {
 	background-color: #f5e7da;
 }
@@ -47,50 +36,66 @@ html, body
 	width: 100%;
 }
 
+.component
+{
+	width: 86%;
+	margin: 0.2em 7% 0.2em 7%;
+}
+
+
+
+
+/* Fonts */
+
+@font-face
+{
+	font-family: "Helvetica 75 Bold";
+	src: url("font/HelveticaNeue 75 Bold.otf");
+}
+
+@font-face
+{
+	font-family: "Helvetica 37 Thin Condensed";
+	src: url("font/HelveticaNeue 37 Thin Condensed.otf");
+}
+
 
 
 
 /* Section Header */
 
-.title
+.header
 {
 	background-image: url("resource/gradient.png");
 	background-size: 100% 100%;
 	clear: both;
-	height: 3.6em;
 }
 
 .profileImage
 {
-	width: 2.6em;
+	margin: 10px;
 	height: 2.6em;
-	margin: 0.5em;
+	width: 2.6em;
 	float: left;
-	border: 0px solid #ffffff;
 	border-radius: 0.4em;
 }
 
 .upperWrap
 {
-	float: left;
 	height: 1em;
 	margin-top: 0.6em;
-	width: 80%;
 }
 
 .lowerWrap
 {
-	float: left;
 	height: 1.4em;
 	margin-top: 0.3em;
-	width: 80%;
 }
 
 .userName
 {
 	font-family: "Helvetica 37 Thin Condensed";
 	float: left;
-	font-size: 1em;
 	font-weight: bold;
 	height: 1.4em;
 	color: #473e4d;
@@ -143,6 +148,15 @@ html, body
 	border-radius: 0.7em;
 }
 
+.picture2
+{
+	width: 30%;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+	border: 0px solid #ffffff;
+	border-radius: 0.7em;
+}
+
 .feedback
 {
 	position: relative;
@@ -187,12 +201,6 @@ html, body
 
 .review
 {
-	font-size: 1em;
-	width: 86%;
-	
-	margin-left: 7%;
-	margin-top: 0.5em;
-	
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;

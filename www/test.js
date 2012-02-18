@@ -19,21 +19,16 @@ function init()
 	
 	for(var i = 0; i < 10; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
-	addFeedDetail(9, 1, infos, 3, 4, 5);
+	//addFeedDetail(9, 1, infos, 3, 4, 5);
 	
 	//createMainPage();
 	//createLoginPage();
 	
-	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
-	//modifyTitle("20 JAN", "Los Angelos", "USA");
-	
-	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, likes, comments)
+	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, likes.length)
 	
 	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 	
-	//for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
-	
-	//clearExcept(2);
+	//for(var i = 0; i < 1; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
 }
 
 
@@ -43,14 +38,14 @@ function init()
 
 function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, isThumbnail)
 {
-	var title = makeClass("div", "title", wrap);
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
+	var header = makeClass("div", "header", wrap);
+	fillHeader(header, user_id, profile_image_url, name, time, place, region);
 	
 	var thumbnail = makeClass("div", "thumbnail", wrap);
 	fillThumbnail(thumbnail, picture_url, num_likes, num_comments, isThumbnail);
 	
-	var reviewText = makeClass("div", "review", wrap);
-	reviewText.innerText = review;
+	var reviewWrap = makeClass("div", "review component", wrap);
+	reviewWrap.innerText = review;
 	
 	thumbnail.onclick = function() { call("imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
 }
@@ -71,11 +66,17 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	button.onclick = function() {};
 }
 
-function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _region)
+function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place, _region)
 {
-	var profileImage = makeClass("img", "profileImage", title);
-	var cover = makeClass("div", "cover profileImage", title);
+	//var size = intToPixel(p(20));
+	//var image = makeImage(header, _profileImageSrc, size, size);
 	
+	var cover = makeClass("div", "profileImage cover", header);
+	var profileImage = makeClass("img", "profileImage", header);
+	
+	profileImage.src = _profileImageSrc;
+	
+	/*
 	var upperWrap = makeClass("div", "upperWrap", title);
 	var lowerWrap = makeClass("div", "lowerWrap", title);
 	
@@ -84,17 +85,21 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _
 	var place = makeClass("div", "place", lowerWrap);
 	var region = makeClass("div", "region", lowerWrap);
 	
-	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	
 	time.innerText = _time;
 	place.innerText = _place;
-	region.innerText = _region;
-	
-	var profile = function(){};
-	
-	profileImage.onclick = profile;
-	userName.onclick = profile;
+	region.innerText = _region;*/
+}
+
+function makeImage(wrap, url, width, height)
+{
+	var cover = makeClass("div", "cover roundy", wrap);
+	var image = makeClass("img", "pseudo roundy", wrap);
+	image.src = url;
+	setSize(cover, width, height);
+	setSize(image, width, height);
+	//return image;
 }
 
 function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
@@ -102,7 +107,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 	var cover = makeClass("div", "cover picture", thumbnail);
 	var picture = makeClass("img", "picture", thumbnail);
 	
-	if(!isThumbnail)
+	if(isThumbnail)
 	{
 		var feedback = makeClass("div", "feedback", thumbnail);
 	
@@ -115,7 +120,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeText = makeClass("div", "iconText likeText", likeWrap);
 		var commentText = makeClass("div", "iconText commentText", commentWrap);
 		
-		likeIcon.src = iconLik
+		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
 		
 		likeText.innerText = _likes;
@@ -179,6 +184,48 @@ function addFeedDetail(trip_id, feed_id, info, num_all_feeds, num_likes)
 	call("imtraveling:detail_finished");
 }
 
+function addPeople(user_id, profile_image_url, name, nation, isFollowing)
+{
+	
+}
+
+function addSimpleFeed(feed_id, picture_url, place, time, review)
+{
+	var wrap = makeClass("div", "wrap", getId("page"));
+	wrap.style.padding = "0.5em 0";
+	
+	var thumbnail = makeClass("div", "pseudo", wrap);
+	
+	var cover = makeClass("div", "cover picture2", thumbnail);
+	var picture = makeClass("img", "picture2", thumbnail);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var placeText = makeClass("div", "place", upperWrap);
+	var timeText = makeClass("div", "time", upperWrap);
+	var reviewText = makeClass("div", "review", lowerWrap);
+	
+	picture.src = picture_url;
+	placeText.innerText = place;
+	timeText.innerText = time;
+	reviewText.innerText = review;
+	
+	/*picture.onload = function(){
+		var value = intToPixel(picture.clientWidth);
+		picture.style.height = value;
+		cover.style.height = value;
+		thumbnail.style.height = value;
+	};*/
+	
+	var p30 = intToPixel(document.body.clientWidth * 3.5 / 10);
+	
+	setSize(cover, p30, p30);
+	setSize(picture, p30, p30);
+	setHeight(thumbnail, p30);
+	
+}
+
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
 	var wrap = makeClass("div", "wrap", getId("page"));
@@ -186,6 +233,13 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
 	call("imtraveling:detail_finished");
 }
+
+function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
+{
+	
+}
+
+
 
 
 
@@ -246,6 +300,12 @@ function emToPixel(value) { return value*16; }
 function getId(_id) { return document.getElementById(_id); }
 function getName(_name) { return document.getElementsByName(_name); }
 function getClass(_name) { return document.getElementsByClassName(_name); }
-function getHeight() { return document.body.clientHeight; }
+function H() { return document.body.clientHeight; }
+function W() { return document.body.clientWidth; }
 
 function call(value) { document.location = value; }
+function p(value) { return W() * value / 100; }
+
+function setWidth(c, w) { c.style.width = w; }
+function setHeight(c, h) { c.style.height = h; }
+function setSize(c, w, h) { setWidth(c, w); setHeight(c, h); }
