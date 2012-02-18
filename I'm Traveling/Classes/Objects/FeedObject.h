@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface FeedObject : NSObject
+@interface FeedObject : NSObject <MKAnnotation>
 {
 	NSInteger feedId;
 	NSInteger tripId;
@@ -27,6 +27,9 @@
 	NSInteger numAllFeeds;
 	NSInteger numLikes;
 	NSInteger numComments;
+	
+	// 모든 내용이 채워져있는지 여부
+	BOOL complete;
 }
 
 @property (nonatomic, assign) NSInteger feedId;
@@ -45,5 +48,7 @@
 @property (nonatomic, assign) NSInteger numAllFeeds;
 @property (nonatomic, assign) NSInteger numLikes;
 @property (nonatomic, assign) NSInteger numComments;
+
+@property (nonatomic, assign) BOOL complete;
 
 @end

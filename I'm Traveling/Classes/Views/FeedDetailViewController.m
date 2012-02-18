@@ -11,13 +11,12 @@
 #import "Const.h"
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
-#import "FeedAnnotation.h"
 #import "FeedLineAnnotation.h"
 #import "FeedLineAnnotationView.h"
 
 @interface FeedDetailViewController (Private)
 
-- (void)loadFeedDetail;
+- (void)loadFeedDetailIndex:(NSInteger)index;
 
 - (void)removeUpperAndLowerImages;
 
@@ -68,7 +67,7 @@
 //		self.webView.layer.shadowOffset = CGSizeMake( 0, -4.0f );
 //		self.webView.layer.shadowRadius = 5.0f;
 
-// 그림자 제거
+		// 그림자 제거
 //		for( NSInteger i = 9; i > 5; i-- )
 //			[[self.webView.scrollView.subviews objectAtIndex:i] setHidden:YES];
 		
@@ -81,6 +80,20 @@
 		[self.view addSubview:_mapView];
 		
 		[self.view addSubview:_scrollView];
+		
+		
+		_leftFeedButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		_leftFeedButton.frame = CGRectMake( 10, 10, 30, 80 );
+		_leftFeedButton.alpha = 0.7;
+		[_leftFeedButton addTarget:self action:@selector(leftFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
+		_rightFeedButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+		_rightFeedButton.frame = CGRectMake( 280, 10, 30, 80 );
+		_rightFeedButton.alpha = 0.7;
+		[_rightFeedButton addTarget:self action:@selector(rightFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
+		[self.view addSubview:_leftFeedButton];
+		[self.view addSubview:_rightFeedButton];
 		
 		
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -124,16 +137,12 @@
 	[self clear];
 	
 	// 현재 피드의 어노테이션은 미리 찍어둠
-	FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
-	annotation.feedId = feedObject.feedId;
-	annotation.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
-	[_mapView addAnnotation:annotation];
+	[_mapView addAnnotation:feedObject];
 	
 	// 현재 피드의 region으로 애니메이션 (type = 0일 경우에는 애니메이션 안함)
 	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:type ? YES : NO];
 	
-	// Animation 적용 (type 1의 애니메이션은 loadFeedDetail에서)
-//	[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
+	// Animation 적용 (type 1의 애니메이션은 loadDidFinish에서)
 	[self animateAppearance];
 	
 	self.navigationItem.title = feedObject.place;
@@ -154,23 +163,28 @@
 	if( [message isEqualToString:@"detail_finished"] && type == 0 )
 	{
 		NSLog( @"detail_finished" );
-		if( animationFinished )
+		if( _animationFinished )
 			[self removeUpperAndLowerImages];
 		else
-			loadingFinished = YES;
+			_loadingFinished = YES;
 	}
-}
-
-- (void)startLoadingFeedDetail
-{
-//	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(loadFeedDetail) object:nil];
-//	[thread start];
-	[self loadFeedDetail];
 }
 
 - (void)loadFeedDetail
 {
 	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
+}
+
+- (void)loadFeedDetailIndex:(NSInteger)index
+{
+	// 현재 피드를 다시 로드할 필요가 없음
+	if( index == _currentFeedIndex ) return;
+	
+	_loadFromDetail = YES;
+//	_currentFeedIndex = index;
+//	feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+	
+	[self loadFeedDetail];
 }
 
 - (void)didFinishLoading:(NSString *)result
@@ -194,50 +208,60 @@
 	// type이 2일 경우에만 해당
 	if( !feedObject.place ) feedObject.place = [feed objectForKey:@"place"];
 	
-	// UI 수정은 Main Thread에서
-	[self performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 	
-	NSArray *allFeeds = [feed objectForKey:@"all_feeds"];
-	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
-	
-	for( int i = 0; i < allFeeds.count; i++ )
+	// feed_detail을 처음 생성하는 로직, 지도에 핀을 찍고 선을 그리는 로직
+	// 리스트나 맵에서 로드될 때만 해당
+	if( !_loadFromDetail )
 	{
-		NSDictionary *feed = (NSDictionary *)[allFeeds objectAtIndex:i];
-		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
-		annotation.feedId = [[feed objectForKey:@"feed_id"] integerValue];
-		double latitude = [[feed objectForKey:@"latitude"] doubleValue];
-		double longitude = [[feed objectForKey:@"longitude"] doubleValue];
-		annotation.coordinate = CLLocationCoordinate2DMake( latitude, longitude );
+		// UI 수정은 Main Thread에서
+		[self performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 		
-		// 현재 피드일 경우
-		if( annotation.feedId == feedObject.feedId )
+		NSArray *allFeeds = [feed objectForKey:@"all_feeds"];
+		NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
+		
+		for( int i = 0; i < allFeeds.count; i++ )
 		{
-			[_feedDetailObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
-		}
-		else
-		{
-			FeedObject *feedObj = [[FeedObject alloc] init];
-			feedObj.feedId = annotation.feedId;
-			feedObj.latitude = latitude;
-			feedObj.longitude = longitude;
+			NSDictionary *feed = (NSDictionary *)[allFeeds objectAtIndex:i];
 			
-			// 현재 피드의 어노테이션은 viewDidAppear에서 이미 찍음
-			[_mapView addAnnotation:annotation];
+			FeedObject *feedObj = [[FeedObject alloc] init];
+			feedObj.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+			feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+			feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+			
+			// 현재 피드일 경우
+			if( feedObj.feedId == feedObject.feedId )
+			{
+				_currentFeedIndex = i;
+			}
+			else
+			{
+				// 현재 피드의 어노테이션은 viewDidAppear에서 이미 찍음
+				[_mapView addAnnotation:feedObj];
+			}
+			
+			[_feedDetailObjects addObject:feedObj];
+			
+			[locations addObject:[[[CLLocation alloc] initWithLatitude:feedObj.latitude longitude:feedObj.longitude] autorelease]];
 		}
 		
-		[locations addObject:[[[CLLocation alloc] initWithLatitude:latitude longitude:longitude] autorelease]];
+		// 라인 어노테이션
+		FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:_mapView];
+		[_mapView addAnnotation:lineAnnotation];
 	}
-	
-	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:_mapView];
-	[_mapView addAnnotation:lineAnnotation];
+	else
+	{
+		[self performSelectorOnMainThread:@selector(modifyFeedDetail:) withObject:feedObject waitUntilDone:NO];
+	}
 	
 	// type 0의 애니메이션은 viewDidAppear에서
 	[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	
-	//	[self resizeContentHeight];
+	// UI 변경은 메인 스레드에서
 	[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
 	
-	//	[self stopBusy];
+//	if( 
+	
+//	[self stopBusy];
 }
 
 #pragma mark - Scroll View
@@ -311,7 +335,7 @@
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
-	//	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 #pragma mark - others
@@ -327,7 +351,7 @@
 	{
 		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
 		
-		[self performSelector:@selector(onAnimationFinished) withObject:nil afterDelay:0.5];
+		[self performSelector:@selector(animationDidFinish) withObject:nil afterDelay:0.5];
 		
 		[self.view addSubview:_upperImageView];
 		[self.view addSubview:_lowerImageView];
@@ -382,12 +406,12 @@
 	}
 }
 
-- (void)onAnimationFinished
+- (void)animationDidFinish
 {
-	if( loadingFinished )
+	if( _loadingFinished )
 		[self removeUpperAndLowerImages];
 	else
-		animationFinished = YES;
+		_animationFinished = YES;
 }
 
 - (void)removeUpperAndLowerImages
@@ -446,6 +470,16 @@
 	_lowerImageViewOriginalY = offset;
 	
 	_lowerImageView.frame = CGRectMake( 0, offset, 320, _lowerImageView.frame.size.height );
+}
+
+- (void)leftFeedButtonDidTouchUpInside
+{
+	[self loadFeedDetailIndex:_currentFeedIndex - 1];
+}
+
+- (void)rightFeedButtonDidTouchUpInside
+{
+	[self loadFeedDetailIndex:_currentFeedIndex + 1];
 }
 
 @end

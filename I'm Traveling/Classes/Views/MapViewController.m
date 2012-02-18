@@ -9,7 +9,6 @@
 #import "MapViewController.h"
 #import "FeedDetailViewController.h"
 #import "FeedObject.h"
-#import "FeedAnnotation.h"
 #import "Utils.h"
 #import "Const.h"
 
@@ -172,22 +171,19 @@ enum {
 	for( NSDictionary *feed in feeds )
 	{
 		FeedObject *feedObject = [[FeedObject alloc] init];
-		FeedAnnotation *annotation = [[FeedAnnotation alloc] init];
-		
-		feedObject.feedId = annotation.feedId = [[feed objectForKey:@"feed_id"] integerValue];
-		feedObject.place = annotation.title = [feed objectForKey:@"place"];
-		feedObject.name = annotation.subtitle = [feed objectForKey:@"name"];
+		feedObject.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+		feedObject.place = [feed objectForKey:@"place"];
+		feedObject.name = [feed objectForKey:@"name"];
 		feedObject.latitude = [[feed objectForKey:@"latitude"] doubleValue];
 		feedObject.longitude = [[feed objectForKey:@"longitude"] doubleValue];
-		annotation.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
 		
 		BOOL alreadyExists = NO;
 		
 #warning 이미 존재하는지 검사하는거 발로짬
-		for( FeedAnnotation *existAnnotation in _feedMapView.annotations )
+		for( FeedObject *existAnnotation in _feedMapView.annotations )
 		{
-			if( existAnnotation.coordinate.latitude == annotation.coordinate.latitude
-			   && existAnnotation.coordinate.longitude == annotation.coordinate.longitude )
+			if( existAnnotation.coordinate.latitude == feedObject.latitude
+			   && existAnnotation.coordinate.longitude == feedObject.longitude )
 			{
 				alreadyExists = YES;
 				break;
@@ -195,7 +191,7 @@ enum {
 		}
 		
 		if( !alreadyExists )
-			[_feedMapView addAnnotation:annotation];
+			[_feedMapView addAnnotation:feedObject];
 		
 		[_feedMapObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
 	}
@@ -213,7 +209,6 @@ enum {
 {
 	if( annotation == _feedMapView.userLocation )
 	{
-		mapView.userLocation.title = @"Current Location";
 		return nil;
 	}
 	
@@ -236,9 +231,9 @@ enum {
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	FeedAnnotation *annotation = (FeedAnnotation *)view.annotation;
+	FeedObject *feedObj = (FeedObject *)view.annotation;
 	FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-	detailViewController.feedObject = [_feedMapObjects objectForKey:[NSNumber numberWithInt:annotation.feedId]];
+	detailViewController.feedObject = [_feedMapObjects objectForKey:[NSNumber numberWithInt:feedObj.feedId]];
 	detailViewController.type = 1;
 	detailViewController.loaded = NO;
 	
@@ -247,7 +242,7 @@ enum {
 	detailViewController.originalRegion = [_feedMapView convertRect:rect toRegionFromView:self.view];
 	
 	[self.navigationController pushViewController:detailViewController animated:NO];
-	[detailViewController startLoadingFeedDetail];
+	[detailViewController loadFeedDetail];
 }
 
 #pragma mark - CLLocationManagerDelegate

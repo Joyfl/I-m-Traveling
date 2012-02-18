@@ -177,7 +177,7 @@ enum {
 		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
 		detailViewController.type = 0;
 		detailViewController.loaded = NO;
-		[detailViewController startLoadingFeedDetail];
+		[detailViewController loadFeedDetail];
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
 }

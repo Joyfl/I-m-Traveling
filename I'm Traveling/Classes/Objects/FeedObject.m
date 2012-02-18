@@ -10,6 +10,21 @@
 
 @implementation FeedObject
 
-@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, review, info, latitude, longitude, numAllFeeds, numLikes, numComments;
+@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, review, info, latitude, longitude, numAllFeeds, numLikes, numComments, complete;
+
+- (NSString *)title
+{
+	return place;
+}
+
+- (NSString *)subtitle
+{
+	return name;
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+	return CLLocationCoordinate2DMake( latitude, longitude );
+}
 
 @end
