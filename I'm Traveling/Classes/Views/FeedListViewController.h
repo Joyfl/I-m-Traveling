@@ -15,10 +15,7 @@
 {
 	MapViewController *_mapViewController;
 	
-	UIWebView *subWebView;
-	
-	NSMutableDictionary *_feedListObjects;
-	
+	NSMutableDictionary *_feedListObjects;	
 	NSInteger _orderType;
 }
 

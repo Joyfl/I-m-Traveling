@@ -98,6 +98,8 @@ enum {
 		_feedListObjects = [[NSMutableDictionary alloc] init];
 		
 		_mapViewController = [[MapViewController alloc] init];
+		
+		
     }
     return self;
 }
@@ -160,9 +162,9 @@ enum {
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *upperImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
-	
+		
 		self.webView.scrollView.contentOffset = CGPointMake( 0, webView.scrollView.contentOffset.y + offset );
-			
+		
 		UIGraphicsBeginImageContext( CGSizeMake( 320, self.webView.scrollView.contentSize.height - offset ) );
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *lowerImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -178,13 +180,6 @@ enum {
 		[detailViewController startLoadingFeedDetail];
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
-}
-
-#pragma mark - scroll view
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-	subWebView.scrollView.contentOffset = self.webView.scrollView.contentOffset;
 }
 
 #pragma mark - UIPullDownWebViewController
