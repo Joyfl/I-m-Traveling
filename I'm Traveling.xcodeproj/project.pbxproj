@@ -61,6 +61,7 @@
 		0311F74114E43AAC0081B74E /* tab_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F71514E43AAC0081B74E /* tab_share@2x.png */; };
 		0311F74214E43AAC0081B74E /* tab_trip.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F71614E43AAC0081B74E /* tab_trip.png */; };
 		0311F74314E43AAC0081B74E /* tab_trip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F71714E43AAC0081B74E /* tab_trip@2x.png */; };
+		031CA4F114EF57850015D2AC /* ImTravelingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CA4F014EF57840015D2AC /* ImTravelingViewController.m */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
 		0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */; };
 		0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */; };
@@ -156,6 +157,8 @@
 		0311F71514E43AAC0081B74E /* tab_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_share@2x.png"; sourceTree = "<group>"; };
 		0311F71614E43AAC0081B74E /* tab_trip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_trip.png; sourceTree = "<group>"; };
 		0311F71714E43AAC0081B74E /* tab_trip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_trip@2x.png"; sourceTree = "<group>"; };
+		031CA4EF14EF57840015D2AC /* ImTravelingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingViewController.h; sourceTree = "<group>"; };
+		031CA4F014EF57840015D2AC /* ImTravelingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingViewController.m; sourceTree = "<group>"; };
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		0356C0B714E3BABF005B099E /* FeedLineAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedLineAnnotation.h; sourceTree = "<group>"; };
 		0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotation.m; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 			children = (
 				0300E6D814D1A93100611039 /* AppDelegate.h */,
 				0300E6D914D1A93100611039 /* AppDelegate.m */,
+				031CA4EF14EF57840015D2AC /* ImTravelingViewController.h */,
+				031CA4F014EF57840015D2AC /* ImTravelingViewController.m */,
 				0300E70314D1A93100611039 /* UIWebViewController.h */,
 				0300E70414D1A93100611039 /* UIWebViewController.m */,
 				0300E6FB14D1A93100611039 /* UIPullDownWebViewController.h */,
@@ -576,6 +581,7 @@
 				0386A2C514DBE07E00B867C7 /* FeedAnnotation.m in Sources */,
 				0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */,
 				0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */,
+				031CA4F114EF57850015D2AC /* ImTravelingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,13 +22,6 @@
 		self.webView.delegate = self;
 		self.webView.scrollView.showsHorizontalScrollIndicator = NO;
 		[self.view addSubview:webView];
-		
-		UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake( 125, 50, 30, 40 )];
-		indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-		[indicatorView startAnimating];
-		
-		_loadingAlert = [[UIAlertView alloc] initWithTitle:@"Loading..." message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-		[_loadingAlert addSubview:indicatorView];
 	}
 	
 	return self;
@@ -74,7 +67,7 @@
 
 #pragma mark - WebView
 
-- (void)loadHtmlFile:(NSString *)htmlFileName
+- (void)loadLocalPage:(NSString *)htmlFileName
 {
 	NSURL *url = [[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:htmlFileName ofType:@"html" inDirectory:@"www"] isDirectory:NO] retain];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
@@ -85,7 +78,7 @@
 
 }
 
-- (void)loadURL:(NSString *)urlString
+- (void)loadRemotePage:(NSString *)urlString
 {
 	NSURL *url = [[NSURL URLWithString:urlString] retain];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
@@ -115,7 +108,7 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	
+	NSLog( @"Overriding is needed." );
 }
 
 #pragma mark - Javascript Functions
@@ -125,18 +118,6 @@
 	NSLog( @"clear" );
 	
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
-}
-
-#pragma mark - Utils
-
-- (void)startBusy
-{
-	[_loadingAlert show];
-}
-
-- (void)stopBusy
-{
-	[_loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 @end

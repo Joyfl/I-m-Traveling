@@ -125,8 +125,7 @@ enum {
     [super viewDidLoad];
 	
 //	[self loadHtmlFile:@"feed_list"];
-	
-	[self loadURL:HTML_INDEX];
+	[self loadRemotePage:HTML_INDEX];
 }
 
 - (void)viewDidUnload
@@ -193,14 +192,13 @@ enum {
 - (void)reloadWebView
 {
 	[self clear];
-	[self loadFeedsFrom:0 to:10];
-	[self webViewDidFinishReloading];
+	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, 0, 10]];
 }
 
-- (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to
+- (void)didFinishLoading:(NSString *)result
 {
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to]];
-	NSArray *feeds = [Utils parseJSON:json];
+	NSLog( @"finish : %@", result );
+	NSArray *feeds = [Utils parseJSON:result];
 	for( NSDictionary *feed in feeds )
 	{
 		FeedObject *feedObj = [[FeedObject alloc] init];
@@ -219,6 +217,8 @@ enum {
 		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 		[self addFeed:feedObj];
 	}
+	
+	[self webViewDidFinishReloading];
 }
 
 #pragma mark - selectors

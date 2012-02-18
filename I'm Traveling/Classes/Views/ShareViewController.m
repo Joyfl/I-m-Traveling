@@ -23,7 +23,7 @@
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
 //		[self loadHtmlFile:@"feed_list"];
-		[self loadURL:HTML_INDEX];
+		[self loadRemotePage:HTML_INDEX];
     }
     return self;
 }

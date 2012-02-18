@@ -7,23 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImTravelingViewController.h"
 
-@interface UIWebViewController : UIViewController <UIWebViewDelegate>
+@interface UIWebViewController : ImTravelingViewController <UIWebViewDelegate>
 {
 	UIWebView *webView;
 	NSString *messagePrefix;
-	
-	UIAlertView *_loadingAlert;
 }
 
-- (void)loadHtmlFile:(NSString *)htmlFileName;
-- (void)loadURL:(NSString *)urlString;
+- (void)loadLocalPage:(NSString *)htmlFileName;
+- (void)loadRemotePage:(NSString *)urlString;
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments;
 
 - (void)clear;
-
-- (void)startBusy;
-- (void)stopBusy;
 
 @property (nonatomic, retain) UIWebView *webView;
 

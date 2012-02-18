@@ -72,7 +72,7 @@
 //		for( NSInteger i = 9; i > 5; i-- )
 //			[[self.webView.scrollView.subviews objectAtIndex:i] setHidden:YES];
 		
-		[self loadURL:HTML_INDEX];
+		[self loadRemotePage:HTML_INDEX];
 		
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, MAP_HEIGHT )];
 		_mapView.delegate = self;
@@ -163,15 +163,20 @@
 
 - (void)startLoadingFeedDetail
 {
-	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(loadFeedDetail) object:nil];
-	[thread start];
+//	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(loadFeedDetail) object:nil];
+//	[thread start];
+	[self loadFeedDetail];
 }
 
 - (void)loadFeedDetail
 {
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
-	NSLog( @"json : %@", json );
-	NSDictionary *feed = [Utils parseJSON:json];
+	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, type]];
+}
+
+- (void)didFinishLoading:(NSString *)result
+{
+	NSLog( @"json : %@", result );
+	NSDictionary *feed = [Utils parseJSON:result];
 	
 	// type이 0, 1, 2일 경우에 공통적으로 해당
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
@@ -229,10 +234,10 @@
 	// type 0의 애니메이션은 viewDidAppear에서
 	[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	
-//	[self resizeContentHeight];
+	//	[self resizeContentHeight];
 	[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
 	
-//	[self stopBusy];
+	//	[self stopBusy];
 }
 
 #pragma mark - Scroll View

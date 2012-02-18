@@ -155,15 +155,19 @@ enum {
 
 - (void)loadFeeds
 {
-	NSString *json = [Utils getHtmlFromUrl:[NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude]];
-	NSLog( @"%@", [NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude] );
-	if( [json hasPrefix:@"{"] )
+	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude]];
+}
+
+- (void)didFinishLoading:(NSString *)result
+{
+	// Error
+	if( [result hasPrefix:@"{"] )
 	{
-		NSLog( @"%@", json );
+		NSLog( @"%@", result );
 		return;
 	}
 	
-	NSArray *feeds = [Utils parseJSON:json];
+	NSArray *feeds = [Utils parseJSON:result];
 	
 	for( NSDictionary *feed in feeds )
 	{
@@ -183,7 +187,7 @@ enum {
 		for( FeedAnnotation *existAnnotation in _feedMapView.annotations )
 		{
 			if( existAnnotation.coordinate.latitude == annotation.coordinate.latitude
-			 && existAnnotation.coordinate.longitude == annotation.coordinate.longitude )
+			   && existAnnotation.coordinate.longitude == annotation.coordinate.longitude )
 			{
 				alreadyExists = YES;
 				break;
@@ -196,6 +200,7 @@ enum {
 		[_feedMapObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
 	}
 }
+
 
 #pragma mark - map
 

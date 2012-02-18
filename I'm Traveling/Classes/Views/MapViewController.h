@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import "ImTravelingViewController.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface MapViewController : ImTravelingViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
 	MKMapView *_feedMapView;
 	CLLocationManager *_locationManager;
