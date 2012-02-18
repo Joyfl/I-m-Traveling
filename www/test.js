@@ -8,6 +8,8 @@ infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버
 likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
+marginInPixel = 8;
+marginInEm = 0.5;
 
 
 
@@ -15,9 +17,9 @@ iconComment = "resource/comment.png";
 
 function init()
 {
-	//clear();
+	clear();
 	
-	//for(var i = 0; i < 10; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
 	//addFeedDetail(9, 1, infos, 3, 4, 5);
 	
@@ -43,8 +45,8 @@ function init()
 
 function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, isThumbnail)
 {
-	var title = makeClass("div", "title", wrap);
-	fillTitle(title, user_id, profile_image_url, name, time, place, region);
+	var header = makeClass("div", "header", wrap);
+	fillHeader(header, user_id, profile_image_url, name, time, place, region);
 	
 	var thumbnail = makeClass("div", "thumbnail", wrap);
 	fillThumbnail(thumbnail, picture_url, num_likes, num_comments, isThumbnail);
@@ -71,13 +73,13 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	button.onclick = function() {};
 }
 
-function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _region)
+function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place, _region)
 {
-	var profileImage = makeClass("img", "profileImage", title);
-	var cover = makeClass("div", "cover profileImage", title);
+	var cover = makeClass("div", "cover profileImage", header);
+	var profileImage = makeClass("img", "profileImage", header);
 	
-	var upperWrap = makeClass("div", "upperWrap", title);
-	var lowerWrap = makeClass("div", "lowerWrap", title);
+	var upperWrap = makeClass("div", "upperWrap", header);
+	var lowerWrap = makeClass("div", "lowerWrap", header);
 	
 	var userName = makeClass("div", "userName", upperWrap);
 	var time = makeClass("div", "time", upperWrap);
@@ -95,6 +97,10 @@ function fillTitle(title, user_id, _profileImageSrc, _userName, _time, _place, _
 	
 	profileImage.onclick = profile;
 	userName.onclick = profile;
+	
+	header.style.height = intToPixel(60);
+	upperWrap.style.width = intToPixel(header.clientWidth - 60 - 8);
+	lowerWrap.style.width = intToPixel(header.clientWidth - 60 - 8);
 }
 
 function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
@@ -169,7 +175,7 @@ function addComment(commentList, user_id, profile_image_url, name, time, content
 
 function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = makeId("div", "wrap_" + feed_id, getId("page"));
+	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
 }
 
@@ -230,7 +236,8 @@ function getName(_name) { return document.getElementsByName(_name); }
 function getClass(_name) { return document.getElementsByClassName(_name); }
 
 /* 전수열꺼 */
-function getHeight() { return document.body.clientHeight; }
-function getWidth() { return document.body.clientWidth; }
-
+function getHeight() { return H(); }
+function getWidth() { return W(); }
+function H() { return document.body.clientHeight; }
+function W() { return document.body.clientWidth; }
 function call(value) { document.location = value; }
