@@ -17,7 +17,12 @@
 
 @interface FeedDetailViewController (Private)
 
+- (void)loadFeedDetail;
+
 - (void)removeUpperAndLowerImages;
+
+- (void)animateAppearance;
+- (void)animateDisappearance;
 
 - (void)createFeedDetail:(FeedObject *)feedObj;
 - (void)modifyFeedDetail:(FeedObject *)feedObj;
@@ -29,7 +34,7 @@
 
 @implementation FeedDetailViewController
 
-@synthesize feedObject, type, mapView=_mapView, upperImageView, lowerImageView, loaded, originalRegion;
+@synthesize feedObject, type, mapView=_mapView, loaded, originalRegion;
 
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
@@ -53,7 +58,6 @@
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
 		
-		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
 		self.webView.backgroundColor = [UIColor clearColor];
 		self.webView.opaque = NO;
 		self.webView.scrollView.scrollEnabled = NO;
@@ -125,27 +129,12 @@
 	annotation.coordinate = CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude );
 	[_mapView addAnnotation:annotation];
 	
-	// 현재 피드의 region으로 애니메이션
-	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:YES];
+	// 현재 피드의 region으로 애니메이션 (type = 0일 경우에는 애니메이션 안함)
+	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:type ? YES : NO];
 	
 	// Animation 적용 (type 1의 애니메이션은 loadFeedDetail에서)
-	if( type == 0 )
-	{
-		[self performSelector:@selector(onAnimationFinished) withObject:nil afterDelay:0.5];
-		
-		[self.view addSubview:upperImageView];
-		[self.view addSubview:lowerImageView];
-		
-		upperImageViewOriginalY = upperImageView.frame.origin.y;
-		lowerImageViewOriginalY = lowerImageView.frame.origin.y;
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.5];
-		upperImageView.frame = CGRectMake( 0, -upperImageView.frame.size.height, 320, upperImageView.frame.size.height );
-		lowerImageView.frame = CGRectMake( 0, 100, 320, lowerImageView.frame.size.height );
-		[UIView commitAnimations];
-	}
+//	[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
+	[self animateAppearance];
 	
 	self.navigationItem.title = feedObject.place;
 	
@@ -172,9 +161,10 @@
 	}
 }
 
-- (void)loadFeedDetailAfterDelay:(NSTimeInterval)delay
+- (void)startLoadingFeedDetail
 {
-	[self performSelector:@selector(loadFeedDetail) withObject:nil afterDelay:delay];
+	NSThread *thread = [[NSThread alloc] initWithTarget:self selector:@selector(loadFeedDetail) object:nil];
+	[thread start];
 }
 
 - (void)loadFeedDetail
@@ -199,8 +189,8 @@
 	// type이 2일 경우에만 해당
 	if( !feedObject.place ) feedObject.place = [feed objectForKey:@"place"];
 	
-	[self clear];
-	[self createFeedDetail:feedObject];
+	// UI 수정은 Main Thread에서
+	[self performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 	
 	NSArray *allFeeds = [feed objectForKey:@"all_feeds"];
 	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
@@ -237,19 +227,10 @@
 	[_mapView addAnnotation:lineAnnotation];
 	
 	// type 0의 애니메이션은 viewDidAppear에서
-	if( type == 1 )
-	{
-		[_scrollView addSubview:self.webView];
-		self.webView.frame = CGRectMake( 0, 467, 320, 367 );
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.5];
-		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
-		[UIView commitAnimations];
-	}
+	[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	
-	[self resizeContentHeight];
+//	[self resizeContentHeight];
+	[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
 	
 //	[self stopBusy];
 }
@@ -335,6 +316,67 @@
 	_mapView.region = originalRegion = region;
 }
 
+- (void)animateAppearance
+{
+	if( self.type == 0 )
+	{
+		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
+		
+		[self performSelector:@selector(onAnimationFinished) withObject:nil afterDelay:0.5];
+		
+		[self.view addSubview:_upperImageView];
+		[self.view addSubview:_lowerImageView];
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		_upperImageView.frame = CGRectMake( 0, -_upperImageView.frame.size.height, 320, _upperImageView.frame.size.height );
+		_lowerImageView.frame = CGRectMake( 0, 100, 320, _lowerImageView.frame.size.height );
+		[UIView commitAnimations];
+	}
+	else if( self.type == 1 )
+	{
+		[_scrollView addSubview:self.webView];
+		self.webView.frame = CGRectMake( 0, 467, 320, 367 );
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
+		[UIView commitAnimations];
+	}
+}
+
+- (void)animateDisappearance
+{
+	[self performSelector:@selector(onBackAnimationFinished) withObject:nil afterDelay:0.5];
+	
+	if( type == 0 )
+	{
+		[self.webView removeFromSuperview];
+		
+		[self.view addSubview:_upperImageView];
+		[self.view addSubview:_lowerImageView];
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		_upperImageView.frame = CGRectMake( 0, _upperImageViewOriginalY, 320, _upperImageView.frame.size.height );
+		_lowerImageView.frame = CGRectMake( 0, _lowerImageViewOriginalY, 320, _lowerImageView.frame.size.height );
+		[UIView commitAnimations];
+	}
+	else if( type == 1 )
+	{
+		[_mapView setRegion:originalRegion animated:YES];
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.5];
+		self.webView.frame = CGRectMake( 0, 367, 320, self.webView.frame.size.height );
+		[UIView commitAnimations];
+	}
+}
+
 - (void)onAnimationFinished
 {
 	if( loadingFinished )
@@ -347,8 +389,8 @@
 {
 	[_scrollView addSubview:self.webView];
 	
-	[upperImageView removeFromSuperview];
-	[lowerImageView removeFromSuperview];
+	[_upperImageView removeFromSuperview];
+	[_lowerImageView removeFromSuperview];
 }
 
 - (void)resizeContentHeight
@@ -362,32 +404,7 @@
 
 - (void)onBackButtonTouch
 {
-	if( type == 0 )
-	{
-		[self.webView removeFromSuperview];
-		
-		[self.view addSubview:upperImageView];
-		[self.view addSubview:lowerImageView];
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.5];
-		upperImageView.frame = CGRectMake( 0, upperImageViewOriginalY, 320, upperImageView.frame.size.height );
-		lowerImageView.frame = CGRectMake( 0, lowerImageViewOriginalY, 320, lowerImageView.frame.size.height );
-		[UIView commitAnimations];
-	}
-	else if( type == 1 )
-	{
-		[_mapView setRegion:originalRegion animated:YES];
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.5];
-		self.webView.frame = CGRectMake( 0, 367, 320, self.webView.frame.size.height );
-		[UIView commitAnimations];
-	}
-	
-	[self performSelector:@selector(onBackAnimationFinished) withObject:nil afterDelay:0.5];
+	[self animateDisappearance];
 	
 	// 선 제거
 	for( id<MKAnnotation> annotation in _mapView.annotations )
@@ -401,8 +418,8 @@
 {
 	if( type == 0 )
 	{
-		[upperImageView removeFromSuperview];
-		[lowerImageView removeFromSuperview];
+		[_upperImageView removeFromSuperview];
+		[_lowerImageView removeFromSuperview];
 	}
 	else if( type == 1 )
 	{
@@ -413,6 +430,17 @@
 	_scrollView.contentOffset = CGPointZero;
 	
 	[_mapView removeAnnotations:_mapView.annotations];
+}
+
+- (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(float)offset
+{
+	_upperImageView = upperImageView;
+	_lowerImageView = lowerImageView;
+	
+	_upperImageViewOriginalY = 0;
+	_lowerImageViewOriginalY = offset;
+	
+	_lowerImageView.frame = CGRectMake( 0, offset, 320, _lowerImageView.frame.size.height );
 }
 
 @end

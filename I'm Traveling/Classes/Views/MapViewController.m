@@ -229,11 +229,6 @@ enum {
 	return pin;
 }
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
-{
-	[_feedMapView setUserTrackingMode:MKUserTrackingModeNone];
-}
-
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	FeedAnnotation *annotation = (FeedAnnotation *)view.annotation;
@@ -247,7 +242,7 @@ enum {
 	detailViewController.originalRegion = [_feedMapView convertRect:rect toRegionFromView:self.view];
 	
 	[self.navigationController pushViewController:detailViewController animated:NO];
-	[detailViewController loadFeedDetailAfterDelay:0.1];
+	[detailViewController startLoadingFeedDetail];
 }
 
 #pragma mark - CLLocationManagerDelegate

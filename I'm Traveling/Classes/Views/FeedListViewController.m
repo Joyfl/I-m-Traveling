@@ -161,10 +161,10 @@ enum {
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *upperImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
-		
+	
 		self.webView.scrollView.contentOffset = CGPointMake( 0, webView.scrollView.contentOffset.y + offset );
-		
-		UIGraphicsBeginImageContext( CGSizeMake( 320, 600 ) );
+			
+		UIGraphicsBeginImageContext( CGSizeMake( 320, self.webView.scrollView.contentSize.height - offset ) );
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *lowerImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
@@ -173,12 +173,10 @@ enum {
 		
 		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
 		detailViewController.feedObject = [_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
-		detailViewController.upperImageView = [[UIImageView alloc] initWithImage:upperImage];
-		detailViewController.lowerImageView = [[UIImageView alloc] initWithImage:lowerImage];
-		detailViewController.lowerImageView.frame = CGRectMake( 0, offset, 320, detailViewController.lowerImageView.frame.size.height );
+		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
 		detailViewController.type = 0;
 		detailViewController.loaded = NO;
-		[detailViewController loadFeedDetailAfterDelay:0.1];
+		[detailViewController startLoadingFeedDetail];
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
 }

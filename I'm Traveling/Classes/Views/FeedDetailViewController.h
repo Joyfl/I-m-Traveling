@@ -20,10 +20,10 @@
 	
 	NSMutableDictionary *_feedDetailObjects;
 	
-	UIImageView *upperImageView;
-	UIImageView *lowerImageView;
-	float upperImageViewOriginalY;
-	float lowerImageViewOriginalY;
+	UIImageView *_upperImageView;
+	UIImageView *_lowerImageView;
+	float _upperImageViewOriginalY;
+	float _lowerImageViewOriginalY;
 	
 	BOOL loaded; // 로드된 적이 있는지 (viewDidAppear는 다른 탭으로 전환했다가 다시 돌아와도 호출되기 때문에 중복 로드 방지)
 	
@@ -36,14 +36,12 @@
 
 + (FeedDetailViewController *)viewController;
 
-- (void)loadFeedDetail;
-- (void)loadFeedDetailAfterDelay:(NSTimeInterval)delay;
+- (void)startLoadingFeedDetail;
+- (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(float)offset;
 
 @property (nonatomic, retain) FeedObject *feedObject;
 @property (nonatomic, assign) NSInteger type;
 @property (nonatomic, retain) MKMapView *mapView;
-@property (nonatomic, retain) UIImageView *upperImageView;
-@property (nonatomic, retain) UIImageView *lowerImageView;
 @property (nonatomic, assign) BOOL loaded;
 @property (nonatomic, assign) MKCoordinateRegion originalRegion;
 
