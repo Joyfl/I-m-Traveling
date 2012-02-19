@@ -147,6 +147,7 @@ enum {
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+	[self clear];
 	[self reloadWebView];
 }
 
@@ -184,7 +185,6 @@ enum {
 
 - (void)reloadWebView
 {
-	[self clear];
 	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, 0, 10]];
 }
 

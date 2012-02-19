@@ -1,16 +1,14 @@
 //
-//  UIWebViewController.m
+//  ImTravelingWebView.m
 //  I'm Traveling
 //
-//  Created by 전 수열 on 12. 1. 26..
+//  Created by 전 수열 on 12. 2. 19..
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "UIWebViewController.h"
+#import "ImTravelingWebView.h"
 
-@implementation UIWebViewController
-
-@synthesize webView;
+@implementation ImTravelingWebView
 
 - (id)init
 {
@@ -18,71 +16,30 @@
 	{
 		messagePrefix = @"imtraveling:";
 		
-		self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
-		self.webView.delegate = self;
-		self.webView.scrollView.showsHorizontalScrollIndicator = NO;
-		[self.view addSubview:webView];
+		self = [super initWithFrame:CGRectMake( 0, 0, 320, 367 )];
+		self.delegate = self;
+		self.scrollView.showsHorizontalScrollIndicator = NO;
 	}
 	
 	return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-*/
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - WebView
-
 - (void)loadLocalPage:(NSString *)htmlFileName
 {
 	NSURL *url = [[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:htmlFileName ofType:@"html" inDirectory:@"www"] isDirectory:NO] retain];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
-	[webView loadRequest:req];
+	[self loadRequest:req];
 	
 	[url release];
 	[req release];
-
+	
 }
 
 - (void)loadRemotePage:(NSString *)urlString
 {
 	NSURL *url = [[NSURL URLWithString:urlString] retain];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
-	[webView loadRequest:req];
+	[self loadRequest:req];
 	
 	[url release];
 	[req release];
@@ -108,14 +65,14 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-//	NSLog( @"Overriding is needed." );
+	//	NSLog( @"Overriding is needed." );
 }
 
 #pragma mark - Javascript Functions
 
 - (void)clear
 {
-	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
+	[self stringByEvaluatingJavaScriptFromString:@"clear();"];
 }
 
 @end

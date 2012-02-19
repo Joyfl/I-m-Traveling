@@ -31,8 +31,9 @@
 - (void)addFeedIndexToLoadingQueue:(NSInteger)index;
 - (void)removeLoadedFeedFromLoadingQueue;
 
-@property (retain, readonly) FeedDetailWebView *detailWebView;
-@property (retain, readonly) UIWebView *webView;
+@property (retain, readonly) FeedDetailWebView *leftWebView;
+@property (retain, readonly) FeedDetailWebView *centerWebView;
+@property (retain, readonly) FeedDetailWebView *rightWebView;
 
 @end
 
@@ -107,7 +108,7 @@
 		for( int i = 0; i < 3; i++ )
 		{
 			FeedDetailWebView *detailWebView = [[FeedDetailWebView alloc] initWithFeedDetailViewController:self];
-			detailWebView.webView.frame = CGRectMake( i * 320 - 320, 100, 320, detailWebView.webView.frame.size.height );
+			detailWebView.frame = CGRectMake( i * 320 - 320, 100, 320, detailWebView.frame.size.height );
 			[_webViews addObject:detailWebView];
 		}
 		
@@ -130,7 +131,17 @@
 	
 	self.navigationItem.title = _feedObjectFromPrevView.place;
 	
+	[_feedDetailObjects removeAllObjects];
 	[_loadingQueue removeAllObjects];
+	
+	for( int i = 0; i < 3; i++ )
+	{
+		[[_webViews objectAtIndex:i] clear];
+	}
+	
+	NSLog( @"%f", self.leftWebView.frame.origin.x );
+	NSLog( @"%f", self.centerWebView.frame.origin.x );
+	NSLog( @"%f", self.rightWebView.frame.origin.x );
 	
 	[self loadFeedDetail];
 }
@@ -228,8 +239,9 @@
 	if( _feedObjectFromPrevView )
 	{
 		// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
-		[self.detailWebView clear];
-		[self.detailWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+		[self.centerWebView clear];
+		self.centerWebView.feedObject = feedObject;
+		[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 		[self handleAllFeeds:[feed objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 		
 		[self addFeedIndexToLoadingQueue:_currentFeedIndex - 1];
@@ -248,7 +260,9 @@
 		
 		NSLog( @"webViewIndex : %d", webViewIndex );
 		[[_webViews objectAtIndex:webViewIndex] clear];
+		[[_webViews objectAtIndex:webViewIndex] setFeedObject:feedObject];
 		[[_webViews objectAtIndex:webViewIndex] performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+		
 		[self removeLoadedFeedFromLoadingQueue];
 	}
 	
@@ -294,14 +308,19 @@
 #pragma mark -
 #pragma mark WebViews
 
-- (FeedDetailWebView *)detailWebView
+- (FeedDetailWebView *)leftWebView
+{
+	return [_webViews objectAtIndex:0];
+}
+
+- (FeedDetailWebView *)centerWebView
 {
 	return [_webViews objectAtIndex:1];
 }
 
-- (UIWebView *)webView
+- (FeedDetailWebView *)rightWebView
 {
-	return [[_webViews objectAtIndex:1] webView];
+	return [_webViews objectAtIndex:2];
 }
 
 
@@ -366,7 +385,7 @@
 {
 	if( self.type == 0 )
 	{
-		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
+		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
 		
 		[self performSelector:@selector(animationDidFinish) withObject:nil afterDelay:0.5];
 		
@@ -382,13 +401,15 @@
 	}
 	else if( self.type == 1 )
 	{
-		[_scrollView addSubview:self.webView];
-		self.webView.frame = CGRectMake( 0, 467, 320, 367 );
+		[_scrollView addSubview:self.leftWebView];
+		[_scrollView addSubview:self.centerWebView];
+		[_scrollView addSubview:self.rightWebView];
+		self.centerWebView.frame = CGRectMake( 0, 467, 320, 367 );
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
-		self.webView.frame = CGRectMake( 0, 100, 320, 367 );
+		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
 		[UIView commitAnimations];
 	}
 }
@@ -399,7 +420,7 @@
 	
 	if( type == 0 )
 	{
-		[self.webView removeFromSuperview];
+		[self.centerWebView removeFromSuperview];
 		
 		[self.view addSubview:_upperImageView];
 		[self.view addSubview:_lowerImageView];
@@ -418,7 +439,7 @@
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
-		self.webView.frame = CGRectMake( 0, 367, 320, self.webView.frame.size.height );
+		self.centerWebView.frame = CGRectMake( 0, 367, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
 	}
 }
@@ -433,7 +454,9 @@
 
 - (void)removeUpperAndLowerImages
 {
-	[_scrollView addSubview:self.webView];
+	[_scrollView addSubview:self.leftWebView];
+	[_scrollView addSubview:self.centerWebView];
+	[_scrollView addSubview:self.rightWebView];
 	
 	[_upperImageView removeFromSuperview];
 	[_lowerImageView removeFromSuperview];
@@ -448,7 +471,7 @@
 	}
 	else if( type == 1 )
 	{
-		[self.webView removeFromSuperview];
+		[self.centerWebView removeFromSuperview];
 	}
 	
 	[self.navigationController popViewControllerAnimated:NO];
@@ -474,40 +497,48 @@
 
 - (void)leftFeedButtonDidTouchUpInside
 {
-	// currentWebView가 될 웹뷰
-	UIWebView *leftWebView = [[_webViews objectAtIndex:0] webView];
-	[_scrollView addSubview:leftWebView];
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.5];
-	[leftWebView setFrame:CGRectMake( 0, 100, 320, leftWebView.frame.size.height )];
-	self.webView.frame = CGRectMake( 320, 100, 320, self.webView.frame.size.height );
-	[UIView commitAnimations];
-	
-	[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
-	[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
-	
-	[[[_webViews objectAtIndex:0] webView] setFrame:CGRectMake( -320, 100, 320, leftWebView.frame.size.height )];
+	if( 0 < _currentFeedIndex )
+	{
+		_currentFeedIndex --;
+			
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.3];
+		self.leftWebView.frame = CGRectMake( 0, 100, 320, self.leftWebView.frame.size.height );
+		self.centerWebView.frame = CGRectMake( 320, 100, 320, self.centerWebView.frame.size.height );
+		[UIView commitAnimations];
+		
+		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+		[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:YES];
+		
+		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
+		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
+		
+		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
+	}
 }
 
 - (void)rightFeedButtonDidTouchUpInside
 {
-	// currentWebView가 될 웹뷰
-	UIWebView *rightWebView = [[_webViews objectAtIndex:2] webView];
-	[_scrollView addSubview:rightWebView];
-	
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.5];
-	[rightWebView setFrame:CGRectMake( 0, 100, 320, rightWebView.frame.size.height )];
-	self.webView.frame = CGRectMake( -320, 100, 320, self.webView.frame.size.height );
-	[UIView commitAnimations];
-	
-	[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
-	[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
-	
-	[[[_webViews objectAtIndex:2] webView] setFrame:CGRectMake( 320, 100, 320, rightWebView.frame.size.height )];
+	if( _currentFeedIndex < _feedDetailObjects.count - 1 )
+	{
+		_currentFeedIndex ++;
+		
+		[UIView beginAnimations:nil context:NULL];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.3];
+		self.rightWebView.frame = CGRectMake( 0, 100, 320, self.rightWebView.frame.size.height );
+		self.centerWebView.frame = CGRectMake( -320, 100, 320, self.centerWebView.frame.size.height );
+		[UIView commitAnimations];
+		
+		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+		[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:YES];
+		
+		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
+		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
+		
+		self.rightWebView.frame = CGRectMake( 320, 100, 320, self.rightWebView.frame.size.height );
+	}
 }
 
 - (void)currentFeedDidChange:(NSUInteger)oldIndex newIndex:(NSUInteger)newIndex
@@ -527,12 +558,12 @@
 	}
 }
 
-- (void)resizeContentHeight
+- (void)resizeContentHeight:(FeedDetailWebView *)webView
 {
-	float height = 500; //[[self.webView stringByEvaluatingJavaScriptFromString:@"getHeight()"] floatValue] - 21;
-	CGRect frame = self.webView.frame;
+	float height = [[webView stringByEvaluatingJavaScriptFromString:@"getHeight();"] floatValue] - 21;
+	CGRect frame = webView.frame;
 	frame.size.height = height;
-	self.webView.frame = frame;
+	webView.frame = frame;
 	_scrollView.contentSize = CGSizeMake( 320, height + 100 );
 }
 
@@ -542,7 +573,9 @@
 - (void)feedDetailDidFinishCreating
 {
 	// WebView 컨텐츠 리사이징
-	[self resizeContentHeight];
+	[self resizeContentHeight:self.centerWebView];
+	[self resizeContentHeight:self.leftWebView];
+	[self resizeContentHeight:self.rightWebView];
 	
 	if( type == 0 )
 	{
@@ -572,5 +605,11 @@
 {
 	[_loadingQueue removeObjectAtIndex:0];
 }
+
+
+#pragma mark -
+#pragma mark Utils
+
+// 지도 region 옮겨주는거
 
 @end

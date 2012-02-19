@@ -11,15 +11,16 @@
 
 @implementation FeedDetailWebView
 
+@synthesize feedObject;
+
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController
 {
 	if( self = [super init] )
 	{
-		// Web View
-//		self.webView.backgroundColor = [UIColor clearColor];
-//		self.webView.opaque = NO;
-		self.webView.scrollView.scrollEnabled = NO;
-		[self.webView removeFromSuperview];
+		self.backgroundColor = [UIColor clearColor];
+		self.opaque = NO;
+		self.scrollView.scrollEnabled = NO;
+		
 //		self.webView.layer.shadowColor = [UIColor blackColor].CGColor;
 //		self.webView.layer.shadowOpacity = 0.7f;
 //		self.webView.layer.shadowOffset = CGSizeMake( 0, -4.0f );
@@ -73,7 +74,7 @@
 					   feedObj.numAllFeeds,
 					   feedObj.numLikes] retain];
 	
-	[self.webView stringByEvaluatingJavaScriptFromString:func];
+	[self stringByEvaluatingJavaScriptFromString:func];
 	
 	NSLog( @"%@", func );
 }
