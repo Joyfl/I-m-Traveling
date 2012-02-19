@@ -69,7 +69,7 @@
 
 - (void)didFinishLoading:(NSString *)result
 {
-	NSLog( @"Overriding is needed." );
+	NSLog( @"didFinishLoading : Overriding is needed." );
 }
 
 

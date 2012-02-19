@@ -108,15 +108,13 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	NSLog( @"Overriding is needed." );
+//	NSLog( @"Overriding is needed." );
 }
 
 #pragma mark - Javascript Functions
 
 - (void)clear
-{
-	NSLog( @"clear" );
-	
+{NSLog( @"CCCCCCCCCCCCCLEAR!!! : %f", self.webView.frame.origin.x );
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
 }
 

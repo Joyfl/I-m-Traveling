@@ -233,16 +233,14 @@ enum {
 {
 	FeedObject *feedObj = (FeedObject *)view.annotation;
 	FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-	detailViewController.feedObject = [_feedMapObjects objectForKey:[NSNumber numberWithInt:feedObj.feedId]];
 	detailViewController.type = 1;
-	detailViewController.loaded = NO;
 	
 	CGRect rect = [_feedMapView convertRegion:_feedMapView.region toRectToView:self.view];
 	rect.origin.y -= ( _feedMapView.frame.size.height - 100 ) * 0.5;
 	detailViewController.originalRegion = [_feedMapView convertRect:rect toRegionFromView:self.view];
 	
+	[detailViewController activateWithFeedObject:feedObj];
 	[self.navigationController pushViewController:detailViewController animated:NO];
-	[detailViewController loadFeedDetail];
 }
 
 #pragma mark - CLLocationManagerDelegate

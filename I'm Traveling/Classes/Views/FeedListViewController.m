@@ -173,11 +173,9 @@ enum {
 		self.webView.scrollView.contentOffset = CGPointMake( 0, originalOffset );
 		
 		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-		detailViewController.feedObject = [_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
 		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
 		detailViewController.type = 0;
-		detailViewController.loaded = NO;
-		[detailViewController loadFeedDetail];
+		[detailViewController activateWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
 }
@@ -192,7 +190,6 @@ enum {
 
 - (void)didFinishLoading:(NSString *)result
 {
-	NSLog( @"finish : %@", result );
 	NSArray *feeds = [Utils parseJSON:result];
 	for( NSDictionary *feed in feeds )
 	{

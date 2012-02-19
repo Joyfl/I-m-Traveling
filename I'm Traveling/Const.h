@@ -8,7 +8,7 @@
 
 #define HTML_INDEX				@"http://jshs.woobi.co.kr/traveling/index.html"
 
-#define API_FEED_LIST			@"http://imtraveling.joyfl.kr/feed_list.php"
+#define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"
 #define API_FEED_DETAIL			@"http://imtraveling.joyfl.kr/feed_detail.php"
 #define API_FEED_MAP			@"http://imtraveling.joyfl.kr/feed_map.php"
 #define API_FEED_IMAGE			@"http://imtraveling.joyfl.kr/feed/"
