@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
 	UITabBarController *tabBarController;
 }
 
 @property (strong, nonatomic) UIWindow *window;
+
+- (void)showActionSheet;
 
 @end

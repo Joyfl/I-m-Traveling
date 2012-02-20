@@ -104,11 +104,65 @@
 	 */
 }
 
-#pragma mark - selectors
+#pragma mark -
+#pragma mark Selectors
 
 - (void)onUploadButtonTouch
 {
-	ShareViewController *shareViewController = [[ShareViewController alloc] init];
+//	ShareViewController *shareViewController = [[ShareViewController alloc] init];
+//	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareViewController];
+//	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
+//	[tabBarController presentModalViewController:navigationController animated:YES];
+	
+	[self showActionSheet];
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)showActionSheet
+{
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Album", nil];
+	[actionSheet showInView:self.window];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+	
+	if( buttonIndex == 0 ) // Camera
+	{
+		@try
+		{
+			pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+		}
+		@catch (NSException *exception)
+		{
+			[[[UIAlertView alloc] initWithTitle:@"This device doesn't support camera." message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+			return;
+		}
+		
+		pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+	}
+	else if( buttonIndex == 1 ) // Album
+	{
+		pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	}
+	
+	pickerController.delegate = self;
+	[tabBarController presentModalViewController:pickerController animated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	[tabBarController dismissModalViewControllerAnimated:YES];
+	[self performSelector:@selector(presentShareViewControllerWithImage:) withObject:[info objectForKey:@"UIImagePickerControllerOriginalImage"] afterDelay:0.5];
+}
+
+- (void)presentShareViewControllerWithImage:(UIImage *)image
+{
+	ShareViewController *shareViewController = [[ShareViewController alloc] initWithImage:image];
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareViewController];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];

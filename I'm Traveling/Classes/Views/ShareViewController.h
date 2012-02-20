@@ -10,5 +10,10 @@
 #import "UIWebViewController.h"
 
 @interface ShareViewController : UIWebViewController
+{
+	
+}
+
+-(id)initWithImage:(UIImage *)image;
 
 @end

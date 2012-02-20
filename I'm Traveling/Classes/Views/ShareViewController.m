@@ -11,7 +11,7 @@
 
 @implementation ShareViewController
 
-- (id)init
+-(id)initWithImage:(UIImage *)image
 {
     if( self = [super init] )
 	{
@@ -24,6 +24,10 @@
 		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
 //		[self loadHtmlFile:@"feed_list"];
 		[self loadRemotePage:HTML_INDEX];
+		
+		self.view.backgroundColor = [UIColor whiteColor];
+		
+		[self.view addSubview:[[UIImageView alloc] initWithImage:image]];
     }
     return self;
 }
