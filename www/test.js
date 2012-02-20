@@ -8,8 +8,6 @@ infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버
 likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
-marginInPixel = 8;
-marginInEm = 0.5;
 
 
 
@@ -19,23 +17,13 @@ function init()
 {
 	clear();
 	
-	for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	//for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
-	//addFeedDetail(9, 1, infos, 3, 4, 5);
-	
-	//createMainPage();
-	//createLoginPage();
-	
-	//createTitle(123, pic1, "바나나", "19 JAN", "Las Vegas", "KOR");
-	//modifyTitle("20 JAN", "Los Angelos", "USA");
-	
-	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, likes, comments)
+	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
 	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
 	
 	//for(var i = 0; i < 7; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", "revivweview");
-	
-	//clearExcept(2);
 }
 
 
@@ -48,29 +36,15 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	var header = makeClass("div", "header", wrap);
 	fillHeader(header, user_id, profile_image_url, name, time, place, region);
 	
-	var thumbnail = makeClass("div", "thumbnail", wrap);
+	var thumbnail = makeClass("div", "thumbnail component", wrap);
 	fillThumbnail(thumbnail, picture_url, num_likes, num_comments, isThumbnail);
 	
-	var reviewText = makeClass("div", "review", wrap);
+	var reviewText = makeClass("div", "review component", wrap);
 	reviewText.innerText = review;
 	
+	createGap(wrap, 0.1);
+	
 	thumbnail.onclick = function() { call("imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
-}
-
-function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
-{
-	var infoList = makeClass("ul", "infoList", wrap);
-	fillInfoList(infoList, info);
-	
-	var button = makeClass("div", "singleButton", wrap);
-	button.innerText = "See all " + num_all_feeds + " feeds";
-	
-	var likeBar = makeClass("div", "likeBar", wrap);
-	fillLikeBar(likeBar, num_likes);
-	
-	createGap(emToPixel(0.3), wrap);
-	
-	button.onclick = function() {};
 }
 
 function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place, _region)
@@ -98,9 +72,24 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
-	header.style.height = intToPixel(60);
-	upperWrap.style.width = intToPixel(header.clientWidth - 60 - 8);
-	lowerWrap.style.width = intToPixel(header.clientWidth - 60 - 8);
+	upperWrap.style.width = intToEm(pixelToEm(W()) - 6.0 - 0.8);
+	lowerWrap.style.width = intToEm(pixelToEm(W()) - 6.0 - 0.8);
+}
+
+function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
+{
+	var infoList = makeClass("ul", "infoList component", wrap);
+	fillInfoList(infoList, info);
+	
+	var button = makeClass("div", "singleButton component", wrap);
+	button.innerText = "See all " + num_all_feeds + " feeds";
+	
+	var likeBar = makeClass("div", "likeBar component", wrap);
+	fillLikeBar(likeBar, num_likes);
+	
+	createGap(wrap, 0.1);
+	
+	button.onclick = function() {};
 }
 
 function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
@@ -108,7 +97,7 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 	var cover = makeClass("div", "cover picture", thumbnail);
 	var picture = makeClass("img", "picture", thumbnail);
 	
-	if(!isThumbnail)
+	if(isThumbnail)
 	{
 		var feedback = makeClass("div", "feedback", thumbnail);
 	
@@ -129,6 +118,8 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 	}
 	
 	picture.src = pictureUrl;
+	setWidth(picture, "100%");
+	setWidth(cover, intToPixel(picture.clientWidth));
 	picture.onload = function(){
 		var value = intToPixel(picture.clientHeight);
 		cover.style.height = value;
@@ -179,18 +170,12 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
 }
 
-function addFeedDetail(trip_id, feed_id, info, num_all_feeds, num_likes)
-{
-	fillFeedContents(clearExcept(feed_id), info, trip_id, num_all_feeds, num_likes);
-	call("imtraveling:detail_finished");
-}
-
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	call("imtraveling:detail_finished");
+	//call("imtraveling:detail_finished");
 }
 
 
@@ -211,10 +196,10 @@ function makeId(type, id, parent) {
 	return component;
 }
 
-function createGap(height, parent) {
+function createGap(parent, height) {
 	gap = document.createElement("div");
 	gap.className = "gap";
-	gap.style.height = intToPixel(height);
+	gap.style.height = intToEm(height);
 	parent.appendChild(gap);
 	return gap;
 }
@@ -228,12 +213,15 @@ function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToPixel(value) { return value.toString() + "px"; }
 function emToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToEm(value) { return value.toString() + "em"; }
-function pixelToEm(value) { return value/16; }
-function emToPixel(value) { return value*16; }
+function pixelToEm(value) { return value/10; }
+function emToPixel(value) { return value*10; }
 
-function getId(_id) { return document.getElementById(_id); }
-function getName(_name) { return document.getElementsByName(_name); }
-function getClass(_name) { return document.getElementsByClassName(_name); }
+function getId(id) { return document.getElementById(id); }
+function getClass(name) { return document.getElementsByClassName(name); }
+
+function setWidth(c, w) { c.style.width = w; }
+function setHeight(c, h) { c.style.height = h; }
+function setSize(c, w, h) { setWidth(c, w); setHeight(c, h); } 
 
 /* 전수열꺼 */
 function getHeight() { return H(); }

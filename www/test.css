@@ -4,7 +4,6 @@
 {
 	margin: 0em;
 	padding: 0em;
-	font-size: 1em;
 }
 
 @font-face
@@ -30,6 +29,12 @@ html, body
 	user-select: none;
 	
 	background-color: transparent;
+	font-size: 10px;
+}
+
+ul, ol
+{
+	list-style-type: none;
 }
 
 #page, .pseudo
@@ -40,12 +45,13 @@ html, body
 .cover
 {
 	position: absolute;
-	-webkit-box-shadow: 0px 1px 2px #333333 inset;
+	-webkit-box-shadow: 0px 0.1em 0.2em #333333 inset;
 }
 
-.gap
+.component
 {
-	width: 100%;
+	margin: 0.5em 7% 0.5em 7%;
+	width: 86%;
 }
 
 
@@ -58,38 +64,39 @@ html, body
 	background-image: url("resource/gradient.png");
 	background-size: 100% 100%;
 	clear: both;
+	height: 6em;
 }
 
 .profileImage
 {
-	width: 44px;
-	height: 44px;
-	margin: 8px;
+	width: 4.4em;
+	height: 4.4em;
+	margin: 0.8em;
 	border: 0px solid #ffffff;
-	border-radius: 6px;
+	border-radius: 0.6em;
 	float: left;
 }
 
 .upperWrap
 {
 	float: left;
-	height: 16px;
-	margin-top: 8px;
-	padding-top: 4px;
+	height: 1.6em;
+	margin-top: 0.8em;
+	padding-top: 0.4em;
 }
 
 .lowerWrap
 {
 	float: left;
-	height: 24px;
-	margin-top: 4px;
+	height: 2.4em;
+	margin-top: 0.4em;
 }
 
 .userName
 {
 	/*font-family: "Helvetica 37 Thin Condensed";*/
 	float: left;
-	font-size: 1em;
+	font-size: 1.6em;
 	font-weight: bold;
 	color: #473e4d;
 }
@@ -98,7 +105,7 @@ html, body
 {
 	float: right;
 	text-align: right;
-	font-size: 0.8em;
+	font-size: 1.2em;
 	font-weight: bold;
 	color: #473e4d;
 }
@@ -106,7 +113,7 @@ html, body
 .place
 {
 	float: left;
-	font-size: 1.33em;
+	font-size: 2em;
 	font-weight: bold;
 	color: #140e17;
 }
@@ -115,9 +122,9 @@ html, body
 {
 	float: right;
 	text-align: right;
-	font-size: 14px;
+	font-size: 1.3em;
 	color: #876d56;
-	margin-top: 3px;
+	margin-top: 0.3em;
 }
 
 
@@ -127,13 +134,11 @@ html, body
 
 .thumbnail
 {
-	margin-top: 0.8em;
+	margin-top: 1em;
 }
 
 .picture
 {
-	width: 86%;
-	margin-left: 7%;
 	border: 0px solid #ffffff;
 	border-radius: 0.7em;
 }
@@ -142,15 +147,26 @@ html, body
 {
 	position: relative;
 	margin-left: 93%;
-	height: 1em;
-	width: 8em;
-	top: -1.7em;
-	left: -8em;
+	height: 1.5em;
+	width: 13em;
+	top: -2.5em;
+	left: -11em;
+}
+
+.review
+{
+	font-size: 1.5em;
+
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
 
 .iconWrap
 {
-	width: 3em;
+	width: 5em;
 	float: right;
 	margin-right: 0.5em;
 }
@@ -158,8 +174,8 @@ html, body
 .icon
 {
 	float: left;
-	width: 1em;
-	height: 1em;
+	width: 1.6em;
+	height: 1.6em;
 }
 
 .iconText
@@ -167,7 +183,8 @@ html, body
 	width: 2em;
 	text-align: right;
 	float: left;
-	margin-top: 0.15em;
+	margin-top: 0.1em;
+	font-size: 1.5em;
 }
 
 .likeText
@@ -180,21 +197,6 @@ html, body
 	color: #005c6b;
 }
 
-.review
-{
-	font-size: 1em;
-	width: 86%;
-	
-	margin-left: 7%;
-	margin-top: 0.5em;
-	
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap;
-	word-wrap: break-word;
-}
-
 
 
 
@@ -202,26 +204,25 @@ html, body
 
 .infoList
 {
-	list-style-type: none;
-	margin-left: 7%;
-	margin-top: 0em;
-	width: 86%;
+	margin-top: -0.5em;
 }
 
 .infoListComponent
 {
 	clear: both;
-	height: 1em;
+	height: 1.5em;
 }
 
 .leftWrap
 {
+	font-size: 1.5em;
 	float: left;
 	width: 43%;
 }
 
 .rightWrap
 {
+	font-size: 1.5em;
 	text-align: right;
 	float: right;
 	width: 43%;
@@ -229,10 +230,7 @@ html, body
 
 .singleButton
 {
-	width: 86%;
-	margin-left: 7%;
-	margin-right: 7%;
-	margin-top: 0.4em;
+	font-size: 1.5em;
 	height: 1.5em;
 	padding-top: 0.5em;
 	text-align: center;
@@ -242,20 +240,7 @@ html, body
 
 .likeBar
 {
-	margin-top: 0.4em;
-	width: 86%;
-	margin-left: 7%;
-	margin-right: 7%;
-}
-
-.commentList
-{
-	list-style-type: none;
-}
-
-.comment
-{
-	width: 100%;
+	font-size: 1.5em;
 }
 
 
