@@ -216,14 +216,14 @@ ul, ol
 
 .leftWrap
 {
-	font-size: 1.5em;
+	font-size: 1.3em;
 	float: left;
 	width: 43%;
 }
 
 .rightWrap
 {
-	font-size: 1.5em;
+	font-size: 1.3em;
 	text-align: right;
 	float: right;
 	width: 43%;
@@ -231,7 +231,7 @@ ul, ol
 
 .singleButton
 {
-	font-size: 1.5em;
+	font-size: 1.3em;
 	height: 1.5em;
 	padding-top: 0.5em;
 	text-align: center;
@@ -241,7 +241,7 @@ ul, ol
 
 .likeBar
 {
-	font-size: 1.5em;
+	font-size: 1.3em;
 }
 
 
