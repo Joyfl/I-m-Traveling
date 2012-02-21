@@ -15,7 +15,7 @@ RATIO = 10;
 
 function init()
 {
-	//RATIO = getEmSize();
+	RATIO = getEmSize();
 	
 	//clear();
 	
@@ -177,7 +177,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	//call("imtraveling:detail_finished");
+	call("imtraveling:detail_finished");
 }
 
 
