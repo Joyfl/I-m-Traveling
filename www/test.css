@@ -32,7 +32,7 @@ html, body
 	font-size: 10px;
 }
 
-ul, ol
+ul, ol, li
 {
 	list-style-type: none;
 }
@@ -52,6 +52,12 @@ ul, ol
 {
 	margin: 0.5em 7% 0.5em 7%;
 	width: 86%;
+}
+
+.gap
+{
+	width: 100%;
+	clear: both;
 }
 
 
@@ -80,16 +86,12 @@ ul, ol
 .upperWrap
 {
 	float: left;
-	height: 1em;
-	margin-top: 0.6em;
-	padding-top: 0.4em;
+	margin-top: 1em;
 }
 
 .lowerWrap
 {
 	float: left;
-	height: 2em;
-	margin-top: 0.7em;
 }
 
 .userName
@@ -246,23 +248,34 @@ ul, ol
 
 
 
+/* Comment, SimpleFeed */
 
-/* Etc */
+.commentWrap, .simpleFeed
+{
+	clear: both;
+	border-bottom: 1px solid #333;
+}
 
-.simpleThumbnail
+.simpleFeed .profileImage
 {
 	width: 11em;
 	height: 11em;
-	margin: 1em;
-	float: left;
-	border: 0px solid #ffffff;
-	border-radius: 0.4em;
+	margin: 0.8em;
 }
 
-.lowerWrap2
+.commentWrap .profileImage
 {
-	float: left;
-	margin-top: 0.7em;
+	margin: 0.4em 0.8em 0.4em 0.8em;
+}
+
+.commentWrap .upperWrap
+{
+	margin-top: 0.4em;
+}
+
+.commentWrap .lowerWrap
+{
+	margin-bottom: 0.1em;
 }
 
 .zfbe
@@ -273,6 +286,11 @@ ul, ol
 	height: 0;
 	visibility: hidden;
 }
+
+
+
+
+/* Etc */
 
 #loading
 {

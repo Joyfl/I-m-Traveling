@@ -3,14 +3,15 @@
 pic1 = "resource/face.jpg";
 pic2 = "resource/thumbnail.jpg";
 server = "http://imtraveling.joyfl.kr";
-comments = new Array({"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"}, {"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"asdf"});
+comments = new Array({"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevaaaaaaaaaieweviweeviweviewevieweviewdf"}, {"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"});
 infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"});
 likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
 RATIO = 10;
-reviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviwevie";
-reviewLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSK";
+reviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweviwf3eevie";
+reviewKor = "마ㅏㅏ럼ㄴㅇㄹㅁㄴㅇㄹㄱㄴㅇㄱㅇㄴㄱㅁㅇㄴㅂㄴㅇㅎㅁㄱㅇㄴㅎㅁㄱㅇㄴㅎㄱㅁㅈㅇㄴㅎㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹasdfasdfasdfasdfasdfㄱㅈㅇㄴㅁㅈ";
+reviewLong = "ㄱrevSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieS";
 reviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieivwevie";
 
 
@@ -26,15 +27,19 @@ function init()
 	
 	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
-	//for(var i = 0; i < 7; i++) addComment(getId("page"), 123, pic1, "바나나", "20 FEB", "revivieweeviweviewevieweviewvieweviewevieweview");
+	var cl = makeClass("ul", "asdf", getId("page"));
+	for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
+	//fillCommentList(cl, comments);
 	
-	for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", reviewShort);
+	//for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", reviewShort);
+	
+	//alert(reviewLong.length);
 }
 
 
 
 
-// Filling Functions
+// Back-End Functions
 
 function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, _review, num_likes, num_comments, isThumbnail)
 {
@@ -46,8 +51,6 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	
 	var review = makeClass("div", "review component", wrap);
 	review.innerText = _review;
-	
-	createGap(wrap, 0.1);
 	
 	thumbnail.onclick = function() { call("imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
 }
@@ -77,8 +80,8 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
-	upperWrap.style.width = intToEm(pixelToEm(W()) - 6);
-	lowerWrap.style.width = intToEm(pixelToEm(W()) - 6);
+	upperWrap.style.width = intToEm(pixelToEm(W()) - 7);
+	lowerWrap.style.width = intToEm(pixelToEm(W()) - 7);
 }
 
 function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
@@ -158,10 +161,33 @@ function fillCommentList(commentList, comments)
 		addComment(commentList, comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
 }
 
-function addComment(commentList, user_id, profile_image_url, name, time, content)
+function addComment(commentList, user_id, profile_image_url, name, _time, _content)
 {
-	var comment = makeClass("li", "title comment", commentList);
-	fillTitle(comment, user_id, profile_image_url, name, time, content, "");
+	var wrap = makeClass("li", "commentWrap", commentList);
+	
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var profileImage = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var userName = makeClass("div", "userName", upperWrap);
+	var time = makeClass("div", "time", upperWrap);
+	var content = makeClass("div", "review", lowerWrap);
+	var zfbe = makeClass("div", "zfbe", wrap);
+		
+	profileImage.src = profile_image_url;
+	userName.innerText = name;
+	time.innerText = _time;
+	content.innerText= _content;
+	
+	setHeight(cover, intToEm(pixelToEm(profileImage.clientHeight)));
+	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(0.8)));
+	upperWrap.style.width = intToEm(pixelToEm(W()) - 6);
+	lowerWrap.style.width = intToEm(pixelToEm(W()) - 6);
+	
+	//var t = getEmSizeByEl(content);
+	//alert(t);
 }
 
 
@@ -185,13 +211,13 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = makeClass("div", "simpleFeed", getId("page"));
 	
-	var cover = makeClass("div", "cover simpleThumbnail", wrap);
-	var thumbnail = makeClass("img", "simpleThumbnail", wrap);
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var thumbnail = makeClass("img", "profileImage", wrap);
 	
 	var upperWrap = makeClass("div", "upperWrap", wrap);
-	var lowerWrap = makeClass("div", "lowerWrap2", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
 	
 	var place = makeClass("div", "place", upperWrap);
 	var time = makeClass("div", "time", upperWrap);
@@ -203,15 +229,8 @@ function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 	place.innerText = _place;
 	review.innerText= _review;
 	
-	wrap.style.clear = "both";
-	upperWrap.style.marginTop = "0.8em";
-	review.style.marginTop = "0.3em";
-	review.style.fontSize = "1.05em";
-	
 	setHeight(cover, intToEm(pixelToEm(thumbnail.clientHeight)));
-	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(2)));
-	//setHeight(wrap, intToEm(pixelToEm(max(cover.clientHeight + emToPixel(2), lowerWrap.clientHeight + 35))));
-	//setTimeout(function(){setHeight(wrap, intToEm(pixelToEm(max(cover.clientHeight + emToPixel(2), lowerWrap.clientHeight + pixelToEm(1)))));}, review.innerText.length);
+	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
 	upperWrap.style.width = intToEm(pixelToEm(W()) - 14);
 	lowerWrap.style.width = intToEm(pixelToEm(W()) - 14);
 }
@@ -263,6 +282,18 @@ function getEmSize() {
 	var ret = temp.offsetHeight;
 	document.body.removeChild(temp);
 	return ret;
+}
+
+function getEmSizeByEl(el) {
+  if (typeof el == "string") el = document.getElementById(el);
+  if (el != null) {
+    var tempDiv = document.createElement('div');
+    tempDiv.style.height = '1em';
+    el.appendChild(tempDiv);
+    var emSize = tempDiv.offsetHeight;
+    el.removeChild(tempDiv);
+    return emSize;
+  }
 }
 
 function setWidth(c, w) { c.style.width = w; }
