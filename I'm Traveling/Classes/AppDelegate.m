@@ -105,22 +105,9 @@
 }
 
 #pragma mark -
-#pragma mark Selectors
-
-- (void)onUploadButtonTouch
-{
-//	ShareViewController *shareViewController = [[ShareViewController alloc] init];
-//	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareViewController];
-//	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-//	[tabBarController presentModalViewController:navigationController animated:YES];
-	
-	[self showActionSheet];
-}
-
-#pragma mark -
 #pragma mark UIActionSheetDelegate
 
-- (void)showActionSheet
+- (void)onUploadButtonTouch
 {
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Album", nil];
 	[actionSheet showInView:self.window];
@@ -148,6 +135,10 @@
 	else if( buttonIndex == 1 ) // Album
 	{
 		pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	}
+	else
+	{
+		return;
 	}
 	
 	pickerController.delegate = self;
