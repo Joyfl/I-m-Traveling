@@ -8,16 +8,18 @@ infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버
 likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
-
+RATIO = 10;
 
 
 // Initialize 
 
 function init()
 {
+	RATIO = getEmSize();
+	
 	clear();
 	
-	//for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
+	for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, "ASKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewvieweviewevieweview", 113, 113);
 	
 	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
@@ -72,8 +74,8 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
-	upperWrap.style.width = intToEm(pixelToEm(W()) - 6.0 - 0.8);
-	lowerWrap.style.width = intToEm(pixelToEm(W()) - 6.0 - 0.8);
+	upperWrap.style.width = intToEm(pixelToEm(W()) - 6);
+	lowerWrap.style.width = intToEm(pixelToEm(W()) - 6);
 }
 
 function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
@@ -213,11 +215,19 @@ function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToPixel(value) { return value.toString() + "px"; }
 function emToInt(value) { return Number(value.slice(0, value.length - 2)); }
 function intToEm(value) { return value.toString() + "em"; }
-function pixelToEm(value) { return value/10; }
-function emToPixel(value) { return value*10; }
+function pixelToEm(value) { return value/RATIO; }
+function emToPixel(value) { return value*RATIO; }
 
 function getId(id) { return document.getElementById(id); }
 function getClass(name) { return document.getElementsByClassName(name); }
+
+function getEmSize() {
+	var temp = makeClass("div", "pseudo", document.body);
+	temp.style.height = "1em";
+	var ret = temp.offsetHeight;
+	document.body.removeChild(temp);
+	return ret;
+}
 
 function setWidth(c, w) { c.style.width = w; }
 function setHeight(c, h) { c.style.height = h; }
