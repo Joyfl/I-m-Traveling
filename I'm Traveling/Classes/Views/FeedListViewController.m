@@ -203,8 +203,8 @@ enum {
 		feedObj.time = [feed objectForKey:@"time"];
 		feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, feedObj.feedId] retain];
 		feedObj.review = [feed objectForKey:@"review"];
-		feedObj.numLikes = [[feed objectForKey:@"place"] integerValue];
-		feedObj.numComments = [[feed objectForKey:@"place"] integerValue];
+		feedObj.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
+		feedObj.numComments = [[feed objectForKey:@"num_comments"] integerValue];
 		feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
 		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 		[self addFeed:feedObj];

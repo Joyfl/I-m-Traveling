@@ -199,7 +199,7 @@
 //	NSLog( @"req : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, 2] );
 	// 이미 로드가 완료된 것을 한번 더 로드하는 것 방지
 	if( !feedObject.complete )
-		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, 1]];
+		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, 2]];
 }
 
 - (void)loadFeedDetailFromLoadingQueue
@@ -230,6 +230,7 @@
 	if( !feedObject.profileImageURL ) feedObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObject.userId];
 	
 	// type이 2일 경우에만 해당
+	if( !feedObject.name ) feedObject.name = [feed objectForKey:@"name"];
 	if( !feedObject.place ) feedObject.place = [feed objectForKey:@"place"];
 	
 	// 모든 정보가 채워짐
@@ -574,8 +575,6 @@
 {
 	// WebView 컨텐츠 리사이징
 	[self resizeContentHeight:self.centerWebView];
-	[self resizeContentHeight:self.leftWebView];
-	[self resizeContentHeight:self.rightWebView];
 	
 	if( type == 0 )
 	{
