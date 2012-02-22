@@ -7,7 +7,6 @@
 //
 
 #import "FeedDetailViewController.h"
-#import "FeedDetailWebView.h"
 #import "FeedObject.h"
 #import "Const.h"
 #import "Utils.h"
@@ -17,8 +16,9 @@
 
 @interface FeedDetailViewController (Private)
 
-- (void)loadFeedDetail;
-- (void)loadFeedDetailIndex:(NSInteger)index;
+- (void)preloadFeedDetail;
+- (void)prepareFeedDetailWithIndex:(NSInteger)index;
+- (void)createFeedDetail:(FeedObject *)feedObject atIndex:(NSInteger)index;
 - (void)loadFeedDetailFromLoadingQueue;
 
 - (void)animateAppearance;
@@ -26,10 +26,10 @@
 
 - (void)removeUpperAndLowerImages;
 
+- (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed;
 - (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId;
 
-- (void)addFeedIndexToLoadingQueue:(NSInteger)index;
-- (void)removeLoadedFeedFromLoadingQueue;
+- (void)resizeContentHeight:(FeedDetailWebView *)webView;
 
 @property (retain, readonly) FeedDetailWebView *leftWebView;
 @property (retain, readonly) FeedDetailWebView *centerWebView;
@@ -40,7 +40,7 @@
 
 @implementation FeedDetailViewController
 
-@synthesize type, mapView=_mapView, loaded, originalRegion;
+@synthesize ref, mapView=_mapView, loaded, originalRegion;
 
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
@@ -112,7 +112,7 @@
 			[_webViews addObject:detailWebView];
 		}
 		
-		_loadingQueue = [[NSMutableArray alloc] init];
+		_loadingQueue = [[LoadingQueue alloc] init];
 		
 		_feedDetailObjects = [[NSMutableArray alloc] init];
     }
@@ -139,11 +139,7 @@
 		[[_webViews objectAtIndex:i] clear];
 	}
 	
-	NSLog( @"%f", self.leftWebView.frame.origin.x );
-	NSLog( @"%f", self.centerWebView.frame.origin.x );
-	NSLog( @"%f", self.rightWebView.frame.origin.x );
-	
-	[self loadFeedDetail];
+	[self preloadFeedDetail];
 }
 
 - (void)didReceiveMemoryWarning
@@ -167,10 +163,10 @@
 {
 	if( loaded ) return;
 	
-	// 현재 피드의 region으로 애니메이션 (type = 0일 경우에는 애니메이션 안함)
-	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( _feedObjectFromPrevView.latitude, _feedObjectFromPrevView.longitude ), 200, 200 ) animated:type ? YES : NO];
+	// 현재 피드의 region으로 애니메이션 (ref = 0일 경우에는 애니메이션 안함)
+	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( _feedObjectFromPrevView.latitude, _feedObjectFromPrevView.longitude ), 200, 200 ) animated:ref ? YES : NO];
 	
-	// Animation 적용 (type 1의 애니메이션은 loadDidFinish에서)
+	// Animation 적용 (ref 1의 애니메이션은 loadDidFinish에서)
 	[self animateAppearance];
 	
 	loaded = YES;
@@ -186,41 +182,101 @@
 #pragma mark -
 #pragma mark Loading
 
-- (void)loadFeedDetail
+- (void)preloadFeedDetail
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, type]];
+	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref]];
 }
 
-// 직접 호출하지는 않음
-- (void)loadFeedDetailIndex:(NSInteger)index
+- (void)prepareFeedDetailWithIndex:(NSInteger)index
 {
-	FeedObject *feedObject = (FeedObject *)[_feedDetailObjects objectAtIndex:index];
-	
-//	NSLog( @"req : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, 2] );
-	// 이미 로드가 완료된 것을 한번 더 로드하는 것 방지
-	if( !feedObject.complete )
-		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=%d", API_FEED_DETAIL, feedObject.feedId, 2]];
+	if( 0 <= index && index < _feedDetailObjects.count )
+	{
+		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:index];
+		
+		if( feedObject.complete )
+		{
+			[self createFeedDetail:feedObject atIndex:index];
+		}
+		else
+		{
+			[_loadingQueue addFeedIndex:index];
+			[self loadFeedDetailFromLoadingQueue];
+		}
+	}
+}
+
+- (void)createFeedDetail:(FeedObject *)feedObject atIndex:(NSInteger)index
+{
+	if( index < _currentFeedIndex )
+	{
+		[self.leftWebView createFeedDetail:feedObject];
+//		[self resizeContrn
+	}
+	else if( _currentFeedIndex < index )
+	{
+		[self.rightWebView createFeedDetail:feedObject];
+	}
+	else
+	{
+		[self.centerWebView createFeedDetail:feedObject];
+	}
 }
 
 - (void)loadFeedDetailFromLoadingQueue
 {
 	if( _loadingQueue.count > 0 )
 	{
-		[self loadFeedDetailIndex:[[_loadingQueue objectAtIndex:0] integerValue]];
+		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex] feedId]]];
 	}
 }
 
 - (void)didFinishLoading:(NSString *)result
-{	
+{
 	NSDictionary *feed = [Utils parseJSON:result];
+	if( [feed objectForKey:@"ERROR"] )
+	{
+		NSLog( @"ERROR! : %@", [feed objectForKey:@"ERROR"] );
+		return;
+	}
 	
-	FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:[[_loadingQueue objectAtIndex:0] integerValue]];
+	FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex];
+	[self completeFeedObject:feedObject fromDictionary:feed];
 	
-	// type이 0, 1, 2일 경우에 공통적으로 해당
+	// 첫 로딩
+	if( _feedObjectFromPrevView )
+	{
+		// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
+		[self.centerWebView clear];
+		[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+		[self handleAllFeeds:[feed objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
+		
+		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
+		
+		[_loadingQueue addFeedIndex:_currentFeedIndex - 1];
+		[_loadingQueue addFeedIndex:_currentFeedIndex + 1];
+		
+		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
+	}
+	else
+	{
+		[_feedDetailObjects replaceObjectAtIndex:_loadingQueue.firstIndex withObject:feedObject];
+		
+		[self createFeedDetail:feedObject atIndex:_loadingQueue.firstIndex];
+		
+		[_loadingQueue removeLoadedFeedFromLoadingQueue];
+	}
+	
+	[self loadFeedDetailFromLoadingQueue];
+}
+
+- (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed
+{
+	// ref가 0, 1, 2일 경우에 공통적으로 해당
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
 	feedObject.review = [feed objectForKey:@"review"];
+	feedObject.numAllFeeds = [[feed objectForKey:@"all_feeds"] count];
 	
-	// type이 1, 2일 경우에 공통적으로 해당
+	// ref가이 1, 2일 경우에 공통적으로 해당
 	if( !feedObject.userId ) feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
 	if( !feedObject.region ) feedObject.region = [feed objectForKey:@"region"];
 	if( !feedObject.time ) feedObject.time = [feed objectForKey:@"time"];
@@ -229,49 +285,18 @@
 	if( !feedObject.pictureURL ) feedObject.pictureURL = [NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObject.userId, feedObject.feedId];
 	if( !feedObject.profileImageURL ) feedObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObject.userId];
 	
-	// type이 2일 경우에만 해당
+	// ref가 2일 경우에만 해당
 	if( !feedObject.name ) feedObject.name = [feed objectForKey:@"name"];
 	if( !feedObject.place ) feedObject.place = [feed objectForKey:@"place"];
 	
 	// 모든 정보가 채워짐
 	feedObject.complete = YES;
-	
-	// 첫 로딩
-	if( _feedObjectFromPrevView )
-	{
-		// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
-		[self.centerWebView clear];
-		self.centerWebView.feedObject = feedObject;
-		[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
-		[self handleAllFeeds:[feed objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
-		
-		[self addFeedIndexToLoadingQueue:_currentFeedIndex - 1];
-		[self addFeedIndexToLoadingQueue:_currentFeedIndex + 1];
-		
-		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
-	}
-	else
-	{
-		NSInteger webViewIndex = 1;
-		
-		if( [[_loadingQueue objectAtIndex:0] integerValue] < _currentFeedIndex )
-			webViewIndex = 0;
-		else if( _currentFeedIndex < [[_loadingQueue objectAtIndex:0] integerValue] )
-			webViewIndex = 2;
-		
-		NSLog( @"webViewIndex : %d", webViewIndex );
-		[[_webViews objectAtIndex:webViewIndex] clear];
-		[[_webViews objectAtIndex:webViewIndex] setFeedObject:feedObject];
-		[[_webViews objectAtIndex:webViewIndex] performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
-		
-		[self removeLoadedFeedFromLoadingQueue];
-	}
-	
-	[self loadFeedDetailFromLoadingQueue];
 }
 
 - (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId
 {
+	_loadingQueue.maxIndex = allFeeds.count;
+	
 	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
 	
 	for( int i = 0; i < allFeeds.count; i++ )
@@ -287,6 +312,7 @@
 		if( feedObj.feedId == currentFeedId )
 		{
 			_currentFeedIndex = i;
+			NSLog( @"_currentFeedIndex : %d", _currentFeedIndex );
 		}
 		else
 		{
@@ -384,7 +410,7 @@
 
 - (void)animateAppearance
 {
-	if( self.type == 0 )
+	if( self.ref == 0 )
 	{
 		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
 		
@@ -400,7 +426,7 @@
 		_lowerImageView.frame = CGRectMake( 0, 100, 320, _lowerImageView.frame.size.height );
 		[UIView commitAnimations];
 	}
-	else if( self.type == 1 )
+	else if( self.ref == 1 )
 	{
 		[_scrollView addSubview:self.leftWebView];
 		[_scrollView addSubview:self.centerWebView];
@@ -419,7 +445,7 @@
 {
 	[self performSelector:@selector(backAnimationDidFinish) withObject:nil afterDelay:0.5];
 	
-	if( type == 0 )
+	if( ref == 0 )
 	{
 		[self.centerWebView removeFromSuperview];
 		
@@ -433,7 +459,7 @@
 		_lowerImageView.frame = CGRectMake( 0, _lowerImageViewOriginalY, 320, _lowerImageView.frame.size.height );
 		[UIView commitAnimations];
 	}
-	else if( type == 1 )
+	else if( ref == 1 )
 	{
 		[_mapView setRegion:originalRegion animated:YES];
 		
@@ -465,12 +491,12 @@
 
 - (void)backAnimationDidFinish
 {
-	if( type == 0 )
+	if( ref == 0 )
 	{
 		[_upperImageView removeFromSuperview];
 		[_lowerImageView removeFromSuperview];
 	}
-	else if( type == 1 )
+	else if( ref == 1 )
 	{
 		[self.centerWebView removeFromSuperview];
 	}
@@ -501,7 +527,7 @@
 	if( 0 < _currentFeedIndex )
 	{
 		_currentFeedIndex --;
-			
+		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.3];
@@ -516,6 +542,9 @@
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
 		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
+		
+		// 왼쪽 피드 로드
+		[self prepareFeedDetailWithIndex:_currentFeedIndex - 1];
 	}
 }
 
@@ -539,6 +568,9 @@
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
 		self.rightWebView.frame = CGRectMake( 320, 100, 320, self.rightWebView.frame.size.height );
+		
+		// 오른쪽 피드 로드
+		[self prepareFeedDetailWithIndex:_currentFeedIndex + 1];
 	}
 }
 
@@ -559,6 +591,9 @@
 	}
 }
 
+#pragma mark -
+#pragma mark From FeedDetailWebView
+
 - (void)resizeContentHeight:(FeedDetailWebView *)webView
 {
 	float height = [[webView stringByEvaluatingJavaScriptFromString:@"getHeight();"] floatValue] - 21;
@@ -568,41 +603,23 @@
 	_scrollView.contentSize = CGSizeMake( 320, height + 100 );
 }
 
-#pragma mark -
-#pragma mark From FeedDetailWebView
-
-- (void)feedDetailDidFinishCreating
+- (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webview
 {
 	// WebView 컨텐츠 리사이징
-	[self resizeContentHeight:self.centerWebView];
+	[self resizeContentHeight:webview];
 	
-	if( type == 0 )
+	if( ref == 0 )
 	{
-		NSLog( @"detail_finished" );
 		if( _animationFinished )
 			[self removeUpperAndLowerImages];
 		else
 			_loadingFinished = YES;
 	}
-	else if( type == 1 )
+	else if( ref == 1 )
 	{
-		// type이 1일 경우의 애니메이션 (type 0의 애니메이션은 viewDidAppear에서)
+		// ref가 1일 경우의 애니메이션 (ref 0의 애니메이션은 viewDidAppear에서)
 		[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	}
-}
-
-#pragma mark -
-#pragma mark LoadingQueue
-
-- (void)addFeedIndexToLoadingQueue:(NSInteger)index
-{
-	if( 0 <= index && index < _feedDetailObjects.count )
-		[_loadingQueue addObject:[NSNumber numberWithInt:index]];
-}
-
-- (void)removeLoadedFeedFromLoadingQueue
-{
-	[_loadingQueue removeObjectAtIndex:0];
 }
 
 

@@ -154,7 +154,7 @@ enum {
 
 - (void)loadFeeds
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&latitude=%lf&longitude=%lf", API_FEED_MAP, _orderType, _feedMapView.userLocation.coordinate.latitude, _feedMapView.userLocation.coordinate.longitude]];
+	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [self getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]]];
 }
 
 - (void)didFinishLoading:(NSString *)result
@@ -233,7 +233,7 @@ enum {
 {
 	FeedObject *feedObj = (FeedObject *)view.annotation;
 	FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-	detailViewController.type = 1;
+	detailViewController.ref = 1;
 	
 	CGRect rect = [_feedMapView convertRegion:_feedMapView.region toRectToView:self.view];
 	rect.origin.y -= ( _feedMapView.frame.size.height - 100 ) * 0.5;

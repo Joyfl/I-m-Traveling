@@ -67,6 +67,7 @@
 		0356C0B914E3BABF005B099E /* FeedLineAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */; };
 		0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */; };
 		035FDEB014F0F50B002A2D1B /* ImTravelingWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */; };
+		036580AE14F4DE9D00B82FF7 /* LoadingQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */; };
 		0371752C14EFE0B8006E8EE8 /* FeedDetailWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
@@ -169,6 +170,8 @@
 		0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedLineAnnotationView.m; sourceTree = "<group>"; };
 		035FDEAE14F0F50B002A2D1B /* ImTravelingWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingWebView.h; sourceTree = "<group>"; };
 		035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingWebView.m; sourceTree = "<group>"; };
+		036580AC14F4DE9D00B82FF7 /* LoadingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingQueue.h; sourceTree = "<group>"; };
+		036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingQueue.m; sourceTree = "<group>"; };
 		0371752A14EFE0B8006E8EE8 /* FeedDetailWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailWebView.h; sourceTree = "<group>"; };
 		0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailWebView.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 				03AD101A14DBCF1800D9573D /* UserObject.m */,
 				0356C0B714E3BABF005B099E /* FeedLineAnnotation.h */,
 				0356C0B814E3BABF005B099E /* FeedLineAnnotation.m */,
+				036580AC14F4DE9D00B82FF7 /* LoadingQueue.h */,
+				036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -588,6 +593,7 @@
 				031CA4F514EFA76A0015D2AC /* FeedObject.m in Sources */,
 				0371752C14EFE0B8006E8EE8 /* FeedDetailWebView.m in Sources */,
 				035FDEB014F0F50B002A2D1B /* ImTravelingWebView.m in Sources */,
+				036580AE14F4DE9D00B82FF7 /* LoadingQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

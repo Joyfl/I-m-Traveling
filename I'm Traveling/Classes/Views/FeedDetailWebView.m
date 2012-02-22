@@ -7,11 +7,10 @@
 //
 
 #import "FeedDetailWebView.h"
+#import "FeedDetailViewController.h"
 #import "Const.h"
 
 @implementation FeedDetailWebView
-
-@synthesize feedObject;
 
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController
 {
@@ -46,7 +45,7 @@
 {
 	if( [message isEqualToString:@"detail_finished"] )
 	{
-		[_detailViewController feedDetailDidFinishCreating];
+		[_detailViewController feedDetailDidFinishCreating:self];
 	}
 }
 
@@ -59,6 +58,8 @@
 
 - (void)createFeedDetail:(FeedObject *)feedObj
 {
+	[self clear];
+	
 	NSString *func = [[NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.tripId,
 					   feedObj.feedId,
@@ -76,7 +77,7 @@
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 	
-	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 @end

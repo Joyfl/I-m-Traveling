@@ -175,7 +175,7 @@ enum {
 		
 		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
 		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
-		detailViewController.type = 0;
+		detailViewController.ref = 0;
 		[detailViewController activateWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}

@@ -7,18 +7,17 @@
 //
 
 #import "UIWebViewController.h"
-#import "FeedDetailViewController.h"
 #import "ImTravelingWebView.h"
+#import "FeedObject.h"
+
+@class FeedDetailViewController;
 
 @interface FeedDetailWebView : ImTravelingWebView
 {
 	FeedDetailViewController *_detailViewController;
-	FeedObject *feedObject; // 해당 웹뷰가 그리는 Feed의 정보
 }
 
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController;
 - (void)createFeedDetail:(FeedObject *)feedObj;
-
-@property (nonatomic, retain) FeedObject *feedObject;
 
 @end
