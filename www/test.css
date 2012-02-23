@@ -70,7 +70,7 @@ ul, ol, li
 	background-image: url("resource/gradient.png");
 	background-size: 100% 100%;
 	clear: both;
-	height: 5em;
+	height: 5.1em;
 }
 
 .profileImage
@@ -290,7 +290,64 @@ ul, ol, li
 
 
 
+/* Profile */
+
+.softShadow
+{
+	box-shadow: 0em 0em 1.1em rgba(68, 68, 68, 0.6);
+}
+
+.boing
+{
+	width: 8em;
+	height: 4em;
+	position: absolute;
+	left: 3em;
+	top: 1em;
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+	background-color: #f5e7da;
+}
+
+.topWrap
+{
+	top: 5em;
+	height: 8em;
+	width: 100%;
+	position: absolute;
+	background-color: #f5e7da;
+}
+
+.topWrapPseudo
+{
+	height: 4em;
+	background-color: #f5e7da;
+}
+
+.bottomWrap
+{
+	
+}
+
+
+
+
 /* Etc */
+
+.peopleText
+{
+	margin-top: 1em;
+	float: left;
+}
+
+.nation
+{
+	float: left;
+	font-size: 1.1em;
+	color: #876d56;
+	margin-top: 0.3em;
+	clear: both;
+}
 
 #loading
 {
