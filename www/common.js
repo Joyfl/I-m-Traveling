@@ -65,8 +65,7 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	place.innerText = _place;
 	region.innerText = _region;
 	
-	var profile = function(){};
-	
+	var profile = function(){ call("create_profile:" + user_id); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
@@ -123,9 +122,10 @@ function fillInfoList(infoList, info)
 	}
 }
 
-function fillLikeBar(likeBar, num_likes)
+function fillLikeBar(likeBar, trip_id, num_likes)
 {
 	likeBar.innerText = num_likes + " people likes this feed.";
+	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
 function addComment(commentList, user_id, profile_image_url, name, _time, _content)
@@ -152,6 +152,10 @@ function addComment(commentList, user_id, profile_image_url, name, _time, _conte
 	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(0.8)));
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
+	
+	var profile = function(){ call("create_profile:" + user_id); };
+	profileImage.onclick = profile;
+	userName.onclick = profile;
 }
 
 function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
@@ -176,6 +180,8 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 14);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 14);
+	
+	wrap.onclick = function() { call("feed_detail:" + feed_id); };
 }
 
 function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
@@ -190,6 +196,8 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	nation.innerText = _nation;
+	
+	wrap.onclick = function() { call("create_profile:" + user_id };
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
@@ -221,7 +229,7 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	
 	createGap(wrap, 0.1);
 	
-	thumbnail.onclick = function() { call("imtraveling:feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
+	thumbnail.onclick = function() { call("feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
 }
 
 function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
@@ -233,11 +241,11 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
 	var likeBar = makeClass("div", "likeBar component", wrap);
-	fillLikeBar(likeBar, num_likes);
+	fillLikeBar(likeBar, trip_id, num_likes);
 	
 	createGap(wrap, 0.1);
 	
-	button.onclick = function() {};
+	button.onclick = function() { call("all_feed:" + trip_id); };
 }
 
 function fillCommentList(commentList, comments)
@@ -275,7 +283,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	call("imtraveling:detail_finished");
+	call("detail_finished");
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
@@ -333,15 +341,16 @@ function getEmSize() {
 	return ret;
 }
 function getEmSizeByEl(el) {
-  if (typeof el == "string") el = document.getElementById(el);
-  if (el != null) {
-    var tempDiv = document.createElement('div');
-    tempDiv.style.height = '1em';
-    el.appendChild(tempDiv);
-    var emSize = tempDiv.offsetHeight;
-    el.removeChild(tempDiv);
-    return emSize;
-  }
+	if (typeof el == "string") el = document.getElementById(el);
+	if (el != null)
+	{
+    	var tempDiv = document.createElement('div');
+    	tempDiv.style.height = '1em';
+    	el.appendChild(tempDiv);
+    	var emSize = tempDiv.offsetHeight;
+    	el.removeChild(tempDiv);
+    	return emSize;
+	}
 }
 function getScrollerWidth() {
 	var scr = document.createElement('div');
@@ -377,4 +386,4 @@ function getHeight() { return document.body.clientHeight; }
 function getWidth() { return document.body.clientWidth; }
 function H() { return window.innerHeight; }
 function W() { return window.innerWidth; }
-function call(value) { document.location = value; }
+function call(value) { document.location = "imtraveling:" + value; }
