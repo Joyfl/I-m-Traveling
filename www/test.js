@@ -37,7 +37,7 @@ function init()
 	
 	//for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false);
 	
-	createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(), 3);
+	//createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(), 3);
 }
 
 
