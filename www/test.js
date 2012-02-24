@@ -197,7 +197,7 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	userName.innerText = _userName;
 	nation.innerText = _nation;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id };
+	wrap.onclick = function() { call("create_profile:" + user_id); };
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)

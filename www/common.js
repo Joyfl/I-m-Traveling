@@ -29,7 +29,7 @@ function init()
 	
 	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
-	var cl = makeClass("ul", "asdf", getId("page"));
+	//var cl = makeClass("ul", "asdf", getId("page"));
 	//for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
 	//fillCommentList(cl, comments);
 	
@@ -197,7 +197,7 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	userName.innerText = _userName;
 	nation.innerText = _nation;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id };
+	wrap.onclick = function() { call("create_profile:" + user_id); };
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
