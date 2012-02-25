@@ -230,7 +230,7 @@
 	}
 }
 
-- (void)didFinishLoading:(NSString *)result
+- (void)loadingDidFinish:(NSString *)result
 {
 	NSDictionary *feed = [Utils parseJSON:result];
 	if( [feed objectForKey:@"ERROR"] )

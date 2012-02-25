@@ -121,20 +121,28 @@ enum {
 }
 */
 
+/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	
-//	[self loadHtmlFile:@"feed_list"];
-	[self loadRemotePage:HTML_INDEX];
+    [super viewDidLoad];	
 }
+ */
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	if( !loaded )
+	{
+		//	[self loadHtmlFile:@"feed_list"];
+		[self loadRemotePage:HTML_INDEX];
+	}
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -188,7 +196,7 @@ enum {
 	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, 0, 10]];
 }
 
-- (void)didFinishLoading:(NSString *)result
+- (void)loadingDidFinish:(NSString *)result
 {
 	NSArray *feeds = [Utils parseJSON:result];
 	for( NSDictionary *feed in feeds )
@@ -211,6 +219,8 @@ enum {
 	}
 	
 	[self webViewDidFinishReloading];
+	
+	loaded = YES;
 }
 
 #pragma mark - selectors

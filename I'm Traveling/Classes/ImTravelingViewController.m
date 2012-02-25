@@ -41,6 +41,21 @@
 	return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
 }
 
+- (void)useCredential:(NSURLCredential *)credential forAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	
+}
+
+- (void)continueWithoutCredentialForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	
+}
+
+- (void)cancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
+{
+	
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
 	[challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
@@ -59,7 +74,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	[self didFinishLoading:result];
+	[self loadingDidFinish:result];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -67,9 +82,9 @@
 	NSLog( @"Loading Error : %@", error );
 }
 
-- (void)didFinishLoading:(NSString *)result
+- (void)loadingDidFinish:(NSString *)result
 {
-	NSLog( @"didFinishLoading : Overriding is needed." );
+	NSLog( @"loadingDidFinish : Overriding is needed." );
 }
 
 

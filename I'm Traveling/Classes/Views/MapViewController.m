@@ -157,7 +157,7 @@ enum {
 	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [self getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]]];
 }
 
-- (void)didFinishLoading:(NSString *)result
+- (void)loadingDidFinish:(NSString *)result
 {
 	// Error
 	if( [result hasPrefix:@"{"] )

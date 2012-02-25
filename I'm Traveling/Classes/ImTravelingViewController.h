@@ -16,7 +16,7 @@
 }
 
 - (void)loadURL:(NSString *)url;
-- (void)didFinishLoading:(NSString *)result;
+- (void)loadingDidFinish:(NSString *)result;
 
 - (void)startBusy;
 - (void)stopBusy;

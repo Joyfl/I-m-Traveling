@@ -11,12 +11,22 @@
 @interface UserObject : NSObject
 {
 	NSInteger userId;
+	NSString *profileImageURL;
 	NSString *name;
-	NSString *profileURL;
+	NSString *nation;
+	NSInteger numFollowers;
+	NSInteger numFollowings;
+	NSInteger numBadges;
+	
+	BOOL complete;
 }
 
 @property (nonatomic, assign) NSInteger userId;
+@property (nonatomic, retain) NSString *profileImageURL;
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *profileURL;
+@property (nonatomic, retain) NSString *nation;
+@property (nonatomic, assign) NSInteger numFollowers;
+@property (nonatomic, assign) NSInteger numFollowings;
+@property (nonatomic, assign) BOOL complete;
 
 @end
