@@ -32,8 +32,6 @@
 		[self flush];
 	}
 	
-	NSLog( @"%@", _settings );
-	
 	return self;
 }
 

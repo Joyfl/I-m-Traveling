@@ -10,6 +10,8 @@
 #import "FeedListViewController.h"
 #import "ShareViewController.h"
 #import "ProfileViewController.h"
+#import "LoginViewController.h"
+#import "Utils.h"
 
 @implementation AppDelegate
 
@@ -105,13 +107,40 @@
 }
 
 #pragma mark -
-#pragma mark UIActionSheetDelegate
+#pragma mark Button Selector
 
 - (void)onUploadButtonTouch
+{
+	if( ![Utils loggedIn] )
+	{
+		[self presentLoginViewController];
+		return;
+	}
+	
+	[self presentActionSheet];
+}
+
+
+#pragma mark -
+#pragma mark LoginViewController
+
+- (void)presentLoginViewController
+{
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
+	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
+	[tabBarController presentModalViewController:navigationController animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)presentActionSheet
 {
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Album", nil];
 	[actionSheet showInView:self.window];
 	[actionSheet release];
+
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -153,8 +182,7 @@
 
 - (void)presentShareViewControllerWithImage:(UIImage *)image
 {
-	ShareViewController *shareViewController = [[ShareViewController alloc] initWithImage:image];
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:shareViewController];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[ShareViewController alloc] initWithImage:image]];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];
 }

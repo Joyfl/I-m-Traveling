@@ -11,6 +11,7 @@
 
 @interface Utils : NSObject
 
++ (BOOL)loggedIn;
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
 

@@ -15,8 +15,8 @@
 
 + (SettingsManager *)manager;
 
-- (id)getSettingForKey:(NSString *)key;
-- (void)setSetting:(id)data forKey:(NSString *)key;
+- (id)getSettingForKey:(id)key;
+- (void)setSetting:(id)data forKey:(id)key;
 - (BOOL)flush;
 
 @end

@@ -7,8 +7,16 @@
 //
 
 #import "Utils.h"
+#import "SettingsManager.h"
+#import "Const.h"
 
 @implementation Utils
+
++ (BOOL)loggedIn
+{
+	NSString *key = SETTING_KEY_USER_ID;
+	return [[SettingsManager manager] getSettingForKey:key] != nil;
+}
 
 + (NSString *)getHtmlFromUrl:(NSString *)url
 {

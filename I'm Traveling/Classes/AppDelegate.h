@@ -15,4 +15,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+- (void)presentLoginViewController;
+- (void)presentActionSheet;
+
 @end

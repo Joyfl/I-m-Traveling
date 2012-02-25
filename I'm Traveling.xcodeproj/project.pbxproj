@@ -93,6 +93,7 @@
 		03AD101B14DBCF1800D9573D /* UserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AD101A14DBCF1800D9573D /* UserObject.m */; };
 		03AF15C714F637A6003F1621 /* ProfileWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 03AF15C614F637A6003F1621 /* ProfileWebView.m */; };
 		03BB027D14F902E300AFC6BC /* cover_temp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 03BB027C14F902E300AFC6BC /* cover_temp.jpg */; };
+		03BB028114F91BD300AFC6BC /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03BB028014F91BD200AFC6BC /* LoginViewController.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -221,6 +222,8 @@
 		03AF15C514F637A5003F1621 /* ProfileWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileWebView.h; sourceTree = "<group>"; };
 		03AF15C614F637A6003F1621 /* ProfileWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileWebView.m; sourceTree = "<group>"; };
 		03BB027C14F902E300AFC6BC /* cover_temp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cover_temp.jpg; sourceTree = "<group>"; };
+		03BB027F14F91BD200AFC6BC /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		03BB028014F91BD200AFC6BC /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,6 +300,8 @@
 				0300E72614D23E6B00611039 /* RegionViewController.m */,
 				0356C0BA14E3BB9F005B099E /* FeedLineAnnotationView.h */,
 				0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */,
+				03BB027F14F91BD200AFC6BC /* LoginViewController.h */,
+				03BB028014F91BD200AFC6BC /* LoginViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -604,6 +609,7 @@
 				035FDEB014F0F50B002A2D1B /* ImTravelingWebView.m in Sources */,
 				036580AE14F4DE9D00B82FF7 /* LoadingQueue.m in Sources */,
 				03AF15C714F637A6003F1621 /* ProfileWebView.m in Sources */,
+				03BB028114F91BD300AFC6BC /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
