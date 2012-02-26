@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ImTravelingNavigationController.h"
 #import "FeedListViewController.h"
 #import "ShareViewController.h"
 #import "ProfileViewController.h"
@@ -32,29 +33,26 @@
 	tabBarController = [[UITabBarController alloc] init];
 	tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tab_bar.png"];
 	
-	UINavigationController *feedNavigationController = [[UINavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
+	ImTravelingNavigationController *feedNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
 	feedNavigationController.title = @"Feed";
 	feedNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_feed.png"] retain];
 	
-	UINavigationController *shareNavigationController = [[UINavigationController alloc] init];
+	ImTravelingNavigationController *shareNavigationController = [[ImTravelingNavigationController alloc] init];
 	shareNavigationController.title = @"Upload";
 	
 	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
 	[uploadButton setImage:[[UIImage imageNamed:@"tab_share.png"] retain] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
-	UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
+	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
 	profileNavigationController.title = @"Profile";
 	profileNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_profile.png"] retain];
 	
-	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UINavigationController alloc] init], profileNavigationController, nil];
+	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UIViewController alloc] init], profileNavigationController, nil];
 	[tabBarController.tabBar addSubview:uploadButton];
 	
 	// FeedListViewController에서 MapViewController로 전환될 때 네비게이션바의 위쪽 둥근 모서리를 자연스럽게 처리하기 위해 배경을 검은색으로 설정.
 	tabBarController.view.backgroundColor = [[UIColor alloc] initWithWhite:0 alpha:1.0];
-	
-	[feedNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-	[profileNavigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	
 	[self.window addSubview:tabBarController.view];
 	
@@ -126,7 +124,7 @@
 
 - (void)presentLoginViewController
 {
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];
 }
@@ -182,7 +180,7 @@
 
 - (void)presentShareViewControllerWithImage:(UIImage *)image
 {
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[[ShareViewController alloc] initWithImage:image]];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ShareViewController alloc] initWithImage:image]];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];
 }
