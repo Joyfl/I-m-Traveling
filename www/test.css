@@ -299,20 +299,20 @@ ul, ol, li
 
 .boing
 {
-	width: 8em;
+	width: 7em;
 	height: 4em;
 	position: absolute;
-	left: 3em;
+	left: 1.5em;
 	top: 1em;
-	border-top-left-radius: 1em;
-	border-top-right-radius: 1em;
+	border-top-left-radius: 1.1em;
+	border-top-right-radius: 1.1em;
 	background-color: #f5e7da;
 }
 
 .topWrap
 {
-	top: 5em;
-	height: 8em;
+	top: 4em;
+	height: 9em;
 	width: 100%;
 	position: absolute;
 	background-color: #f5e7da;
@@ -320,13 +320,110 @@ ul, ol, li
 
 .topWrapPseudo
 {
-	height: 4em;
+	margin-top: -1em;
+	height: 3em;
 	background-color: #f5e7da;
+}
+
+.profileInfo
+{
+	position: absolute;
+	width: 100%;
+	height: 14em;
+	top: 0;
+	left: 0;
+}
+
+.profileInfo .profileImage
+{
+	width: 5.8em;
+	height: 5.8em;
+	border-radius: 0.85em;
+	margin-top: 1.5em;
+	margin-left: 2.1em;
+}
+
+.badgeWrap
+{
+	float: left;
+	height: 2em;
+	margin-top: 1.6em;
+	margin-left: 0.5em;
+}
+
+.badge
+{
+	float: left;
+	width: 2em;
+	height: 2em;
+	border-radius: 1em;
+	margin-right: 0.3em;
+}
+
+.profileInfo .userName
+{
+	font-size: 1.5em;
+	margin-top: 0.5em;
+	margin-left: 0.1em;
+}
+
+.nationWrap
+{
+	float: left;
+	height: 1.2em;
+}
+
+.nationImage
+{
+	float: left;
+	width: 1em;
+	height: 1em;
+	margin-top: 0.2em;
+	margin-right: 0.2em;
+	border-radius: 0.5em;
+}
+
+.nationText
+{
+	float: left;
+	font-size: 1.2em;
+}
+
+.infoBox
+{
+	width: 33%;
+	height: 5.5em;
+	float: left;
+}
+
+.verticalSegment
+{
+	width: 0.5%;
+	height: 2em;
+	margin-top: 1.75em;
+	background-color: #773333;
+	float: left;
 }
 
 .bottomWrap
 {
-	
+	margin-top: 8em;
+	width: 100%;
+	height: 5em;
+	clear: both;
+	border-top: 1px solid #333;
+}
+
+.number
+{
+	text-align: center;
+	font-size: 3.5em;
+}
+
+.text
+{
+	text-align: center;
+	font-size: 1.5em;
 }
 
 
@@ -349,13 +446,13 @@ ul, ol, li
 	clear: both;
 }
 
-#loading
-{
+#loading {
 	position: absolute;
-	text-align: center;
-	width: 100%;
+	width: 1em;
+	height: 1em;
 	top: 50%;
-	margin-top: -1em;
+	margin-top: -0.5em;
 	font-size: 3em;
-	text-shadow: 2px 2px 2px gray;
+	left: 50%;
+	margin-left: -0.5em;
 }

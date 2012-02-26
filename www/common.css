@@ -349,13 +349,13 @@ ul, ol, li
 	clear: both;
 }
 
-#loading
-{
+#loading {
 	position: absolute;
-	text-align: center;
-	width: 100%;
+	width: 1em;
+	height: 1em;
 	top: 50%;
-	margin-top: -1em;
+	margin-top: -0.5em;
 	font-size: 3em;
-	text-shadow: 2px 2px 2px gray;
+	left: 50%;
+	margin-left: -0.5em;
 }
