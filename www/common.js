@@ -29,7 +29,7 @@ function init()
 	
 	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
-	//var cl = makeClass("ul", "asdf", getId("page"));
+	var cl = makeClass("ul", "asdf", getId("page"));
 	//for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
 	//fillCommentList(cl, comments);
 	
@@ -37,7 +37,7 @@ function init()
 	
 	//for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false);
 	
-	//createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(), 3);
+	//createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 3);
 }
 
 
@@ -203,12 +203,71 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
 {
 	getId("page").style.marginTop = "5em";
-	var boing = makeClass("div", "boing softShadow", wrap);
 	
-	var topWrapPseudo = makeClass("div", "topWrapPseudo softShadow", wrap);
-	var topWrap = makeClass("div", "topWrap", wrap);
+	wrap.innerHTML = "\
+		<div class=\"boing softShadow\"></div>\
+		<div class=\"topWrapPseudo softShadow\"></div>\
+		<div class=\"topWrap\"></div>\
+		\
+		<div class=\"profileInfo\">\
+		\
+			<div class=\"cover profileImage\"></div>\
+			<img class=\"profileImage\" />\
+			<div class=\"badgeWrap\"></div>\
+			<div class=\"userName\"></div>\
+			<div class=\"nationWrap\">\
+				<img class=\"nationImage\" />\
+				<div class=\"nationText\"></div>\
+			</div>\
+			<div class=\"noticeWrap\">\
+				<img class=\"noticeImage\" />\
+				<div class=\"noticeText\"></div>\
+			</div>\
+			<div class=\"gap\"></div>\
+			<div class=\"infoBox\">\
+				<div class=\"number\"></div>\
+				<div class=\"text\"></div>\
+			</div>\
+			<div class=\"verticalSegment\"></div>\
+			<div class=\"infoBox\">\
+				<div class=\"number\"></div>\
+				<div class=\"text\"></div>\
+			</div>\
+			<div class=\"verticalSegment\"></div>\
+			<div class=\"infoBox\">\
+				<div class=\"number\"></div>\
+				<div class=\"text\"></div>\
+			</div>\
+			<div class=\"zfbe\" style=\"height: 0.1em;\"></div>\
+			\
+		</div>\
+		\
+		<div class=\"bottomWrap\"></div>";
 	
-	var bottomWrap = makeClass("div", "bottomWrap", wrap);
+	getClass("profileImage")[1].src = profile_image_url;
+	getClass("nationImage")[0].src = pic1;
+	
+	var badgeWrap = getClass("badgeWrap")[0];
+	var userName = getClass("userName")[0];
+	var nationWrap = getClass("nationWrap")[0];
+	
+	for(var i = 0; i < rep_badges.length; i++)
+		makeClass("img", "badge", badgeWrap).src = rep_badges[i];
+	
+	setWidth(badgeWrap, intToPixel(getWidth() - emToPixel(13)));
+	setWidth(userName, intToPixel(getWidth() - emToPixel(13)));
+	userName.innerText = name;
+	nationWrap.childNodes[3].innerText = nation;
+	
+	var numbers = getClass("number");
+	numbers[0].innerText = followers;
+	numbers[1].innerText = following;
+	numbers[2].innerText = badges;
+	
+	var texts = getClass("text");
+	texts[0].innerText = "Followers";
+	texts[1].innerText = "Following";
+	texts[2].innerText = "Badges";
 }
 
 
@@ -288,7 +347,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
 {
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = makeClass("div", "profile", getId("page"));
 	fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice);
 }
 
