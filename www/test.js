@@ -251,11 +251,13 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	var userName = getClass("userName")[0];
 	var nationWrap = getClass("nationWrap")[0];
 	
-	for(var i = 0; i < rep_badges.length; i++)
+	for(var i = 0; i < 4; i++)
 		makeClass("img", "badge", badgeWrap).src = rep_badges[i];
 	
-	setWidth(badgeWrap, intToPixel(getWidth() - emToPixel(13)));
-	setWidth(userName, intToPixel(getWidth() - emToPixel(13)));
+	var wSize = intToPixel(getWidth() - emToPixel(11));
+	setWidth(badgeWrap, wSize);
+	setWidth(userName, wSize);
+	setWidth(nationWrap, wSize);
 	userName.innerText = name;
 	nationWrap.childNodes[3].innerText = nation;
 	
