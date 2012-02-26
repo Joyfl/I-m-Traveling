@@ -23,11 +23,11 @@ function init()
 	RATIO = getEmSize();
 	scrollerWidth = pixelToEm(getScrollerWidth());
 	
-	//clear();
+	clear();
 	
 	//for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113);
 	
-	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
+	createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
 	var cl = makeClass("ul", "asdf", getId("page"));
 	//for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
@@ -124,7 +124,8 @@ function fillInfoList(infoList, info)
 
 function fillLikeBar(likeBar, trip_id, num_likes)
 {
-	likeBar.innerText = num_likes + " people likes this feed.";
+	makeClass("img", "smallIcon", likeBar).src = iconLike;
+	makeClass("div", "pseudo", likeBar).innerText = num_likes + " people likes this feed."
 	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
@@ -223,7 +224,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 				<img class=\"noticeImage\" />\
 				<div class=\"noticeText\"></div>\
 			</div>\
-			<div class=\"gap\"></div>\
+			<div class=\"gap\" style=\"height: 0.5em\"></div>\
 			<div class=\"infoBox\">\
 				<div class=\"number\"></div>\
 				<div class=\"text\"></div>\
@@ -295,10 +296,10 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 
 function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 {
-	var infoList = makeClass("ul", "infoList component", wrap);
+	var infoList = makeClass("ul", "infoList", wrap);
 	fillInfoList(infoList, info);
 	
-	var button = makeClass("div", "singleButton component", wrap);
+	var button = makeClass("div", "seeAllFeed", wrap);
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
 	var likeBar = makeClass("div", "likeBar component", wrap);

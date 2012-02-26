@@ -50,8 +50,8 @@ ul, ol, li
 
 .component
 {
-	margin: 0.5em 7% 0.5em 7%;
-	width: 86%;
+	margin: 0.5em 5% 0.5em 5%;
+	width: 90%;
 }
 
 .gap
@@ -207,20 +207,25 @@ ul, ol, li
 
 .infoList
 {
-	margin-top: -0.5em;
+	margin-top: 0.4em;
+	border-top: 1px dashed #333;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 
 .infoListComponent
 {
 	clear: both;
 	height: 1.5em;
+	padding-left: 5%;
+	padding-right: 5%;
 }
 
 .leftWrap
 {
 	font-size: 1.3em;
 	float: left;
-	width: 43%;
+	width: 45%;
 }
 
 .rightWrap
@@ -228,22 +233,30 @@ ul, ol, li
 	font-size: 1.3em;
 	text-align: right;
 	float: right;
-	width: 43%;
+	width: 45%;
 }
 
-.singleButton
+.seeAllFeed
 {
-	font-size: 1.3em;
+	font-size: 1.75em;
 	height: 1.5em;
 	padding-top: 0.5em;
-	text-align: center;
-	border: 1px solid #333;
-	border-radius: 0.4em;
+	padding-left: 1em;
+	border-top: 1px outset #333;
+	border-bottom: 1px outset #333;
 }
 
 .likeBar
 {
 	font-size: 1.3em;
+}
+
+.smallIcon
+{
+	float: left;
+	height: 1em;
+	width: 1em;
+	margin-right: 0.5em;
 }
 
 
@@ -407,7 +420,7 @@ ul, ol, li
 
 .bottomWrap
 {
-	margin-top: 8em;
+	margin-top: 9em;
 	width: 100%;
 	height: 5em;
 	clear: both;
