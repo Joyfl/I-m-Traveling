@@ -27,27 +27,24 @@
 
 - (void)drawRect:(CGRect)rect
 {
+	CGContextRef context = UIGraphicsGetCurrentContext(); 
+	
+	CGContextSetStrokeColorWithColor( context, [UIColor blueColor].CGColor );
+	CGContextSetAlpha( context, 0.5 );
+	CGContextSetLineWidth( context, 4.0 );
+	
 	for( NSInteger i = 0; i < _locations.count; i++ )
 	{
-		CGContextRef context = UIGraphicsGetCurrentContext(); 
+		CLLocation *location = [_locations objectAtIndex:i];
+		CGPoint point = [_mapView convertCoordinate:location.coordinate toPointToView:self];
 		
-		CGContextSetStrokeColorWithColor( context, [UIColor blueColor].CGColor );
-		CGContextSetAlpha( context, 0.5 );
-		CGContextSetLineWidth( context, 4.0 );
-		
-		for( NSInteger i = 0; i < _locations.count; i++ )
-		{
-			CLLocation *location = [_locations objectAtIndex:i];
-			CGPoint point = [_mapView convertCoordinate:location.coordinate toPointToView:self];
-			
-			if( i == 0 )
-				CGContextMoveToPoint( context, point.x, point.y );
-			else
-				CGContextAddLineToPoint( context, point.x, point.y );
-		}
-		
-		CGContextStrokePath( context );
+		if( i == 0 )
+			CGContextMoveToPoint( context, point.x, point.y );
+		else
+			CGContextAddLineToPoint( context, point.x, point.y );
 	}
+	
+	CGContextStrokePath( context );
 }
 
 @end
