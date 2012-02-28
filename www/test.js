@@ -25,20 +25,25 @@ function init()
 	
 	clear();
 	
-	//for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113);
-	
-	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
-	
-	var cl = makeClass("ul", "asdf", getId("page"));
-	//for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
-	//fillCommentList(cl, comments);
-	
-	//for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", reviewShort);
-	
-	//for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false);
-	
-	createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 9, 233, 233, true);
+	//t_fl();
+	//t_fd();
+	//t_cl();
+	//t_sf();
+	//t_pl();
+	//t_p();
 }
+
+
+
+
+// Test Functions
+
+function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
+function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
+function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", reviewShort); }
+function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
+function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 9, 233, 233, true); }
 
 
 
