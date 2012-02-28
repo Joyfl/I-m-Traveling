@@ -25,8 +25,11 @@ function init()
 	
 	clear();
 	
+	//var temp = makeClass("ul", "shadowTest", getId("page"));
+	//var temp2 = makeClass("li", "shadowText", temp);
+	
 	//t_fl();
-	//t_fd();
+	t_fd();
 	//t_cl();
 	//t_sf();
 	//t_pl();
@@ -367,7 +370,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	call("detail_finished");
+	//call("detail_finished");
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
