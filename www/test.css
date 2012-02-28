@@ -382,7 +382,7 @@ transform: skew(15deg) rotate(6deg); }
 
 .boing
 {
-	width: 7em;
+	width: 8em;
 	height: 4em;
 	position: absolute;
 	left: 1.5em;
@@ -419,16 +419,11 @@ transform: skew(15deg) rotate(6deg); }
 
 .profileInfo .profileImage
 {
-	width: 5.8em;
-	height: 5.8em;
+	width: 6.8em;
+	height: 6.8em;
 	border-radius: 0.85em;
 	margin-top: 1.5em;
 	margin-left: 2.1em;
-}
-
-.profileInfo .userName
-{
-	color: #302935;
 }
 
 .profileInfo .nation
@@ -455,7 +450,8 @@ transform: skew(15deg) rotate(6deg); }
 
 .profileInfo .userName
 {
-	font-size: 1.5em;
+	color: #302935;
+	font-size: 2em;
 	margin-top: 0.5em;
 	margin-left: 0.1em;
 }
@@ -506,8 +502,9 @@ transform: skew(15deg) rotate(6deg); }
 	float: right;
 	text-align: center;
 	font-size: 2em;
-	margin-right: 2.15em;
-	margin-top: 1.35em;
+	margin-right: 1.46em;
+	margin-top: 1.3em;
+	width: 2em;
 }
 
 .infoBox
