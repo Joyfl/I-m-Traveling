@@ -581,7 +581,7 @@ transform: skew(15deg) rotate(6deg); }
 {
 	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
 	visibility: visible;
-	height: 7.4em !important;
+	height: 6.4em !important;
 	clear: none;
 }
 
