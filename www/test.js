@@ -27,7 +27,7 @@ function init()
 	
 	//for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113);
 	
-	createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
+	//createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4)
 	
 	var cl = makeClass("ul", "asdf", getId("page"));
 	//for(var i = 0; i < 3; i++) addComment(cl, 123, pic1, "바나나", "20 FEB", reviewShort);
@@ -37,7 +37,7 @@ function init()
 	
 	//for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false);
 	
-	//createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 3);
+	createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 9, 233, 233, true);
 }
 
 
@@ -88,8 +88,8 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeIcon = makeClass("img", "icon", likeWrap);
 		var commentIcon = makeClass("img", "icon", commentWrap);
 	
-		var likeText = makeClass("div", "iconText likeText", likeWrap);
-		var commentText = makeClass("div", "iconText commentText", commentWrap);
+		var likeText = makeClass("div", "iconText blue", likeWrap);
+		var commentText = makeClass("div", "iconText green", commentWrap);
 		
 		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
@@ -201,7 +201,7 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	wrap.onclick = function() { call("create_profile:" + user_id); };
 }
 
-function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
+function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
 {
 	getId("page").style.marginTop = "5em";
 	
@@ -217,7 +217,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 			<div class=\"badgeWrap\"></div>\
 			<div class=\"userName\"></div>\
 			<div class=\"nationWrap\">\
-				<img class=\"nationImage\" />\
+				<img class=\"onTrip\" />\
 				<div class=\"nationText\"></div>\
 			</div>\
 			<div class=\"noticeWrap\">\
@@ -239,20 +239,22 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 				<div class=\"number\"></div>\
 				<div class=\"text\"></div>\
 			</div>\
-			<div class=\"zfbe\" style=\"height: 0.1em;\"></div>\
+			<div class=\"zfbe profileGradient\" style=\"height: 2.2em;\"></div>\
 			\
 		</div>\
 		\
 		<div class=\"bottomWrap\"></div>";
 	
 	getClass("profileImage")[1].src = profile_image_url;
-	getClass("nationImage")[0].src = pic1;
+	var onTrip;
+	if(is_on_trip) onTrip = "resource/traveling.png";
+	getClass("onTrip")[0].src = onTrip;
 	
 	var badgeWrap = getClass("badgeWrap")[0];
 	var userName = getClass("userName")[0];
 	var nationWrap = getClass("nationWrap")[0];
 	
-	for(var i = 0; i < 4; i++)
+	for(var i = 0; i < min(badges.length, 4); i++)
 		makeClass("img", "badge", badgeWrap).src = rep_badges[i];
 	
 	var wSize = intToPixel(getWidth() - emToPixel(11));
@@ -261,6 +263,12 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	setWidth(nationWrap, wSize);
 	userName.innerText = name;
 	nationWrap.childNodes[3].innerText = nation;
+	
+	if(notice > 0)
+	{
+		getClass("noticeImage")[0].src = "resource/bulb.png";
+		getClass("noticeText")[0].innerHTML = "<span class=\"green\">" + notice + "</span>";
+	}
 	
 	var numbers = getClass("number");
 	numbers[0].innerText = followers;
@@ -271,6 +279,15 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	texts[0].innerText = "Followers";
 	texts[1].innerText = "Following";
 	texts[2].innerText = "Badges";
+	
+	var bottomWrap = getClass("bottomWrap")[0];
+	makeClass("div", "border", bottomWrap);
+	var seeAllFeed = makeClass("div", "seeAllFeed seeAll", bottomWrap);
+	makeClass("div", "border", bottomWrap);
+	var seeAllTrip = makeClass("div", "seeAllTrip seeAll", bottomWrap);
+	
+	makeClass("div", "darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	makeClass("div", "darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
 }
 
 
@@ -299,7 +316,7 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	var infoList = makeClass("ul", "infoList", wrap);
 	fillInfoList(infoList, info);
 	
-	var button = makeClass("div", "seeAllFeed", wrap);
+	var button = makeClass("div", "seeAll", wrap);
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
 	var likeBar = makeClass("div", "likeBar component", wrap);
@@ -348,10 +365,10 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	call("detail_finished");
 }
 
-function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice)
+function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
 {
 	var wrap = makeClass("div", "profile", getId("page"));
-	fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice);
+	fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip);
 }
 
 
