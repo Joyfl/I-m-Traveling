@@ -16,6 +16,9 @@
 		0300E72B14D23E6B00611039 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72414D23E6B00611039 /* ProfileViewController.m */; };
 		0300E72C14D23E6B00611039 /* RegionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72614D23E6B00611039 /* RegionViewController.m */; };
 		0300E72D14D23E6B00611039 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0300E72814D23E6B00611039 /* ShareViewController.m */; };
+		0302936E14FAC20A00E31F9A /* PlaceSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */; };
+		0302937414FAC68F00E31F9A /* TimeSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */; };
+		0302937714FAC6C500E31F9A /* ImTravelingNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0302937614FAC6C500E31F9A /* ImTravelingNavigationController.m */; };
 		0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0309901914CB31DD00715F5A /* QuartzCore.framework */; };
 		0311F71814E43AAC0081B74E /* BlueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F6EC14E43AAC0081B74E /* BlueArrow.png */; };
 		0311F71914E43AAC0081B74E /* BlueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F6ED14E43AAC0081B74E /* BlueArrow@2x.png */; };
@@ -68,6 +71,9 @@
 		0356C0BC14E3BBA0005B099E /* FeedLineAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0356C0BB14E3BBA0005B099E /* FeedLineAnnotationView.m */; };
 		035FDEB014F0F50B002A2D1B /* ImTravelingWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */; };
 		036580AE14F4DE9D00B82FF7 /* LoadingQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */; };
+		036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32B914FC114900C1BA70 /* TripListViewController.m */; };
+		036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */; };
+		036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */; };
 		0371752C14EFE0B8006E8EE8 /* FeedDetailWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
@@ -117,6 +123,12 @@
 		0300E72614D23E6B00611039 /* RegionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionViewController.m; sourceTree = "<group>"; };
 		0300E72714D23E6B00611039 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		0300E72814D23E6B00611039 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		0302936C14FAC20A00E31F9A /* PlaceSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceSelectionViewController.h; sourceTree = "<group>"; };
+		0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceSelectionViewController.m; sourceTree = "<group>"; };
+		0302937214FAC68E00E31F9A /* TimeSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSelectionViewController.h; sourceTree = "<group>"; };
+		0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSelectionViewController.m; sourceTree = "<group>"; };
+		0302937514FAC6C500E31F9A /* ImTravelingNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingNavigationController.h; sourceTree = "<group>"; };
+		0302937614FAC6C500E31F9A /* ImTravelingNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingNavigationController.m; sourceTree = "<group>"; };
 		0309901914CB31DD00715F5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0311F6EC14E43AAC0081B74E /* BlueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueArrow.png; sourceTree = "<group>"; };
 		0311F6ED14E43AAC0081B74E /* BlueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueArrow@2x.png"; sourceTree = "<group>"; };
@@ -175,6 +187,12 @@
 		035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingWebView.m; sourceTree = "<group>"; };
 		036580AC14F4DE9D00B82FF7 /* LoadingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingQueue.h; sourceTree = "<group>"; };
 		036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingQueue.m; sourceTree = "<group>"; };
+		036B32B814FC114900C1BA70 /* TripListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListViewController.h; sourceTree = "<group>"; };
+		036B32B914FC114900C1BA70 /* TripListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListViewController.m; sourceTree = "<group>"; };
+		036B32BD14FD58B200C1BA70 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
+		036B32BE14FD58B200C1BA70 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
+		036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
+		036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
 		0371752A14EFE0B8006E8EE8 /* FeedDetailWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailWebView.h; sourceTree = "<group>"; };
 		0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailWebView.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -250,6 +268,8 @@
 			children = (
 				0300E6D814D1A93100611039 /* AppDelegate.h */,
 				0300E6D914D1A93100611039 /* AppDelegate.m */,
+				0302937514FAC6C500E31F9A /* ImTravelingNavigationController.h */,
+				0302937614FAC6C500E31F9A /* ImTravelingNavigationController.m */,
 				031CA4EF14EF57840015D2AC /* ImTravelingViewController.h */,
 				031CA4F014EF57840015D2AC /* ImTravelingViewController.m */,
 				035FDEAE14F0F50B002A2D1B /* ImTravelingWebView.h */,
@@ -262,6 +282,7 @@
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
 				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
+				036B32BC14FD58B200C1BA70 /* ActionSheetPicker */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
 				03508C7714D95F340057D723 /* Objects */,
@@ -292,6 +313,12 @@
 				0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */,
 				0300E72714D23E6B00611039 /* ShareViewController.h */,
 				0300E72814D23E6B00611039 /* ShareViewController.m */,
+				036B32B814FC114900C1BA70 /* TripListViewController.h */,
+				036B32B914FC114900C1BA70 /* TripListViewController.m */,
+				0302937214FAC68E00E31F9A /* TimeSelectionViewController.h */,
+				0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */,
+				0302936C14FAC20A00E31F9A /* PlaceSelectionViewController.h */,
+				0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */,
 				0300E72314D23E6B00611039 /* ProfileViewController.h */,
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				03AF15C514F637A5003F1621 /* ProfileWebView.h */,
@@ -379,6 +406,17 @@
 				036580AD14F4DE9D00B82FF7 /* LoadingQueue.m */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		036B32BC14FD58B200C1BA70 /* ActionSheetPicker */ = {
+			isa = PBXGroup;
+			children = (
+				036B32BD14FD58B200C1BA70 /* AbstractActionSheetPicker.h */,
+				036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */,
+				036B32BE14FD58B200C1BA70 /* ActionSheetDatePicker.h */,
+				036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */,
+			);
+			path = ActionSheetPicker;
 			sourceTree = "<group>";
 		};
 		039F63EA14C5CEE6002EC78F = {
@@ -610,6 +648,12 @@
 				036580AE14F4DE9D00B82FF7 /* LoadingQueue.m in Sources */,
 				03AF15C714F637A6003F1621 /* ProfileWebView.m in Sources */,
 				03BB028114F91BD300AFC6BC /* LoginViewController.m in Sources */,
+				0302936E14FAC20A00E31F9A /* PlaceSelectionViewController.m in Sources */,
+				0302937414FAC68F00E31F9A /* TimeSelectionViewController.m in Sources */,
+				0302937714FAC6C500E31F9A /* ImTravelingNavigationController.m in Sources */,
+				036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */,
+				036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */,
+				036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

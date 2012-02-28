@@ -14,5 +14,10 @@
 + (BOOL)loggedIn;
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
++ (NSString *)dateWithDate:(NSDate *)date;
++ (NSString *)dateWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone;
++ (NSString *)timeWithDate:(NSDate *)date;
++ (NSString *)timeWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone;
++ (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time;
 
 @end

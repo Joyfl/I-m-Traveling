@@ -12,9 +12,9 @@
 #define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"
 #define API_FEED_DETAIL			@"https://imtraveling.joyfl.kr/feed_detail.php"
 #define API_FEED_MAP			@"https://imtraveling.joyfl.kr/feed_map.php"
-#define API_FEED_IMAGE			@"https://imtraveling.joyfl.kr/feed/"
+#define API_FEED_IMAGE			@"http://imtraveling.joyfl.kr/feed/"
 #define API_PROFILE				@"https://imtraveling.joyfl.kr/profile.php"
-#define API_PROFILE_IMAGE		@"https://imtraveling.joyfl.kr/profile/"
+#define API_PROFILE_IMAGE		@"http://imtraveling.joyfl.kr/profile/"
 
 #define SETTING_KEY_LOGGED_IN	@"logged_in"
 #define SETTING_KEY_EMAIL		@"email"

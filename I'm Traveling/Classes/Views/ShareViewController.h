@@ -7,13 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIWebViewController.h"
+#import "ImTravelingViewController.h"
 
-@interface ShareViewController : UIWebViewController
+@interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {
+	UITableView *_tableView;
+	UIImage *_image;
+	NSDictionary *_info;
 	
+	UITableViewCell *_tripCell;
+	UITableViewCell *_dateCell;
+	UITableViewCell *_placeCell;
+	
+	NSDate *selectedDate;
+	NSDate *selectedTime;
 }
 
--(id)initWithImage:(UIImage *)image;
+- (id)initWithImage:(UIImage *)image;
+
+- (void)fillDateCellDetailText;
+
+@property (nonatomic, retain) NSDate *selectedDate;
+@property (nonatomic, retain) NSDate *selectedTime;
 
 @end

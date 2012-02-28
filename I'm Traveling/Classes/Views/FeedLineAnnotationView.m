@@ -27,7 +27,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-	CGContextRef context = UIGraphicsGetCurrentContext(); 
+	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	CGContextSetStrokeColorWithColor( context, [UIColor blueColor].CGColor );
 	CGContextSetAlpha( context, 0.5 );

@@ -55,7 +55,7 @@
 					   userObj.numFollowers,
 					   userObj.numFollowings,
 					   /*userObj.numBadges"*/0,
-					   @"userObj.numBadges",
+					   @"[]",
 					   /*notice*/0] retain];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];

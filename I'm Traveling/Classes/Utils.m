@@ -30,4 +30,40 @@
 	return [parser objectWithString:json];
 }
 
++ (NSString *)dateWithDate:(NSDate *)date
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.dateStyle = NSDateFormatterMediumStyle;
+	return [formatter stringFromDate:date];
+}
+
++ (NSString *)dateWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.timeZone = timezone;
+	formatter.dateStyle = NSDateFormatterMediumStyle;
+	return [formatter stringFromDate:date];
+}
+
++ (NSString *)timeWithDate:(NSDate *)date
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.timeStyle = NSDateFormatterShortStyle;
+	return [formatter stringFromDate:date];
+}
+
++ (NSString *)timeWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.timeZone = timezone;
+	formatter.timeStyle = NSDateFormatterShortStyle;
+	return [formatter stringFromDate:date];
+}
+
++ (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time
+{
+	NSTimeZone *timezone = [[NSTimeZone localTimeZone] autorelease];
+	return [NSString stringWithFormat:@"%@ %@", [Utils dateWithDate:date andTimezone:timezone], [Utils timeWithDate:time andTimezone:timezone]];
+}
+
 @end

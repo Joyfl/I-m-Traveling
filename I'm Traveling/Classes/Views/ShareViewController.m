@@ -8,26 +8,40 @@
 
 #import "ShareViewController.h"
 #import "Const.h"
+#import "QuartzCore/CALayer.h"
+#import "ImTravelingNavigationController.h"
+#import "TripListViewController.h"
+#import "TimeSelectionViewController.h"
+#import "PlaceSelectionViewController.h"
+#import "Utils.h"
 
 @implementation ShareViewController
+
+@synthesize selectedDate, selectedTime;
 
 -(id)initWithImage:(UIImage *)image
 {
     if( self = [super init] )
 	{
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButtonTouch)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		
-		UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onUploadButtonTouch)];
-		self.navigationItem.rightBarButtonItem = uploadButton;
-		
-		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
-//		[self loadHtmlFile:@"feed_list"];
-		[self loadRemotePage:HTML_INDEX];
-		
 		self.view.backgroundColor = [UIColor whiteColor];
 		
-		[self.view addSubview:[[UIImageView alloc] initWithImage:image]];
+		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		
+		UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(uploadButtonDidTouchUpInside)];
+		self.navigationItem.rightBarButtonItem = uploadButton;
+		
+		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStyleGrouped];
+		_tableView.delegate = self;
+		_tableView.dataSource = self;
+		[self.view addSubview:_tableView];
+		
+		_image = [image retain];
+		
+		_info = [[NSDictionary alloc] init];
+		
+		selectedDate = [[NSDate alloc] init];
+		selectedTime = [[NSDate alloc] init];
     }
     return self;
 }
@@ -72,14 +86,142 @@
 
 #pragma mark - selectors
 
-- (void)onCancelButtonTouch
+- (void)cancelButtonDidTouchUpInside
 {
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)onUploadButtonTouch
+- (void)uploadButtonDidTouchUpInside
 {
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UITableViewDelegate, UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 3 + _info.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	if( section == 1 ) return 3;
+	return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if( indexPath.section == 0 )
+		return _image.size.height * 300 / _image.size.width;
+	
+	else if( indexPath.section == 2 )
+		return 200;
+	
+	return 44;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UITableViewCell *cell;
+	
+	// Image
+	if( indexPath.section == 0 )
+	{
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+		cell.imageView.image = _image;
+		cell.imageView.layer.cornerRadius = 10;
+		cell.imageView.layer.masksToBounds = YES;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	}
+	
+	// Trip, Date, Place
+	else if( indexPath.section == 1 )
+	{
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		
+		if( indexPath.row == 0 )
+		{
+			_tripCell = cell;
+			cell.textLabel.text = @"Trip";
+		}
+		if( indexPath.row == 1 )
+		{
+			_dateCell = cell;
+			cell.textLabel.text = @"Date";
+			[self fillDateCellDetailText];
+			
+		}
+		else if( indexPath.row == 2 )
+		{
+			_placeCell = cell;
+			cell.textLabel.text = @"Place";
+		}
+		
+	}
+	
+	// Review
+	else if( indexPath.section == 2 )
+	{
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+		
+		UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake( 100, 12, cell.frame.size.width - 110, cell.frame.size.height - 24 )];
+		[cell addSubview:textView];
+		textView.editable = YES;
+	}
+	
+	// Info
+	else
+	{
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+		
+		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake( 100, 12, cell.frame.size.width - 110, cell.frame.size.height - 24 )];
+		[cell addSubview:textField];
+	}
+	
+	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if( indexPath.section == 1 )
+	{
+		UIViewController *rootViewController;
+		
+		if( indexPath.row == 0 )
+		{
+			rootViewController = [[TripListViewController alloc] init];
+		}
+		else if( indexPath.row == 1 )
+		{
+			rootViewController = [[TimeSelectionViewController alloc] initWithShareViewController:self];
+		}
+		else
+		{
+			rootViewController = [[PlaceSelectionViewController alloc] init];
+		}
+		
+		ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:rootViewController];
+		[self presentModalViewController:navigationController animated:YES];
+	}
+}
+
+
+#pragma mark -
+#pragma mark Utils
+
+- (void)fillDateCellDetailText
+{
+	_dateCell.detailTextLabel.text = [Utils stringWithDate:selectedDate andTime:selectedTime];
 }
 
 @end

@@ -198,6 +198,8 @@ enum {
 
 - (void)loadingDidFinish:(NSString *)result
 {
+	[self clear];
+	
 	NSArray *feeds = [Utils parseJSON:result];
 	for( NSDictionary *feed in feeds )
 	{
