@@ -63,7 +63,7 @@
 + (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time
 {
 	NSTimeZone *timezone = [[NSTimeZone localTimeZone] autorelease];
-	return [NSString stringWithFormat:@"%@ %@", [Utils dateWithDate:date andTimezone:timezone], [Utils timeWithDate:time andTimezone:timezone]];
+	return [NSString stringWithFormat:@"%@\n%@", [Utils dateWithDate:date andTimezone:timezone], [Utils timeWithDate:time andTimezone:timezone]];
 }
 
 @end

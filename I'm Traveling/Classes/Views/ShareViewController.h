@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ImTravelingViewController.h"
+#import "UIPlaceHolderTextView.h"
 
 @interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {
@@ -15,9 +16,14 @@
 	UIImage *_image;
 	NSDictionary *_info;
 	
-	UITableViewCell *_tripCell;
-	UITableViewCell *_dateCell;
-	UITableViewCell *_placeCell;
+	UITableViewCell *_imageCell;
+	
+	UILabel *_tripLabel;
+	UILabel *_placeLabel;
+	UILabel *_dateLabel;
+	
+	UITableViewCell *_reviewCell;
+	UIPlaceHolderTextView *_reviewInput;
 	
 	NSDate *selectedDate;
 	NSDate *selectedTime;
@@ -25,7 +31,7 @@
 
 - (id)initWithImage:(UIImage *)image;
 
-- (void)fillDateCellDetailText;
+- (void)fillDateLabelText;
 
 @property (nonatomic, retain) NSDate *selectedDate;
 @property (nonatomic, retain) NSDate *selectedTime;

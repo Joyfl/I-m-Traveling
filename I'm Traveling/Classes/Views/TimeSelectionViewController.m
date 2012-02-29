@@ -51,7 +51,7 @@
 {
 	_shareViewController.selectedDate = _selectedDate;
 	_shareViewController.selectedTime = _selectedTime;
-	[_shareViewController fillDateCellDetailText];
+	[_shareViewController fillDateLabelText];
 	
 	[self dismissModalViewControllerAnimated:YES];
 }
