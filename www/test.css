@@ -39,7 +39,7 @@ ul, ol, li
 
 #page, .pseudo
 {
-	background-color: #f5e7da;
+	background-color: #f7e3d2;
 }
 
 .cover
@@ -80,6 +80,16 @@ ul, ol, li
 	color: #3a4a22;
 }
 
+.right
+{
+	float: right;
+}
+
+.left
+{
+	float: left;
+}
+
 
 
 
@@ -87,7 +97,8 @@ ul, ol, li
 
 .header
 {
-	background-image: url("resource/gradient-header.png");
+	/*background-image: url("resource/gradient-header.png");*/
+	background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
 	background-size: 100% 100%;
 	clear: both;
 	height: 5.1em;
@@ -230,9 +241,15 @@ ul, ol, li
 .infoListComponent
 {
 	clear: both;
-	height: 1.5em;
+	height: 1.9em;
 	padding-left: 5%;
 	padding-right: 5%;
+}
+
+.coin
+{
+	width: 1.1em;
+	vertical-align: text-bottom;
 }
 
 .leftWrap
@@ -240,6 +257,7 @@ ul, ol, li
 	font-size: 1.3em;
 	float: left;
 	width: 45%;
+	color: #6b4219;
 }
 
 .rightWrap
@@ -248,6 +266,12 @@ ul, ol, li
 	text-align: right;
 	float: right;
 	width: 45%;
+	color: #ad3e56;
+}
+
+.moneyUnit
+{
+	color: #3b2e43;
 }
 
 .seeAll
@@ -256,12 +280,22 @@ ul, ol, li
 	height: 1.5em;
 	padding-top: 0.5em;
 	padding-left: 1em;
-	background-image: url("resource/gradient-see-all.png");
+	/*background-image: url("resource/gradient-see-all.png");*/
+	background: -webkit-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 }
 
 .likeBar
 {
 	font-size: 1.3em;
+	/*background-image: url("resource/gradient-like.png");*/
+	background: -webkit-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	padding: 0.4em;
+	color: #232323;
+}
+
+.likeBar
+{
+	color: #3d2c48;
 }
 
 .smallIcon

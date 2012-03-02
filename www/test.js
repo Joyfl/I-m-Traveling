@@ -29,7 +29,7 @@ function init()
 	//var temp2 = makeClass("li", "shadowText", temp);
 	
 	//t_fl();
-	t_fd();
+	//t_fd();
 	//t_cl();
 	//t_sf();
 	//t_pl();
@@ -125,15 +125,18 @@ function fillInfoList(infoList, info)
 		var leftWrap = makeClass("div", "leftWrap", component);
 		var rightWrap = makeClass("div", "rightWrap", component);
 		
-		leftWrap.innerText = info[i].key;
-		rightWrap.innerText = info[i].unit + " " + info[i].value;
+		leftWrap.innerHTML = "<img src=\"./resource/coin.png\" class=\"coin\" /> " + info[i].key;
+		if(info[i].unit == '\\')
+			rightWrap.innerHTML = "<span class=\"moneyUnit\">" + info[i].unit + "</span> " + info[i].value;
+		else
+			rightWrap.innerHTML = info[i].value + " <span class=\"moneyUnit\">" + info[i].unit + "</span>";
 	}
 }
 
 function fillLikeBar(likeBar, trip_id, num_likes)
 {
 	makeClass("img", "smallIcon", likeBar).src = iconLike;
-	makeClass("div", "pseudo", likeBar).innerText = num_likes + " people likes this feed."
+	makeClass("div", "pseudo-1", likeBar).innerHTML = "<span class=\"likeBarNumber\">" + num_likes + "</span> people likes this feed."
 	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
@@ -324,11 +327,15 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	var infoList = makeClass("ul", "infoList", wrap);
 	fillInfoList(infoList, info);
 	
+	makeClass("div", "border", wrap);
+	
 	var button = makeClass("div", "seeAll", wrap);
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
-	var likeBar = makeClass("div", "likeBar component", wrap);
+	var likeBar = makeClass("div", "likeBar", wrap);
 	fillLikeBar(likeBar, trip_id, num_likes);
+	
+	makeClass("div", "border", bottomWrap);
 	
 	createGap(wrap, 0.1);
 	
