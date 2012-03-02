@@ -33,7 +33,7 @@ function init()
 	//t_cl();
 	//t_sf();
 	//t_pl();
-	//t_p();
+	t_p();
 }
 
 
@@ -219,7 +219,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	wrap.innerHTML = "\
 		<div class=\"boing softShadow\"></div>\
 		<div class=\"topWrapPseudo softShadow\"></div>\
-		<div class=\"topWrap\"></div>\
+		<div class=\"topWrap profileGradient\"></div>\
 		\
 		<div class=\"profileInfo\">\
 		\
@@ -250,7 +250,6 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 				<div class=\"number\"></div>\
 				<div class=\"text\"></div>\
 			</div>\
-			<div class=\"zfbe profileGradient\" style=\"height: 2.2em;\"></div>\
 			\
 		</div>\
 		\
