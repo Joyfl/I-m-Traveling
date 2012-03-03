@@ -10,6 +10,6 @@
 
 @implementation Info
 
-@synthesize name, value, unit;
+@synthesize item, value, unit;
 
 @end

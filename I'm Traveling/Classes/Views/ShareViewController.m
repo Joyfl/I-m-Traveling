@@ -15,13 +15,11 @@
 #import "PlaceSelectionViewController.h"
 #import "Utils.h"
 #import "Info.h"
+#import "InfoCell.h"
 
 @interface ShareViewController()
 
 - (void)scrollToKeyboardPosition:(id)object;
-
-- (UILabel *)createInfoLabelWithText:(NSString *)text andFrame:(CGRect)frame;
-- (UITextField *)createInfoInputWithPlaceholder:(NSString *)placeholder row:(NSInteger)row andFrame:(CGRect)frame;
 
 @end
 
@@ -276,47 +274,20 @@ enum {
 	// Info
 	else if( indexPath.section == kSectionInfo )
 	{
-		static NSString *infoCell = @"infoCell";
-		cell = [_tableView dequeueReusableCellWithIdentifier:infoCell];
-		if( cell == nil ) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:infoCell];
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 26, 20, 20 )];
-		[minusButton setBackgroundImage:[UIImage imageNamed:@"minus.png"] forState:UIControlStateNormal];
-		[minusButton addTarget:self action:@selector(minusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[cell addSubview:minusButton];
-		
-		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 0, 260, 68 )];
-		postIt.image = [UIImage imageNamed:@"postit.png"];
-		[cell addSubview:postIt];
-		
-		// Item
-		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 7, 50, 20 )];
-		[cell addSubview:itemLabel];
-		
-		UITextField *itemInput = [self createInfoInputWithPlaceholder:@"Item" row:indexPath.row andFrame:CGRectMake( 105, 8, 200, 20 )];
-		itemInput.textColor = [UIColor colorWithRed:0.419 green:0.258 blue:0.098 alpha:1.0];
-		[cell addSubview:itemInput];
-		
-		// Value
-		UILabel *valueLabel = [self createInfoLabelWithText:@"Value" andFrame:CGRectMake( 54, 32, 50, 20 )];
-		[cell addSubview:valueLabel];
-		
-		UITextField *valueInput = [self createInfoInputWithPlaceholder:@"Value" row:indexPath.row andFrame:CGRectMake( 105, 33, 70, 20 )];
-		valueInput.textColor = [UIColor colorWithRed:0.678 green:0.243 blue:0.337 alpha:1.0];
-		valueInput.keyboardType = UIKeyboardTypeNumberPad;
-		[cell addSubview:valueInput];
-		
-		// Unit
-		UILabel *unitLabel = [self createInfoLabelWithText:@"Unit" andFrame:CGRectMake( 185, 32, 50, 20 )];
-		[cell addSubview:unitLabel];
-		
-		UIButton *unitButton = [[UIButton alloc] initWithFrame:CGRectMake( 210, 32, 70, 20 )];
-		unitButton.titleLabel.font = [UIFont systemFontOfSize:14];
-		[unitButton setTitle:@"KRW" forState:UIControlStateNormal];
-		[unitButton setTitleColor:[UIColor colorWithRed:0.231 green:0.180 blue:0.262 alpha:1.0] forState:UIControlStateNormal];
-		[unitButton addTarget:self action:@selector(unitButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[cell addSubview:unitButton];
+		static NSString *infoCellId = @"infoCellId";
+		cell = [_tableView dequeueReusableCellWithIdentifier:infoCellId];
+		if( cell == nil )
+		{
+			cell = [[InfoCell alloc] initWithRow:indexPath.row shareViewController:self andReuseIdentifier:infoCellId];
+		}
+		else
+		{
+			Info *info = (Info *)[_info objectAtIndex:indexPath.row];
+			
+			[(InfoCell *)cell itemInput].text = info.item;
+			[(InfoCell *)cell valueInput].text = info.value;
+			[(InfoCell *)cell unitButton].titleLabel.text = info.unit;
+		}
 	}
 	
 	// Add Info
@@ -399,7 +370,9 @@ enum {
 - (void)plusButtonDidTouchUpInside
 {
 	NSInteger row = _info.count;
-	[_info addObject:[[Info alloc] init]];
+	Info *info = [[Info alloc] init];
+	info.unit = @"KRW";
+	[_info addObject:info];
 	
 	[_tableView beginUpdates];
 	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationTop];
@@ -413,6 +386,28 @@ enum {
 	[_tableView beginUpdates];
 //	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:3]] withRowAnimation:UITableViewRowAnimationBottom];
 	[_tableView endUpdates];
+}
+
+- (void)itemInputEdittingChanged:(id)sender
+{
+	UITextField *itemInput = (UITextField *)sender;
+	NSInteger row = itemInput.tag;
+	
+	Info *info = [_info objectAtIndex:row];
+	info.item = itemInput.text;
+	
+	[_info replaceObjectAtIndex:row withObject:info];
+}
+
+- (void)valueInputEdittingChanged:(id)sender
+{
+	UITextField *valueInput = (UITextField *)sender;
+	NSInteger row = valueInput.tag;
+	
+	Info *info = [_info objectAtIndex:row];
+	info.value = valueInput.text;
+	
+	[_info replaceObjectAtIndex:row withObject:info];
 }
 
 - (void)unitButtonDidTouchUpInside
@@ -448,28 +443,6 @@ enum {
 		y = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[object tag] inSection:kSectionInfo]].frame.origin.y - 7;
 	
 	[_tableView setContentOffset:CGPointMake( 0, y ) animated:YES];
-}
-
-- (UILabel *)createInfoLabelWithText:(NSString *)text andFrame:(CGRect)frame
-{
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:frame];
-	infoLabel.text = text;
-	infoLabel.backgroundColor = [UIColor clearColor];
-	infoLabel.font = [UIFont boldSystemFontOfSize:14];
-	infoLabel.textColor = [UIColor colorWithWhite:0.14 alpha:1.0];
-	
-	return infoLabel;
-}
-
-- (UITextField *)createInfoInputWithPlaceholder:(NSString *)placeholder row:(NSInteger)row andFrame:(CGRect)frame;
-{
-	UITextField *infoInput = [[UITextField alloc] initWithFrame:frame];
-	infoInput.placeholder = placeholder;
-	infoInput.tag = row; // tag에 indexPath.row를 저장시켜놓고, scrollToKeyboardPosition에서 그 row에 해당하는 cell의 y좌표로 이동시킨다.
-	infoInput.font = [UIFont systemFontOfSize:14];
-	[infoInput addTarget:self action:@selector(scrollToKeyboardPosition:) forControlEvents:UIControlEventEditingDidBegin];
-	
-	return infoInput;
 }
 
 @end

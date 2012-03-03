@@ -125,6 +125,7 @@
 		03E76B56150250B000DDDB20 /* Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E76B55150250B000DDDB20 /* Info.m */; };
 		03E76B591502990800DDDB20 /* postit_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B571502990800DDDB20 /* postit_empty.png */; };
 		03E76B5A1502990800DDDB20 /* postit_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B581502990800DDDB20 /* postit_empty@2x.png */; };
+		03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E76B5C15029EE700DDDB20 /* InfoCell.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -295,6 +296,8 @@
 		03E76B55150250B000DDDB20 /* Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Info.m; sourceTree = "<group>"; };
 		03E76B571502990800DDDB20 /* postit_empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = postit_empty.png; sourceTree = "<group>"; };
 		03E76B581502990800DDDB20 /* postit_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postit_empty@2x.png"; sourceTree = "<group>"; };
+		03E76B5B15029EE700DDDB20 /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
+		03E76B5C15029EE700DDDB20 /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -374,6 +377,8 @@
 				0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */,
 				0302936C14FAC20A00E31F9A /* PlaceSelectionViewController.h */,
 				0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */,
+				03E76B5B15029EE700DDDB20 /* InfoCell.h */,
+				03E76B5C15029EE700DDDB20 /* InfoCell.m */,
 				0300E72314D23E6B00611039 /* ProfileViewController.h */,
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				03AF15C514F637A5003F1621 /* ProfileWebView.h */,
@@ -761,6 +766,7 @@
 				036B32C914FE2E1100C1BA70 /* UIPlaceHolderTextView.m in Sources */,
 				03E76B3A15021E3800DDDB20 /* TripObject.m in Sources */,
 				03E76B56150250B000DDDB20 /* Info.m in Sources */,
+				03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

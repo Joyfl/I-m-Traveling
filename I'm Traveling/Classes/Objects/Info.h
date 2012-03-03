@@ -10,12 +10,12 @@
 
 @interface Info : NSObject
 {
-	NSString *name;
+	NSString *item;
 	NSString *value;
 	NSString *unit;
 }
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *item;
 @property (nonatomic, retain) NSString *value;
 @property (nonatomic, retain) NSString *unit;
 
