@@ -26,17 +26,19 @@
 {
     if( self = [super init] )
 	{
-		_coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 0, -110, 320, 320 )];
+		self.view.backgroundColor = [UIColor grayColor];
+		
+		_coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 0, -85, 320, 320 )];
 		[_coverImageView setImage:[UIImage imageNamed:@"cover_temp.jpg"]];
 		[self.view addSubview:_coverImageView];
 		
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
 		[self.view addSubview:_scrollView];
-		_scrollView.contentSize = CGSizeMake( 320, 500 );
+		_scrollView.contentSize = CGSizeMake( 320, 368 );
 		
 		_webView = [[ProfileWebView alloc] init];
-		_webView.frame = CGRectMake( 0, 50, 320, 500 );
+		_webView.frame = CGRectMake( 0, 97, 320, 471 );
 		[_scrollView addSubview:_webView];
 		
 		userObject = [[UserObject alloc] init];
@@ -144,9 +146,16 @@
 	CGRect frame = _coverImageView.frame;
 	
 	if( _scrollView.contentOffset.y > 0 )
-		frame.origin.y = -110 - _scrollView.contentOffset.y;
+	{
+		frame.origin.y = -85 - _scrollView.contentOffset.y;
+	}
 	else
-		frame.origin.y = -110 - _scrollView.contentOffset.y / 2;
+	{
+		if( _scrollView.contentOffset.y > -170 )
+			frame.origin.y = -85 - _scrollView.contentOffset.y / 2;
+		else
+			frame.origin.y = -170 - _scrollView.contentOffset.y;
+	}
 	
 	_coverImageView.frame = frame;
 }
