@@ -45,6 +45,13 @@
 	return [formatter stringFromDate:date];
 }
 
++ (NSString *)onlyDateWithDate:(NSDate *)date
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.dateFormat = @"d";
+	return [formatter stringFromDate:date];
+}
+
 + (NSString *)timeWithDate:(NSDate *)date
 {
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];

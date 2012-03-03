@@ -13,20 +13,22 @@
 @interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {
 	UITableView *_tableView;
-	UIImage *_image;
-	NSDictionary *_info;
 	
+	UIImage *_image;
 	UITableViewCell *_imageCell;
 	
 	UILabel *_tripLabel;
 	UILabel *_placeLabel;
+	
+	NSDate *selectedDate;
+	NSDate *selectedTime;
+	UILabel *_dateButtonLabel;
 	UILabel *_dateLabel;
 	
 	UITableViewCell *_reviewCell;
 	UIPlaceHolderTextView *_reviewInput;
 	
-	NSDate *selectedDate;
-	NSDate *selectedTime;
+	NSDictionary *_info;
 }
 
 - (id)initWithImage:(UIImage *)image;

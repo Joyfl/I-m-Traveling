@@ -206,21 +206,20 @@
 		[dateButton addTarget:self action:@selector(dateButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:dateButton];
 		
-		UILabel *dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 13, 22, 60, 52 )];
-		dateButtonLabel.font = [UIFont boldSystemFontOfSize:36];
-		dateButtonLabel.textColor = [UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0];
-		dateButtonLabel.textAlignment = UITextAlignmentCenter;
-		dateButtonLabel.text = @"30";
-		dateButtonLabel.backgroundColor = [UIColor clearColor];
-		dateButtonLabel.shadowColor = [UIColor whiteColor];
-		dateButtonLabel.shadowOffset = CGSizeMake( 0, 0.3 );
-		dateButtonLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
-		dateButtonLabel.layer.shadowOpacity = 0.3;
-		dateButtonLabel.layer.shadowRadius = 0.2;
-		dateButtonLabel.layer.shadowOffset = CGSizeMake( 0, -1 );
-		dateButtonLabel.layer.masksToBounds = YES;
-		dateButtonLabel.tag = 999;
-		[dateButton addSubview:dateButtonLabel];
+		_dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 13, 22, 60, 52 )];
+		_dateButtonLabel.font = [UIFont boldSystemFontOfSize:36];
+		_dateButtonLabel.textColor = [UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0];
+		_dateButtonLabel.textAlignment = UITextAlignmentCenter;
+		_dateButtonLabel.text = @"30";
+		_dateButtonLabel.backgroundColor = [UIColor clearColor];
+		_dateButtonLabel.shadowColor = [UIColor whiteColor];
+		_dateButtonLabel.shadowOffset = CGSizeMake( 0, 0.3 );
+		_dateButtonLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
+		_dateButtonLabel.layer.shadowOpacity = 0.3;
+		_dateButtonLabel.layer.shadowRadius = 0.2;
+		_dateButtonLabel.layer.shadowOffset = CGSizeMake( 0, -1 );
+		_dateButtonLabel.layer.masksToBounds = YES;
+		[dateButton addSubview:_dateButtonLabel];
 		
 		_dateLabel = [[UILabel alloc] initWithFrame:CGRectMake( 221, 102, 85, 40 )];
 		_dateLabel.backgroundColor = [UIColor clearColor];
@@ -304,12 +303,12 @@
 
 - (void)dateButtonDidTouchDown:(id)sender
 {
-	[(UILabel *)[sender viewWithTag:999] setTextColor:[UIColor colorWithRed:0.48 green:0.41 blue:0.35 alpha:1.0]];
+	[_dateButtonLabel setTextColor:[UIColor colorWithRed:0.48 green:0.41 blue:0.35 alpha:1.0]];
 }
 
 - (void)dateButtonDidTouchCancel:(id)sender
 {
-	[(UILabel *)[sender viewWithTag:999] setTextColor:[UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0]];
+	[_dateButtonLabel setTextColor:[UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0]];
 }
 
 - (void)dateButtonDidTouchUpInside:(id)sender
@@ -328,6 +327,7 @@
 - (void)fillDateLabelText
 {
 	_dateLabel.text = [Utils stringWithDate:selectedDate andTime:selectedTime];
+	_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];
 }
 
 - (void)scrollToKeyboardPosition
