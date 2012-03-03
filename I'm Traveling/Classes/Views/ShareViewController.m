@@ -14,10 +14,14 @@
 #import "TimeSelectionViewController.h"
 #import "PlaceSelectionViewController.h"
 #import "Utils.h"
+#import "Info.h"
 
 @interface ShareViewController()
 
-- (void)scrollToKeyboardPosition;
+- (void)scrollToKeyboardPosition:(id)object;
+
+- (UILabel *)createInfoLabelWithText:(NSString *)text andFrame:(CGRect)frame;
+- (UITextField *)createInfoInputWithPlaceholder:(NSString *)placeholder row:(NSInteger)row andFrame:(CGRect)frame;
 
 @end
 
@@ -26,11 +30,20 @@
 
 @synthesize selectedDate, selectedTime;
 
+enum {
+	kSectionImage = 0,
+	kSectionTripPlaceDate = 1,
+	kSectionReview = 2,
+	kSectionInfo = 3,
+	kSectionAddInfo = 4,
+	kSectionSaveToLocal = 5
+};
+
 -(id)initWithImage:(UIImage *)image
 {
     if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor whiteColor];
+		self.view.backgroundColor = [UIColor grayColor];
 		
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
@@ -38,16 +51,16 @@
 		UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(uploadButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = uploadButton;
 		
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStylePlain];
+		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 416 ) style:UITableViewStylePlain];
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
-		_tableView.backgroundColor = [UIColor grayColor];
+		_tableView.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
 		_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		[self.view addSubview:_tableView];
 		
 		_image = [image retain];
 		
-		_info = [[NSDictionary alloc] init];
+		_info = [[NSMutableArray alloc] init];
 		
 		selectedDate = [[NSDate alloc] init];
 		selectedTime = [[NSDate alloc] init];
@@ -111,7 +124,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 5;
+	// 0 : Image
+	// 1 : Trip, Place, Date
+	// 2 : Review
+	// 3 : Info
+	// 4 : Add Info
+	// 5 : Save to local
+	return 6;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -127,35 +146,43 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if( indexPath.section == 0 )
-		return _image.size.height * 321 / _image.size.width;
-	
-	else if( indexPath.section == 1 )
-		return 150;
-	
-	else if( indexPath.section == 2 )
-		return 180;
+	switch( indexPath.section )
+	{
+		case kSectionImage:
+			return _image.size.height * 321 / _image.size.width;
+			
+		case kSectionTripPlaceDate:
+			return 150;
+			
+		case kSectionReview:
+			return 180;
+			
+		case kSectionInfo:
+			return 68;
+			
+		case kSectionAddInfo:
+			return 68;
+	}
 	
 	return 44;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell *cell;
+	UITableViewCell *cell = nil;
 	
 	// Image
-	if( indexPath.section == 0 )
+	if( indexPath.section == kSectionImage )
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-		cell.imageView.image = _image;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.imageView.image = _image;
 	}
 	
 	// Trip, Date, Place
-	else if( indexPath.section == 1 )
+	else if( indexPath.section == kSectionTripPlaceDate )
 	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil];
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+		cell = [[UITableViewCell alloc] init];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_top_bg.png"]];
 		
@@ -232,9 +259,10 @@
 	}
 	
 	// Review
-	else if( indexPath.section == 2 )
+	else if( indexPath.section == kSectionReview )
 	{
-		_reviewCell = cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+		_reviewCell = cell = [[UITableViewCell alloc] init];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		_reviewInput = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake( 12, 7, 296, 166 )];
 		_reviewInput.font = [UIFont systemFontOfSize:15];
@@ -242,22 +270,74 @@
 		_reviewInput.placeholder = @"Review";
 		_reviewInput.editable = YES;
 		[cell addSubview:_reviewInput];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToKeyboardPosition) name:UITextViewTextDidBeginEditingNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToKeyboardPosition:) name:UITextViewTextDidBeginEditingNotification object:nil];
 	}
 	
 	// Info
-	else if( indexPath.section == 3 )
+	else if( indexPath.section == kSectionInfo )
 	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil];
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
+		static NSString *infoCell = @"infoCell";
+		cell = [_tableView dequeueReusableCellWithIdentifier:infoCell];
+		if( cell == nil ) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:infoCell];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake( 100, 12, cell.frame.size.width - 110, cell.frame.size.height - 24 )];
-		[cell addSubview:textField];
+		UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 26, 20, 20 )];
+		[minusButton setBackgroundImage:[UIImage imageNamed:@"minus.png"] forState:UIControlStateNormal];
+		[minusButton addTarget:self action:@selector(minusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:minusButton];
+		
+		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 0, 260, 68 )];
+		postIt.image = [UIImage imageNamed:@"postit.png"];
+		[cell addSubview:postIt];
+		
+		// Item
+		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 7, 50, 20 )];
+		[cell addSubview:itemLabel];
+		
+		UITextField *itemInput = [self createInfoInputWithPlaceholder:@"Item" row:indexPath.row andFrame:CGRectMake( 105, 8, 200, 20 )];
+		itemInput.textColor = [UIColor colorWithRed:0.419 green:0.258 blue:0.098 alpha:1.0];
+		[cell addSubview:itemInput];
+		
+		// Value
+		UILabel *valueLabel = [self createInfoLabelWithText:@"Value" andFrame:CGRectMake( 54, 32, 50, 20 )];
+		[cell addSubview:valueLabel];
+		
+		UITextField *valueInput = [self createInfoInputWithPlaceholder:@"Value" row:indexPath.row andFrame:CGRectMake( 105, 33, 70, 20 )];
+		valueInput.textColor = [UIColor colorWithRed:0.678 green:0.243 blue:0.337 alpha:1.0];
+		valueInput.keyboardType = UIKeyboardTypeNumberPad;
+		[cell addSubview:valueInput];
+		
+		// Unit
+		UILabel *unitLabel = [self createInfoLabelWithText:@"Unit" andFrame:CGRectMake( 185, 32, 50, 20 )];
+		[cell addSubview:unitLabel];
+		
+		UIButton *unitButton = [[UIButton alloc] initWithFrame:CGRectMake( 210, 32, 70, 20 )];
+		unitButton.titleLabel.font = [UIFont systemFontOfSize:14];
+		[unitButton setTitle:@"KRW" forState:UIControlStateNormal];
+		[unitButton setTitleColor:[UIColor colorWithRed:0.231 green:0.180 blue:0.262 alpha:1.0] forState:UIControlStateNormal];
+		[unitButton addTarget:self action:@selector(unitButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:unitButton];
+	}
+	
+	// Add Info
+	else if( indexPath.section == kSectionAddInfo )
+	{
+		cell = [[UITableViewCell alloc] init];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 21, 20, 20 )];
+		[plusButton setBackgroundImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
+		[plusButton addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:plusButton];
+		
+		UIButton *postIt = [[UIButton alloc] initWithFrame:CGRectMake( 39, 0, 260, 68 )];
+		[postIt setBackgroundImage:[UIImage imageNamed:@"postit_empty.png"] forState:UIControlStateNormal];
+		[postIt addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:postIt];
 	}
 	
 	// Save to local
-	else if( indexPath.section == 4 )
+	else if( indexPath.section == kSectionSaveToLocal )
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 		cell.textLabel.text = @"Save to local";
@@ -272,11 +352,7 @@
 	UITableViewCell *cell = [[tableView cellForRowAtIndexPath:indexPath] retain];
 	cell.selected = NO;
 	
-	if( indexPath.section == 2 )
-	{
-		[self scrollToKeyboardPosition];
-	}
-	else if( indexPath.section == 4 )
+	if( indexPath.section == kSectionSaveToLocal )
 	{
 		if( cell.accessoryType == UITableViewCellAccessoryCheckmark )
 			cell.accessoryType = UITableViewCellAccessoryNone;
@@ -320,6 +396,29 @@
 	[self presentModalViewController:navigationController animated:YES];
 }
 
+- (void)plusButtonDidTouchUpInside
+{
+	NSInteger row = _info.count;
+	[_info addObject:[[Info alloc] init]];
+	
+	[_tableView beginUpdates];
+	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationTop];
+	[_tableView endUpdates];
+}
+
+- (void)minusButtonDidTouchUpInside
+{
+//	[_info removeObjectAtIndex:row];
+	
+	[_tableView beginUpdates];
+//	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:3]] withRowAnimation:UITableViewRowAnimationBottom];
+	[_tableView endUpdates];
+}
+
+- (void)unitButtonDidTouchUpInside
+{
+	NSLog( @"unit" );
+}
 
 #pragma mark -
 #pragma mark Utils
@@ -330,9 +429,47 @@
 	_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];
 }
 
-- (void)scrollToKeyboardPosition
+- (void)scrollToKeyboardPosition:(id)object
 {
-	[_tableView setContentOffset:CGPointMake( 0, _reviewCell.frame.origin.y - 7 ) animated:YES];
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.5];
+	[_tableView setFrame:CGRectMake( 0, 0, 320, 200 )];
+	[UIView commitAnimations];
+	
+	CGFloat y;
+	
+	// Review
+	if( ![object isKindOfClass:[UITextField class]] )
+		y = _reviewCell.frame.origin.y - 7;
+	
+	// Info
+	else
+		y = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[object tag] inSection:kSectionInfo]].frame.origin.y - 7;
+	
+	[_tableView setContentOffset:CGPointMake( 0, y ) animated:YES];
+}
+
+- (UILabel *)createInfoLabelWithText:(NSString *)text andFrame:(CGRect)frame
+{
+	UILabel *infoLabel = [[UILabel alloc] initWithFrame:frame];
+	infoLabel.text = text;
+	infoLabel.backgroundColor = [UIColor clearColor];
+	infoLabel.font = [UIFont boldSystemFontOfSize:14];
+	infoLabel.textColor = [UIColor colorWithWhite:0.14 alpha:1.0];
+	
+	return infoLabel;
+}
+
+- (UITextField *)createInfoInputWithPlaceholder:(NSString *)placeholder row:(NSInteger)row andFrame:(CGRect)frame;
+{
+	UITextField *infoInput = [[UITextField alloc] initWithFrame:frame];
+	infoInput.placeholder = placeholder;
+	infoInput.tag = row; // tag에 indexPath.row를 저장시켜놓고, scrollToKeyboardPosition에서 그 row에 해당하는 cell의 y좌표로 이동시킨다.
+	infoInput.font = [UIFont systemFontOfSize:14];
+	[infoInput addTarget:self action:@selector(scrollToKeyboardPosition:) forControlEvents:UIControlEventEditingDidBegin];
+	
+	return infoInput;
 }
 
 @end

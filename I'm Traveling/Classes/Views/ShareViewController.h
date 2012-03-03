@@ -28,7 +28,7 @@
 	UITableViewCell *_reviewCell;
 	UIPlaceHolderTextView *_reviewInput;
 	
-	NSDictionary *_info;
+	NSMutableArray *_info;
 }
 
 - (id)initWithImage:(UIImage *)image;
