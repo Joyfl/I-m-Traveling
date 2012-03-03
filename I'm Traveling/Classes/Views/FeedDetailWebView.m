@@ -45,7 +45,7 @@
 {
 	if( [message isEqualToString:@"detail_finished"] )
 	{
-		[_detailViewController feedDetailDidFinishCreating:self];
+//		[_detailViewController feedDetailDidFinishCreating:self];
 	}
 }
 
@@ -76,6 +76,7 @@
 					   feedObj.numLikes] retain];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
+	[_detailViewController feedDetailDidFinishCreating:self];
 	
 //	NSLog( @"%@", func );
 }

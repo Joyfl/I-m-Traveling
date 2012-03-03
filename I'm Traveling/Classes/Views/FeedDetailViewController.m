@@ -29,7 +29,8 @@
 - (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed;
 - (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId;
 
-- (void)resizeContentHeight:(FeedDetailWebView *)webView;
+- (void)resizeWebViewHeight:(FeedDetailWebView *)webView;
+- (void)resizeContentHeight;
 
 @property (retain, readonly) FeedDetailWebView *leftWebView;
 @property (retain, readonly) FeedDetailWebView *centerWebView;
@@ -210,7 +211,6 @@
 	if( index < _currentFeedIndex )
 	{
 		[self.leftWebView createFeedDetail:feedObject];
-//		[self resizeContrn
 	}
 	else if( _currentFeedIndex < index )
 	{
@@ -248,6 +248,7 @@
 		// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
 		[self.centerWebView clear];
 		[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+		[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
 		[self handleAllFeeds:[feed objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 		
 		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
@@ -541,6 +542,8 @@
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
+		[self resizeContentHeight];
+		
 		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
 		
 		// 왼쪽 피드 로드
@@ -566,6 +569,8 @@
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
+		
+		[self resizeContentHeight];
 		
 		self.rightWebView.frame = CGRectMake( 320, 100, 320, self.rightWebView.frame.size.height );
 		
@@ -594,19 +599,22 @@
 #pragma mark -
 #pragma mark From FeedDetailWebView
 
-- (void)resizeContentHeight:(FeedDetailWebView *)webView
+- (void)resizeWebViewHeight:(FeedDetailWebView *)webView
 {
-	float height = [[webView stringByEvaluatingJavaScriptFromString:@"getHeight();"] floatValue] - 21;
 	CGRect frame = webView.frame;
-	frame.size.height = height;
+	frame.size.height = [[webView stringByEvaluatingJavaScriptFromString:@"getHeight()"] floatValue];
 	webView.frame = frame;
-	_scrollView.contentSize = CGSizeMake( 320, height + 100 );
+}
+
+- (void)resizeContentHeight
+{
+	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + 97 );
 }
 
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webview
 {
 	// WebView 컨텐츠 리사이징
-	[self resizeContentHeight:webview];
+	[self resizeWebViewHeight:webview];
 	
 	if( ref == 0 )
 	{
