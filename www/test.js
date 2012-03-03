@@ -44,7 +44,7 @@ function init()
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
 function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
-function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "Las Vegas", "10 FEB", reviewShort); }
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 9, 233, 233, true); }
 
@@ -232,8 +232,8 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 				<div class=\"nationText\"></div>\
 			</div>\
 			<div class=\"noticeWrap\">\
-				<img class=\"noticeImage\" />\
-				<div class=\"noticeText\"></div>\
+				<img class=\"noticeImage noticeRight\" />\
+				<div class=\"noticeText noticeRight\"></div>\
 			</div>\
 			<div class=\"gap\" style=\"height: 0.5em\"></div>\
 			<div class=\"infoBox\">\
@@ -277,7 +277,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	if(notice > 0)
 	{
 		getClass("noticeImage")[0].src = "resource/bulb.png";
-		getClass("noticeText")[0].innerHTML = "<span class=\"green\">" + notice + "</span>";
+		getClass("noticeText")[0].innerHTML = "<div class=\"green\">" + notice + "</div>";
 	}
 	
 	var numbers = getClass("number");

@@ -45,7 +45,11 @@ ul, ol, li
 .cover
 {
 	position: absolute;
+	box-shadow: 0px 0.1em 0.2em #333333 inset;
 	-webkit-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-ms-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-moz-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-o-box-shadow: 0px 0.1em 0.2em #333333 inset;
 }
 
 .component
@@ -99,6 +103,10 @@ ul, ol, li
 {
 	/*background-image: url("resource/gradient-header.png");*/
 	background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background: -ms-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background: -moz-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
 	background-size: 100% 100%;
 	clear: both;
 	height: 5.1em;
@@ -281,14 +289,22 @@ ul, ol, li
 	padding-top: 0.5em;
 	padding-left: 1em;
 	/*background-image: url("resource/gradient-see-all.png");*/
+	background: gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 	background: -webkit-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
+	background: -ms-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
+	background: -moz-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
+	background: -o-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 }
 
 .likeBar
 {
 	font-size: 1.3em;
 	/*background-image: url("resource/gradient-like.png");*/
+	background: gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -webkit-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	background: -ms-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	background: -moz-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	background: -o-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	padding: 0.4em;
 	color: #232323;
 }
@@ -465,28 +481,24 @@ ul, ol, li
 	width: 100%;
 }
 
-.noticeImage
+.noticeRight
 {
-	float: right;
 	width: 4em;
-	margin-right: 3em;
-	margin-top: 1.5em;
+	left: 100%;
+	margin-left: -6em;
+	margin-top: 1em;
+	position: absolute;
 }
 
 .noticeText
 {
-	width: 100%;
-	position: absolute;
+	margin-top: 2em;
 }
 
 .noticeText .green
 {
-	float: right;
 	text-align: center;
 	font-size: 2em;
-	margin-right: 1.46em;
-	margin-top: 1.3em;
-	width: 2em;
 }
 
 .infoBox
@@ -543,7 +555,11 @@ ul, ol, li
 
 .seeAllFeed
 {
+	background: gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
 	background: -webkit-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
+	background: -ms-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
+	background: -moz-linear-gradient-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
+	background: -o-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
 }
 
 .seeAllTrip
@@ -561,7 +577,11 @@ ul, ol, li
 
 .profileGradient
 {
+	background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
 	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
+	background: -ms-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
+	background: -moz-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
+	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
 }
 
 
