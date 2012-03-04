@@ -12,14 +12,14 @@
 @interface InfoCell : UITableViewCell
 {
 	ShareViewController *_shareViewController;
-	NSInteger _row;
 	
+	UIButton *minusButton;
 	UITextField *itemInput;
 	UITextField *valueInput;
 	UIButton *unitButton;
 }
 
-@property (nonatomic, assign) NSInteger row;
+@property (nonatomic, retain) UIButton *minusButton;
 @property (nonatomic, retain) UITextField *itemInput;
 @property (nonatomic, retain) UITextField *valueInput;
 @property (nonatomic, retain) UIButton *unitButton;

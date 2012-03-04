@@ -18,7 +18,7 @@
 
 @implementation InfoCell
 
-@synthesize row=_row, itemInput, valueInput, unitButton;
+@synthesize minusButton, itemInput, valueInput, unitButton;
 
 - (id)initWithRow:(NSInteger)row shareViewController:(ShareViewController *)shareViewController andReuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,11 +27,11 @@
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		_shareViewController = shareViewController;
-		_row = row;
 		
-		UIButton *minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 26, 20, 20 )];
+		minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 26, 20, 20 )];
+		minusButton.tag = row;
 		[minusButton setBackgroundImage:[UIImage imageNamed:@"minus.png"] forState:UIControlStateNormal];
-		[minusButton addTarget:_shareViewController action:@selector(minusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[minusButton addTarget:_shareViewController action:@selector(minusButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:minusButton];
 		
 		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 0, 260, 68 )];

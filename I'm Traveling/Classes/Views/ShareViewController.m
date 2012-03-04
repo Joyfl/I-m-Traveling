@@ -283,10 +283,14 @@ enum {
 		else
 		{
 			Info *info = (Info *)[_info objectAtIndex:indexPath.row];
-			
 			[(InfoCell *)cell itemInput].text = info.item;
 			[(InfoCell *)cell valueInput].text = info.value;
 			[(InfoCell *)cell unitButton].titleLabel.text = info.unit;
+			
+			[(InfoCell *)cell minusButton].tag = indexPath.row;
+			[(InfoCell *)cell itemInput].tag = indexPath.row;
+			[(InfoCell *)cell valueInput].tag = indexPath.row;
+			[(InfoCell *)cell unitButton].tag = indexPath.row;
 		}
 	}
 	
@@ -379,12 +383,15 @@ enum {
 	[_tableView endUpdates];
 }
 
-- (void)minusButtonDidTouchUpInside
+- (void)minusButtonDidTouchUpInside:(id)sender
 {
-//	[_info removeObjectAtIndex:row];
+	NSInteger row = [sender tag];
+	NSLog( @"minus button (row : %d)", row );
+	
+	[_info removeObjectAtIndex:row];
 	
 	[_tableView beginUpdates];
-//	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:3]] withRowAnimation:UITableViewRowAnimationBottom];
+	[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationBottom];
 	[_tableView endUpdates];
 }
 
