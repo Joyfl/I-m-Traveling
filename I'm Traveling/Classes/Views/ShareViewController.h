@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ImTravelingViewController.h"
-#import "UIPlaceHolderTextView.h"
 
 @interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {
@@ -26,7 +25,7 @@
 	UILabel *_dateLabel;
 	
 	UITableViewCell *_reviewCell;
-	UIPlaceHolderTextView *_reviewInput;
+	UITextView *_reviewInput;
 	
 	NSMutableArray *_info;
 	

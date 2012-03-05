@@ -76,7 +76,6 @@
 		036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32B914FC114900C1BA70 /* TripListViewController.m */; };
 		036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */; };
 		036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */; };
-		036B32C914FE2E1100C1BA70 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32C814FE2E1100C1BA70 /* UIPlaceHolderTextView.m */; };
 		036B32D114FE8B4400C1BA70 /* share_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32CF14FE8B4400C1BA70 /* share_top_bg.png */; };
 		036B32D214FE8B4400C1BA70 /* share_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32D014FE8B4400C1BA70 /* share_top_bg@2x.png */; };
 		036B32DA14FE8C8300C1BA70 /* button_date.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32D414FE8C8300C1BA70 /* button_date.png */; };
@@ -227,8 +226,6 @@
 		036B32BE14FD58B200C1BA70 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
 		036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
 		036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
-		036B32C714FE2E1100C1BA70 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
-		036B32C814FE2E1100C1BA70 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		036B32CF14FE8B4400C1BA70 /* share_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_top_bg.png; sourceTree = "<group>"; };
 		036B32D014FE8B4400C1BA70 /* share_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_top_bg@2x.png"; sourceTree = "<group>"; };
 		036B32D414FE8C8300C1BA70 /* button_date.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_date.png; sourceTree = "<group>"; };
@@ -348,8 +345,6 @@
 				0300E6FC14D1A93100611039 /* UIPullDownWebViewController.m */,
 				0300E6DA14D1A93100611039 /* EGORefreshTableHeaderView.h */,
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
-				036B32C714FE2E1100C1BA70 /* UIPlaceHolderTextView.h */,
-				036B32C814FE2E1100C1BA70 /* UIPlaceHolderTextView.m */,
 				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
 				036B32BC14FD58B200C1BA70 /* ActionSheetPicker */,
@@ -787,7 +782,6 @@
 				036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */,
 				036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */,
 				036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */,
-				036B32C914FE2E1100C1BA70 /* UIPlaceHolderTextView.m in Sources */,
 				03E76B3A15021E3800DDDB20 /* TripObject.m in Sources */,
 				03E76B56150250B000DDDB20 /* Info.m in Sources */,
 				03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */,

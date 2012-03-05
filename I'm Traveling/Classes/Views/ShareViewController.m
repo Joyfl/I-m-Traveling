@@ -272,11 +272,11 @@ enum {
 		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_review_bg.png"]];
 		[cell addSubview:bg];
 		
-		_reviewInput = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake( 12, 7, 296, 166 )];
-		_reviewInput.font = [UIFont systemFontOfSize:15];
+		_reviewInput = [[UITextView alloc] initWithFrame:CGRectMake( 4, 25, 312, 136 )];
+		_reviewInput.font = [UIFont systemFontOfSize:14];
 		_reviewInput.backgroundColor = [UIColor clearColor];
-		_reviewInput.placeholder = @"Review";
 		_reviewInput.editable = YES;
+		_reviewInput.textColor = [UIColor colorWithRed:0.317 green:0.239 blue:0.168 alpha:1.0];
 		[cell addSubview:_reviewInput];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
 	}

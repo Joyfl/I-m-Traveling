@@ -1,2 +1,4 @@
 .gitignore
 *.xcuserstate
+
+.DS_Store
