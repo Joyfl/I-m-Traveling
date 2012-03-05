@@ -89,14 +89,14 @@
 		_scrollView.delegate = self;
 		[self.view addSubview:_scrollView];		
 		
-		_leftFeedButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		_leftFeedButton.frame = CGRectMake( 10, 10, 30, 80 );
+		_leftFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 10, 33, 22, 34 )];
 		_leftFeedButton.alpha = 0.7;
+		[_leftFeedButton setBackgroundImage:[UIImage imageNamed:@"button_left.png"] forState:UIControlStateNormal];
 		[_leftFeedButton addTarget:self action:@selector(leftFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
-		_rightFeedButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		_rightFeedButton.frame = CGRectMake( 280, 10, 30, 80 );
+		_rightFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 288, 33, 22, 34 )];
 		_rightFeedButton.alpha = 0.7;
+		[_rightFeedButton setBackgroundImage:[UIImage imageNamed:@"button_right.png"] forState:UIControlStateNormal];
 		[_rightFeedButton addTarget:self action:@selector(rightFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
 		[self.view addSubview:_leftFeedButton];
