@@ -291,7 +291,7 @@ enum {
 		{
 			Info *info = (Info *)[_info objectAtIndex:indexPath.row];
 			[(InfoCell *)cell itemInput].text = info.item;
-			[(InfoCell *)cell valueInput].text = info.value;
+			[(InfoCell *)cell valueInput].text = [NSString stringWithFormat:@"%d", info.value];
 			[(InfoCell *)cell unitButton].titleLabel.text = info.unit;
 			
 			[(InfoCell *)cell minusButton].tag = indexPath.row;
@@ -430,11 +430,21 @@ enum {
 {
 	UITextField *valueInput = (UITextField *)sender;
 	NSInteger row = valueInput.tag;
+	NSInteger value = [[valueInput.text stringByReplacingOccurrencesOfString:@"," withString:@""] integerValue];
 	
 	Info *info = [_info objectAtIndex:row];
-	info.value = valueInput.text;
-	
+	info.value = value;
 	[_info replaceObjectAtIndex:row withObject:info];
+	
+	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+	formatter.numberStyle = NSNumberFormatterDecimalStyle;
+	
+	// valueInputEdittingChanged가 한번 더 호출되지 않도록 지웠다가 다시 추가
+	[valueInput removeTarget:self action:@selector(valueInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
+	valueInput.text = [formatter stringFromNumber:[NSNumber numberWithInteger:value]];
+	[valueInput addTarget:self action:@selector(valueInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
+	
+	[formatter release];
 }
 
 - (void)unitButtonDidTouchUpInside

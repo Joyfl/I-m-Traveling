@@ -11,12 +11,12 @@
 @interface Info : NSObject
 {
 	NSString *item;
-	NSString *value;
+	NSInteger value;
 	NSString *unit;
 }
 
 @property (nonatomic, retain) NSString *item;
-@property (nonatomic, retain) NSString *value;
+@property (nonatomic, assign) NSInteger value;
 @property (nonatomic, retain) NSString *unit;
 
 @end
