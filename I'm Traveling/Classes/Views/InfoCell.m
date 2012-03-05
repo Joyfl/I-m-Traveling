@@ -90,9 +90,9 @@
 {
 	UITextField *infoInput = [[UITextField alloc] initWithFrame:frame];
 	infoInput.placeholder = placeholder;
-	infoInput.tag = row; // tag에 indexPath.row를 저장시켜놓고, scrollToKeyboardPosition에서 그 row에 해당하는 cell의 y좌표로 이동시킨다.
+	infoInput.tag = row; // tag에 indexPath.row를 저장시켜놓고, textDidBeginEditting에서 그 row에 해당하는 cell의 y좌표로 이동시킨다.
 	infoInput.font = [UIFont systemFontOfSize:14];
-	[infoInput addTarget:_shareViewController action:@selector(scrollToKeyboardPosition:) forControlEvents:UIControlEventEditingDidBegin];
+	[infoInput addTarget:_shareViewController action:@selector(textDidBeginEditting:) forControlEvents:UIControlEventEditingDidBegin];
 	
 	return infoInput;
 }

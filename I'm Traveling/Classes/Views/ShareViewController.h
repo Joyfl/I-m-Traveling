@@ -29,11 +29,14 @@
 	UIPlaceHolderTextView *_reviewInput;
 	
 	NSMutableArray *_info;
+	
+	id _currentFirstResponder;
+	UIButton *_dismissKeyboardButton;
 }
 
 - (id)initWithImage:(UIImage *)image;
-
 - (void)fillDateLabelText;
+- (void)textDidBeginEditting:(id)sender;
 
 @property (nonatomic, retain) NSDate *selectedDate;
 @property (nonatomic, retain) NSDate *selectedTime;

@@ -62,6 +62,13 @@ enum {
 		
 		selectedDate = [[NSDate alloc] init];
 		selectedTime = [[NSDate alloc] init];
+		
+		_dismissKeyboardButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		_dismissKeyboardButton.frame = CGRectMake( 320-80-10, 416-216-37+10, 80, 37 );
+		[_dismissKeyboardButton addTarget:self action:@selector(dismissKeyboardButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
 }
@@ -268,7 +275,7 @@ enum {
 		_reviewInput.placeholder = @"Review";
 		_reviewInput.editable = YES;
 		[cell addSubview:_reviewInput];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scrollToKeyboardPosition:) name:UITextViewTextDidBeginEditingNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
 	}
 	
 	// Info
@@ -395,6 +402,19 @@ enum {
 	[_tableView endUpdates];
 }
 
+- (void)textDidBeginEditting:(id)sender
+{
+	// Review
+	if( ![sender isKindOfClass:[UITextField class]] )
+		_currentFirstResponder = _reviewInput;
+	
+	// Info
+	else
+		_currentFirstResponder = sender;
+	
+	[self scrollToKeyboardPosition:sender];
+}
+
 - (void)itemInputEdittingChanged:(id)sender
 {
 	UITextField *itemInput = (UITextField *)sender;
@@ -422,6 +442,29 @@ enum {
 	NSLog( @"unit" );
 }
 
+- (void)keyboardDidShow
+{
+	[self.view addSubview:_dismissKeyboardButton];
+}
+
+- (void)keyboardWillHide
+{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	[_tableView setFrame:CGRectMake( 0, 0, 320, 416 )];
+	[UIView commitAnimations];
+}
+
+- (void)dismissKeyboardButtonDidTouchUpInside
+{
+	if( _currentFirstResponder != nil )
+	{
+		[_currentFirstResponder resignFirstResponder];
+		[_dismissKeyboardButton removeFromSuperview];
+	}
+}
+
 #pragma mark -
 #pragma mark Utils
 
@@ -435,7 +478,7 @@ enum {
 {
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.5];
+	[UIView setAnimationDuration:0.25];
 	[_tableView setFrame:CGRectMake( 0, 0, 320, 200 )];
 	[UIView commitAnimations];
 	
