@@ -269,6 +269,9 @@ enum {
 		_reviewCell = cell = [[UITableViewCell alloc] init];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
+		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_review_bg.png"]];
+		[cell addSubview:bg];
+		
 		_reviewInput = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake( 12, 7, 296, 166 )];
 		_reviewInput.font = [UIFont systemFontOfSize:15];
 		_reviewInput.backgroundColor = [UIColor clearColor];
