@@ -28,40 +28,40 @@
 		
 		_shareViewController = shareViewController;
 		
-		minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 26, 20, 20 )];
+		minusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 32, 20, 20 )];
 		minusButton.tag = row;
 		[minusButton setBackgroundImage:[UIImage imageNamed:@"minus.png"] forState:UIControlStateNormal];
 		[minusButton addTarget:_shareViewController action:@selector(minusButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:minusButton];
 		
-		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 0, 260, 68 )];
+		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 6, 260, 68 )];
 		postIt.image = [UIImage imageNamed:@"postit.png"];
 		[self addSubview:postIt];
 		
 		// Item
-		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 7, 50, 20 )];
+		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 13, 50, 20 )];
 		[self addSubview:itemLabel];
 		
-		itemInput = [self createInfoInputWithPlaceholder:@"Item" row:row andFrame:CGRectMake( 105, 8, 200, 20 )];
+		itemInput = [self createInfoInputWithPlaceholder:@"Item" row:row andFrame:CGRectMake( 105, 14, 200, 20 )];
 		itemInput.textColor = [UIColor colorWithRed:0.419 green:0.258 blue:0.098 alpha:1.0];
 		[itemInput addTarget:_shareViewController action:@selector(itemInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self addSubview:itemInput];
 		
 		// Value
-		UILabel *valueLabel = [self createInfoLabelWithText:@"Value" andFrame:CGRectMake( 54, 32, 50, 20 )];
+		UILabel *valueLabel = [self createInfoLabelWithText:@"Value" andFrame:CGRectMake( 54, 38, 50, 20 )];
 		[self addSubview:valueLabel];
 		
-		valueInput = [self createInfoInputWithPlaceholder:@"Value" row:row andFrame:CGRectMake( 105, 33, 70, 20 )];
+		valueInput = [self createInfoInputWithPlaceholder:@"Value" row:row andFrame:CGRectMake( 105, 39, 70, 20 )];
 		valueInput.textColor = [UIColor colorWithRed:0.678 green:0.243 blue:0.337 alpha:1.0];
 		valueInput.keyboardType = UIKeyboardTypeNumberPad;
 		[valueInput addTarget:_shareViewController action:@selector(valueInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self addSubview:valueInput];
 		
 		// Unit
-		UILabel *unitLabel = [self createInfoLabelWithText:@"Unit" andFrame:CGRectMake( 185, 32, 50, 20 )];
+		UILabel *unitLabel = [self createInfoLabelWithText:@"Unit" andFrame:CGRectMake( 185, 38, 50, 20 )];
 		[self addSubview:unitLabel];
 		
-		unitButton = [[UIButton alloc] initWithFrame:CGRectMake( 210, 32, 70, 20 )];
+		unitButton = [[UIButton alloc] initWithFrame:CGRectMake( 210, 38, 70, 20 )];
 		unitButton.titleLabel.font = [UIFont systemFontOfSize:14];
 		[unitButton setTitle:@"KRW" forState:UIControlStateNormal];
 		[unitButton setTitleColor:[UIColor colorWithRed:0.231 green:0.180 blue:0.262 alpha:1.0] forState:UIControlStateNormal];

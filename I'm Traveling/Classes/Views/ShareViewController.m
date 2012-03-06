@@ -160,13 +160,13 @@ enum {
 			return 150;
 			
 		case kSectionReview:
-			return 180;
+			return 190;
 			
 		case kSectionInfo:
-			return 68;
+			return 80;
 			
 		case kSectionAddInfo:
-			return 68;
+			return 80;
 	}
 	
 	return 44;
@@ -293,6 +293,10 @@ enum {
 		if( cell == nil )
 		{
 			cell = [[InfoCell alloc] initWithRow:indexPath.row shareViewController:self andReuseIdentifier:infoCellId];
+			
+			UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
+			bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
+			cell.backgroundView = bg;
 		}
 		else
 		{
@@ -314,12 +318,16 @@ enum {
 		cell = [[UITableViewCell alloc] init];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 21, 20, 20 )];
+		UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
+		bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
+		cell.backgroundView = bg;
+		
+		UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 27, 20, 20 )];
 		[plusButton setBackgroundImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
 		[plusButton addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:plusButton];
 		
-		UIButton *postIt = [[UIButton alloc] initWithFrame:CGRectMake( 39, 0, 260, 68 )];
+		UIButton *postIt = [[UIButton alloc] initWithFrame:CGRectMake( 39, 6, 260, 68 )];
 		[postIt setBackgroundImage:[UIImage imageNamed:@"postit_empty.png"] forState:UIControlStateNormal];
 		[postIt addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:postIt];
@@ -330,7 +338,12 @@ enum {
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 		cell.textLabel.text = @"Save to local";
+		cell.textLabel.backgroundColor = [UIColor clearColor];
 		cell.accessoryType = UITableViewCellAccessoryNone;
+		
+		UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
+		bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
+		cell.backgroundView = bg;
 	}
 	
 	return cell;
@@ -407,7 +420,7 @@ enum {
 	[_info addObject:info];
 	
 	[_tableView beginUpdates];
-	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationTop];
+	[_tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationNone];
 	[_tableView endUpdates];
 }
 
