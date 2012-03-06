@@ -20,6 +20,8 @@
 @interface ShareViewController()
 
 - (void)scrollToKeyboardPosition:(id)object;
+- (void)updateRowOfInfoCell:(InfoCell *)cell row:(NSInteger)row;
+- (void)updateRowOfInfoCells;
 
 @end
 
@@ -305,10 +307,7 @@ enum {
 			[(InfoCell *)cell valueInput].text = [NSString stringWithFormat:@"%d", info.value];
 			[(InfoCell *)cell unitButton].titleLabel.text = info.unit;
 			
-			[(InfoCell *)cell minusButton].tag = indexPath.row;
-			[(InfoCell *)cell itemInput].tag = indexPath.row;
-			[(InfoCell *)cell valueInput].tag = indexPath.row;
-			[(InfoCell *)cell unitButton].tag = indexPath.row;
+			[self updateRowOfInfoCell:(InfoCell *)cell row:indexPath.row];
 		}
 	}
 	
@@ -434,6 +433,8 @@ enum {
 	[_tableView beginUpdates];
 	[_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:row inSection:kSectionInfo]] withRowAnimation:UITableViewRowAnimationBottom];
 	[_tableView endUpdates];
+	
+	[self updateRowOfInfoCells];
 }
 
 - (void)textDidBeginEditting:(id)sender
@@ -537,6 +538,24 @@ enum {
 		y = [_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:[object tag] inSection:kSectionInfo]].frame.origin.y - 7;
 	
 	[_tableView setContentOffset:CGPointMake( 0, y ) animated:YES];
+}
+
+- (void)updateRowOfInfoCell:(InfoCell *)cell row:(NSInteger)row
+{
+	cell.minusButton.tag = row;
+	cell.itemInput.tag = row;
+	cell.valueInput.tag = row;
+	cell.unitButton.tag = row;
+}
+
+- (void)updateRowOfInfoCells
+{
+	NSInteger numberOfRows = [_tableView numberOfRowsInSection:kSectionInfo];
+	for( NSInteger i = 0; i < numberOfRows; i++ )
+	{
+		InfoCell *cell = (InfoCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kSectionInfo]];
+		[self updateRowOfInfoCell:cell row:i];
+	}
 }
 
 @end
