@@ -52,7 +52,7 @@ enum {
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 416 ) style:UITableViewStylePlain];
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
-		_tableView.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
+		_tableView.backgroundColor = [UIColor darkGrayColor];
 		_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		[self.view addSubview:_tableView];
 		
@@ -182,6 +182,10 @@ enum {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.imageView.image = _image;
+		
+		_imageTopBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_image_top_border.png"]];
+		_imageTopBorder.hidden = YES;
+		[cell addSubview:_imageTopBorder];
 	}
 	
 	// Trip, Date, Place
@@ -346,6 +350,20 @@ enum {
 	}
 	
 	[cell release];
+}
+
+
+#pragma mark -
+#pragma mark UIScrollView
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = YES;
 }
 
 

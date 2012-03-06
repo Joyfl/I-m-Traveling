@@ -13,6 +13,7 @@
 {
 	UITableView *_tableView;
 	
+	UIImageView *_imageTopBorder;
 	UIImage *_image;
 	UITableViewCell *_imageCell;
 	
