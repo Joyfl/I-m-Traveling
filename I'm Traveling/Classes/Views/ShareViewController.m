@@ -29,7 +29,7 @@
 
 @implementation ShareViewController
 
-@synthesize selectedPlace, selectedDate, selectedTime;
+@synthesize selectedTrip, selectedPlace, selectedDate, selectedTime;
 
 enum {
 	kSectionImage = 0,
@@ -385,12 +385,14 @@ enum {
 
 - (void)tripButtonDidTouchUpInside
 {
-	
+	TripListViewController *tripSelectionViewController = [[TripListViewController alloc] initWithShareViewController:self];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:tripSelectionViewController];
+	[self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)placeButtonDidTouchUpInside
 {
-	UIViewController *placeSelectionViewController = [[PlaceSelectionViewController alloc] initWithShareViewController:self];
+	PlaceSelectionViewController *placeSelectionViewController = [[PlaceSelectionViewController alloc] initWithShareViewController:self];
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:placeSelectionViewController];
 	[self presentModalViewController:navigationController animated:YES];
 }
@@ -518,7 +520,8 @@ enum {
 
 - (void)updateTripLabelText
 {
-//	_tripLabel.text = selectedTrip.name;
+	_tripLabel.text = selectedTrip.title;
+	[self resizeLabelHeight:_tripLabel];
 }
 
 - (void)updatePlaceLabelText

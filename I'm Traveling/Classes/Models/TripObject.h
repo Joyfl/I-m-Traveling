@@ -10,21 +10,21 @@
 
 @interface TripObject : NSObject
 {
-	NSInteger feedId;
+	NSInteger tripId;
 	NSInteger userId;
 	NSString *title;
 	NSString *startDate;
 	NSString *endDate;
-	NSString *review;
+	NSString *summary;
 	NSInteger numFeeds;
 }
 
-@property (nonatomic, assign) NSInteger feedId;
+@property (nonatomic, assign) NSInteger tripId;
 @property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *startDate;
 @property (nonatomic, retain) NSString *endDate;
-@property (nonatomic, retain) NSString *review;
+@property (nonatomic, retain) NSString *summary;
 @property (nonatomic, assign) NSInteger numFeeds;
 
 @end

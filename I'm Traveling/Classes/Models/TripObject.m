@@ -10,6 +10,6 @@
 
 @implementation TripObject
 
-@synthesize feedId, userId, title, startDate, endDate, review, numFeeds;
+@synthesize tripId, userId, title, startDate, endDate, summary, numFeeds;
 
 @end

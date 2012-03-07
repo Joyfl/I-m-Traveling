@@ -12,6 +12,7 @@
 @interface Utils : NSObject
 
 + (BOOL)loggedIn;
++ (NSInteger)userId;
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
 + (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude;

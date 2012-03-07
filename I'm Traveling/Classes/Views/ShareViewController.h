@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ImTravelingViewController.h"
+#import "TripObject.h"
 #import "Place.h"
 
 @interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
@@ -43,6 +44,7 @@
 - (void)updateDateLabelText;
 - (void)textDidBeginEditting:(id)sender;
 
+@property (nonatomic, retain) TripObject *selectedTrip;
 @property (nonatomic, retain) Place *selectedPlace;
 @property (nonatomic, retain) NSDate *selectedDate;
 @property (nonatomic, retain) NSDate *selectedTime;

@@ -18,6 +18,12 @@
 	return [[SettingsManager manager] getSettingForKey:key] != nil;
 }
 
++ (NSInteger)userId
+{
+	NSString *key = SETTING_KEY_USER_ID;
+	return [[[SettingsManager manager] getSettingForKey:key] integerValue];
+}
+
 + (NSString *)getHtmlFromUrl:(NSString *)url
 {
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];

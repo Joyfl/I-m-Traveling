@@ -8,6 +8,14 @@
 
 #import "UIWebViewController.h"
 
+@class ShareViewController;
+
 @interface TripListViewController : UIWebViewController
+{
+	ShareViewController *_shareViewController;
+	NSMutableDictionary *_trips;
+}
+
+- (id)initWithShareViewController:(ShareViewController *)shareViewController;
 
 @end
