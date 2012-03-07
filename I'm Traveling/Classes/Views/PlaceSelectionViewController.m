@@ -106,12 +106,11 @@
 
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSLog( @"%@", result );
 	NSArray *places = [Utils parseJSON:result];
 	for( NSDictionary *p in places )
 	{
 		Place *place = [[Place alloc] init];
-		place.placeId = [[p objectForKey:@"id"] integerValue];
+		place.placeId = [[p objectForKey:@"place_id"] integerValue];
 		place.name = [p objectForKey:@"place_name"];
 		place.latitude = [[p objectForKey:@"latitude"] doubleValue];
 		place.longitude = [[p objectForKey:@"latitude"] doubleValue];
@@ -160,8 +159,6 @@
 
 - (void)search:(NSString *)keyword
 {
-	NSLog( @"search, %@", _places );
-	
 	[self clearPlaceList];
 	
 	// 모든 장소들을 보여주기
