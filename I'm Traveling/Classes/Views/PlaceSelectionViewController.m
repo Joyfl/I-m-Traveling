@@ -16,6 +16,9 @@
 
 - (void)search:(NSString *)keyword;
 
+- (void)addPlace:(Place *)place;
+- (void)clearPlaceList;
+
 @end
 
 
@@ -114,6 +117,7 @@
 		place.category = [[p objectForKey:@"category"] integerValue];
 		
 		[_places setObject:place forKey:[NSNumber numberWithInteger:place.placeId]];
+		[self addPlace:place];
 	}
 }
 
@@ -142,7 +146,35 @@
 
 - (void)search:(NSString *)keyword
 {
-	NSLog( @"search : %@", keyword );
+	if( keyword.length == 0 )
+		return;
+	
+	[self clearPlaceList];
+	
+	for( NSNumber *placeId in _places )
+	{
+		Place *place = [_places objectForKey:placeId];
+		if( [place.name rangeOfString:keyword options:NSCaseInsensitiveSearch].location != NSNotFound )
+		{
+			[self addPlace:place];
+		}
+	}
+}
+
+
+#pragma mark -
+#pragma mark Javascript Functions
+
+- (void)addPlace:(Place *)place
+{
+	NSString *func = [NSString stringWithFormat:@"addPlace( '%@', %d );", place.name, place.category];
+	[self.webView stringByEvaluatingJavaScriptFromString:func];
+	NSLog( @"%@", func );
+}
+
+- (void)clearPlaceList
+{
+	[self.webView stringByEvaluatingJavaScriptFromString:@"clearPlaceList();"];
 }
 
 @end
