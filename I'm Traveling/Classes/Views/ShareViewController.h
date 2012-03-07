@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ImTravelingViewController.h"
+#import "Place.h"
 
 @interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {
@@ -18,6 +19,8 @@
 	UITableViewCell *_imageCell;
 	
 	UILabel *_tripLabel;
+	
+	Place *selectedPlace;
 	UILabel *_placeLabel;
 	
 	NSDate *selectedDate;
@@ -35,11 +38,12 @@
 }
 
 - (id)initWithImage:(UIImage *)image;
-- (void)setTripLabelText:(NSString *)trip;
-- (void)setPlaceLabelText:(NSString *)place;
-- (void)setDateLabelText;
+- (void)updateTripLabelText;
+- (void)updatePlaceLabelText;
+- (void)updateDateLabelText;
 - (void)textDidBeginEditting:(id)sender;
 
+@property (nonatomic, retain) Place *selectedPlace;
 @property (nonatomic, retain) NSDate *selectedDate;
 @property (nonatomic, retain) NSDate *selectedTime;
 

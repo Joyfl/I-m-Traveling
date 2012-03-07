@@ -131,6 +131,11 @@
 	if( message == @"select_place" )
 	{
 		NSLog( @"place_id : %@", [arguments objectAtIndex:0] );
+		
+		_shareViewController.selectedPlace = [_places objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
+		[_shareViewController updatePlaceLabelText];
+		
+		[self dismissModalViewControllerAnimated:YES];
 	}
 }
 

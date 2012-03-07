@@ -28,7 +28,7 @@
 
 @implementation ShareViewController
 
-@synthesize selectedDate, selectedTime;
+@synthesize selectedPlace, selectedDate, selectedTime;
 
 enum {
 	kSectionImage = 0,
@@ -266,7 +266,7 @@ enum {
 		_dateLabel.textAlignment = UITextAlignmentCenter;
 		_dateLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
 		[cell addSubview:_dateLabel];
-		[self setDateLabelText];
+		[self updateDateLabelText];
 	}
 	
 	// Review
@@ -515,17 +515,17 @@ enum {
 #pragma mark -
 #pragma mark Utils
 
-- (void)setTripLabelText:(NSString *)trip
+- (void)updateTripLabelText
 {
-	_tripLabel.text = trip;
+//	_tripLabel.text = selectedTrip.name;
 }
 
-- (void)setPlaceLabelText:(NSString *)place
+- (void)updatePlaceLabelText
 {
-	_placeLabel.text = place;
+	_placeLabel.text = selectedPlace.name;
 }
 
-- (void)setDateLabelText
+- (void)updateDateLabelText
 {
 	_dateLabel.text = [Utils stringWithDate:selectedDate andTime:selectedTime];
 	_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];
