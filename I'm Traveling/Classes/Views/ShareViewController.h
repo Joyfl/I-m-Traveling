@@ -35,7 +35,9 @@
 }
 
 - (id)initWithImage:(UIImage *)image;
-- (void)fillDateLabelText;
+- (void)setTripLabelText:(NSString *)trip;
+- (void)setPlaceLabelText:(NSString *)place;
+- (void)setDateLabelText;
 - (void)textDidBeginEditting:(id)sender;
 
 @property (nonatomic, retain) NSDate *selectedDate;

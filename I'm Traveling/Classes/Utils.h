@@ -14,6 +14,7 @@
 + (BOOL)loggedIn;
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
++ (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude;
 + (NSString *)dateWithDate:(NSDate *)date;
 + (NSString *)dateWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone;
 + (NSString *)onlyDateWithDate:(NSDate *)date;

@@ -30,6 +30,12 @@
 	return [parser objectWithString:json];
 }
 
++ (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude
+{
+	// ((ABS(ROUND(경도 + 90,2)) * 100) * 36000) + ((ABS(ROUND(위도 + 180,2)) * 100));
+	return ABS( round( ( latitude + 90 ) * 100 ) / 100 ) * 100 * 36000 + ABS( round( ( longitude + 180 ) * 100 ) / 100 ) * 100;
+}
+
 + (NSString *)dateWithDate:(NSDate *)date
 {
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];

@@ -7,25 +7,49 @@
 //
 
 #import "PlaceSelectionViewController.h"
+#import "ShareViewController.h"
+#import "Const.h"
+#import "Utils.h"
+#import "Place.h"
+
+@interface PlaceSelectionViewController()
+
+- (void)search:(NSString *)keyword;
+
+@end
+
 
 @implementation PlaceSelectionViewController
 
-- (id)init
+- (id)initWithShareViewController:(ShareViewController *)shareViewController
 {
 	if( self = [super init] )
 	{
+		// 검색창을 위해 공간 만들어둠
+		self.webView.frame = CGRectMake( 0, 50, 320, self.webView.frame.size.height - 50 );
 		self.view.backgroundColor = [UIColor whiteColor];
 		
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonDidTouchUpInside)];
-		self.navigationItem.rightBarButtonItem = doneButton;
+		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(addButtonDidTouchUpInside)];
+		self.navigationItem.rightBarButtonItem = addButton;
 		
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStylePlain];
-		_tableView.delegate = self;
-		_tableView.dataSource = self;
-		[self.view addSubview:_tableView];
+		_shareViewController = shareViewController;
+		
+		_locationManager = [[CLLocationManager alloc] init];
+		_locationManager.delegate = self;
+		[_locationManager startUpdatingLocation];
+		
+		_places = [[NSMutableDictionary alloc] init];
+		
+		UITextField *searchInput = [[UITextField alloc] initWithFrame:CGRectMake( 5, 5, 310, 31 )];
+		searchInput.placeholder = @"Search";
+		searchInput.returnKeyType = UIReturnKeyDone;
+		searchInput.delegate = self;
+		[self.view addSubview:searchInput];
+		
+		[self loadRemotePage:HTML_INDEX];
 	}
 	
 	return self;
@@ -40,9 +64,85 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-- (void)doneButtonDidTouchUpInside
+- (void)addButtonDidTouchUpInside
 {
 	
+}
+
+
+#pragma mark -
+#pragma mark CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+	[_locationManager stopUpdatingLocation];
+	
+	NSInteger newCellId = 459030704; //[Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	if( _lastCellId != newCellId )
+	{
+		[self loadURL:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId]];
+		_lastCellId = newCellId;
+	}
+}
+
+
+#pragma mark -
+#pragma mark UIPullDownWebViewController
+
+- (void)reloadWebView
+{
+	[_locationManager startUpdatingLocation];
+	[self webViewDidFinishReloading];
+}
+
+
+#pragma mark -
+#pragma mark ImTravelingViewController
+
+
+- (void)loadingDidFinish:(NSString *)result
+{
+	NSLog( @"%@", result );
+	NSArray *places = [Utils parseJSON:result];
+	for( NSDictionary *p in places )
+	{
+		Place *place = [[Place alloc] init];
+		place.placeId = [[p objectForKey:@"id"] integerValue];
+		place.name = [p objectForKey:@"place_name"];
+		place.latitude = [[p objectForKey:@"latitude"] doubleValue];
+		place.longitude = [[p objectForKey:@"latitude"] doubleValue];
+		place.category = [[p objectForKey:@"category"] integerValue];
+		
+		[_places setObject:place forKey:[NSNumber numberWithInteger:place.placeId]];
+	}
+}
+
+
+#pragma mark -
+#pragma mark WebView
+
+- (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
+{
+	if( message == @"select_place" )
+	{
+		NSLog( @"place_id : %@", [arguments objectAtIndex:0] );
+	}
+}
+
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	[self search:textField.text];
+	return YES;
+}
+
+- (void)search:(NSString *)keyword
+{
+	NSLog( @"search : %@", keyword );
 }
 
 @end

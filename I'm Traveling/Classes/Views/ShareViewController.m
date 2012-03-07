@@ -266,7 +266,7 @@ enum {
 		_dateLabel.textAlignment = UITextAlignmentCenter;
 		_dateLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
 		[cell addSubview:_dateLabel];
-		[self fillDateLabelText];
+		[self setDateLabelText];
 	}
 	
 	// Review
@@ -389,7 +389,9 @@ enum {
 
 - (void)placeButtonDidTouchUpInside
 {
-	
+	UIViewController *placeSelectionViewController = [[PlaceSelectionViewController alloc] initWithShareViewController:self];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:placeSelectionViewController];
+	[self presentModalViewController:navigationController animated:YES];
 }
 
 - (void)dateButtonDidTouchDown:(id)sender
@@ -513,7 +515,17 @@ enum {
 #pragma mark -
 #pragma mark Utils
 
-- (void)fillDateLabelText
+- (void)setTripLabelText:(NSString *)trip
+{
+	_tripLabel.text = trip;
+}
+
+- (void)setPlaceLabelText:(NSString *)place
+{
+	_placeLabel.text = place;
+}
+
+- (void)setDateLabelText
 {
 	_dateLabel.text = [Utils stringWithDate:selectedDate andTime:selectedTime];
 	_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];

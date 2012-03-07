@@ -6,11 +6,19 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "ImTravelingViewController.h"
+#import "UIPullDownWebViewController.h"
+#import <MapKit/MapKit.h>
 
-@interface PlaceSelectionViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
+@class ShareViewController;
+
+@interface PlaceSelectionViewController : UIPullDownWebViewController <CLLocationManagerDelegate, UITextFieldDelegate>
 {
-	UITableView *_tableView;
+	ShareViewController *_shareViewController;
+	CLLocationManager *_locationManager;
+	NSInteger _lastCellId;
+	NSMutableDictionary *_places;
 }
+
+- (id)initWithShareViewController:(ShareViewController *)shareViewController;
 
 @end

@@ -15,7 +15,6 @@
 @interface MapViewController (Private)
 
 - (void)deselectAlignButtons;
-- (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude;
 
 @end
 
@@ -154,7 +153,7 @@ enum {
 
 - (void)loadFeeds
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [self getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]]];
+	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]]];
 }
 
 - (void)loadingDidFinish:(NSString *)result
@@ -249,7 +248,7 @@ enum {
 {
 	NSLog( @"update" );
 	
-	NSInteger newCellId = [self getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	NSLog( @"currentCellId : %d", _currentCellId );
 	NSLog( @"newCellId     : %d", newCellId );
 	if( _currentCellId != newCellId && _feedMapView.userLocation.coordinate.latitude != 0.0 && _feedMapView.userLocation.coordinate.longitude != 0.0 )
@@ -307,12 +306,6 @@ enum {
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).highlighted = NO;
 		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).enabled = YES;
 	}
-}
-
-- (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude
-{
-	return ABS( round( ( latitude + 90 ) * 100 ) / 100 ) * 100 * 36000 + ABS( round( ( longitude + 180 ) * 100 ) / 100 ) * 100;
-//	((ABS(ROUND(경도 + 90,2)) * 100) * 36000) + ((ABS(ROUND(위도 + 180,2)) * 100));
 }
 
 @end
