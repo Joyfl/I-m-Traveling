@@ -22,6 +22,7 @@
 - (void)scrollToKeyboardPosition:(id)object;
 - (void)updateRowOfInfoCell:(InfoCell *)cell row:(NSInteger)row;
 - (void)updateRowOfInfoCells;
+- (void)resizeLabelHeight:(UILabel *)label;
 
 @end
 
@@ -523,12 +524,22 @@ enum {
 - (void)updatePlaceLabelText
 {
 	_placeLabel.text = selectedPlace.name;
+	[self resizeLabelHeight:_placeLabel];
 }
 
 - (void)updateDateLabelText
 {
 	_dateLabel.text = [Utils stringWithDate:selectedDate andTime:selectedTime];
+	[self resizeLabelHeight:_dateLabel];
+	
 	_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];
+}
+
+- (void)resizeLabelHeight:(UILabel *)label
+{
+	CGRect frame = label.frame;
+	frame.size.height = [label.text sizeWithFont:label.font constrainedToSize:CGSizeMake( 85, 40 ) lineBreakMode:label.lineBreakMode].height;
+	label.frame = frame;
 }
 
 - (void)scrollToKeyboardPosition:(id)object
