@@ -50,6 +50,7 @@
 		searchInput.placeholder = @"Search";
 		searchInput.returnKeyType = UIReturnKeyDone;
 		searchInput.delegate = self;
+		[searchInput addTarget:self action:@selector(searchInputEditingChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self.view addSubview:searchInput];
 		
 		[self loadRemotePage:HTML_INDEX];
@@ -140,23 +141,42 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[self search:textField.text];
 	return YES;
 }
 
+- (void)searchInputEditingChanged:(id)sender
+{
+	// 텍스트 내용이 마지막으로 변경된 후 0.5초 후에 검색
+	[NSObject cancelPreviousPerformRequestsWithTarget:self];
+	[self performSelector:@selector(search:) withObject:[sender text] afterDelay:0.5];
+}
+
 - (void)search:(NSString *)keyword
 {
-	if( keyword.length == 0 )
-		return;
+	NSLog( @"search, %@", _places );
 	
 	[self clearPlaceList];
 	
-	for( NSNumber *placeId in _places )
+	// 모든 장소들을 보여주기
+	if( keyword.length == 0 )
 	{
-		Place *place = [_places objectForKey:placeId];
-		if( [place.name rangeOfString:keyword options:NSCaseInsensitiveSearch].location != NSNotFound )
+		for( NSNumber *placeId in _places )
 		{
+			Place *place = [_places objectForKey:placeId];
 			[self addPlace:place];
+		}
+	}
+	else
+	{
+		for( NSNumber *placeId in _places )
+		{
+			Place *place = [_places objectForKey:placeId];
+			if( [place.name rangeOfString:keyword options:NSCaseInsensitiveSearch].location != NSNotFound )
+			{
+				[self addPlace:place];
+			}
 		}
 	}
 }
