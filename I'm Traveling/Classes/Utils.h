@@ -13,8 +13,11 @@
 
 + (BOOL)loggedIn;
 + (NSInteger)userId;
++ (NSString *)email;
++ (NSString *)password;
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
++ (NSString *)writeJSON:(id)object;
 + (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude;
 + (NSString *)dateWithDate:(NSDate *)date;
 + (NSString *)dateWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone;

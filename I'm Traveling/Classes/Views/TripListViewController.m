@@ -14,7 +14,7 @@
 
 @interface TripListViewController()
 
-- (void)addTrip:(TripObject *)trip;
+- (void)addSimpleTrip:(TripObject *)trip;
 
 @end
 
@@ -66,7 +66,7 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	if( message == @"select_trip" )
+	if( [message isEqualToString:@"select_trip"] )
 	{
 		NSLog( @"trip_id : %@", [arguments objectAtIndex:0] );
 		
@@ -83,7 +83,8 @@
 
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSLog( @"result : %@", result );
+	[self clear];
+	
 	NSArray *trips = [Utils parseJSON:result];
 	for( NSDictionary *t in trips )
 	{
@@ -96,7 +97,7 @@
 		trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
 		
 		[_trips setObject:trip forKey:[NSNumber numberWithInteger:trip.tripId]];
-		[self addTrip:trip];
+		[self addSimpleTrip:trip];
 	}
 }
 
@@ -104,9 +105,10 @@
 #pragma mark -
 #pragma mark Javascript Functions
 
-- (void)addTrip:(TripObject *)trip
+- (void)addSimpleTrip:(TripObject *)trip
 {
-	NSString *func = [NSString stringWithFormat:@"addTrip( '%@', '%@', '%@', '%@', %d );", trip.title, trip.startDate, trip.endDate, trip.summary, trip.numFeeds];
+#warning 2번째 인자 (piture url) 임시값
+	NSString *func = [NSString stringWithFormat:@"addSimpleTrip( %d, '%@', '%@', '%@', '%@', '%@', %d );", trip.tripId, @"http://imtraveling.joyfl.kr/feed/2_5.jpg", trip.title, trip.startDate, trip.endDate, trip.summary, trip.numFeeds];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 	NSLog( @"%@", func );
 }

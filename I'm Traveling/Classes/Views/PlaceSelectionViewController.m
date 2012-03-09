@@ -29,7 +29,7 @@
 	if( self = [super init] )
 	{
 		// 검색창을 위해 공간 만들어둠
-		self.webView.frame = CGRectMake( 0, 50, 320, self.webView.frame.size.height - 50 );
+		self.webView.frame = CGRectMake( 0, 50, 320, 416 - 50 );
 		self.view.backgroundColor = [UIColor whiteColor];
 		
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
@@ -106,6 +106,8 @@
 
 - (void)loadingDidFinish:(NSString *)result
 {
+	[self clear];
+	
 	NSArray *places = [Utils parseJSON:result];
 	for( NSDictionary *p in places )
 	{
@@ -127,7 +129,7 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	if( message == @"select_place" )
+	if( [message isEqualToString:@"select_place"] )
 	{
 		NSLog( @"place_id : %@", [arguments objectAtIndex:0] );
 		
@@ -159,7 +161,7 @@
 
 - (void)search:(NSString *)keyword
 {
-	[self clearPlaceList];
+	[self clear];
 	
 	// 모든 장소들을 보여주기
 	if( keyword.length == 0 )
@@ -189,14 +191,9 @@
 
 - (void)addPlace:(Place *)place
 {
-	NSString *func = [NSString stringWithFormat:@"addPlace( '%@', %d );", place.name, place.category];
+	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', %d );", place.placeId, place.name, place.category];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 	NSLog( @"%@", func );
-}
-
-- (void)clearPlaceList
-{
-	[self.webView stringByEvaluatingJavaScriptFromString:@"clearPlaceList();"];
 }
 
 @end

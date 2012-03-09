@@ -23,6 +23,7 @@
 - (void)updateRowOfInfoCell:(InfoCell *)cell row:(NSInteger)row;
 - (void)updateRowOfInfoCells;
 - (void)resizeLabelHeight:(UILabel *)label;
+- (void)upload;
 
 @end
 
@@ -123,7 +124,7 @@ enum {
 
 - (void)uploadButtonDidTouchUpInside
 {
-	[self dismissModalViewControllerAnimated:YES];
+	[self upload];
 }
 
 
@@ -582,6 +583,67 @@ enum {
 		InfoCell *cell = (InfoCell *)[_tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:kSectionInfo]];
 		[self updateRowOfInfoCell:cell row:i];
 	}
+}
+
+
+#pragma mark -
+#pragma mark Upload
+
+- (void)upload
+{
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+	
+	// user id
+	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"uesr_id"];
+	
+	// email
+	[data setObject:[Utils email] forKey:@"email"];
+	
+	// password
+	[data setObject:[Utils password] forKey:@"password"];
+	
+	// picture
+	[data setObject:_image forKey:@"picture"];
+	
+	// trip id
+	[data setObject:[NSNumber numberWithInteger:selectedTrip.tripId] forKey:@"trip_id"];
+	
+	// place id
+	[data setObject:[NSNumber numberWithInteger:selectedPlace.placeId] forKey:@"place_id"];
+	
+	// time
+	[data setObject:[_dateLabel.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"time"];
+	
+	// latitude, longitude
+	if( selectedPlace != nil )
+	{
+		[data setObject:[NSNumber numberWithDouble:selectedPlace.latitude] forKey:@"latitude"];
+		[data setObject:[NSNumber numberWithDouble:selectedPlace.longitude] forKey:@"longitude"];
+	}
+	else
+	{
+		[data setObject:[NSNumber numberWithDouble:selectedPlace.latitude] forKey:@"latitude"];
+		[data setObject:[NSNumber numberWithDouble:selectedPlace.longitude] forKey:@"longitude"];
+	}
+	
+	// nation
+#warning nation 임시
+	[data setObject:@"KOR" forKey:@"nation"];
+	
+	// review
+	[data setObject:_reviewInput.text forKey:@"review"];
+	
+	// info
+	[data setObject:[Utils writeJSON:_info] forKey:@"info"];
+	
+	NSLog( @"%@", data );
+	[self loadURLPOST:API_UPLOAD withData:data];
+}
+
+- (void)loadingDidFinish:(NSString *)result
+{
+	NSLog( @"upload result : %@", result );
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

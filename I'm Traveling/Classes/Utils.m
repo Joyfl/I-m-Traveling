@@ -24,6 +24,19 @@
 	return [[[SettingsManager manager] getSettingForKey:key] integerValue];
 }
 
++ (NSString *)email
+{
+	NSString *key = SETTING_KEY_EMAIL;
+	return [[SettingsManager manager] getSettingForKey:key];
+}
+
+// hashed password
++ (NSString *)password
+{
+	NSString *key = SETTING_KEY_PASSWORD;
+	return [[SettingsManager manager] getSettingForKey:key];
+}
+
 + (NSString *)getHtmlFromUrl:(NSString *)url
 {
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
@@ -34,6 +47,12 @@
 {
 	SBJsonParser *parser = [[SBJsonParser alloc] init];
 	return [parser objectWithString:json];
+}
+
++ (NSString *)writeJSON:(id)object
+{
+	SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+	return [writer stringWithObject:object];
 }
 
 + (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude
