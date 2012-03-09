@@ -14,6 +14,9 @@ reviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweviwf3eevie";
 reviewKor = "마ㅏㅏ럼ㄴㅇㄹㅁㄴㅇㄹㄱㄴㅇㄱㅇㄴㄱㅁㅇㄴㅂㄴㅇㅎㅁㄱㅇㄴㅎㅁㄱㅇㄴㅎㄱㅁㅈㅇㄴㅎㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹasdfasdfasdfasdfasdfㄱㅈㅇㄴㅁㅈ";
 reviewLong = "ㄱrevSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieS";
 reviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieivwevie";
+sf = new Array();
+st = new Array();
+pl = new Array();
 
 
 // Initialize 
@@ -32,8 +35,10 @@ function init()
 	//t_fd();
 	//t_cl();
 	//t_sf();
+	//t_st();
 	//t_pl();
-	t_p();
+	//t_p();
+	t_pll();
 }
 
 
@@ -45,8 +50,10 @@ function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
 function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
+function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "29 FEB ~ 01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
-function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 9, 233, 233, true); }
+function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
+function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "치킨집", "음식점"); }
 
 
 
@@ -178,7 +185,7 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 	var upperWrap = makeClass("div", "upperWrap", wrap);
 	var lowerWrap = makeClass("div", "lowerWrap", wrap);
 	
-	var place = makeClass("div", "place", upperWrap);
+	var place = makeClass("div", "place darkblue", upperWrap);
 	var time = makeClass("div", "time", upperWrap);
 	var review = makeClass("div", "review", lowerWrap);
 	var zfbe = makeClass("div", "zfbe", wrap);
@@ -186,14 +193,41 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 	thumbnail.src = picture_url;
 	time.innerText = _time;
 	place.innerText = _place;
-	review.innerText= _review;
+	review.innerText = _review;
+	
+	review.style.marginTop = "0.3em";
+	setHeight(cover, intToEm(pixelToEm(thumbnail.clientHeight)));
+	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
+	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
+	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
+	
+	wrap.onclick = function() { call("feed_detail:" + feed_id); };
+}
+
+function fillSimpleTrip(wrap, trip_id, picture_url, _time, _title, num_feeds)
+{
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var thumbnail = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var time = makeClass("div", "time", upperWrap);
+	var title = makeClass("div", "title", upperWrap);
+	var numText = makeClass("div", "numText", lowerWrap);
+	var zfbe = makeClass("div", "zfbe", wrap);
+		
+	thumbnail.src = picture_url;
+	time.innerText = _time;
+	title.innerText = _title;
+	if(num_feeds > 1) numText.innerText = num_feeds + " feeds";
+	else numText.innerText = num_feeds + " feed";
 	
 	setHeight(cover, intToEm(pixelToEm(thumbnail.clientHeight)));
 	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 14);
-	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 14);
 	
-	wrap.onclick = function() { call("feed_detail:" + feed_id); };
+	//wrap.onclick = function() { call("feed_detail:" + feed_id); };
 }
 
 function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
@@ -212,9 +246,17 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	wrap.onclick = function() { call("create_profile:" + user_id); };
 }
 
+function fillPlaceList(wrap, place_id, name, category)
+{
+	wrap.onclick = function() { call("select_place:" + place_id); };
+	makeClass("div", "name", wrap).innerText = name;
+	makeClass("div", "category", wrap).innerText = category;
+}
+
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
 {
-	getId("page").style.marginTop = "5em";
+	getId("page").style.marginTop = "6em";
+	getId("page").style.marginBottom = "6em";
 	
 	wrap.innerHTML = "\
 		<div class=\"boing softShadow\"></div>\
@@ -361,8 +403,22 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
-	var wrap = makeClass("div", "simpleFeed", getId("page"));
+	sf.push(1);
+	var wrap, cName;
+	if(sf.length % 2 == 0) cName = "simpleFeed even";
+	else cName = "simpleFeed odd";
+	wrap = makeClass("div", cName, getId("page"));
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
+}
+
+function addSimpleTrip(trip_id, picture_url, time, title, num_feeds)
+{
+	st.push(1);
+	var wrap, cName;
+	if(st.length % 2 == 0) cName = "simpleTrip even";
+	else cName = "simpleTrip odd";
+	wrap = makeClass("div", cName, getId("page"));
+	fillSimpleTrip(wrap, trip_id, picture_url, time, title, num_feeds);
 }
 
 function addPeople(user_id, profile_image_url, name, nation, isFollowing)
@@ -371,12 +427,22 @@ function addPeople(user_id, profile_image_url, name, nation, isFollowing)
 	fillPeople(wrap, user_id, profile_image_url, name, nation, isFollowing);
 }
 
+function addPlace(place_id, name, category)
+{
+	pl.push(1);
+	var wrap, cName;
+	if(pl.length % 2 == 0) cName = "placeList even";
+	else cName = "placeList odd";
+	wrap = makeClass("div", cName, getId("page"));
+	fillPlaceList(wrap, place_id, name, category);
+}
+
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	//call("detail_finished");
+	call("detail_finished");
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)

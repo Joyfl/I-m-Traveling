@@ -66,22 +66,22 @@ ul, ol, li
 
 .blue
 {
-	color: #3a7a87;
+	color: #3a7a87 !important;
 }
 
 .darkblue
 {
-	color: #20434a;
+	color: #20434a !important;
 }
 
 .green
 {
-	color: #6c8a40;
+	color: #6c8a40 !important;
 }
 
 .darkgreen
 {
-	color: #3a4a22;
+	color: #3a4a22 !important;
 }
 
 .right
@@ -94,6 +94,15 @@ ul, ol, li
 	float: left;
 }
 
+.even
+{
+	background-color: #e9cdb3;
+}
+
+.odd
+{
+	
+}
 
 
 
@@ -156,7 +165,7 @@ ul, ol, li
 {
 	float: left;
 	font-size: 1.6em;
-	font-weight: bold;
+	font-weight: bold !important;
 	color: #140e17;
 }
 
@@ -324,19 +333,56 @@ ul, ol, li
 
 
 
-/* Comment, SimpleFeed */
+/* Comment, SimpleFeed, SimpleTrip, placeList */
 
 .commentWrap, .simpleFeed
 {
 	clear: both;
-	border-bottom: 1px solid #333;
 }
 
 .simpleFeed .profileImage
 {
-	width: 11em;
-	height: 11em;
-	margin: 0.8em;
+	width: 9em;
+	height: 9em;
+	margin: 1em;
+	border-radius: 1em;
+}
+
+.simpleTrip .profileImage
+{
+	width: 7em;
+	height: 7em;
+	margin: 1em;
+	border-radius: 1em;
+}
+
+.simpleFeed .upperWrap
+{
+	margin-top: 1.5em;
+}
+
+.simpleTrip .upperWrap
+{
+	margin-top: 1.5em;
+}
+
+.simpleTrip .time
+{
+	clear: both;
+	float: none;
+	text-align: left;
+	font-size: 1.2em;
+}
+
+.simpleTrip .title
+{
+	font-size: 1.7em;
+	font-weight: bold;
+}
+
+.simpleTrip .numText
+{
+	font-size: 1.5em;
 }
 
 .commentWrap .profileImage
@@ -363,6 +409,24 @@ ul, ol, li
 	visibility: hidden;
 }
 
+.placeList
+{
+	clear: both;
+	padding: 1em;
+	padding-bottom: 0.5em;
+	height: 4.5em;
+}
+
+.placeList .name
+{
+	font-size: 2em;
+}
+
+.placeList .category
+{
+	font-size: 1.5em;
+}
+
 
 
 
@@ -375,7 +439,7 @@ ul, ol, li
 
 .softShadow
 {
-	box-shadow: 0em 0em 1.1em rgba(68, 68, 68, 0.6);
+	box-shadow: 0em 0em 2em rgba(68, 68, 68, 1);
 }
 
 .boing
@@ -384,7 +448,7 @@ ul, ol, li
 	height: 4em;
 	position: absolute;
 	left: 1.5em;
-	top: 1em;
+	top: 2em;
 	border-top-left-radius: 1.1em;
 	border-top-right-radius: 1.1em;
 	background-color: #f3d9c1;
@@ -392,7 +456,7 @@ ul, ol, li
 
 .topWrap
 {
-	top: 4em;
+	top: 5em;
 	height: 13em;
 	width: 100%;
 	position: absolute;
@@ -411,7 +475,7 @@ ul, ol, li
 	position: absolute;
 	width: 100%;
 	height: 17em;
-	top: 0;
+	top: 1em;
 	left: 0;
 }
 
@@ -492,7 +556,7 @@ ul, ol, li
 
 .noticeText
 {
-	margin-top: 2em;
+	margin-top: 2.2em;
 }
 
 .noticeText .green
@@ -522,6 +586,7 @@ ul, ol, li
 	margin-top: 10em;
 	width: 100%;
 	clear: both;
+	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
 }
 
 .number
