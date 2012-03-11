@@ -594,7 +594,7 @@ enum {
 	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
 	
 	// user id
-	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"uesr_id"];
+	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
 	
 	// email
 	[data setObject:[Utils email] forKey:@"email"];
@@ -612,7 +612,8 @@ enum {
 	[data setObject:[NSNumber numberWithInteger:selectedPlace.placeId] forKey:@"place_id"];
 	
 	// time
-	[data setObject:[_dateLabel.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"time"];
+//	[data setObject:[_dateLabel.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"time"];
+	[data setObject:[Utils dateStringForUpload:selectedDate] forKey:@"time"];
 	
 	// latitude, longitude
 	if( selectedPlace != nil )

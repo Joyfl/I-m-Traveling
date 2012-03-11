@@ -58,7 +58,6 @@
     [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
 	
 	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	[body appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 	
@@ -67,16 +66,28 @@
 		id object = [data objectForKey:key];
 		
 		[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-		if( [object isKindOfClass:[UIImage class]] )
+		
+		if( [object isKindOfClass:[NSString class]] )
 		{
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: attachment; name=\"%@\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[NSData dataWithData:UIImageJPEGRepresentation( object, 100 )]];
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[object dataUsingEncoding:NSUTF8StringEncoding]];
+		}
+		else if( [object isKindOfClass:[NSNumber class]] )
+		{
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];	
+			[body appendData:[[NSString stringWithFormat:@"%@", object] dataUsingEncoding:NSUTF8StringEncoding]];
+		}
+		else if( [object isKindOfClass:[UIImage class]] )
+		{
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"picture\"; filename=\"xoulzzang\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[NSData dataWithData:UIImageJPEGRepresentation( object, 1.0 )]];
 		}
 		else
 		{
-			[body appendData:[object dataUsingEncoding:NSUTF8StringEncoding]];
+			NSLog( @"other class" );
 		}
+		
 		[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 	

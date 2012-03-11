@@ -104,4 +104,12 @@
 	return [NSString stringWithFormat:@"%@\n%@", [Utils dateWithDate:date andTimezone:timezone], [Utils timeWithDate:time andTimezone:timezone]];
 }
 
+// Upload를 위한 Date 형식
++ (NSString *)dateStringForUpload:(NSDate *)date
+{
+	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+	formatter.dateFormat = @"yyyy-MM-dd hh:mm:ss";
+	return [formatter stringFromDate:date];
+}
+
 @end
