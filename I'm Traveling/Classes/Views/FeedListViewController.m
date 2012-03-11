@@ -94,6 +94,7 @@ enum {
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, mapBarButtonItem, nil];
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
+		self.webView.backgroundColor = [UIColor darkGrayColor];
 		
 		_feedListObjects = [[NSMutableDictionary alloc] init];
 		
