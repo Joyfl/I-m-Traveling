@@ -11,8 +11,6 @@
 #import "Const.h"
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
-#import "FeedLineAnnotation.h"
-#import "FeedLineAnnotationView.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -298,7 +296,8 @@
 {
 	_loadingQueue.maxIndex = allFeeds.count;
 	
-	NSMutableArray *locations = [[NSMutableArray alloc] initWithCapacity:allFeeds.count]; // 모든 피드들의 위치. 지도에 선 그릴 때 필요
+	// 모든 피드들의 위치. 지도에 선 그릴 때 필요
+	CLLocationCoordinate2D coordinates[allFeeds.count];
 	
 	for( int i = 0; i < allFeeds.count; i++ )
 	{
@@ -323,13 +322,13 @@
 		
 		[_feedDetailObjects addObject:feedObj];
 		
-		// 라인 어노테이션을 찍기 위해 location 정보만 입력받음
-		[locations addObject:[[[CLLocation alloc] initWithLatitude:feedObj.latitude longitude:feedObj.longitude] autorelease]];
+		// 선을 그리기위한 정보
+		coordinates[i] = feedObj.coordinate;
 	}
 	
-	// 라인 어노테이션
-	FeedLineAnnotation *lineAnnotation = [[FeedLineAnnotation alloc] initWithLocations:locations mapView:_mapView];
-	[_mapView addAnnotation:lineAnnotation];
+	MKPolyline *overlay = [MKPolyline polylineWithCoordinates:coordinates count:allFeeds.count];
+	[_mapView addOverlay:overlay];
+	[overlay release];
 }
 
 
@@ -384,12 +383,6 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-	if( [annotation isKindOfClass:[FeedLineAnnotation class]] )
-	{
-		FeedLineAnnotationView *lineAnnotationView = [[FeedLineAnnotationView alloc] initWithAnnotation:annotation mapView:_mapView];
-		return lineAnnotationView;
-	}
-	
 	static NSString *pinId = @"pin";
 	MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
 	if( pin == nil )
@@ -398,6 +391,19 @@
 	}
 	
 	return pin;
+}
+
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
+{
+	if( [overlay isKindOfClass:[MKPolyline class]] )
+	{
+		MKPolylineView *polygonView = [[MKPolylineView alloc] initWithOverlay:overlay];
+		polygonView.lineWidth = 4;
+		polygonView.strokeColor = [UIColor colorWithRed:0 green:0 blue:1.0 alpha:0.5];
+		return polygonView;
+	}
+	
+	return nil;
 }
 
 
@@ -588,12 +594,7 @@
 {
 	[self animateDisappearance];
 	
-	// 선 제거
-	for( id<MKAnnotation> annotation in _mapView.annotations )
-	{
-		if( [annotation isKindOfClass:[FeedLineAnnotation class]] )
-			[_mapView removeAnnotation:annotation];
-	}
+	[_mapView removeOverlays:_mapView.overlays];
 }
 
 #pragma mark -
