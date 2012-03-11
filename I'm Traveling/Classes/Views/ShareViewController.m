@@ -187,8 +187,11 @@ enum {
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.imageView.image = _image;
 		
-		_imageTopBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_image_top_border.png"]];
-		_imageTopBorder.hidden = YES;
+		if( _imageTopBorder == nil )
+		{
+			_imageTopBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_image_top_border.png"]];
+			_imageTopBorder.hidden = YES;
+		}
 		[cell addSubview:_imageTopBorder];
 	}
 	
@@ -207,13 +210,16 @@ enum {
 		[tripButton addTarget:self action:@selector(tripButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:tripButton];
 		
-		_tripLabel = [[UILabel alloc] initWithFrame:CGRectMake( 15, 102, 85, 40 )];
-		_tripLabel.backgroundColor = [UIColor clearColor];
-		_tripLabel.numberOfLines = 2;
-		_tripLabel.font = [UIFont boldSystemFontOfSize:13];
-		_tripLabel.textAlignment = UITextAlignmentCenter;
-		_tripLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
-		_tripLabel.text = @"스테이크 무한리필 탐험대";
+		if( _tripLabel == nil )
+		{
+			_tripLabel = [[UILabel alloc] initWithFrame:CGRectMake( 15, 102, 85, 40 )];
+			_tripLabel.backgroundColor = [UIColor clearColor];
+			_tripLabel.numberOfLines = 2;
+			_tripLabel.font = [UIFont boldSystemFontOfSize:13];
+			_tripLabel.textAlignment = UITextAlignmentCenter;
+			_tripLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
+			_tripLabel.text = @"여행을 선택해주세요.";
+		}
 		[cell addSubview:_tripLabel];
 		
 		// Place
@@ -224,13 +230,16 @@ enum {
 		[placeButton addTarget:self action:@selector(placeButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:placeButton];
 		
-		_placeLabel = [[UILabel alloc] initWithFrame:CGRectMake( 118, 102, 85, 40 )];
-		_placeLabel.backgroundColor = [UIColor clearColor];
-		_placeLabel.numberOfLines = 2;
-		_placeLabel.font = [UIFont boldSystemFontOfSize:13];
-		_placeLabel.textAlignment = UITextAlignmentCenter;
-		_placeLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
-		_placeLabel.text = @"까르니 두 브라질 강남점";
+		if( _placeLabel == nil )
+		{
+			_placeLabel = [[UILabel alloc] initWithFrame:CGRectMake( 118, 102, 85, 40 )];
+			_placeLabel.backgroundColor = [UIColor clearColor];
+			_placeLabel.numberOfLines = 2;
+			_placeLabel.font = [UIFont boldSystemFontOfSize:13];
+			_placeLabel.textAlignment = UITextAlignmentCenter;
+			_placeLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
+			_placeLabel.text = @"장소를 선택해주세요.";
+		}
 		[cell addSubview:_placeLabel];
 		
 		// Date
@@ -246,27 +255,33 @@ enum {
 		[dateButton addTarget:self action:@selector(dateButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:dateButton];
 		
-		_dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 13, 22, 60, 52 )];
-		_dateButtonLabel.font = [UIFont boldSystemFontOfSize:36];
-		_dateButtonLabel.textColor = [UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0];
-		_dateButtonLabel.textAlignment = UITextAlignmentCenter;
-		_dateButtonLabel.text = @"30";
-		_dateButtonLabel.backgroundColor = [UIColor clearColor];
-		_dateButtonLabel.shadowColor = [UIColor whiteColor];
-		_dateButtonLabel.shadowOffset = CGSizeMake( 0, 0.3 );
-		_dateButtonLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
-		_dateButtonLabel.layer.shadowOpacity = 0.3;
-		_dateButtonLabel.layer.shadowRadius = 0.2;
-		_dateButtonLabel.layer.shadowOffset = CGSizeMake( 0, -1 );
-		_dateButtonLabel.layer.masksToBounds = YES;
+		if( _dateButtonLabel == nil )
+		{
+			_dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 13, 22, 60, 52 )];
+			_dateButtonLabel.font = [UIFont boldSystemFontOfSize:36];
+			_dateButtonLabel.textColor = [UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0];
+			_dateButtonLabel.textAlignment = UITextAlignmentCenter;
+			_dateButtonLabel.text = [Utils onlyDateWithDate:[NSDate date]];
+			_dateButtonLabel.backgroundColor = [UIColor clearColor];
+			_dateButtonLabel.shadowColor = [UIColor whiteColor];
+			_dateButtonLabel.shadowOffset = CGSizeMake( 0, 0.3 );
+			_dateButtonLabel.layer.shadowColor = [[UIColor blackColor] CGColor];
+			_dateButtonLabel.layer.shadowOpacity = 0.3;
+			_dateButtonLabel.layer.shadowRadius = 0.2;
+			_dateButtonLabel.layer.shadowOffset = CGSizeMake( 0, -1 );
+			_dateButtonLabel.layer.masksToBounds = YES;
+		}
 		[dateButton addSubview:_dateButtonLabel];
 		
-		_dateLabel = [[UILabel alloc] initWithFrame:CGRectMake( 221, 102, 85, 40 )];
-		_dateLabel.backgroundColor = [UIColor clearColor];
-		_dateLabel.numberOfLines = 2;
-		_dateLabel.font = [UIFont boldSystemFontOfSize:13];
-		_dateLabel.textAlignment = UITextAlignmentCenter;
-		_dateLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
+		if( _dateLabel == nil )
+		{
+			_dateLabel = [[UILabel alloc] initWithFrame:CGRectMake( 221, 102, 85, 40 )];
+			_dateLabel.backgroundColor = [UIColor clearColor];
+			_dateLabel.numberOfLines = 2;
+			_dateLabel.font = [UIFont boldSystemFontOfSize:13];
+			_dateLabel.textAlignment = UITextAlignmentCenter;
+			_dateLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
+		}
 		[cell addSubview:_dateLabel];
 		[self updateDateLabelText];
 	}
@@ -280,13 +295,16 @@ enum {
 		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_review_bg.png"]];
 		[cell addSubview:bg];
 		
-		_reviewInput = [[UITextView alloc] initWithFrame:CGRectMake( 4, 25, 312, 136 )];
-		_reviewInput.font = [UIFont systemFontOfSize:14];
-		_reviewInput.backgroundColor = [UIColor clearColor];
-		_reviewInput.editable = YES;
-		_reviewInput.textColor = [UIColor colorWithRed:0.317 green:0.239 blue:0.168 alpha:1.0];
+		if( _reviewInput == nil )
+		{
+			_reviewInput = [[UITextView alloc] initWithFrame:CGRectMake( 4, 25, 312, 136 )];
+			_reviewInput.font = [UIFont systemFontOfSize:14];
+			_reviewInput.backgroundColor = [UIColor clearColor];
+			_reviewInput.editable = YES;
+			_reviewInput.textColor = [UIColor colorWithRed:0.317 green:0.239 blue:0.168 alpha:1.0];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
+		}
 		[cell addSubview:_reviewInput];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
 	}
 	
 	// Info
@@ -322,16 +340,19 @@ enum {
 		UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
 		bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
 		cell.backgroundView = bg;
+		[bg release];
 		
 		UIButton *plusButton = [[UIButton alloc] initWithFrame:CGRectMake( 9, 27, 20, 20 )];
 		[plusButton setBackgroundImage:[UIImage imageNamed:@"plus.png"] forState:UIControlStateNormal];
 		[plusButton addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:plusButton];
+		[plusButton release];
 		
 		UIButton *postIt = [[UIButton alloc] initWithFrame:CGRectMake( 39, 6, 260, 68 )];
 		[postIt setBackgroundImage:[UIImage imageNamed:@"postit_empty.png"] forState:UIControlStateNormal];
 		[postIt addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:postIt];
+		[postIt release];
 	}
 	
 	// Save to local
@@ -635,7 +656,11 @@ enum {
 	[data setObject:_reviewInput.text forKey:@"review"];
 	
 	// info
-	[data setObject:[Utils writeJSON:_info] forKey:@"info"];
+	NSMutableArray *info = [[NSMutableArray alloc] init];
+	for( NSInteger i = 0; i < _info.count; i++ )
+		[info addObject:[[_info objectAtIndex:i] dictionary]];
+	
+	[data setObject:[Utils writeJSON:info] forKey:@"info"];
 	
 	NSLog( @"%@", data );
 	[self loadURLPOST:API_UPLOAD withData:data];

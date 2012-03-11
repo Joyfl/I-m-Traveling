@@ -12,4 +12,13 @@
 
 @synthesize item, value, unit;
 
+- (NSDictionary *)dictionary
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			item, @"item",
+			[NSNumber numberWithInteger:value], @"value",
+			unit, @"unit",
+			nil];
+}
+
 @end

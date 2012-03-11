@@ -19,4 +19,6 @@
 @property (nonatomic, assign) NSInteger value;
 @property (nonatomic, retain) NSString *unit;
 
+- (NSDictionary *)dictionary;
+
 @end
