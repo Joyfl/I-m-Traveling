@@ -368,7 +368,7 @@
 	_mapView.frame = frame;
 	
 	// Left, Right Button
-	float buttonY = frame.origin.y + 330;
+	float buttonY = frame.origin.y + 351;
 	
 	frame = _leftFeedButton.frame;
 	frame.origin.y = buttonY;
