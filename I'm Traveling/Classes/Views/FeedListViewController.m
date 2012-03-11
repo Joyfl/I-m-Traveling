@@ -163,23 +163,60 @@ enum {
 {
 	if( [message isEqualToString:@"feed_detail"] )
 	{
-		float originalOffset = webView.scrollView.contentOffset.y;
+		CGFloat originalOffset = webView.scrollView.contentOffset.y;
 		
-		float offset = [[arguments objectAtIndex:1] floatValue];
+		CGFloat offset = [[arguments objectAtIndex:1] floatValue];
+		NSLog( @"offset : %f", offset );
+		// Upper Image
+		CGSize upperImageSize = CGSizeMake( 320, offset );
 		
-		UIGraphicsBeginImageContext( CGSizeMake( 320, offset ) );
+		if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
+		{
+			if( [[UIScreen mainScreen] scale] == 2.0 )
+				UIGraphicsBeginImageContextWithOptions( upperImageSize, NO, 2.0 );
+			
+			else
+				UIGraphicsBeginImageContext( upperImageSize );
+		}
+		else
+		{
+			UIGraphicsBeginImageContext( upperImageSize );
+		}
+		
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *upperImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
+		// Lower Image
 		self.webView.scrollView.contentOffset = CGPointMake( 0, webView.scrollView.contentOffset.y + offset );
 		
-		UIGraphicsBeginImageContext( CGSizeMake( 320, self.webView.scrollView.contentSize.height - offset ) );
+		CGRect originalFrame = self.webView.frame;
+		CGRect frame = originalFrame;
+		frame.origin.y -= ABS( offset );
+		frame.size.height = 367 + ABS( offset );
+		self.webView.frame = frame;
+		
+		CGSize lowerImageSize = CGSizeMake( 320, frame.size.height );
+		
+		if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
+		{
+			if( [[UIScreen mainScreen] scale] == 2.0 )
+				UIGraphicsBeginImageContextWithOptions( lowerImageSize, NO, 2.0 );
+			
+			else
+				UIGraphicsBeginImageContext( lowerImageSize );
+		}
+		else
+		{
+			UIGraphicsBeginImageContext( lowerImageSize );
+		}
+		
 		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
 		UIImage *lowerImage = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
 		self.webView.scrollView.contentOffset = CGPointMake( 0, originalOffset );
+		self.webView.frame = originalFrame;
 		
 		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
 		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
