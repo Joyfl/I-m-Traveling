@@ -29,10 +29,9 @@ enum {
 	kTagFollowingButton = 2
 };
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
+    if( self = [super init] )
 	{
 		// left
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -57,7 +56,8 @@ enum {
 		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		newButton.tag = kTagNewButton;
 		[alignButtons addSubview:newButton];
-		[newButton sendActionsForControlEvents:UIControlEventTouchDown];
+		newButton.highlighted = YES;
+		newButton.enabled = NO;
 		
 		UIButton *popularButton = [[UIButton alloc] initWithFrame:CGRectMake( 75.0, 0, 75.0, 31.0 )];
 		[popularButton setImage:[[UIImage imageNamed:@"button_popular.png"] retain] forState:UIControlStateNormal];
@@ -100,8 +100,9 @@ enum {
 		
 		_mapViewController = [[MapViewController alloc] init];
 		
-		
+		[self loadRemotePage:HTML_INDEX];
     }
+	
     return self;
 }
 
@@ -137,24 +138,33 @@ enum {
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	if( !loaded )
-	{
-		//	[self loadHtmlFile:@"feed_list"];
-		[self loadRemotePage:HTML_INDEX];
-	}
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+
+#pragma mark -
+#pragma mark Loading
+
+- (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to
+{
+	NSLog( @"load %d ~ %d", _feedListObjects.count, _feedListObjects.count + 10 );
+	
+	loading = YES;
+	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to]];
+}
+
+
 #pragma mark - webview
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[self performSelector:@selector(clearAndReloadWebView) withObject:nil afterDelay:0.5];
+}
+
+- (void)clearAndReloadWebView
 {
 	[self clear];
 	[self reloadWebView];
@@ -167,7 +177,7 @@ enum {
 		CGFloat originalOffset = webView.scrollView.contentOffset.y;
 		
 		CGFloat offset = [[arguments objectAtIndex:1] floatValue];
-		NSLog( @"offset : %f", offset );
+		
 		// Upper Image
 		CGSize upperImageSize = CGSizeMake( 320, offset );
 		
@@ -231,13 +241,12 @@ enum {
 
 - (void)reloadWebView
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, 0, 10]];
+	reloading = YES;
+	[self loadFeedsFrom:0 to:10];
 }
 
 - (void)loadingDidFinish:(NSString *)result
 {
-	[self clear];
-	
 	NSArray *feeds = [Utils parseJSON:result];
 	for( NSDictionary *feed in feeds )
 	{
@@ -255,12 +264,17 @@ enum {
 		feedObj.numComments = [[feed objectForKey:@"num_comments"] integerValue];
 		feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
 		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
-		[self addFeed:feedObj];
+		
+		if( reloading )
+			[self addFeed:feedObj]; // addFeedToTop으로 수정되어야 함.
+		else
+			[self addFeed:feedObj];
 	}
 	
 	[self webViewDidFinishReloading];
 	
-	loaded = YES;
+	loading = NO;
+	reloading = NO;
 }
 
 #pragma mark - selectors
@@ -309,11 +323,36 @@ enum {
 	[self reloadWebView];
 }
 
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	[super scrollViewDidScroll:scrollView];
+	
+	if( scrollView.contentOffset.y > scrollView.contentSize.height - 1000 )
+	{
+		if( !loading )
+		{
+			reloading = NO;
+			[self loadFeedsFrom:_feedListObjects.count to:_feedListObjects.count + 10];
+		}
+	}
+}
+
+
 #pragma mark - Javascript Functions
 
 - (void)addFeed:(FeedObject *)feedObj
 {
-	[_feedListObjects setObject:feedObj forKey:[NSNumber numberWithInteger:feedObj.feedId]];
+	NSNumber *key = [NSNumber numberWithInteger:feedObj.feedId];
+	
+	// 이미 해당 피드를 가지고 있을 경우 리턴한다.
+	if( [_feedListObjects objectForKey:key] != nil )
+		return;
+	
+	[_feedListObjects setObject:feedObj forKey:key];
 	
 	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.feedId,

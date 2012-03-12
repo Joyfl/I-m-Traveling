@@ -18,8 +18,15 @@
 	NSMutableDictionary *_feedListObjects;	
 	NSInteger _orderType;
 	
-	// 로드된 적이 있는지 (viewDidAppear는 다른 탭으로 전환했다가 다시 돌아와도 호출되기 때문에 중복 로드 방지)
-	BOOL loaded;
+	// 피드를 로드할 때 중복 로드를 방지하기 위한 변수.
+	// YES일 경우 현재 로딩중.
+	BOOL loading;
+	
+	// reload일 경우 로드한 피드들이 위에 추가되어야하고,
+	// 아래로 스크롤할 경우 로드한 피드들이 아래에 추가되어야 하므로
+	// 위에 추가할지 아래에 추가할지를 구별하는 변수를 둠.
+	// YES일 경우 위에 추가.
+	BOOL reloading;
 }
 
 @end
