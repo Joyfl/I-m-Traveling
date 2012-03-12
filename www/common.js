@@ -26,7 +26,7 @@ function init()
 	RATIO = getEmSize();
 	scrollerWidth = pixelToEm(getScrollerWidth());
 	
-	clear();
+	//clear();
 	
 	//var temp = makeClass("ul", "shadowTest", getId("page"));
 	//var temp2 = makeClass("li", "shadowText", temp);
@@ -38,7 +38,7 @@ function init()
 	//t_st();
 	//t_pl();
 	//t_p();
-	t_pll();
+	//t_pll();
 }
 
 
@@ -50,7 +50,7 @@ function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
 function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
-function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "29 FEB ~ 01 MAR", "기차 여행", 7); }
+function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "치킨집", "음식점"); }
@@ -201,10 +201,10 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	
-	wrap.onclick = function() { call("feed_detail:" + feed_id); };
+	wrap.onclick = function() { call("select_feed:" + feed_id); };
 }
 
-function fillSimpleTrip(wrap, trip_id, picture_url, _time, _title, num_feeds)
+function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date, _summary, num_feeds)
 {
 	var cover = makeClass("div", "cover profileImage", wrap);
 	var thumbnail = makeClass("img", "profileImage", wrap);
@@ -213,21 +213,23 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _time, _title, num_feeds)
 	var lowerWrap = makeClass("div", "lowerWrap", wrap);
 	
 	var time = makeClass("div", "time", upperWrap);
+	var numText = makeClass("div", "numText", upperWrap);
 	var title = makeClass("div", "title", upperWrap);
-	var numText = makeClass("div", "numText", lowerWrap);
+	var summary = makeClass("div", "summary", lowerWrap);
 	var zfbe = makeClass("div", "zfbe", wrap);
 		
 	thumbnail.src = picture_url;
-	time.innerText = _time;
-	title.innerText = _title;
+	time.innerText = start_date + " ~ " + end_date;
 	if(num_feeds > 1) numText.innerText = num_feeds + " feeds";
 	else numText.innerText = num_feeds + " feed";
+	title.innerText = _title;
+	summary.innerText = _summary;
 	
 	setHeight(cover, intToEm(pixelToEm(thumbnail.clientHeight)));
 	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
-	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 14);
+	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	
-	//wrap.onclick = function() { call("feed_detail:" + feed_id); };
+	wrap.onclick = function() { call("select_trip:" + trip_id); };
 }
 
 function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
@@ -376,7 +378,7 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	var likeBar = makeClass("div", "likeBar", wrap);
 	fillLikeBar(likeBar, trip_id, num_likes);
 	
-	makeClass("div", "border", bottomWrap);
+	makeClass("div", "border", wrap);
 	
 	createGap(wrap, 0.1);
 	
@@ -401,6 +403,14 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
 }
 
+function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
+{
+	var wrap = document.createElement("div");
+	var page = getId("page");
+	page.insertBefore(wrap, page.firstChild);
+	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
+}
+
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
 	sf.push(1);
@@ -411,14 +421,14 @@ function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
 }
 
-function addSimpleTrip(trip_id, picture_url, time, title, num_feeds)
+function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, num_feeds)
 {
 	st.push(1);
 	var wrap, cName;
 	if(st.length % 2 == 0) cName = "simpleTrip even";
 	else cName = "simpleTrip odd";
 	wrap = makeClass("div", cName, getId("page"));
-	fillSimpleTrip(wrap, trip_id, picture_url, time, title, num_feeds);
+	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, num_feeds);
 }
 
 function addPeople(user_id, profile_image_url, name, nation, isFollowing)
@@ -442,7 +452,6 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
-	call("detail_finished");
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
@@ -480,6 +489,9 @@ function clear() {
 	var page = getId("page");
 	if(page) document.body.removeChild(page);
 	makeId("div", "page", document.body);
+	sf = new Array();
+	st = new Array();
+	pl = new Array();
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
