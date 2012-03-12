@@ -4,6 +4,7 @@
 {
 	margin: 0em;
 	padding: 0em;
+	text-shadow: 0px 1px 1px white;
 }
 
 @font-face
@@ -18,10 +19,23 @@
 	src: url("font/HelveticaNeue 37 Thin Condensed.otf");
 }
 
+@font-face
+{
+	font-family: "Sandol";
+	src: url("font/산돌고딕M.ttf");
+}
+
+@font-face
+{
+	font-family: "Sandol";
+	src: url("font/산돌고딕B.ttf");
+	font-weight: bold;
+}
+
 html, body
 {
 	overflow-x: hidden;
-	font-family: "Helvetica 75 Bold";
+	font-family: "Sandol", "Helvetica 75 Bold";
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	-moz-user-select: none;
@@ -40,6 +54,11 @@ ul, ol, li
 #page, .pseudo
 {
 	background-color: #f7e3d2;
+}
+
+.unshadow
+{
+	text-shadow: 0px 0px 0px white;
 }
 
 .cover
@@ -62,6 +81,11 @@ ul, ol, li
 {
 	width: 100%;
 	clear: both;
+}
+
+.testShadow
+{
+    text-shadow: 1px 1px white, -1px -1px #444;
 }
 
 .blue
@@ -101,7 +125,12 @@ ul, ol, li
 
 .odd
 {
-	
+	background: gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -webkit-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -ms-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -moz-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -o-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background-size: 100% 100%;
 }
 
 
@@ -350,8 +379,8 @@ ul, ol, li
 
 .simpleTrip .profileImage
 {
-	width: 7em;
-	height: 7em;
+	width: 9em;
+	height: 9em;
 	margin: 1em;
 	border-radius: 1em;
 }
@@ -369,21 +398,41 @@ ul, ol, li
 .simpleTrip .time
 {
 	clear: both;
-	float: none;
+	float: left;
 	text-align: left;
 	font-size: 1.2em;
-}
-
-.simpleTrip .title
-{
-	font-size: 1.7em;
-	font-weight: bold;
+	color: #876d56;
 }
 
 .simpleTrip .numText
 {
-	font-size: 1.5em;
+	float: right;
+	font-size: 1.2em;
+	text-align: right;
+	margin-top: 0.2em;
+	color: #bfa288;
 }
+
+.simpleTrip .title
+{
+	clear: both;
+	font-size: 1.8em;
+	font-weight: bold;
+	margin-top: 1.1em;
+	color: #3d2c48;
+}
+
+.simpleTrip .summary
+{
+	font-size: 1.5em;
+	color: #513d2b;
+}
+
+.simpleTrip .lowerWrap
+{
+	margin-top: 0.3em;
+}
+
 
 .commentWrap .profileImage
 {
@@ -420,6 +469,7 @@ ul, ol, li
 .placeList .name
 {
 	font-size: 2em;
+	color: #302935;
 }
 
 .placeList .category
@@ -537,6 +587,7 @@ ul, ol, li
 {
 	float: left;
 	font-size: 1.2em;
+	color: #87645a;
 }
 
 .noticeWrap
