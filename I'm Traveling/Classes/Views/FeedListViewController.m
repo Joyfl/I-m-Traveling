@@ -15,7 +15,9 @@
 @interface FeedListViewController (Private)
 
 - (void)deselectAlignButtons;
+- (void)addFeed:(FeedObject *)feedObj top:(BOOL)top;
 - (void)addFeed:(FeedObject *)feedObj;
+- (void)addFeedTop:(FeedObject *)feedObj;
 - (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to;
 
 @end
@@ -266,7 +268,7 @@ enum {
 		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
 		
 		if( reloading )
-			[self addFeed:feedObj]; // addFeedToTop으로 수정되어야 함.
+			[self addFeedTop:feedObj];
 		else
 			[self addFeed:feedObj];
 	}
@@ -344,7 +346,7 @@ enum {
 
 #pragma mark - Javascript Functions
 
-- (void)addFeed:(FeedObject *)feedObj
+- (void)addFeed:(FeedObject *)feedObj top:(BOOL)top
 {
 	NSNumber *key = [NSNumber numberWithInteger:feedObj.feedId];
 	
@@ -354,7 +356,9 @@ enum {
 	
 	[_feedListObjects setObject:feedObj forKey:key];
 	
-	NSString *func = [[NSString stringWithFormat:@"addFeed(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *functionName = top ? @"addFeedTop" : @"addFeed";
+	NSString *func = [[NSString stringWithFormat:@"%@(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+					   functionName,
 					   feedObj.feedId,
 					   feedObj.userId,
 					   feedObj.profileImageURL,
@@ -371,6 +375,17 @@ enum {
 	
 //	NSLog( @"%@", func );
 }
+
+- (void)addFeed:(FeedObject *)feedObj
+{
+	[self addFeed:feedObj top:NO];
+}
+
+- (void)addFeedTop:(FeedObject *)feedObj
+{
+	[self addFeed:feedObj top:YES];
+}
+
 
 #pragma mark - utils
 
