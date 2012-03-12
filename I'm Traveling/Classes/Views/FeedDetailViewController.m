@@ -90,14 +90,14 @@
 		_scrollView.delegate = self;
 		[self.view addSubview:_scrollView];		
 		
-		_leftFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 10, 33, 22, 34 )];
+		_leftFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 28, 44, 44 )];
 		_leftFeedButton.alpha = 0.7;
-		[_leftFeedButton setBackgroundImage:[UIImage imageNamed:@"button_left.png"] forState:UIControlStateNormal];
+		[_leftFeedButton setImage:[UIImage imageNamed:@"button_left.png"] forState:UIControlStateNormal];
 		[_leftFeedButton addTarget:self action:@selector(leftFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
-		_rightFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 288, 33, 22, 34 )];
+		_rightFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 276, 28, 44, 44 )];
 		_rightFeedButton.alpha = 0.7;
-		[_rightFeedButton setBackgroundImage:[UIImage imageNamed:@"button_right.png"] forState:UIControlStateNormal];
+		[_rightFeedButton setImage:[UIImage imageNamed:@"button_right.png"] forState:UIControlStateNormal];
 		[_rightFeedButton addTarget:self action:@selector(rightFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
 		[self.view addSubview:_leftFeedButton];
@@ -370,7 +370,7 @@
 	_mapView.frame = frame;
 	
 	// Left, Right Button
-	float buttonY = frame.origin.y + 351;
+	float buttonY = frame.origin.y + 346;
 	
 	frame = _leftFeedButton.frame;
 	frame.origin.y = buttonY;
