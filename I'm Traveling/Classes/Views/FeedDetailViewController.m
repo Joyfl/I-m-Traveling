@@ -74,6 +74,8 @@
 		
 		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backBarButtonItem, nil];
 		
+		self.view.backgroundColor = [UIColor darkGrayColor];
+		
 		
 		// Map View
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, MAP_HEIGHT )];
