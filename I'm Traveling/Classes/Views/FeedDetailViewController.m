@@ -539,7 +539,7 @@
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.3];
+		[UIView setAnimationDuration:0.5];
 		self.leftWebView.frame = CGRectMake( 0, 100, 320, self.leftWebView.frame.size.height );
 		self.centerWebView.frame = CGRectMake( 320, 100, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
@@ -567,7 +567,7 @@
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.3];
+		[UIView setAnimationDuration:0.5];
 		self.rightWebView.frame = CGRectMake( 0, 100, 320, self.rightWebView.frame.size.height );
 		self.centerWebView.frame = CGRectMake( -320, 100, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
