@@ -371,30 +371,26 @@ enum {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
 		cell.textLabel.text = @"Save to local";
 		cell.textLabel.backgroundColor = [UIColor clearColor];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
 		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
 		bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
 		cell.backgroundView = bg;
+		[bg release];
+		
+		UISwitch *saveToLocalSwitch = [[UISwitch alloc] init];
+		CGRect frame = saveToLocalSwitch.frame;
+		frame.origin.x = 220;
+		frame.origin.y = 7;
+		saveToLocalSwitch.frame = frame;
+		[saveToLocalSwitch addTarget:self action:@selector(saveToLocalSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
+		[cell addSubview:saveToLocalSwitch];
+		[saveToLocalSwitch release];
 	}
 	
 	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [[tableView cellForRowAtIndexPath:indexPath] retain];
-	cell.selected = NO;
-	
-	if( indexPath.section == kSectionSaveToLocal )
-	{
-		if( cell.accessoryType == UITableViewCellAccessoryCheckmark )
-			cell.accessoryType = UITableViewCellAccessoryNone;
-		else
-			cell.accessoryType = UITableViewCellAccessoryCheckmark;
-	}
-	
-	[cell release];
 }
 
 
@@ -546,6 +542,12 @@ enum {
 		[_dismissKeyboardButton removeFromSuperview];
 	}
 }
+
+- (void)saveToLocalSwitchValueChanged:(id)sender
+{
+	_saveToLocal = [(UISwitch *)sender isOn];
+}
+
 
 #pragma mark -
 #pragma mark Utils
