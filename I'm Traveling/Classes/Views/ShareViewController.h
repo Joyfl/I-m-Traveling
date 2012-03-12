@@ -11,7 +11,7 @@
 #import "TripObject.h"
 #import "Place.h"
 
-@interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ShareViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 {
 	UITableView *_tableView;
 	

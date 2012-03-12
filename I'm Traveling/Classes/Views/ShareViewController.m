@@ -119,12 +119,22 @@ enum {
 
 - (void)cancelButtonDidTouchUpInside
 {
-	[self dismissModalViewControllerAnimated:YES];
+	[[[[UIAlertView alloc] initWithTitle:@"Cancel" message:@"Do you really want to cancel?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
 }
 
 - (void)uploadButtonDidTouchUpInside
 {
 	[self upload];
+}
+
+
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if( buttonIndex == 1 )
+		[self dismissModalViewControllerAnimated:YES];
 }
 
 
