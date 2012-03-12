@@ -17,7 +17,6 @@
 - (void)search:(NSString *)keyword;
 
 - (void)addPlace:(Place *)place;
-- (void)clearPlaceList;
 
 @end
 
