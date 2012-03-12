@@ -26,7 +26,7 @@
 {
     if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor grayColor];
+		self.view.backgroundColor = [UIColor darkGrayColor];
 		
 		_coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 0, -85, 320, 320 )];
 		[_coverImageView setImage:[UIImage imageNamed:@"cover_temp.jpg"]];
