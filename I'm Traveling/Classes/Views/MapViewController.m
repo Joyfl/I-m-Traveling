@@ -11,6 +11,7 @@
 #import "FeedObject.h"
 #import "Utils.h"
 #import "Const.h"
+#import "Pin.h"
 
 @interface MapViewController (Private)
 
@@ -212,13 +213,12 @@ enum {
 	}
 	
 	static NSString *pinId;
-	MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
+	Pin *pin = (Pin *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
 	if( pin == nil )
 	{
-		pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
+		pin = [[Pin alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
 	}
 	
-	pin.animatesDrop = YES;
 	pin.userInteractionEnabled = YES;
 	pin.canShowCallout = YES;
 	

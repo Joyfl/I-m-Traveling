@@ -11,6 +11,7 @@
 #import "Const.h"
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
+#import "Pin.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -386,10 +387,10 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
 	static NSString *pinId = @"pin";
-	MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
+	Pin *pin = (Pin *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
 	if( pin == nil )
 	{
-		pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
+		pin = [[Pin alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
 	}
 	
 	return pin;
@@ -401,7 +402,7 @@
 	{
 		MKPolylineView *polygonView = [[MKPolylineView alloc] initWithOverlay:overlay];
 		polygonView.lineWidth = 4;
-		polygonView.strokeColor = [UIColor colorWithRed:0 green:0 blue:1.0 alpha:0.5];
+		polygonView.strokeColor = [UIColor colorWithRed:0.13 green:0.22 blue:0.3 alpha:1];
 		return polygonView;
 	}
 	
