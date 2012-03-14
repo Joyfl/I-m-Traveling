@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ShareViewController.h"
 
-@interface TimeSelectionViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
+@interface TimeSelectionViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 {
 	ShareViewController *_shareViewController;
 	
@@ -20,6 +20,7 @@
 	
 	UITableViewCell *_dateCell;
 	UITableViewCell *_timeCell;
+	UITableViewCell *_currentPickerCaller;
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;

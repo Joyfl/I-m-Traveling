@@ -10,6 +10,13 @@
 #import "ActionSheetDatePicker.h"
 #import "Utils.h"
 
+@interface TimeSelectionViewController()
+
+- (void)showPickerWithDate:(NSDate *)date andPickerMode:(UIDatePickerMode)mode;
+
+@end
+
+
 @implementation TimeSelectionViewController
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController
@@ -33,6 +40,9 @@
 		
 		_selectedDate = [shareViewController.selectedDate copy];
 		_selectedTime = [shareViewController.selectedTime copy];
+		
+		_currentPickerCaller = _dateCell;
+		[self showPickerWithDate:_selectedDate andPickerMode:UIDatePickerModeDate];
 	}
 	
 	return self;
@@ -89,23 +99,49 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {	
 	if( indexPath.row == 0 )
-		[ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:_selectedDate target:self action:@selector(dateDidSelected:element:) origin:tableView];
-	else
-		[ActionSheetDatePicker showPickerWithTitle:nil datePickerMode:UIDatePickerModeTime selectedDate:_selectedTime target:self action:@selector(timeDidSelected:element:) origin:tableView];
+	{
+		_currentPickerCaller = _dateCell;
+		[self showPickerWithDate:_selectedDate andPickerMode:UIDatePickerModeDate];
+	}
 	
-	
+	else if( indexPath.row == 1 )
+	{
+		_currentPickerCaller = _timeCell;
+		[self showPickerWithDate:_selectedTime andPickerMode:UIDatePickerModeTime];
+	}
 }
 
-- (void)dateDidSelected:(NSDate *)selectedDate element:(id)element
+
+#pragma mark -
+#pragma mark UIDatePicker
+
+- (void)pickerValueChanged:(id)picker
 {
-	_selectedDate = [selectedDate copy];
-	_dateCell.detailTextLabel.text = [Utils dateWithDate:selectedDate andTimezone:[NSTimeZone localTimeZone]];
+	if( _currentPickerCaller == _dateCell )
+	{
+		_selectedDate = [picker date];
+		_dateCell.detailTextLabel.text = [Utils dateWithDate:_selectedDate andTimezone:[NSTimeZone localTimeZone]];
+	}
+	
+	else if( _currentPickerCaller == _timeCell )
+	{
+		_selectedTime = [picker date];
+		_timeCell.detailTextLabel.text = [Utils timeWithDate:_selectedTime andTimezone:[NSTimeZone localTimeZone]];
+	}
 }
 
-- (void)timeDidSelected:(NSDate *)selectedDate element:(id)element
+
+#pragma mark -
+#pragma mark Utils
+
+- (void)showPickerWithDate:(NSDate *)date andPickerMode:(UIDatePickerMode)mode
 {
-	_selectedTime = [selectedDate copy];
-	_timeCell.detailTextLabel.text = [Utils timeWithDate:selectedDate andTimezone:[NSTimeZone localTimeZone]];
+	UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake( 0, 200, 320, 214 )];
+	picker.datePickerMode = mode;
+	picker.date = date;
+	[picker addTarget:self action:@selector(pickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+	[self.view addSubview:picker];
+	[picker release];
 }
 
 @end
