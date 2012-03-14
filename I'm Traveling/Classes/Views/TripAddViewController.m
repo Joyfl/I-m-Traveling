@@ -13,7 +13,7 @@
 
 @interface TripAddViewController()
 
-- (void)showPicker;
+- (void)showPickerWithDate:(NSDate *)date;
 
 @end
 
@@ -62,6 +62,9 @@
 		_summaryInput.editable = YES;
 		_summaryInput.backgroundColor = [UIColor clearColor];
 		[self.view addSubview:_summaryInput];
+		
+		_startDate = [[NSDate alloc] init];
+		_endDate = [[NSDate alloc] init];
 	}
 	
 	return self;
@@ -109,17 +112,26 @@
 - (void)startDateButtonDidTouchUpInside
 {
 	_currentPickerCaller = _startDateButton;
-	[self showPicker];
+	[self showPickerWithDate:_startDate];
 }
 
 - (void)endDateButtonDidTouchUpInside
 {
 	_currentPickerCaller = _endDateButton;
-	[self showPicker];
+	[self showPickerWithDate:_endDate];
 }
 
 - (void)pickerValueChanged:(id)picker
 {
+	if( _currentPickerCaller == _startDateButton )
+		_startDate = [picker date];
+	
+	else if( _currentPickerCaller == _endDateButton )
+		_endDate = [picker date];
+	
+	else
+		return;
+	
 	[_currentPickerCaller setTitle:[Utils dateWithDate:[picker date]] forState:UIControlStateNormal];
 }
 
@@ -127,15 +139,17 @@
 #pragma mark -
 #pragma mark Utils
 
-- (void)showPicker
+- (void)showPickerWithDate:(NSDate *)date
 {
 	[_titleInput resignFirstResponder];
 	[_summaryInput resignFirstResponder];
 	
 	UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake( 0, 200, 320, 214 )];
 	picker.datePickerMode = UIDatePickerModeDate;
+	picker.date = date;
 	[picker addTarget:self action:@selector(pickerValueChanged:) forControlEvents:UIControlEventValueChanged];
 	[self.view addSubview:picker];
+	[picker release];
 }
 
 @end

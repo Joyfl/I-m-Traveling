@@ -19,6 +19,9 @@
 	UIButton *_endDateButton;
 	UITextView *_summaryInput;
 	
+	NSDate *_startDate;
+	NSDate *_endDate;
+	
 	UIButton *_currentPickerCaller;
 }
 
