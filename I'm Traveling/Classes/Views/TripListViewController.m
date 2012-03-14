@@ -10,7 +10,8 @@
 #import "ShareViewController.h"
 #import "Const.h"
 #import "Utils.h"
-#import "TripObject.h"
+#import "TripAddViewController.h"
+#import "ImTravelingNavigationController.h"
 
 @interface TripListViewController()
 
@@ -52,7 +53,10 @@
 
 - (void)addButtonDidTouchUpInside
 {
-	
+	TripAddViewController *tripAddViewController = [[TripAddViewController alloc] init];
+	tripAddViewController.tripListViewController = self;
+	ImTravelingNavigationController *navigaionController = [[ImTravelingNavigationController alloc] initWithRootViewController:tripAddViewController];
+	[self presentModalViewController:navigaionController animated:YES];
 }
 
 
@@ -70,11 +74,16 @@
 	{
 		NSLog( @"trip_id : %@", [arguments objectAtIndex:0] );
 		
-		_shareViewController.selectedTrip = [_trips objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
-		[_shareViewController updateTripLabelText];
-		
-		[self dismissModalViewControllerAnimated:YES];
+		[self selectTrip:[_trips objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 	}
+}
+
+- (void)selectTrip:(TripObject *)trip
+{
+	_shareViewController.selectedTrip = trip;
+	[_shareViewController updateTripLabelText];
+
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 

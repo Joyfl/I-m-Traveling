@@ -7,6 +7,7 @@
 //
 
 #import "UIWebViewController.h"
+#import "TripObject.h"
 
 @class ShareViewController;
 
@@ -17,5 +18,6 @@
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
+- (void)selectTrip:(TripObject *)trip;
 
 @end
