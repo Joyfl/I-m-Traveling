@@ -38,8 +38,13 @@
 
 - (void)loadURL:(NSString *)url withData:(NSDictionary *)data
 {
+	url = [url stringByAppendingFormat:@"?"];
+	
 	for( id key in data )
-		url = [url stringByAppendingFormat:@"?%@=%@", key, [data objectForKey:key]];
+		url = [url stringByAppendingFormat:@"%@=%@&", key, [data objectForKey:key]];
+	
+	url = [url substringToIndex:url.length - 1];
+	url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 	[[NSURLConnection alloc] initWithRequest:request delegate:self];
