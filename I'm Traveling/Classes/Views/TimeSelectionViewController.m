@@ -39,9 +39,6 @@
 		
 		_selectedDate = [shareViewController.selectedDate copy];
 		_selectedTime = [shareViewController.selectedTime copy];
-		
-		_currentPickerCaller = _dateCell;
-		[self showPickerWithDate:_selectedDate andPickerMode:UIDatePickerModeDate];
 	}
 	
 	return self;
@@ -84,6 +81,7 @@
 		_dateCell = cell;
 		cell.textLabel.text = @"Date";
 		cell.detailTextLabel.text = [Utils dateWithDate:_selectedDate];
+		[self tableView:tableView didSelectRowAtIndexPath:indexPath];
 	}
 	else
 	{
