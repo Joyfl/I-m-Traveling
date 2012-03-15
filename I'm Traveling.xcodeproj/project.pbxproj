@@ -79,8 +79,6 @@
 		0351468B15058E7200CA94E0 /* share_image_top_border@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0351468915058E7200CA94E0 /* share_image_top_border@2x.png */; };
 		035FDEB014F0F50B002A2D1B /* ImTravelingWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */; };
 		036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32B914FC114900C1BA70 /* TripListViewController.m */; };
-		036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */; };
-		036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */; };
 		036B32D114FE8B4400C1BA70 /* share_top_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32CF14FE8B4400C1BA70 /* share_top_bg.png */; };
 		036B32D214FE8B4400C1BA70 /* share_top_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32D014FE8B4400C1BA70 /* share_top_bg@2x.png */; };
 		036B32DA14FE8C8300C1BA70 /* button_date.png in Resources */ = {isa = PBXBuildFile; fileRef = 036B32D414FE8C8300C1BA70 /* button_date.png */; };
@@ -136,7 +134,6 @@
 		03E76B591502990800DDDB20 /* postit_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B571502990800DDDB20 /* postit_empty.png */; };
 		03E76B5A1502990800DDDB20 /* postit_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B581502990800DDDB20 /* postit_empty@2x.png */; };
 		03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E76B5C15029EE700DDDB20 /* InfoCell.m */; };
-		03F24B9B1510579B00B1CB85 /* SimpleFeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F24B9A1510579B00B1CB85 /* SimpleFeedListViewController.m */; };
 		03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F24B9E15105B4100B1CB85 /* TripAddViewController.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
@@ -237,10 +234,6 @@
 		035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingWebView.m; sourceTree = "<group>"; };
 		036B32B814FC114900C1BA70 /* TripListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListViewController.h; sourceTree = "<group>"; };
 		036B32B914FC114900C1BA70 /* TripListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListViewController.m; sourceTree = "<group>"; };
-		036B32BD14FD58B200C1BA70 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
-		036B32BE14FD58B200C1BA70 /* ActionSheetDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetDatePicker.h; sourceTree = "<group>"; };
-		036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetDatePicker.m; sourceTree = "<group>"; };
-		036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
 		036B32CF14FE8B4400C1BA70 /* share_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_top_bg.png; sourceTree = "<group>"; };
 		036B32D014FE8B4400C1BA70 /* share_top_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_top_bg@2x.png"; sourceTree = "<group>"; };
 		036B32D414FE8C8300C1BA70 /* button_date.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_date.png; sourceTree = "<group>"; };
@@ -320,8 +313,6 @@
 		03E76B581502990800DDDB20 /* postit_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postit_empty@2x.png"; sourceTree = "<group>"; };
 		03E76B5B15029EE700DDDB20 /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
 		03E76B5C15029EE700DDDB20 /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
-		03F24B991510579B00B1CB85 /* SimpleFeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleFeedListViewController.h; sourceTree = "<group>"; };
-		03F24B9A1510579B00B1CB85 /* SimpleFeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleFeedListViewController.m; sourceTree = "<group>"; };
 		03F24B9D15105B4000B1CB85 /* TripAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripAddViewController.h; sourceTree = "<group>"; };
 		03F24B9E15105B4100B1CB85 /* TripAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripAddViewController.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
@@ -364,7 +355,6 @@
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
 				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
-				036B32BC14FD58B200C1BA70 /* ActionSheetPicker */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
 				03AD0FEF14DBCE0800D9573D /* SBJSON */,
@@ -387,8 +377,6 @@
 			children = (
 				0300E72114D23E6B00611039 /* FeedListViewController.h */,
 				0300E72214D23E6B00611039 /* FeedListViewController.m */,
-				03F24B991510579B00B1CB85 /* SimpleFeedListViewController.h */,
-				03F24B9A1510579B00B1CB85 /* SimpleFeedListViewController.m */,
 				039B582B14D67B2400E5212C /* MapViewController.h */,
 				039B582C14D67B2400E5212C /* MapViewController.m */,
 				03FDD10D14D4534D006E453A /* FeedDetailViewController.h */,
@@ -532,17 +520,6 @@
 				0347F71015076B96006D9297 /* UserObject.m */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		036B32BC14FD58B200C1BA70 /* ActionSheetPicker */ = {
-			isa = PBXGroup;
-			children = (
-				036B32BD14FD58B200C1BA70 /* AbstractActionSheetPicker.h */,
-				036B32C114FD5A7400C1BA70 /* AbstractActionSheetPicker.m */,
-				036B32BE14FD58B200C1BA70 /* ActionSheetDatePicker.h */,
-				036B32BF14FD58B200C1BA70 /* ActionSheetDatePicker.m */,
-			);
-			path = ActionSheetPicker;
 			sourceTree = "<group>";
 		};
 		039F63EA14C5CEE6002EC78F = {
@@ -805,8 +782,6 @@
 				0302937414FAC68F00E31F9A /* TimeSelectionViewController.m in Sources */,
 				0302937714FAC6C500E31F9A /* ImTravelingNavigationController.m in Sources */,
 				036B32BA14FC114900C1BA70 /* TripListViewController.m in Sources */,
-				036B32C014FD58B200C1BA70 /* ActionSheetDatePicker.m in Sources */,
-				036B32C214FD5A7400C1BA70 /* AbstractActionSheetPicker.m in Sources */,
 				03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */,
 				0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */,
 				0347F71315076B96006D9297 /* FeedObject.m in Sources */,
@@ -816,7 +791,6 @@
 				0347F71715076B96006D9297 /* TripObject.m in Sources */,
 				0347F71815076B96006D9297 /* UserObject.m in Sources */,
 				0382B808150E8BC1007CF106 /* Pin.m in Sources */,
-				03F24B9B1510579B00B1CB85 /* SimpleFeedListViewController.m in Sources */,
 				03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
