@@ -44,6 +44,17 @@
 
 
 #pragma mark -
+#pragma mark View Lifecycle
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	// Trip Add 후 dismiss
+	if( _tripSelected )
+		[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
 #pragma mark Navigation Bar Selectors
 
 - (void)cancelButtonDidTouchUpInside
@@ -82,6 +93,8 @@
 {
 	_shareViewController.selectedTrip = trip;
 	[_shareViewController updateTripLabelText];
+	
+	_tripSelected = YES;
 
 	[self dismissModalViewControllerAnimated:YES];
 }

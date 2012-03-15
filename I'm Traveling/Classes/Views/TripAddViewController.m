@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "TripObject.h"
 #import "TripListViewController.h"
+#import "Const.h"
 
 @interface TripAddViewController()
 
@@ -81,7 +82,15 @@
 
 - (void)doneButtonDidTouchUpInside
 {
-//	[self loadURL:<#(NSString *)#> withData:<#(NSDictionary *)#>];
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+	[data setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
+	[data setObject:[Utils email] forKey:@"email"];
+	[data setObject:[Utils password] forKey:@"password"];
+	[data setObject:_titleInput.text forKey:@"trip_title"];
+	[data setObject:[Utils dateStringForUpload:_startDate] forKey:@"start_date"];
+	[data setObject:[Utils dateStringForUpload:_endDate] forKey:@"end_date"];
+	[data setObject:_summaryInput.text forKey:@"summary"];
+	[self loadURL:API_TRIP_ADD withData:data];
 }
 
 
@@ -94,11 +103,12 @@
 	
 	// ShareViewController - TripListViewController에서 여행 추가 버튼을 눌러 들어온 경우
 	// 여행을 추가하면 추가한 여행이 자동으로 선택되어지도록 한다.
-	if( tripListViewController != nil )
+	if( tripListViewController != nil && [json objectForKey:@"RESULT"] )
 	{
-		// Upload할 때에는 trip id밖에 필요가 없음.
+		// Upload할 때에는 trip id와 title밖에 필요가 없음.
 		TripObject *trip = [[TripObject alloc] init];
-		trip.tripId = [[json objectForKey:@"trip_id"] integerValue];
+		trip.tripId = [[json objectForKey:@"RESULT"] integerValue];
+		trip.title = _titleInput.text;
 		[tripListViewController selectTrip:trip];
 	}
 	

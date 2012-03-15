@@ -15,6 +15,8 @@
 {
 	ShareViewController *_shareViewController;
 	NSMutableDictionary *_trips;
+	
+	BOOL _tripSelected;
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
