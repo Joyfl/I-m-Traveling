@@ -15,6 +15,7 @@
 @interface FeedListViewController (Private)
 
 - (void)deselectAlignButtons;
+- (FeedObject *)createFeedFromDictionary:(NSDictionary *)feed;
 - (void)addFeed:(FeedObject *)feedObj top:(BOOL)top;
 - (void)addFeed:(FeedObject *)feedObj;
 - (void)addFeedTop:(FeedObject *)feedObj;
@@ -250,27 +251,17 @@ enum {
 - (void)loadingDidFinish:(NSString *)result
 {
 	NSArray *feeds = [Utils parseJSON:result];
-	for( NSDictionary *feed in feeds )
+	
+	// reload일 경우에는 리스트의 위에 로딩한 피드를 역순으로 추가한다.
+	if( reloading )
 	{
-		FeedObject *feedObj = [[FeedObject alloc] init];
-		feedObj.feedId = [[feed objectForKey:@"feed_id"] integerValue];
-		feedObj.userId = [[feed objectForKey:@"user_id"] integerValue];
-		feedObj.name = [feed objectForKey:@"name"];
-		feedObj.profileImageURL = [[NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObj.userId] retain];
-		feedObj.place = [feed objectForKey:@"place"];
-		feedObj.region = [feed objectForKey:@"region"];
-		feedObj.time = [feed objectForKey:@"time"];
-		feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, feedObj.feedId] retain];
-		feedObj.review = [feed objectForKey:@"review"];
-		feedObj.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
-		feedObj.numComments = [[feed objectForKey:@"num_comments"] integerValue];
-		feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
-		feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
-		
-		if( reloading )
-			[self addFeedTop:feedObj];
-		else
-			[self addFeed:feedObj];
+		for( NSInteger i = feeds.count - 1; i >= 0; i-- )
+			[self addFeedTop:[self createFeedFromDictionary:[feeds objectAtIndex:i]]];
+	}
+	else
+	{
+		for( NSInteger i = 0; i < feeds.count; i++ )	
+			[self addFeed:[self createFeedFromDictionary:[feeds objectAtIndex:i]]];
 	}
 	
 	[self webViewDidFinishReloading];
@@ -278,6 +269,26 @@ enum {
 	loading = NO;
 	reloading = NO;
 }
+
+- (FeedObject *)createFeedFromDictionary:(NSDictionary *)feed
+{
+	FeedObject *feedObj = [[FeedObject alloc] init];
+	feedObj.feedId = [[feed objectForKey:@"feed_id"] integerValue];
+	feedObj.userId = [[feed objectForKey:@"user_id"] integerValue];
+	feedObj.name = [feed objectForKey:@"name"];
+	feedObj.profileImageURL = [[NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObj.userId] retain];
+	feedObj.place = [feed objectForKey:@"place"];
+	feedObj.region = [feed objectForKey:@"region"];
+	feedObj.time = [feed objectForKey:@"time"];
+	feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, feedObj.feedId] retain];
+	feedObj.review = [feed objectForKey:@"review"];
+	feedObj.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
+	feedObj.numComments = [[feed objectForKey:@"num_comments"] integerValue];
+	feedObj.latitude = [[feed objectForKey:@"latitude"] doubleValue];
+	feedObj.longitude = [[feed objectForKey:@"longitude"] doubleValue];
+	return feedObj;
+}
+
 
 #pragma mark - selectors
 
