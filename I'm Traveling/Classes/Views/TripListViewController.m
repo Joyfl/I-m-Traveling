@@ -109,8 +109,15 @@
 {
 	[self clear];
 	
-	NSArray *trips = [Utils parseJSON:result];
-	for( NSDictionary *t in trips )
+	id json = [Utils parseJSON:result];
+	
+	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
+	{
+		[[[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Trips! You have to make a trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+		return;
+	}
+	
+	for( NSDictionary *t in json )
 	{
 		TripObject *trip = [[TripObject alloc] init];
 		trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
