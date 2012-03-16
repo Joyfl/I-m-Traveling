@@ -527,6 +527,8 @@ enum {
 
 - (void)keyboardWillHide
 {
+	[_dismissKeyboardButton removeFromSuperview];
+	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
 	[UIView setAnimationDuration:0.25];
@@ -539,7 +541,6 @@ enum {
 	if( _currentFirstResponder != nil )
 	{
 		[_currentFirstResponder resignFirstResponder];
-		[_dismissKeyboardButton removeFromSuperview];
 	}
 }
 
