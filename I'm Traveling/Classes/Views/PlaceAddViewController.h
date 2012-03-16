@@ -7,7 +7,21 @@
 //
 
 #import "ImTravelingViewController.h"
+#import <MapKit/MapKit.h>
 
-@interface PlaceAddViewController : ImTravelingViewController
+@class PlaceSelectionViewController;
+
+@interface PlaceAddViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+{
+	PlaceSelectionViewController *placeSelectionViewController;
+	
+	UITableView *_tableView;
+	MKMapView *_mapView;
+	UITextField *_nameInput;
+	UITableViewCell *_categoryCell;
+	UIPickerView *_picker;
+}
+
+@property (nonatomic, retain) PlaceSelectionViewController *placeSelectionViewController;
 
 @end

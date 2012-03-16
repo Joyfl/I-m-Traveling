@@ -11,6 +11,8 @@
 #import "Const.h"
 #import "Utils.h"
 #import "Place.h"
+#import "ImTravelingNavigationController.h"
+#import "PlaceAddViewController.h"
 
 @interface PlaceSelectionViewController()
 
@@ -60,6 +62,16 @@
 
 
 #pragma mark -
+#pragma mark View Life Cycle
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	if( _placeSelected )
+		[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
 #pragma mark Navigation Bar Selectors
 
 - (void)cancelButtonDidTouchUpInside
@@ -69,7 +81,10 @@
 
 - (void)addButtonDidTouchUpInside
 {
-	
+	PlaceAddViewController *placeAddViewController = [[PlaceAddViewController alloc] init];
+	placeAddViewController.placeSelectionViewController = self;
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:placeAddViewController];
+	[self presentModalViewController:navigationController animated:YES];
 }
 
 
@@ -80,6 +95,7 @@
 {
 	[_locationManager stopUpdatingLocation];
 	
+#warning temp cellid
 	NSInteger newCellId = 459030704; //[Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	if( _lastCellId != newCellId )
 	{
@@ -131,12 +147,18 @@
 	if( [message isEqualToString:@"select_place"] )
 	{
 		NSLog( @"place_id : %@", [arguments objectAtIndex:0] );
-		
-		_shareViewController.selectedPlace = [_places objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]];
-		[_shareViewController updatePlaceLabelText];
-		
-		[self dismissModalViewControllerAnimated:YES];
+		[self selectPlace:[_places objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 	}
+}
+
+- (void)selectPlace:(Place *)place
+{
+	_shareViewController.selectedPlace = place;
+	[_shareViewController updatePlaceLabelText];
+	
+	_placeSelected = YES;
+	
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 

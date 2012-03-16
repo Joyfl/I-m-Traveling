@@ -68,6 +68,7 @@
 		0311F74314E43AAC0081B74E /* tab_trip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F71714E43AAC0081B74E /* tab_trip@2x.png */; };
 		031CA4F114EF57850015D2AC /* ImTravelingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CA4F014EF57840015D2AC /* ImTravelingViewController.m */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
+		033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033DC51C1511727500272459 /* PlaceAddViewController.m */; };
 		0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70215076B96006D9297 /* FeedAnnotation.m */; };
 		0347F71315076B96006D9297 /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70615076B96006D9297 /* FeedObject.m */; };
 		0347F71415076B96006D9297 /* Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70815076B96006D9297 /* Info.m */; };
@@ -214,6 +215,8 @@
 		031CA4EF14EF57840015D2AC /* ImTravelingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingViewController.h; sourceTree = "<group>"; };
 		031CA4F014EF57840015D2AC /* ImTravelingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingViewController.m; sourceTree = "<group>"; };
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		033DC51B1511727500272459 /* PlaceAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAddViewController.h; sourceTree = "<group>"; };
+		033DC51C1511727500272459 /* PlaceAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAddViewController.m; sourceTree = "<group>"; };
 		0347F70115076B96006D9297 /* FeedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedAnnotation.h; sourceTree = "<group>"; };
 		0347F70215076B96006D9297 /* FeedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedAnnotation.m; sourceTree = "<group>"; };
 		0347F70515076B96006D9297 /* FeedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedObject.h; sourceTree = "<group>"; };
@@ -395,6 +398,8 @@
 				0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */,
 				0302936C14FAC20A00E31F9A /* PlaceSelectionViewController.h */,
 				0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */,
+				033DC51B1511727500272459 /* PlaceAddViewController.h */,
+				033DC51C1511727500272459 /* PlaceAddViewController.m */,
 				03E76B5B15029EE700DDDB20 /* InfoCell.h */,
 				03E76B5C15029EE700DDDB20 /* InfoCell.m */,
 				0300E72314D23E6B00611039 /* ProfileViewController.h */,
@@ -792,6 +797,7 @@
 				0347F71815076B96006D9297 /* UserObject.m in Sources */,
 				0382B808150E8BC1007CF106 /* Pin.m in Sources */,
 				03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */,
+				033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 
 #import "UIPullDownWebViewController.h"
 #import <MapKit/MapKit.h>
+#import "Place.h"
 
 @class ShareViewController;
 
@@ -17,8 +18,11 @@
 	CLLocationManager *_locationManager;
 	NSInteger _lastCellId;
 	NSMutableDictionary *_places;
+	
+	BOOL _placeSelected;
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
+- (void)selectPlace:(Place *)place;
 
 @end
