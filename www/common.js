@@ -338,8 +338,10 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	var bottomWrap = getClass("bottomWrap")[0];
 	makeClass("div", "border", bottomWrap);
 	var seeAllFeed = makeClass("div", "seeAllFeed seeAll", bottomWrap);
+	seeAllFeed.onclick = function() { call("all_feed:" + trip_id); };
 	makeClass("div", "border", bottomWrap);
 	var seeAllTrip = makeClass("div", "seeAllTrip seeAll", bottomWrap);
+	seeAllTrip.onclick = function() { call("all_trip:" + user_id); };
 	
 	makeClass("div", "darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
 	makeClass("div", "darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
