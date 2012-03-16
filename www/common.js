@@ -53,7 +53,7 @@ function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "여행/�
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
-function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "치킨집", "음식점"); }
+function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, reviewLong, "음식점"); }
 
 
 
@@ -253,6 +253,7 @@ function fillPlaceList(wrap, place_id, name, category)
 	wrap.onclick = function() { call("select_place:" + place_id); };
 	makeClass("div", "name", wrap).innerText = name;
 	makeClass("div", "category", wrap).innerText = category;
+	makeClass("div", "zfbe", wrap);
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)

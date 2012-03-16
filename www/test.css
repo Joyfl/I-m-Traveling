@@ -470,18 +470,30 @@ ul, ol, li
 	clear: both;
 	padding: 1em;
 	padding-bottom: 0.5em;
-	height: 4.5em;
+	min-height: 4.5em;
 }
 
 .placeList .name
 {
 	font-size: 2em;
 	color: #302935;
+	
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
 
 .placeList .category
 {
 	font-size: 1.5em;
+	
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
 }
 
 
