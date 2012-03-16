@@ -120,13 +120,13 @@
 
 - (void)loadProfile
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, 2]];
+	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, [Utils userId]]];
 }
 
 - (void)loadingDidFinish:(NSString *)result
 {
 	NSDictionary *user = [Utils parseJSON:result];
-	
+	userObject.userId = [Utils userId];
 	userObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, userObject.userId];
 	userObject.name = [user objectForKey:@"name"];
 	userObject.nation = [user objectForKey:@"nation"];
