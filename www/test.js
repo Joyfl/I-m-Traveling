@@ -32,15 +32,15 @@ function init()
 	//var temp2 = makeClass("li", "shadowText", temp);
 	
 	//t_fl();
-	//t_fd();
+	t_fd();
 	//t_cl();
 	//t_sf();
 	//t_st();
 	//t_pl();
 	//t_p();
 	//t_pll();
-	t_usf();
-	t_msf();
+	//t_usf();
+	//t_msf();
 }
 
 
@@ -107,8 +107,8 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeIcon = makeClass("img", "icon", likeWrap);
 		var commentIcon = makeClass("img", "icon", commentWrap);
 	
-		var likeText = makeClass("div", "iconText blue", likeWrap);
-		var commentText = makeClass("div", "iconText green", commentWrap);
+		var likeText = makeClass("div", "iconText green", likeWrap);
+		var commentText = makeClass("div", "iconText blue", commentWrap);
 		
 		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
@@ -179,6 +179,18 @@ function addComment(commentList, user_id, profile_image_url, name, _time, _conte
 	var profile = function(){ call("create_profile:" + user_id); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
+}
+
+function createArrow()
+{
+	var page = getId("page");
+	var marger = document.createElement("div");
+	marger.id = "marger";
+	document.body.insertBefore(marger, page);
+	var shadower = document.createElement("div");
+	shadower.className = "softShadow";
+	shadower.id = "shadower";
+	document.body.insertBefore(shadower, page);
 }
 
 function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
@@ -469,6 +481,7 @@ function addPlace(place_id, name, category)
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
+	createArrow();
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
