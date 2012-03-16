@@ -14,6 +14,8 @@
 	NSString *profileImageURL;
 	NSString *name;
 	NSString *nation;
+	NSInteger numFeeds;
+	NSInteger numTrips;
 	NSInteger numFollowers;
 	NSInteger numFollowings;
 	NSInteger numBadges;
@@ -25,6 +27,8 @@
 @property (nonatomic, retain) NSString *profileImageURL;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *nation;
+@property (nonatomic, assign) NSInteger numFeeds;
+@property (nonatomic, assign) NSInteger numTrips;
 @property (nonatomic, assign) NSInteger numFollowers;
 @property (nonatomic, assign) NSInteger numFollowings;
 @property (nonatomic, assign) BOOL complete;

@@ -47,7 +47,7 @@
 {
 	[self clear];
 	
-	NSString *func = [[NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, %d, %d, '%@', %d )",
+	NSString *func = [[NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, %d, %d, '%@', %d, %d, %d, %d )",
 					   userObj.userId,
 					   userObj.profileImageURL,
 					   userObj.name,
@@ -56,7 +56,10 @@
 					   userObj.numFollowings,
 					   /*userObj.numBadges"*/0,
 					   @"[]",
-					   /*notice*/0] retain];
+					   /*notice*/0,
+					   userObj.numFeeds,
+					   userObj.numTrips,
+					   0] retain];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 	

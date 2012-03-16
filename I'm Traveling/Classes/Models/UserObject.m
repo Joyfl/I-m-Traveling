@@ -10,6 +10,6 @@
 
 @implementation UserObject
 
-@synthesize userId, profileImageURL, name, nation, numFollowers, numFollowings, complete;
+@synthesize userId, profileImageURL, name, nation, numFeeds, numTrips, numFollowers, numFollowings, complete;
 
 @end

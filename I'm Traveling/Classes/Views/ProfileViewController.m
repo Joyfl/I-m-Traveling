@@ -130,8 +130,10 @@
 	userObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, userObject.userId];
 	userObject.name = [user objectForKey:@"name"];
 	userObject.nation = [user objectForKey:@"nation"];
-	userObject.numFollowers = [[user objectForKey:@"numFollowers"] integerValue];
-	userObject.numFollowings = [[user objectForKey:@"numFollowings"] integerValue];
+	userObject.numFeeds = [[user objectForKey:@"num_feeds"] integerValue];
+	userObject.numTrips = [[user objectForKey:@"num_trips"] integerValue];
+	userObject.numFollowers = [[user objectForKey:@"num_followers"] integerValue];
+	userObject.numFollowings = [[user objectForKey:@"num_followings"] integerValue];
 	userObject.complete = YES;
 	
 	[self createProfile];
