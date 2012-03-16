@@ -95,8 +95,7 @@
 {
 	[_locationManager stopUpdatingLocation];
 	
-#warning temp cellid
-	NSInteger newCellId = 459030704; //[Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	if( _lastCellId != newCellId )
 	{
 		[self loadURL:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId]];
