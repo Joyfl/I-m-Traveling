@@ -31,7 +31,7 @@ function init()
 	//var temp = makeClass("ul", "shadowTest", getId("page"));
 	//var temp2 = makeClass("li", "shadowText", temp);
 	
-	t_fl();
+	//t_fl();
 	//t_fd();
 	//t_cl();
 	//t_sf();
@@ -39,6 +39,8 @@ function init()
 	//t_pl();
 	//t_p();
 	//t_pll();
+	t_usf();
+	t_msf();
 }
 
 
@@ -49,11 +51,13 @@ function init()
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
 function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
-function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(123, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, reviewLong, "음식점"); }
+function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
+function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 
 
 
@@ -421,6 +425,19 @@ function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 	if(sf.length % 2 == 0) cName = "simpleFeed even";
 	else cName = "simpleFeed odd";
 	wrap = makeClass("div", cName, getId("page"));
+	wrap.id = "simple_feed_" + feed_id;
+	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
+}
+
+function addUnloadedSimpleFeed(feed_id)
+{
+	addSimpleFeed(feed_id, " ", " ", " ", "loading...");
+}
+
+function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
+{
+	wrap = getId("simple_feed_" + feed_id);
+	wrap.innerHTML = "";
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
 }
 
