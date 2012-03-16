@@ -32,6 +32,8 @@
 		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
 		
+		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
+		
 		_shareViewController = shareViewController;
 		
 		_trips = [[NSMutableDictionary alloc] init];
