@@ -4,7 +4,14 @@
 {
 	margin: 0em;
 	padding: 0em;
-	text-shadow: 0px 1px 1px white;
+	/*text-shadow: 0px 1px 1px white;*/
+}
+
+a:hover
+{
+	text-decoration: none;
+	color: auto;
+	color: #473e4d;
 }
 
 @font-face
