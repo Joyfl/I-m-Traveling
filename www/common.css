@@ -278,6 +278,20 @@ ul, ol, li
 
 /* Detail Part */
 
+#marger
+{
+	height: 2em;
+}
+
+#shadower
+{
+	top: 2em;
+	height: 3em;
+	width: 100%;
+	position: absolute;
+	z-index: -1;
+}
+
 .infoList
 {
 	margin-top: 0em;
@@ -508,6 +522,10 @@ ul, ol, li
 .softShadow
 {
 	box-shadow: 0em 0em 2em rgba(68, 68, 68, 1);
+	-webkit-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	-ms-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	-moz-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	-o-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
 }
 
 .boing

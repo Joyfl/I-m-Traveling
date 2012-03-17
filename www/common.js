@@ -17,6 +17,7 @@ reviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviw
 sf = new Array();
 st = new Array();
 pl = new Array();
+cl = new Array();
 
 
 // Initialize 
@@ -50,7 +51,13 @@ function init()
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
-function t_cl() { cl = makeClass("div", "asdf", getId("page")); fillCommentList(cl, comments); }
+function t_cl()
+{
+	for(var i = 0; i < comments.length; i++)
+	{
+		addComment(comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
+	}
+}
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
@@ -107,8 +114,8 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeIcon = makeClass("img", "icon", likeWrap);
 		var commentIcon = makeClass("img", "icon", commentWrap);
 	
-		var likeText = makeClass("div", "iconText blue", likeWrap);
-		var commentText = makeClass("div", "iconText green", commentWrap);
+		var likeText = makeClass("div", "iconText green", likeWrap);
+		var commentText = makeClass("div", "iconText blue", commentWrap);
 		
 		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
@@ -151,34 +158,16 @@ function fillLikeBar(likeBar, trip_id, num_likes)
 	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
-function addComment(commentList, user_id, profile_image_url, name, _time, _content)
+function createArrow()
 {
-	var wrap = makeClass("li", "commentWrap", commentList);
-	
-	var cover = makeClass("div", "cover profileImage", wrap);
-	var profileImage = makeClass("img", "profileImage", wrap);
-	
-	var upperWrap = makeClass("div", "upperWrap", wrap);
-	var lowerWrap = makeClass("div", "lowerWrap", wrap);
-	
-	var userName = makeClass("div", "userName", upperWrap);
-	var time = makeClass("div", "time", upperWrap);
-	var content = makeClass("div", "review", lowerWrap);
-	var zfbe = makeClass("div", "zfbe", wrap);
-		
-	profileImage.src = profile_image_url;
-	userName.innerText = name;
-	time.innerText = _time;
-	content.innerText= _content;
-	
-	setHeight(cover, intToEm(pixelToEm(profileImage.clientHeight)));
-	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(0.8)));
-	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
-	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
-	
-	var profile = function(){ call("create_profile:" + user_id); };
-	profileImage.onclick = profile;
-	userName.onclick = profile;
+	var page = getId("page");
+	var marger = document.createElement("div");
+	marger.id = "marger";
+	document.body.insertBefore(marger, page);
+	var shadower = document.createElement("div");
+	shadower.className = "softShadow";
+	shadower.id = "shadower";
+	document.body.insertBefore(shadower, page);
 }
 
 function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
@@ -392,12 +381,12 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	button.onclick = function() { call("all_feed:" + trip_id); };
 }
 
-function fillCommentList(commentList, comments)
+/*function fillCommentList(commentList, comments)
 {
 	var n = comments.length;
 	for(var i = 0; i < n; i++)
 		addComment(commentList, comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
-}
+}*/
 
 
 
@@ -467,8 +456,43 @@ function addPlace(place_id, name, category)
 	fillPlaceList(wrap, place_id, name, category);
 }
 
+function addComment(user_id, profile_image_url, name, _time, _content)
+{
+	cl.push(1);
+	var wrap, cName;
+	if(cl.length % 2 == 0) cName = "commentWrap even";
+	else cName = "commentWrap odd";
+	wrap = makeClass("div", cName, getId("page"));
+	
+	var cover = makeClass("div", "cover profileImage", wrap);
+	var profileImage = makeClass("img", "profileImage", wrap);
+	
+	var upperWrap = makeClass("div", "upperWrap", wrap);
+	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	
+	var userName = makeClass("div", "userName", upperWrap);
+	var time = makeClass("div", "time", upperWrap);
+	var content = makeClass("div", "review", lowerWrap);
+	var zfbe = makeClass("div", "zfbe", wrap);
+		
+	profileImage.src = profile_image_url;
+	userName.innerText = name;
+	time.innerText = _time;
+	content.innerText= _content;
+	
+	setHeight(cover, intToEm(pixelToEm(profileImage.clientHeight)));
+	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(0.8)));
+	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
+	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
+	
+	var profile = function(){ call("create_profile:" + user_id); };
+	profileImage.onclick = profile;
+	userName.onclick = profile;
+}
+
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
+	createArrow();
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
