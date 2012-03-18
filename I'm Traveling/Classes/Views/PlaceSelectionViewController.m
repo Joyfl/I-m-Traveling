@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "Place.h"
 #import "ImTravelingNavigationController.h"
+#import "ImTravelingBarButtonItem.h"
 #import "PlaceAddViewController.h"
 
 @interface PlaceSelectionViewController()
@@ -29,15 +30,19 @@
 {
 	if( self = [super init] )
 	{
-		// 검색창을 위해 공간 만들어둠
-		self.webView.frame = CGRectMake( 0, 50, 320, 416 - 50 );
-		self.view.backgroundColor = [UIColor whiteColor];
-		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
 		
-		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(addButtonDidTouchUpInside)];
+		
+		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
+		[addButton release];
+		
+		
+		// 검색창을 위해 공간 만들어둠
+		self.webView.frame = CGRectMake( 0, 44, 320, 372 );
+		self.view.backgroundColor = [UIColor whiteColor];
 		
 		_shareViewController = shareViewController;
 		
@@ -47,12 +52,10 @@
 		
 		_places = [[NSMutableDictionary alloc] init];
 		
-		UITextField *searchInput = [[UITextField alloc] initWithFrame:CGRectMake( 5, 5, 310, 31 )];
-		searchInput.placeholder = @"Search";
-		searchInput.returnKeyType = UIReturnKeyDone;
-		searchInput.delegate = self;
-		[searchInput addTarget:self action:@selector(searchInputEditingChanged:) forControlEvents:UIControlEventEditingChanged];
-		[self.view addSubview:searchInput];
+		UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake( 0, 0, 320, 44 )];
+		searchBar.delegate = self;
+		searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
+		[self.view addSubview:searchBar];
 		
 		[self loadRemotePage:HTML_INDEX];
 	}
@@ -162,21 +165,20 @@
 
 
 #pragma mark -
-#pragma mark UITextFieldDelegate
+#pragma mark UISearchBarDelegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-	[textField resignFirstResponder];
+	[searchBar resignFirstResponder];
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[self search:textField.text];
-	return YES;
+	[self search:searchBar.text];
 }
 
-- (void)searchInputEditingChanged:(id)sender
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 	// 텍스트 내용이 마지막으로 변경된 후 0.5초 후에 검색
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[self performSelector:@selector(search:) withObject:[sender text] afterDelay:0.5];
+	[self performSelector:@selector(search:) withObject:searchText afterDelay:0.5];
 }
 
 - (void)search:(NSString *)keyword

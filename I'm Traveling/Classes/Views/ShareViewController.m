@@ -421,7 +421,8 @@ enum {
 - (void)placeButtonDidTouchUpInside
 {
 	PlaceSelectionViewController *placeSelectionViewController = [[PlaceSelectionViewController alloc] initWithShareViewController:self];
-	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:placeSelectionViewController];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:placeSelectionViewController];
+	[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar_no_line.png"] forBarMetrics:UIBarMetricsDefault];
 	[self presentModalViewController:navigationController animated:YES];
 }
 

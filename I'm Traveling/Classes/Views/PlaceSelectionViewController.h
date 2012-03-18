@@ -12,7 +12,7 @@
 
 @class ShareViewController;
 
-@interface PlaceSelectionViewController : UIPullDownWebViewController <CLLocationManagerDelegate, UITextFieldDelegate>
+@interface PlaceSelectionViewController : UIPullDownWebViewController <CLLocationManagerDelegate, UISearchBarDelegate>
 {
 	ShareViewController *_shareViewController;
 	CLLocationManager *_locationManager;
