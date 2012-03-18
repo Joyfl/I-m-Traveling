@@ -376,8 +376,6 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	
 	makeClass("div", "border", wrap);
 	
-	createGap(wrap, 0.1);
-	
 	button.onclick = function() { call("all_feed:" + trip_id); };
 }
 

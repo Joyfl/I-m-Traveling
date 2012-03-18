@@ -488,7 +488,7 @@ ul, ol, li
 
 .placeList .name
 {
-	font-size: 2em;
+	font-size: 1.5em;
 	color: #302935;
 	
 	white-space: pre-wrap;
@@ -500,7 +500,7 @@ ul, ol, li
 
 .placeList .category
 {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
