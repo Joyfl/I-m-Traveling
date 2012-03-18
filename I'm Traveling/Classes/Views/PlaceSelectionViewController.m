@@ -41,9 +41,11 @@
 		[addButton release];
 		
 		
-		// 검색창을 위해 공간 만들어둠
 		self.webView.frame = CGRectMake( 0, 44, 320, 372 );
 		self.view.backgroundColor = [UIColor whiteColor];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 		
 		_shareViewController = shareViewController;
 		
@@ -206,6 +208,25 @@
 			}
 		}
 	}
+}
+
+- (void)keyboardDidShow
+{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	[webView setFrame:CGRectMake( 0, 44, 320, 156 )];
+	[UIView commitAnimations];
+	//	[_tableView setContentOffset:CGPointMake( 0, y ) animated:YES];
+}
+
+- (void)keyboardWillHide
+{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	[webView setFrame:CGRectMake( 0, 44, 320, 372 )];
+	[UIView commitAnimations];
 }
 
 
