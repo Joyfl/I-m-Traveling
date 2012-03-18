@@ -9,6 +9,7 @@
 #import "FeedDetailWebView.h"
 #import "FeedDetailViewController.h"
 #import "Const.h"
+#import "Comment.h"
 
 @implementation FeedDetailWebView
 
@@ -90,13 +91,23 @@
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 //	NSLog( @"%@", func );
-	
 	[_detailViewController feedDetailDidFinishCreating:self];
+	
+}
+
+- (void)addComment:(Comment *)comment
+{
+	NSString *func = [NSString stringWithFormat:@"addComment( %d, '%@', '%@', '%@', '%@' )",
+					   comment.userId,
+					   comment.profileImgUrl,
+					   comment.name,
+					   comment.time,
+					   comment.comment];
+	[self stringByEvaluatingJavaScriptFromString:func];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	NSLog( @"loading finished!" );
 	[self createFeedDetail:_feed];
 	[_feed release];
 }
