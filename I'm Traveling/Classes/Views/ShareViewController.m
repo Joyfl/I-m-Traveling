@@ -10,6 +10,7 @@
 #import "Const.h"
 #import "QuartzCore/CALayer.h"
 #import "ImTravelingNavigationController.h"
+#import "ImTravelingBarButtonItem.h"
 #import "TripListViewController.h"
 #import "TimeSelectionViewController.h"
 #import "PlaceSelectionViewController.h"
@@ -47,11 +48,16 @@ enum {
 	{
 		self.view.backgroundColor = [UIColor grayColor];
 		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
+		self.navigationItem.title = @"Share";
 		
-		UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(uploadButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
+		
+		ImTravelingBarButtonItem *uploadButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Upload" target:self action:@selector(uploadButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = uploadButton;
+		[uploadButton release];
+		
 		
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 416 ) style:UITableViewStylePlain];
 		_tableView.delegate = self;
