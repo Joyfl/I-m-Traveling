@@ -126,7 +126,7 @@ ul, ol, li
 
 .even
 {
-	background-color: #e9cdb3;
+	background-color: #e7cbb1;
 }
 
 .odd
@@ -430,7 +430,7 @@ ul, ol, li
 	font-size: 1.2em;
 	text-align: right;
 	margin-top: 0.2em;
-	color: #bfa288;
+	color: #9f8268;
 }
 
 .simpleTrip .title
@@ -483,12 +483,12 @@ ul, ol, li
 	clear: both;
 	padding: 1em;
 	padding-bottom: 0.5em;
-	min-height: 4.5em;
+	min-height: 4em;
 }
 
 .placeList .name
 {
-	font-size: 1.5em;
+	font-size: 1.7em;
 	color: #302935;
 	
 	white-space: pre-wrap;
@@ -500,13 +500,15 @@ ul, ol, li
 
 .placeList .category
 {
-	font-size: 1.2em;
+	font-size: 1.3em;
 	
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
 	white-space: -o-pre-wrap;
 	word-wrap: break-word;
+	
+	color: #9f8268;
 }
 
 
