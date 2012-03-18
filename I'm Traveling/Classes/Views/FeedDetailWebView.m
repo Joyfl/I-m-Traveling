@@ -85,7 +85,7 @@
 					   feedObj.region,
 					   feedObj.pictureURL,
 					   feedObj.review,
-					   feedObj.info,
+					   feedObj.info/*@"[{\"item\":\"도미\",\"value\":5000,\"unit\":\"KRW\"}]"*/,
 					   feedObj.numAllFeeds,
 					   feedObj.numLikes] retain];
 	

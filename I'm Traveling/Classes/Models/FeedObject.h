@@ -21,7 +21,7 @@
 	NSString *time;
 	NSString *pictureURL;
 	NSString *review;
-	NSDictionary *info;
+	NSArray *info;
 	CLLocationDegrees latitude;
 	CLLocationDegrees longitude;
 	NSInteger numAllFeeds;
@@ -42,7 +42,7 @@
 @property (nonatomic, retain) NSString *time;
 @property (nonatomic, retain) NSString *pictureURL;
 @property (nonatomic, retain) NSString *review;
-@property (nonatomic, retain) NSDictionary *info;
+@property (nonatomic, retain) NSArray *info;
 @property (nonatomic, assign) CLLocationDegrees latitude;
 @property (nonatomic, assign) CLLocationDegrees longitude;
 @property (nonatomic, assign) NSInteger numAllFeeds;

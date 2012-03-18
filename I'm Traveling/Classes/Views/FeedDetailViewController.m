@@ -273,6 +273,7 @@
 	
 	FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex];
 	[self completeFeedObject:feedObject fromDictionary:feed];
+	NSLog( @"%@", result );
 	
 	// 첫 로딩
 	if( _feedObjectFromPrevView )
@@ -308,6 +309,7 @@
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
 	feedObject.review = [feed objectForKey:@"review"];
 	feedObject.numAllFeeds = [[feed objectForKey:@"all_feeds"] count];
+	feedObject.info = [feed objectForKey:@"info"];
 	
 	// ref가이 1, 2일 경우에 공통적으로 해당
 	if( !feedObject.userId ) feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
