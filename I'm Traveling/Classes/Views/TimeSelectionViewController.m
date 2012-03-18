@@ -7,6 +7,7 @@
 //
 
 #import "TimeSelectionViewController.h"
+#import "ImTravelingBarButtonItem.h"
 #import "Utils.h"
 
 @interface TimeSelectionViewController()
@@ -24,21 +25,67 @@
 	{
 		self.view.backgroundColor = [UIColor whiteColor];
 		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
+		self.navigationItem.title = @"Select a date";
 		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
+		
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
+		[doneButton release];
 		
 		_shareViewController = shareViewController;
 		
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStyleGrouped];
-		_tableView.delegate = self;
-		_tableView.dataSource = self;
-		[self.view addSubview:_tableView];
+		
+		// Date Button
+		_dateButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 320, 50 )];
+		[_dateButton setBackgroundImage:[UIImage imageNamed:@"time_select_date_bg.png"] forState:UIControlStateNormal];
+		[_dateButton addTarget:self action:@selector(dateButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_dateButton];
+		
+		UILabel *dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 8, 50, 31 )];
+		dateButtonLabel.font = [UIFont boldSystemFontOfSize:15];
+		dateButtonLabel.text = @"Date";
+		dateButtonLabel.textColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1];
+		dateButtonLabel.backgroundColor = [UIColor clearColor];
+		[_dateButton addSubview:dateButtonLabel];
+		[dateButtonLabel release];
+		
+		_dateLabel = [[UILabel alloc] initWithFrame:CGRectMake( 80, 8, 220, 31 )];
+		_dateLabel.font = [UIFont systemFontOfSize:15];
+		_dateLabel.backgroundColor = [UIColor clearColor];
+		_dateLabel.text = [Utils dateWithDate:[NSDate date] andTimezone:[NSTimeZone localTimeZone]];
+		_dateLabel.textColor = [UIColor colorWithRed:0.18 green:0.16 blue:0.21 alpha:1];
+		[_dateButton addSubview:_dateLabel];
+		
+		
+		// Time Button
+		_timeButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 50, 320, 50 )];
+		[_timeButton setBackgroundImage:[UIImage imageNamed:@"time_select_time_bg.png"] forState:UIControlStateNormal];
+		[_timeButton addTarget:self action:@selector(timeButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_timeButton];
+		
+		UILabel *timeButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 8, 50, 31 )];
+		timeButtonLabel.font = [UIFont boldSystemFontOfSize:15];
+		timeButtonLabel.text = @"Time";
+		timeButtonLabel.textColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1];
+		timeButtonLabel.backgroundColor = [UIColor clearColor];
+		[_timeButton addSubview:timeButtonLabel];
+		[timeButtonLabel release];
+		
+		_timeLabel = [[UILabel alloc] initWithFrame:CGRectMake( 80, 8, 220, 31 )];
+		_timeLabel.font = [UIFont systemFontOfSize:15];
+		_timeLabel.backgroundColor = [UIColor clearColor];
+		_timeLabel.text = [Utils timeWithDate:[NSDate date] andTimezone:[NSTimeZone localTimeZone]];
+		_timeLabel.textColor = [UIColor colorWithRed:0.18 green:0.16 blue:0.21 alpha:1];
+		[_timeButton addSubview:_timeLabel];
+		
 		
 		_selectedDate = [shareViewController.selectedDate copy];
 		_selectedTime = [shareViewController.selectedTime copy];
+		
+		[_dateButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 	}
 	
 	return self;
@@ -64,48 +111,18 @@
 
 
 #pragma mark -
-#pragma mark UITableViewDelegate, UITableViewDataSource
+#pragma mark Selectors
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (void)dateButtonDidTouchUpInside
 {
-	return 2;
+	_currentPickerCaller = _dateButton;
+	[self showPickerWithDate:_selectedDate andPickerMode:UIDatePickerModeDate];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)timeButtonDidTouchUpInside
 {
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil];	
-	cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-	
-	if( indexPath.row == 0 )
-	{
-		_dateCell = cell;
-		cell.textLabel.text = @"Date";
-		cell.detailTextLabel.text = [Utils dateWithDate:_selectedDate];
-		[self tableView:tableView didSelectRowAtIndexPath:indexPath];
-	}
-	else
-	{
-		_timeCell = cell;
-		cell.textLabel.text = @"Time";
-		cell.detailTextLabel.text = [Utils timeWithDate:_selectedTime];
-	}
-	
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{	
-	if( indexPath.row == 0 )
-	{
-		_currentPickerCaller = _dateCell;
-		[self showPickerWithDate:_selectedDate andPickerMode:UIDatePickerModeDate];
-	}
-	
-	else if( indexPath.row == 1 )
-	{
-		_currentPickerCaller = _timeCell;
-		[self showPickerWithDate:_selectedTime andPickerMode:UIDatePickerModeTime];
-	}
+	_currentPickerCaller = _timeButton;
+	[self showPickerWithDate:_selectedTime andPickerMode:UIDatePickerModeTime];
 }
 
 
@@ -114,16 +131,16 @@
 
 - (void)pickerValueChanged:(id)picker
 {
-	if( _currentPickerCaller == _dateCell )
+	if( _currentPickerCaller == _dateButton )
 	{
 		_selectedDate = [picker date];
-		_dateCell.detailTextLabel.text = [Utils dateWithDate:_selectedDate andTimezone:[NSTimeZone localTimeZone]];
+		_dateLabel.text = [Utils dateWithDate:_selectedDate andTimezone:[NSTimeZone localTimeZone]];
 	}
 	
-	else if( _currentPickerCaller == _timeCell )
+	else if( _currentPickerCaller == _timeButton )
 	{
 		_selectedTime = [picker date];
-		_timeCell.detailTextLabel.text = [Utils timeWithDate:_selectedTime andTimezone:[NSTimeZone localTimeZone]];
+		_timeLabel.text = [Utils timeWithDate:_selectedTime andTimezone:[NSTimeZone localTimeZone]];
 	}
 }
 
