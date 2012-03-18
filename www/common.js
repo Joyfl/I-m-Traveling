@@ -4,7 +4,7 @@ pic1 = "resource/face.jpg";
 pic2 = "resource/thumbnail.jpg";
 server = "http://imtraveling.joyfl.kr";
 comments = new Array({"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevaaaaaaaaaieweviweeviweviewevieweviewdf"}, {"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"});
-infos = new Array({"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"}, {"key":"햄버거", "value":"1.0", "unit":"$"});
+//infos = new Array({"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"});
 likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
 iconLike = "resource/like.png";
 iconComment = "resource/comment.png";
@@ -50,7 +50,7 @@ function init()
 // Test Functions
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
-function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", infos, 4, 4); }
+function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", 4, 4); }
 function t_cl()
 {
 	for(var i = 0; i < comments.length; i++)
@@ -143,7 +143,7 @@ function fillInfoList(infoList, info)
 		var leftWrap = makeClass("div", "leftWrap", component);
 		var rightWrap = makeClass("div", "rightWrap", component);
 		
-		leftWrap.innerHTML = "<img src=\"./resource/coin.png\" class=\"coin\" /> " + info[i].key;
+		leftWrap.innerHTML = "<img src=\"./resource/coin.png\" class=\"coin\" /> " + info[i].item;
 		if(info[i].unit == '\\')
 			rightWrap.innerHTML = "<span class=\"moneyUnit\">" + info[i].unit + "</span> " + info[i].value;
 		else
@@ -496,7 +496,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	createArrow();
 	var wrap = makeClass("div", "wrap", getId("page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
-	fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes);
+	fillFeedContents(wrap, JSON.parse(info), trip_id, num_all_feeds, num_likes);
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
