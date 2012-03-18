@@ -91,7 +91,8 @@
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 //	NSLog( @"%@", func );
-	[_detailViewController feedDetailDidFinishCreating:self];
+//	[_detailViewController feedDetailDidFinishCreating:self];
+	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];
 	
 }
 

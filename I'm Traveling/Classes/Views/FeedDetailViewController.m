@@ -140,7 +140,6 @@
 		_commentInput.placeholder = @"Leave a comment";
 		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[_commentBar addSubview:_commentInput];
-		[_commentInput becomeFirstResponder];
 		
 		UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -350,6 +349,8 @@
 			[self handleAllFeeds:[json objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 			
 			[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
+			
+			[self changeNavigationBarTitle];
 			
 			[_loadingQueue addFeedIndex:_currentFeedIndex - 1];
 			[_loadingQueue addFeedIndex:_currentFeedIndex + 1];
@@ -700,6 +701,8 @@
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
 		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
 		
+		[self changeNavigationBarTitle];
+		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
@@ -729,6 +732,8 @@
 		
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
 		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
+		
+		[self changeNavigationBarTitle];
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
@@ -819,6 +824,11 @@
 
 #pragma mark -
 #pragma mark Utils
+
+- (void)changeNavigationBarTitle
+{
+	self.navigationItem.title = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] place];
+}
 
 - (void)setMapViewRegionLatitude:(CGFloat)latitude longitude:(CGFloat)longitude animated:(BOOL)animated
 {
