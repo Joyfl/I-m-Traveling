@@ -30,10 +30,11 @@
 {
 	if( self = [super init] )
 	{
+		self.navigationItem.title = @"Select a place";
+		
 		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
-		
 		
 		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
