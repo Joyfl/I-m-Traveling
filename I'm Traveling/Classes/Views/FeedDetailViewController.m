@@ -128,6 +128,25 @@
 		{
 			_feedDetailObjects = [[NSMutableArray alloc] init];
 		}
+		
+		_commentBar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_bar.png"]];
+		
+		UIImageView *commentInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_input.png"]];
+		commentInputBackground.frame = CGRectMake( 7, 5, 235, 31 );
+		[_commentBar addSubview:commentInputBackground];
+		[commentInputBackground release];
+		
+		_commentInput = [[UITextField alloc] initWithFrame:CGRectMake( 17, 9, 220, 23 )];
+		_commentInput.placeholder = @"Leave a comment";
+		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
+		[_commentBar addSubview:_commentInput];
+		[_commentInput becomeFirstResponder];
+		
+		UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
+		sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
+		[sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
+		[_commentBar addSubview:sendButton];
     }
 	
     return self;
@@ -749,7 +768,14 @@
 
 - (void)resizeContentHeight
 {
-	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + 97 );
+	NSInteger wtfSpace = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] numComments] ? 100 : 96;
+	
+	[_commentBar removeFromSuperview];
+	[_scrollView addSubview:_commentBar];
+	CGRect frame = _commentBar.frame;
+	frame.origin.y = self.centerWebView.frame.size.height + wtfSpace;
+	_commentBar.frame = frame;
+	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + wtfSpace + 44 );
 }
 
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webView
