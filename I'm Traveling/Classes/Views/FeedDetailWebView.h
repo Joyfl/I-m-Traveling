@@ -15,9 +15,14 @@
 @interface FeedDetailWebView : ImTravelingWebView
 {
 	FeedDetailViewController *_detailViewController;
+	
+	BOOL loaded;
+	FeedObject *_feed;
 }
 
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController;
 - (void)createFeedDetail:(FeedObject *)feedObj;
+
+@property (nonatomic, assign) BOOL loaded;
 
 @end

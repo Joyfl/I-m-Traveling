@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import <CoreLocation/CoreLocation.h>
 #import "Pin.h"
+#import "SimpleFeedListViewController.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -45,19 +46,20 @@
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
 
+// Feed List에서 Detail로 넘어올 때 로딩과정에서 생기는 부자연스러움을 없애기 위해 미리 생성 후 로드한다.
 + (FeedDetailViewController *)viewController
 {
 	static FeedDetailViewController *_detailViewController;
 	
 	if( _detailViewController == nil )
 	{
-		_detailViewController = [[FeedDetailViewController alloc] init];
+		_detailViewController = [[FeedDetailViewController alloc] initWithFeeds:nil];
 	}
 	
 	return _detailViewController;
 }
 
-- (id)init
+- (id)initWithFeeds:(NSMutableArray *)feeds
 {
     if( self = [super init] )
 	{
@@ -116,7 +118,15 @@
 		
 		_loadingQueue = [[LoadingQueue alloc] init];
 		
-		_feedDetailObjects = [[NSMutableArray alloc] init];
+		if( feeds )
+		{
+			_feedDetailObjects = [feeds retain];
+			_loadingQueue.maxIndex = _feedDetailObjects.count;
+		}
+		else
+		{
+			_feedDetailObjects = [[NSMutableArray alloc] init];
+		}
     }
 	
     return self;
@@ -126,22 +136,40 @@
 {
 	self.loaded = _animationFinished = _loadingFinished = NO;
 	
-	_feedObjectFromPrevView = feedObject;
-	
-	// 현재 피드의 어노테이션은 미리 찍어둠
-	[_mapView addAnnotation:_feedObjectFromPrevView];
-	
 	self.navigationItem.title = _feedObjectFromPrevView.place;
-	
-	[_feedDetailObjects removeAllObjects];
-	[_loadingQueue removeAllObjects];
 	
 	for( int i = 0; i < 3; i++ )
 	{
 		[[_webViews objectAtIndex:i] clear];
 	}
 	
-	[self preloadFeedDetail];
+	if( ref != 2 )
+	{
+		_feedObjectFromPrevView = feedObject;
+		[_feedDetailObjects removeAllObjects];
+		[_loadingQueue removeAllObjects];
+		[self preloadFeedDetail];
+	}
+}
+
+/**
+ * SimpleFeedList에서 호출
+ */
+- (void)activateWithFeedIndex:(NSInteger)index
+{
+	NSLog( @"-----------------------------------------" );
+	_currentFeedIndex = index;
+	
+	FeedObject *currentFeed = [_feedDetailObjects objectAtIndex:index];
+	[self activateWithFeedObject:currentFeed];
+	
+	[self createFeedDetail:currentFeed atIndex:index];
+	
+	[self drawAllFeedsOnMap];
+	[self setMapViewRegionLatitude:currentFeed.latitude longitude:currentFeed.longitude animated:NO];
+	
+	[self prepareFeedDetailWithIndex:index - 1];
+	[self prepareFeedDetailWithIndex:index + 1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,8 +193,9 @@
 {
 	if( loaded ) return;
 	
-	// 현재 피드의 region으로 애니메이션 (ref = 0일 경우에는 애니메이션 안함)
-	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( _feedObjectFromPrevView.latitude, _feedObjectFromPrevView.longitude ), 200, 200 ) animated:ref ? YES : NO];
+	// 현재 피드의 region으로 애니메이션 (ref = 1일 경우에만 애니메이션)
+	if( _feedObjectFromPrevView )
+		[self setMapViewRegionLatitude:_feedObjectFromPrevView.latitude longitude:_feedObjectFromPrevView.longitude animated:ref ? YES : NO];
 	
 	// Animation 적용 (ref 1의 애니메이션은 loadDidFinish에서)
 	[self animateAppearance];
@@ -197,10 +226,12 @@
 		
 		if( feedObject.complete )
 		{
+			NSLog( @"create : %d", index );
 			[self createFeedDetail:feedObject atIndex:index];
 		}
 		else
 		{
+			NSLog( @"load : %d", index );
 			[_loadingQueue addFeedIndex:index];
 			[self loadFeedDetailFromLoadingQueue];
 		}
@@ -317,11 +348,8 @@
 			_currentFeedIndex = i;
 			NSLog( @"_currentFeedIndex : %d", _currentFeedIndex );
 		}
-		else
-		{
-			// 현재 피드의 어노테이션은 viewDidAppear에서 이미 찍음
-			[_mapView addAnnotation:feedObj];
-		}
+		
+		[_mapView addAnnotation:feedObj];
 		
 		[_feedDetailObjects addObject:feedObj];
 		
@@ -330,6 +358,25 @@
 	}
 	
 	MKPolyline *overlay = [MKPolyline polylineWithCoordinates:coordinates count:allFeeds.count];
+	[_mapView addOverlay:overlay];
+	[overlay release];
+}
+
+/*
+ * ref가 2일 경우에는 handleAllFeeds를 호출하지 않고 drawAllFeedsOnMap을 호출한다.
+ */
+- (void)drawAllFeedsOnMap
+{
+	CLLocationCoordinate2D coordinates[_feedDetailObjects.count];
+	
+	for( NSInteger i = 0; i < _feedDetailObjects.count; i++ )
+	{
+		FeedObject *feed = [_feedDetailObjects objectAtIndex:i];
+		[_mapView addAnnotation:feed];
+		coordinates[i] = feed.coordinate;
+	}
+	
+	MKPolyline *overlay = [MKPolyline polylineWithCoordinates:coordinates count:_feedDetailObjects.count];
 	[_mapView addOverlay:overlay];
 	[overlay release];
 }
@@ -449,6 +496,14 @@
 		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
 		[UIView commitAnimations];
 	}
+	else
+	{
+		[_scrollView addSubview:self.leftWebView];
+		[_scrollView addSubview:self.centerWebView];
+		[_scrollView addSubview:self.rightWebView];
+		
+		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
+	}
 }
 
 - (void)animateDisappearance
@@ -478,6 +533,11 @@
 		[UIView setAnimationDuration:0.5];
 		self.centerWebView.frame = CGRectMake( 0, 367, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
+	}
+	else
+	{
+		[UIView cancelPreviousPerformRequestsWithTarget:self];
+		[self backAnimationDidFinish];
 	}
 }
 
@@ -509,6 +569,11 @@
 	else if( ref == 1 )
 	{
 		[self.centerWebView removeFromSuperview];
+	}
+	else
+	{
+		[self.navigationController popViewControllerAnimated:YES];
+		return;
 	}
 	
 	[self.navigationController popViewControllerAnimated:NO];
@@ -546,7 +611,7 @@
 		[UIView commitAnimations];
 		
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
-		[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:YES];
+		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
@@ -574,7 +639,7 @@
 		[UIView commitAnimations];
 		
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
-		[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( feedObject.latitude, feedObject.longitude ), 200, 200 ) animated:YES];
+		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
@@ -615,10 +680,13 @@
 	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + 97 );
 }
 
-- (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webview
+- (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webView
 {
 	// WebView 컨텐츠 리사이징
-	[self resizeWebViewHeight:webview];
+	[self resizeWebViewHeight:webView];
+	
+	if( webView == self.centerWebView )
+		[self resizeContentHeight];
 	
 	if( ref == 0 )
 	{
@@ -629,15 +697,24 @@
 	}
 	else if( ref == 1 )
 	{
-		// ref가 1일 경우의 애니메이션 (ref 0의 애니메이션은 viewDidAppear에서)
+		// ref가 1일 경우의 애니메이션 (ref 0, 2의 애니메이션은 viewDidAppear에서)
 		[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	}
+}
+
+- (void)seeAllFeeds
+{
+	SimpleFeedListViewController *simpleFeedListViewController = [[SimpleFeedListViewController alloc] initFromFeedDetailViewControllerFeeds:_feedDetailObjects lastFeedIndex:_currentFeedIndex];
+	[self.navigationController pushViewController:simpleFeedListViewController animated:YES];
 }
 
 
 #pragma mark -
 #pragma mark Utils
 
-// 지도 region 옮겨주는거
+- (void)setMapViewRegionLatitude:(CGFloat)latitude longitude:(CGFloat)longitude animated:(BOOL)animated
+{
+	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( latitude, longitude ), 200, 200 ) animated:animated];
+}
 
 @end

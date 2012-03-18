@@ -14,7 +14,10 @@
 
 @interface FeedDetailViewController : ImTravelingViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
 {
-	NSInteger ref; // 0 : From List, 1 : From Map
+	// 0 : From List
+	// 1 : From Map
+	// 2 : From Simple Feed List
+	NSInteger ref;
 	
 	FeedObject *_feedObjectFromPrevView; // List 또는 Map에서 넘어온 FeedObject
 	
@@ -25,12 +28,7 @@
 	NSMutableArray *_feedDetailObjects;
 	NSInteger _currentFeedIndex;
 	
-	LoadingQueue *_loadingQueue;
-	
-	// Detail에서 다른 피드를 로드할 때 ref를 2로 두게 되면 0과 1일 때의 애니메이션을 구분하지 못하므로 Detail에서 로드했는지 여부를 나타내는 변수가 필요.
-	// NO일 경우 List 또는 Map에서 로드
-//	BOOL _loadFromDetail;
-	
+	LoadingQueue *_loadingQueue;	
 	
 	// List 애니메이션용 이미지뷰
 	UIImageView *_upperImageView;
@@ -54,9 +52,12 @@
 
 + (FeedDetailViewController *)viewController;
 
+- (id)initWithFeeds:(NSMutableArray *)feeds;
 - (void)activateWithFeedObject:(FeedObject *)feedObject;
+- (void)activateWithFeedIndex:(NSInteger)index;
 - (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(float)offset;
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webview;
+- (void)seeAllFeeds;
 
 @property (nonatomic, assign) NSInteger ref;
 @property (nonatomic, retain) MKMapView *mapView;

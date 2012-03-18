@@ -24,7 +24,7 @@
 
 - (void)addFeedIndex:(NSInteger)index
 {
-	if( self.maxIndex > 0 && 0 <= index && index < self.maxIndex )
+	if( 0 <= index && index < self.maxIndex )
 		[_loadingQueue addObject:[NSNumber numberWithInt:index]];
 }
 

@@ -12,6 +12,8 @@
 
 @implementation FeedDetailWebView
 
+@synthesize loaded;
+
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController
 {
 	if( self = [super init] )
@@ -43,15 +45,16 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	if( [message isEqualToString:@"detail_finished"] )
+	if( [message isEqualToString:@"all_feed"] )
 	{
-//		[_detailViewController feedDetailDidFinishCreating:self];
+		[_detailViewController seeAllFeeds];
 	}
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[self clear];
+	self.loaded = YES;
 }
 
 #pragma mark - Javascript Function
@@ -59,6 +62,16 @@
 - (void)createFeedDetail:(FeedObject *)feedObj
 {
 	[self clear];
+	
+	// WebView 로딩이 덜됬으면 로딩이 완료될 때까지 기다린다.
+	// 로딩이 완료되면 loaded 프로퍼티가 YES로 변경되고,
+	// 변경을 감지하는 메서드에서 createFeedDetail을 다시 호출한다.
+	if( !self.loaded )
+	{
+		_feed = [feedObj retain];
+		[self addObserver:self forKeyPath:@"loaded" options:NSKeyValueObservingOptionNew context:nil];
+		return;
+	}
 	
 	NSString *func = [[NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.tripId,
@@ -71,14 +84,21 @@
 					   feedObj.region,
 					   feedObj.pictureURL,
 					   feedObj.review,
-					   @"feedObj.info",
+					   feedObj.info,
 					   feedObj.numAllFeeds,
 					   feedObj.numLikes] retain];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
-	[_detailViewController feedDetailDidFinishCreating:self];
-	
 //	NSLog( @"%@", func );
+	
+	[_detailViewController feedDetailDidFinishCreating:self];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	NSLog( @"loading finished!" );
+	[self createFeedDetail:_feed];
+	[_feed release];
 }
 
 @end

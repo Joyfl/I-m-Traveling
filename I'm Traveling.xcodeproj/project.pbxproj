@@ -135,6 +135,7 @@
 		03E76B591502990800DDDB20 /* postit_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B571502990800DDDB20 /* postit_empty.png */; };
 		03E76B5A1502990800DDDB20 /* postit_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03E76B581502990800DDDB20 /* postit_empty@2x.png */; };
 		03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E76B5C15029EE700DDDB20 /* InfoCell.m */; };
+		03EC1951151382ED00E99A2E /* SimpleFeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EC1950151382ED00E99A2E /* SimpleFeedListViewController.m */; };
 		03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F24B9E15105B4100B1CB85 /* TripAddViewController.m */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
@@ -316,6 +317,8 @@
 		03E76B581502990800DDDB20 /* postit_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "postit_empty@2x.png"; sourceTree = "<group>"; };
 		03E76B5B15029EE700DDDB20 /* InfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoCell.h; sourceTree = "<group>"; };
 		03E76B5C15029EE700DDDB20 /* InfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoCell.m; sourceTree = "<group>"; };
+		03EC194F151382ED00E99A2E /* SimpleFeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleFeedListViewController.h; sourceTree = "<group>"; };
+		03EC1950151382ED00E99A2E /* SimpleFeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleFeedListViewController.m; sourceTree = "<group>"; };
 		03F24B9D15105B4000B1CB85 /* TripAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripAddViewController.h; sourceTree = "<group>"; };
 		03F24B9E15105B4100B1CB85 /* TripAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripAddViewController.m; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
@@ -384,10 +387,12 @@
 				039B582C14D67B2400E5212C /* MapViewController.m */,
 				03FDD10D14D4534D006E453A /* FeedDetailViewController.h */,
 				03FDD10E14D4534D006E453A /* FeedDetailViewController.m */,
-				0382B806150E8BBA007CF106 /* Pin.h */,
-				0382B807150E8BBC007CF106 /* Pin.m */,
 				0371752A14EFE0B8006E8EE8 /* FeedDetailWebView.h */,
 				0371752B14EFE0B8006E8EE8 /* FeedDetailWebView.m */,
+				03EC194F151382ED00E99A2E /* SimpleFeedListViewController.h */,
+				03EC1950151382ED00E99A2E /* SimpleFeedListViewController.m */,
+				0382B806150E8BBA007CF106 /* Pin.h */,
+				0382B807150E8BBC007CF106 /* Pin.m */,
 				0300E72714D23E6B00611039 /* ShareViewController.h */,
 				0300E72814D23E6B00611039 /* ShareViewController.m */,
 				036B32B814FC114900C1BA70 /* TripListViewController.h */,
@@ -798,6 +803,7 @@
 				0382B808150E8BC1007CF106 /* Pin.m in Sources */,
 				03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */,
 				033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */,
+				03EC1951151382ED00E99A2E /* SimpleFeedListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
