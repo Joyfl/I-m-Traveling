@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "TripAddViewController.h"
 #import "ImTravelingNavigationController.h"
+#import "ImTravelingBarButtonItem.h"
 
 @interface TripListViewController()
 
@@ -26,11 +27,15 @@
 {
 	if( self = [super init] )
 	{
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
+		self.navigationItem.title = @"Select a trip";
 		
-		UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(addButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
+		
+		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
+		[addButton release];
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 416 );
 		
