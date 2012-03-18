@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "Place.h"
 #import "PlaceSelectionViewController.h"
+#import "ImTravelingBarButtonItem.h"
 
 
 @implementation PlaceAddViewController
@@ -22,12 +23,15 @@
 {
 	if( self = [super init] )
 	{
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.title = @"Add a place";
+		
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
 		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
-		
+		[doneButton release];
 		
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStyleGrouped];
 		_tableView.delegate = self;

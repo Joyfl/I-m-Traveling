@@ -11,6 +11,7 @@
 #import "TripObject.h"
 #import "TripListViewController.h"
 #import "Const.h"
+#import "ImTravelingBarButtonItem.h"
 
 @interface TripAddViewController()
 
@@ -27,11 +28,15 @@
 {
 	if( self = [super init] )
 	{
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
+		self.navigationItem.title = @"Start a new trip";
 		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
+		
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
+		[doneButton release];
 		
 		
 		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 10, 300, 31 )];
