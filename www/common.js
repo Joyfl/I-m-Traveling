@@ -62,7 +62,7 @@ function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피�
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
-function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, reviewLong, "음식점"); }
+function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
 function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 
@@ -164,8 +164,11 @@ function createArrow()
 	var marger = document.createElement("div");
 	marger.id = "marger";
 	document.body.insertBefore(marger, page);
+	var topArrow = makeClass("img", "topArrow", marger);
+	topArrow.src = "resource/topArrow.png";
+	topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2);
 	var shadower = document.createElement("div");
-	shadower.className = "softShadow";
+	//shadower.className = "softShadow";
 	shadower.id = "shadower";
 	document.body.insertBefore(shadower, page);
 }

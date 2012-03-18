@@ -33,7 +33,7 @@ function init()
 	//var temp2 = makeClass("li", "shadowText", temp);
 	
 	//t_fl();
-	//t_fd();
+	t_fd();
 	//t_cl();
 	//t_sf();
 	//t_st();
@@ -164,8 +164,11 @@ function createArrow()
 	var marger = document.createElement("div");
 	marger.id = "marger";
 	document.body.insertBefore(marger, page);
+	var topArrow = makeClass("img", "topArrow", marger);
+	topArrow.src = "resource/topArrow.png";
+	topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2);
 	var shadower = document.createElement("div");
-	shadower.className = "softShadow";
+	//shadower.className = "softShadow";
 	shadower.id = "shadower";
 	document.body.insertBefore(shadower, page);
 }
