@@ -164,9 +164,9 @@ function createArrow()
 	var marger = document.createElement("div");
 	marger.id = "marger";
 	document.body.insertBefore(marger, page);
-	var topArrow = makeClass("img", "topArrow", marger);
+	var topArrow = makeId("img", "topArrow", marger);
 	topArrow.src = "resource/topArrow.png";
-	topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2);
+	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 	var shadower = document.createElement("div");
 	//shadower.className = "softShadow";
 	shadower.id = "shadower";
@@ -534,9 +534,16 @@ function clear() {
 	var page = getId("page");
 	if(page) document.body.removeChild(page);
 	makeId("div", "page", document.body);
+	
+	var temp = getId("marger");
+	if(temp) document.body.removeChild(temp);
+	temp = getId("shadower");
+	if(temp) document.body.removeChild(temp);
+	
 	sf = new Array();
 	st = new Array();
 	pl = new Array();
+	cl = new Array();
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
