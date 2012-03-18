@@ -10,6 +10,6 @@
 
 @implementation Comment
 
-@synthesize userId, profileImgUrl, name, time, comment;
+@synthesize commentId, userId, profileImgUrl, name, time, comment;
 
 @end

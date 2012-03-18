@@ -85,7 +85,7 @@
 					   feedObj.region,
 					   feedObj.pictureURL,
 					   feedObj.review,
-					   feedObj.info/*@"[{\"item\":\"도미\",\"value\":5000,\"unit\":\"KRW\"}]"*/,
+					   /*feedObj.info*/@"[{\"item\":\"도미\",\"value\":5000,\"unit\":\"KRW\"}]",
 					   feedObj.numAllFeeds,
 					   feedObj.numLikes] retain];
 	
@@ -104,6 +104,7 @@
 					   comment.time,
 					   comment.comment];
 	[self stringByEvaluatingJavaScriptFromString:func];
+	[_detailViewController commentDidAdd:self];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

@@ -57,6 +57,7 @@
 - (void)activateWithFeedIndex:(NSInteger)index;
 - (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(float)offset;
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webview;
+- (void)commentDidAdd:(FeedDetailWebView *)webView;
 - (void)seeAllFeeds;
 
 @property (nonatomic, assign) NSInteger ref;

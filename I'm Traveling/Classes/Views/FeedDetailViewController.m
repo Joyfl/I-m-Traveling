@@ -13,6 +13,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "Pin.h"
 #import "SimpleFeedListViewController.h"
+#import "Comment.h"
 
 @interface FeedDetailViewController (Private)
 
@@ -262,45 +263,110 @@
 	}
 }
 
+- (void)prepareCommentsWithFeedIndex:(NSInteger)feedIndex
+{
+	if( 0 <= index && feedIndex < _feedDetailObjects.count )
+	{
+		FeedObject *feed = [_feedDetailObjects objectAtIndex:feedIndex];
+		
+		if( feed.numComments == 0 )
+			return;
+		
+		if( feed.comments.count == feed.numComments )
+		{
+			NSLog( @"add comments : %d", feedIndex );
+			[self addComments:feed.comments];
+		}
+		else
+		{
+			NSLog( @"load comments : %d", feedIndex );
+			[self loadComments:feed];
+		}
+	}
+}
+
+- (void)addComment:(Comment *)comment
+{
+	[self.centerWebView addComment:comment];
+}
+
+- (void)addComments:(NSArray *)comments
+{
+	for( Comment *comment in comments )
+	{
+		[self.centerWebView addComment:comment];
+	}
+}
+
+- (void)loadComments:(FeedObject *)feed
+{
+	NSLog( @"load comments url : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feed.feedId] );
+	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feed.feedId]];
+}
+
+
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSDictionary *feed = [Utils parseJSON:result];
-	if( [feed objectForKey:@"ERROR"] )
+	id json = [Utils parseJSON:result];
+	
+	// Feed Detail or ERROR
+	if( [json isKindOfClass:[NSDictionary class]] )
 	{
-		NSLog( @"ERROR! : %@", [feed objectForKey:@"ERROR"] );
-		return;
+		if( [json objectForKey:@"ERROR"] )
+		{
+			NSLog( @"ERROR! : %@", [json objectForKey:@"ERROR"] );
+			return;
+		}
+		
+		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex];
+		[self completeFeedObject:feedObject fromDictionary:json];
+		
+		// 첫 로딩
+		if( _feedObjectFromPrevView )
+		{
+			// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
+			[self.centerWebView clear];
+			[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+			[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
+			[self handleAllFeeds:[json objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
+			
+			[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
+			
+			[_loadingQueue addFeedIndex:_currentFeedIndex - 1];
+			[_loadingQueue addFeedIndex:_currentFeedIndex + 1];
+			
+			_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
+		}
+		else
+		{
+			[_feedDetailObjects replaceObjectAtIndex:_loadingQueue.firstIndex withObject:feedObject];
+			
+			[self createFeedDetail:feedObject atIndex:_loadingQueue.firstIndex];
+			
+			[_loadingQueue removeLoadedFeedFromLoadingQueue];
+		}
+		
+		[self loadFeedDetailFromLoadingQueue];
 	}
 	
-	FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex];
-	[self completeFeedObject:feedObject fromDictionary:feed];
-	NSLog( @"%@", result );
-	
-	// 첫 로딩
-	if( _feedObjectFromPrevView )
+	// Comment
+	else if( [json isKindOfClass:[NSArray class]] )
 	{
-		// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
-		[self.centerWebView clear];
-		[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
-		[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
-		[self handleAllFeeds:[feed objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
+		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
 		
-		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
-		
-		[_loadingQueue addFeedIndex:_currentFeedIndex - 1];
-		[_loadingQueue addFeedIndex:_currentFeedIndex + 1];
-		
-		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
+		for( NSDictionary *c in json )
+		{
+			Comment *comment = [[Comment alloc] init];
+			comment.commentId = [[c objectForKey:@"feed_comment_id"] integerValue];
+			comment.userId = [[c objectForKey:@"user_id"] integerValue];
+			comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
+			comment.name = [c objectForKey:@"name"];
+			comment.time = [c objectForKey:@"time"];
+			comment.comment = [c objectForKey:@"comment"];
+			[feed.comments addObject:comment];
+			[self addComment:comment];
+		}
 	}
-	else
-	{
-		[_feedDetailObjects replaceObjectAtIndex:_loadingQueue.firstIndex withObject:feedObject];
-		
-		[self createFeedDetail:feedObject atIndex:_loadingQueue.firstIndex];
-		
-		[_loadingQueue removeLoadedFeedFromLoadingQueue];
-	}
-	
-	[self loadFeedDetailFromLoadingQueue];
 }
 
 - (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed
@@ -618,6 +684,8 @@
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
+		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
+		
 		[self resizeContentHeight];
 		
 		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
@@ -645,6 +713,8 @@
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
+		
+		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
 		
 		[self resizeContentHeight];
 		
@@ -688,7 +758,10 @@
 	[self resizeWebViewHeight:webView];
 	
 	if( webView == self.centerWebView )
+	{
 		[self resizeContentHeight];
+		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
+	}
 	
 	if( ref == 0 )
 	{
@@ -702,6 +775,13 @@
 		// ref가 1일 경우의 애니메이션 (ref 0, 2의 애니메이션은 viewDidAppear에서)
 		[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 	}
+}
+
+- (void)commentDidAdd:(FeedDetailWebView *)webView
+{
+	// WebView 컨텐츠 리사이징
+	[self resizeWebViewHeight:webView];
+	[self resizeContentHeight];
 }
 
 - (void)seeAllFeeds

@@ -27,6 +27,7 @@
 	NSInteger numAllFeeds;
 	NSInteger numLikes;
 	NSInteger numComments;
+	NSMutableArray *comments;
 	
 	// 모든 내용이 채워져있는지 여부
 	BOOL complete;
@@ -48,6 +49,7 @@
 @property (nonatomic, assign) NSInteger numAllFeeds;
 @property (nonatomic, assign) NSInteger numLikes;
 @property (nonatomic, assign) NSInteger numComments;
+@property (nonatomic, retain) NSMutableArray *comments;
 
 @property (nonatomic, assign) BOOL complete;
 

@@ -9,6 +9,7 @@
 #import "UIWebViewController.h"
 #import "ImTravelingWebView.h"
 #import "FeedObject.h"
+#import "Comment.h"
 
 @class FeedDetailViewController;
 
@@ -22,6 +23,7 @@
 
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController;
 - (void)createFeedDetail:(FeedObject *)feedObj;
+- (void)addComment:(Comment *)comment;
 
 @property (nonatomic, assign) BOOL loaded;
 

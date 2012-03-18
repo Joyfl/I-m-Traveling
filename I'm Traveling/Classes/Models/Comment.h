@@ -10,6 +10,7 @@
 
 @interface Comment : NSObject
 {
+	NSInteger commentId;
 	NSInteger userId;
 	NSString *profileImgUrl;
 	NSString *name;
@@ -17,6 +18,7 @@
 	NSString *comment;
 }
 
+@property (nonatomic, assign) NSInteger commentId;
 @property (nonatomic, assign) NSInteger userId;
 @property (nonatomic, retain) NSString *profileImgUrl;
 @property (nonatomic, retain) NSString *name;
