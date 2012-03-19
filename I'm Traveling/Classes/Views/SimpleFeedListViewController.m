@@ -29,6 +29,19 @@
 {
 	if( self = [super init] )
 	{
+		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+		leftSpacer.width = 4;
+		
+		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		[backButton setBackgroundImage:[[UIImage imageNamed:@"button_back.png"] retain] forState:UIControlStateNormal];
+		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
+		[backButton addTarget:self action:@selector(backButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];		
+		
+		UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+		backBarButtonItem.style = UIBarButtonItemStyleBordered;
+		
+		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backBarButtonItem, nil];
+		
 		_ref = 0;
 		_feeds = [feeds retain];
 		_lastFeedIndex = lastFeedIndex;
@@ -50,6 +63,15 @@
 	}
 	
 	return self;
+}
+
+
+#pragma mark -
+#pragma mark Navigation Bar Selectors
+
+- (void)backButtonDidTouchUpInside
+{
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 
