@@ -241,8 +241,8 @@
 		0347F70615076B96006D9297 /* FeedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedObject.m; sourceTree = "<group>"; };
 		0347F70715076B96006D9297 /* Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Info.h; sourceTree = "<group>"; };
 		0347F70815076B96006D9297 /* Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Info.m; sourceTree = "<group>"; };
-		0347F70915076B96006D9297 /* LoadingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingQueue.h; sourceTree = "<group>"; };
-		0347F70A15076B96006D9297 /* LoadingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingQueue.m; sourceTree = "<group>"; };
+		0347F70915076B96006D9297 /* LoadingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingQueue.h; path = Models/LoadingQueue.h; sourceTree = "<group>"; };
+		0347F70A15076B96006D9297 /* LoadingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingQueue.m; path = Models/LoadingQueue.m; sourceTree = "<group>"; };
 		0347F70B15076B96006D9297 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
 		0347F70C15076B96006D9297 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		0347F70D15076B96006D9297 /* TripObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripObject.h; sourceTree = "<group>"; };
@@ -399,6 +399,8 @@
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
 				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
+				0347F70915076B96006D9297 /* LoadingQueue.h */,
+				0347F70A15076B96006D9297 /* LoadingQueue.m */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
 				03AD0FEF14DBCE0800D9573D /* SBJSON */,
@@ -573,8 +575,6 @@
 				0347F70615076B96006D9297 /* FeedObject.m */,
 				0347F70715076B96006D9297 /* Info.h */,
 				0347F70815076B96006D9297 /* Info.m */,
-				0347F70915076B96006D9297 /* LoadingQueue.h */,
-				0347F70A15076B96006D9297 /* LoadingQueue.m */,
 				0347F70B15076B96006D9297 /* Place.h */,
 				0347F70C15076B96006D9297 /* Place.m */,
 				0347F70D15076B96006D9297 /* TripObject.h */,

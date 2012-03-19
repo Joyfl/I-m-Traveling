@@ -18,8 +18,8 @@
 @property (nonatomic, readonly) NSInteger firstIndex;
 @property (nonatomic, assign) NSInteger maxIndex;
 
-- (void)addFeedIndex:(NSInteger)index;
-- (void)removeLoadedFeedFromLoadingQueue;
+- (void)addIndex:(NSInteger)index;
+- (void)removeLoadedFromLoadingQueue;
 - (void)removeAllObjects;
 
 @end

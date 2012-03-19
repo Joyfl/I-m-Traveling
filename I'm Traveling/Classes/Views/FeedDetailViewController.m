@@ -117,12 +117,13 @@
 			[_webViews addObject:detailWebView];
 		}
 		
-		_loadingQueue = [[LoadingQueue alloc] init];
+		_feedLoadingQueue = [[LoadingQueue alloc] init];
+		_commentLoadingQueue = [[LoadingQueue alloc] init];
 		
 		if( feeds )
 		{
 			_feedDetailObjects = [feeds retain];
-			_loadingQueue.maxIndex = _feedDetailObjects.count;
+			_feedLoadingQueue.maxIndex = _feedDetailObjects.count;
 		}
 		else
 		{
@@ -166,7 +167,7 @@
 	{
 		_feedObjectFromPrevView = feedObject;
 		[_feedDetailObjects removeAllObjects];
-		[_loadingQueue removeAllObjects];
+		[_feedLoadingQueue removeAllObjects];
 		[self preloadFeedDetail];
 	}
 }
@@ -251,7 +252,7 @@
 		else
 		{
 			NSLog( @"load : %d", index );
-			[_loadingQueue addFeedIndex:index];
+			[_feedLoadingQueue addIndex:index];
 			[self loadFeedDetailFromLoadingQueue];
 		}
 	}
@@ -275,9 +276,9 @@
 
 - (void)loadFeedDetailFromLoadingQueue
 {
-	if( _loadingQueue.count > 0 )
+	if( _feedLoadingQueue.count > 0 )
 	{
-		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex] feedId]]];
+		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex] feedId]]];
 	}
 }
 
@@ -293,33 +294,64 @@
 		if( feed.comments.count == feed.numComments )
 		{
 			NSLog( @"add comments : %d", feedIndex );
-			[self addComments:feed.comments];
+			[self addComments:feed.comments atIndex:feedIndex];
+			self.centerWebView.commentsLoaded = YES;
 		}
 		else
 		{
 			NSLog( @"load comments : %d", feedIndex );
-			[self loadComments:feed];
+			[_commentLoadingQueue addIndex:feedIndex];
+			[self loadCommentsFromLoadingQueue];
 		}
 	}
 }
 
-- (void)addComment:(Comment *)comment
+- (void)addComment:(Comment *)comment atIndex:(NSInteger)index
 {
-	[self.centerWebView addComment:comment];
-}
-
-- (void)addComments:(NSArray *)comments
-{
-	for( Comment *comment in comments )
+	if( index < _currentFeedIndex )
+	{
+		[self.leftWebView addComment:comment];
+	}
+	else if( _currentFeedIndex < index )
+	{
+		[self.rightWebView addComment:comment];
+	}
+	else
 	{
 		[self.centerWebView addComment:comment];
 	}
 }
 
-- (void)loadComments:(FeedObject *)feed
+- (void)addComments:(NSArray *)comments atIndex:(NSInteger)index
 {
-	NSLog( @"load comments url : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feed.feedId] );
-	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feed.feedId]];
+	FeedDetailWebView *webView;
+	
+	if( index < _currentFeedIndex )
+	{
+		webView = self.leftWebView;
+	}
+	else if( _currentFeedIndex < index )
+	{
+		webView = self.rightWebView;
+	}
+	else
+	{
+		webView = self.centerWebView;
+	}
+	
+	for( Comment *comment in comments )
+	{
+		[webView addComment:comment];
+	}
+}
+
+- (void)loadCommentsFromLoadingQueue
+{
+	if( _commentLoadingQueue.count > 0 )
+	{
+		NSInteger feedId = [[_feedDetailObjects objectAtIndex:_commentLoadingQueue.firstIndex] feedId];
+		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId]];
+	}
 }
 
 
@@ -336,7 +368,7 @@
 			return;
 		}
 		
-		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_loadingQueue.firstIndex];
+		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex];
 		[self completeFeedObject:feedObject fromDictionary:json];
 		
 		// 첫 로딩
@@ -352,18 +384,18 @@
 			
 			[self changeNavigationBarTitle];
 			
-			[_loadingQueue addFeedIndex:_currentFeedIndex - 1];
-			[_loadingQueue addFeedIndex:_currentFeedIndex + 1];
+			[_feedLoadingQueue addIndex:_currentFeedIndex - 1];
+			[_feedLoadingQueue addIndex:_currentFeedIndex + 1];
 			
 			_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
 		}
 		else
 		{
-			[_feedDetailObjects replaceObjectAtIndex:_loadingQueue.firstIndex withObject:feedObject];
+			[_feedDetailObjects replaceObjectAtIndex:_feedLoadingQueue.firstIndex withObject:feedObject];
 			
-			[self createFeedDetail:feedObject atIndex:_loadingQueue.firstIndex];
+			[self createFeedDetail:feedObject atIndex:_feedLoadingQueue.firstIndex];
 			
-			[_loadingQueue removeLoadedFeedFromLoadingQueue];
+			[_feedLoadingQueue removeLoadedFromLoadingQueue];
 		}
 		
 		[self loadFeedDetailFromLoadingQueue];
@@ -371,9 +403,9 @@
 	
 	// Comment
 	else if( [json isKindOfClass:[NSArray class]] )
-	{
+	{		
 		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
-		
+		NSLog( @"index : %d", _commentLoadingQueue.firstIndex );
 		for( NSDictionary *c in json )
 		{
 			Comment *comment = [[Comment alloc] init];
@@ -384,8 +416,10 @@
 			comment.time = [c objectForKey:@"time"];
 			comment.comment = [c objectForKey:@"comment"];
 			[feed.comments addObject:comment];
-			[self addComment:comment];
+			[self addComment:comment atIndex:_commentLoadingQueue.firstIndex];
 		}
+		
+		self.centerWebView.commentsLoaded = YES;
 	}
 }
 
@@ -416,7 +450,8 @@
 
 - (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId
 {
-	_loadingQueue.maxIndex = allFeeds.count;
+	_feedLoadingQueue.maxIndex = allFeeds.count;
+	_commentLoadingQueue.maxIndex = allFeeds.count;
 	
 	// 모든 피드들의 위치. 지도에 선 그릴 때 필요
 	CLLocationCoordinate2D coordinates[allFeeds.count];
@@ -706,8 +741,6 @@
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
 		
-		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
-		
 		[self resizeContentHeight];
 		
 		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
@@ -737,8 +770,6 @@
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
-		
-		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
 		
 		[self resizeContentHeight];
 		
@@ -791,20 +822,29 @@
 	if( webView == self.centerWebView )
 	{
 		[self resizeContentHeight];
+		
+		if( ref == 0 )
+		{
+			if( _animationFinished )
+				[self removeUpperAndLowerImages];
+			else
+				_loadingFinished = YES;
+		}
+		else if( ref == 1 )
+		{
+			// ref가 1일 경우의 애니메이션 (ref 0, 2의 애니메이션은 viewDidAppear에서)
+			[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
+		}
+		
 		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
 	}
-	
-	if( ref == 0 )
+	else if( webView == self.leftWebView )
 	{
-		if( _animationFinished )
-			[self removeUpperAndLowerImages];
-		else
-			_loadingFinished = YES;
+		[self prepareCommentsWithFeedIndex:_currentFeedIndex - 1];
 	}
-	else if( ref == 1 )
+	else if( webView == self.rightWebView )
 	{
-		// ref가 1일 경우의 애니메이션 (ref 0, 2의 애니메이션은 viewDidAppear에서)
-		[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
+		[self prepareCommentsWithFeedIndex:_currentFeedIndex + 1];
 	}
 }
 

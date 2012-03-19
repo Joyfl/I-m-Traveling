@@ -22,13 +22,13 @@
 	return self;
 }
 
-- (void)addFeedIndex:(NSInteger)index
+- (void)addIndex:(NSInteger)index
 {
 	if( 0 <= index && index < self.maxIndex )
 		[_loadingQueue addObject:[NSNumber numberWithInt:index]];
 }
 
-- (void)removeLoadedFeedFromLoadingQueue
+- (void)removeLoadedFromLoadingQueue
 {
 	if( _loadingQueue.count > 0 )
 		[_loadingQueue removeObjectAtIndex:0];
