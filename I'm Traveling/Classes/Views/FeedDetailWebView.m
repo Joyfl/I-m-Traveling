@@ -10,6 +10,7 @@
 #import "FeedDetailViewController.h"
 #import "Const.h"
 #import "Comment.h"
+#import "Utils.h"
 
 @implementation FeedDetailWebView
 
@@ -85,7 +86,7 @@
 					   feedObj.region,
 					   feedObj.pictureURL,
 					   feedObj.review,
-					   /*feedObj.info*/@"[{\"item\":\"도미\",\"value\":5000,\"unit\":\"KRW\"}]",
+					   [Utils writeJSON:feedObj.info],
 					   feedObj.numAllFeeds,
 					   feedObj.numLikes] retain];
 	
