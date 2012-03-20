@@ -23,6 +23,7 @@
 
 - (id)initWithFeedDetailViewController:(FeedDetailViewController *)detailViewController;
 - (void)createFeedDetail:(FeedObject *)feedObj;
+- (void)clearComments;
 - (void)addComment:(Comment *)comment;
 
 @property (nonatomic, assign) BOOL loaded;

@@ -93,8 +93,13 @@
 	[self stringByEvaluatingJavaScriptFromString:func];
 //	NSLog( @"%@", func );
 //	[_detailViewController feedDetailDidFinishCreating:self];
-	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];
-	
+	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];	
+}
+
+- (void)clearComments
+{
+	NSLog( @"clear comments" );
+	[self stringByEvaluatingJavaScriptFromString:@"(function() { var comments = getClass( 'commentWrap' ); var page = getId( 'page' ); for( var i = comments.length - 1; i >= 0; i-- ) page.removeChild( comments[i] ); } )();"];
 }
 
 - (void)addComment:(Comment *)comment

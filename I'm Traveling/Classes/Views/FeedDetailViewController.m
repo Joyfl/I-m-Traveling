@@ -291,11 +291,12 @@
 		if( feed.numComments == 0 )
 			return;
 		
+		NSLog( @"Prepare comment index : %d (num : %d)", feedIndex, feed.numComments );
+		
 		if( feed.comments.count == feed.numComments )
 		{
 			NSLog( @"add comments : %d", feedIndex );
 			[self addComments:feed.comments atIndex:feedIndex];
-			self.centerWebView.commentsLoaded = YES;
 		}
 		else
 		{
@@ -306,7 +307,7 @@
 	}
 }
 
-- (void)addComment:(Comment *)comment atIndex:(NSInteger)index
+/*- (void)addComment:(Comment *)comment atIndex:(NSInteger)index
 {
 	if( index < _currentFeedIndex )
 	{
@@ -320,36 +321,36 @@
 	{
 		[self.centerWebView addComment:comment];
 	}
-}
+}*/
 
 - (void)addComments:(NSArray *)comments atIndex:(NSInteger)index
 {
 	FeedDetailWebView *webView;
 	
 	if( index < _currentFeedIndex )
-	{
 		webView = self.leftWebView;
-	}
+	
 	else if( _currentFeedIndex < index )
-	{
 		webView = self.rightWebView;
-	}
+	
 	else
-	{
 		webView = self.centerWebView;
-	}
+	
+	[webView clearComments];
 	
 	for( Comment *comment in comments )
-	{
 		[webView addComment:comment];
-	}
+	
+	NSLog( @"comments were added : %d", index );
 }
 
 - (void)loadCommentsFromLoadingQueue
 {
 	if( _commentLoadingQueue.count > 0 )
 	{
+		NSLog( @"%d", _commentLoadingQueue.firstIndex );
 		NSInteger feedId = [[_feedDetailObjects objectAtIndex:_commentLoadingQueue.firstIndex] feedId];
+		NSLog( @"load comments from queue : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] );
 		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId]];
 	}
 }
@@ -403,9 +404,10 @@
 	
 	// Comment
 	else if( [json isKindOfClass:[NSArray class]] )
-	{		
+	{
+		NSLog( @"comments in json : %@", json );
 		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
-		NSLog( @"index : %d", _commentLoadingQueue.firstIndex );
+		
 		for( NSDictionary *c in json )
 		{
 			Comment *comment = [[Comment alloc] init];
@@ -416,10 +418,11 @@
 			comment.time = [c objectForKey:@"time"];
 			comment.comment = [c objectForKey:@"comment"];
 			[feed.comments addObject:comment];
-			[self addComment:comment atIndex:_commentLoadingQueue.firstIndex];
+//			[self addComment:comment atIndex:_commentLoadingQueue.firstIndex];
 		}
 		
-		self.centerWebView.commentsLoaded = YES;
+		[self addComments:feed.comments atIndex:_commentLoadingQueue.firstIndex];
+		[_commentLoadingQueue removeLoadedFromLoadingQueue];
 	}
 }
 
@@ -430,6 +433,7 @@
 	feedObject.review = [feed objectForKey:@"review"];
 	feedObject.numAllFeeds = [[feed objectForKey:@"all_feeds"] count];
 	feedObject.info = [feed objectForKey:@"info"];
+	feedObject.comments = [[NSMutableArray alloc] init];
 	
 	// ref가이 1, 2일 경우에 공통적으로 해당
 	if( !feedObject.userId ) feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
