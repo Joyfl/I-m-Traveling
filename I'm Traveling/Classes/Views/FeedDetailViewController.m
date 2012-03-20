@@ -130,7 +130,12 @@
 			_feedDetailObjects = [[NSMutableArray alloc] init];
 		}
 		
-		_commentBar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_bar.png"]];
+		
+		_commentBar = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 40 )];
+		
+		UIImageView *commentBarBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_bar.png"]];
+		[_commentBar addSubview:commentBarBackground];
+		[commentBarBackground release];
 		
 		UIImageView *commentInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_input.png"]];
 		commentInputBackground.frame = CGRectMake( 7, 5, 235, 31 );
@@ -142,11 +147,18 @@
 		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[_commentBar addSubview:_commentInput];
 		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+		
 		UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
 		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
 		[sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
 		[_commentBar addSubview:sendButton];
+		
+		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
+		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
+		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
     }
 	
     return self;
@@ -796,6 +808,40 @@
 	[_mapView removeOverlays:_mapView.overlays];
 }
 
+- (void)keyboardHideButtonDidTouchUpInside
+{
+	[_commentInput resignFirstResponder];
+}
+
+
+#pragma mark -
+#pragma mark Keyboard
+
+- (void)keyboardDidShow
+{
+	[self.view addSubview:_keyboardHideButton];
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	_scrollView.frame = CGRectMake( 0, 0, 320, 200 );
+	[UIView commitAnimations];
+	
+	[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - 216 + 10 ) animated:YES];
+}
+
+- (void)keyboardWillHide
+{
+	[_keyboardHideButton removeFromSuperview];
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	_scrollView.frame = CGRectMake( 0, 0, 320, 367 );
+	[UIView commitAnimations];
+}
+
+
 #pragma mark -
 #pragma mark From FeedDetailWebView
 
@@ -812,6 +858,7 @@
 	
 	[_commentBar removeFromSuperview];
 	[_scrollView addSubview:_commentBar];
+	
 	CGRect frame = _commentBar.frame;
 	frame.origin.y = self.centerWebView.frame.size.height + wtfSpace;
 	_commentBar.frame = frame;
