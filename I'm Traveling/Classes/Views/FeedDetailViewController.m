@@ -143,18 +143,21 @@
 		[commentInputBackground release];
 		
 		_commentInput = [[UITextField alloc] initWithFrame:CGRectMake( 17, 9, 220, 23 )];
+		_commentInput.delegate = self;
 		_commentInput.placeholder = @"Leave a comment";
 		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
+		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentBar addSubview:_commentInput];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 		
-		UIButton *sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
-		sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-		[sendButton setTitle:@"Send" forState:UIControlStateNormal];
-		[sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
-		[_commentBar addSubview:sendButton];
+		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
+		_sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+		[_sendButton setTitle:@"Send" forState:UIControlStateNormal];
+		[_sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
+		[_sendButton addTarget:self action:@selector(sendButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_commentBar addSubview:_sendButton];
 		
 		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
 		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
@@ -370,6 +373,7 @@
 
 - (void)loadingDidFinish:(NSString *)result
 {
+	NSLog( @"res : %@", result );
 	id json = [Utils parseJSON:result];
 	
 	// Feed Detail or ERROR
@@ -378,6 +382,26 @@
 		if( [json objectForKey:@"ERROR"] )
 		{
 			NSLog( @"ERROR! : %@", [json objectForKey:@"ERROR"] );
+			return;
+		}
+		
+		// 댓글 등록 완료
+		if( [json objectForKey:@"RESULT"] )
+		{
+			Comment *comment = [[Comment alloc] init];
+			comment.commentId = [[json objectForKey:@"RESULT"] integerValue];
+			comment.userId = [Utils userId];
+			comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
+#warning name!!!!
+			comment.name = @"전수열";
+			comment.time = [Utils dateStringForUpload:[NSDate date]];
+			comment.comment = _commentInput.text;
+			[self.centerWebView addComment:comment];
+			
+			_commentInput.text = @"";
+			_commentInput.enabled = YES;
+			_sendButton.enabled = YES;
+			
 			return;
 		}
 		
@@ -813,6 +837,21 @@
 	[_commentInput resignFirstResponder];
 }
 
+- (void)sendButtonDidTouchUpInside
+{
+	_commentInput.enabled = NO;
+	_sendButton.enabled = NO;
+	
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
+	[data setObject:[Utils email] forKey:@"email"];
+	[data setObject:[Utils password] forKey:@"password"];
+	[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
+	[data setObject:_commentInput.text forKey:@"comment"];
+	[data setObject:@"1" forKey:@"type"];
+	[self loadURL:[NSString stringWithFormat:@"%@", API_FEED_COMMENT] withData:data];
+}
+
 
 #pragma mark -
 #pragma mark Keyboard
@@ -910,6 +949,17 @@
 {
 	SimpleFeedListViewController *simpleFeedListViewController = [[SimpleFeedListViewController alloc] initFromFeedDetailViewControllerFeeds:_feedDetailObjects lastFeedIndex:_currentFeedIndex];
 	[self.navigationController pushViewController:simpleFeedListViewController animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[self sendButtonDidTouchUpInside];
+	
+	return NO;
 }
 
 

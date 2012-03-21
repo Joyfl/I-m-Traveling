@@ -12,7 +12,7 @@
 #import "LoadingQueue.h"
 #import <MapKit/MapKit.h>
 
-@interface FeedDetailViewController : ImTravelingViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate>
+@interface FeedDetailViewController : ImTravelingViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate>
 {
 	// 0 : From List
 	// 1 : From Map
@@ -45,6 +45,7 @@
 	
 	UIView *_commentBar;
 	UITextField *_commentInput;
+	UIButton *_sendButton;
 	UIButton *_keyboardHideButton;
 	
 	// 로드된 적이 있는지 (viewDidAppear는 다른 탭으로 전환했다가 다시 돌아와도 호출되기 때문에 중복 로드 방지)
