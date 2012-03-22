@@ -116,9 +116,10 @@
 	
 	id json = [Utils parseJSON:result];
 	
+	// trip이 없을 경우
 	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
 	{
-		[[[UIAlertView alloc] initWithTitle:@"ERROR" message:@"No Trips! You have to make a trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+		[[[UIAlertView alloc] initWithTitle:@"No Trips!" message:@"There are no trips! You have to start a new trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 		return;
 	}
 	
