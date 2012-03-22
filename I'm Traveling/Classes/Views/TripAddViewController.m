@@ -42,9 +42,10 @@
 		[self.view addSubview:titleInputBackground];
 		[titleInputBackground release];
 		
-		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 13, 300, 31 )];
+		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 13, 300, 31 )];
 		_titleInput.placeholder = @"Trip Title";
 		_titleInput.backgroundColor = [UIColor clearColor];
+		_titleInput.font = [UIFont boldSystemFontOfSize:15];
 		[_titleInput becomeFirstResponder];
 		[self.view addSubview:_titleInput];
 		
@@ -56,6 +57,7 @@
 		_summaryInput = [[UITextView alloc] initWithFrame:CGRectMake( 10, 90, 300, 62 )];
 		_summaryInput.editable = YES;
 		_summaryInput.backgroundColor = [UIColor clearColor];
+		_summaryInput.font = [UIFont systemFontOfSize:14];
 		[self.view addSubview:_summaryInput];
 	}
 	
