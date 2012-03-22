@@ -23,7 +23,7 @@
 {
 	if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor whiteColor];
+		self.view.backgroundColor = [UIColor colorWithRed:0.97 green:0.88 blue:0.80 alpha:1.0];
 		
 		self.navigationItem.title = @"Select a date";
 		
