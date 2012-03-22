@@ -38,39 +38,25 @@
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
+		UIImageView *titleInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"trip_add_title_bg.png"]];
+		[self.view addSubview:titleInputBackground];
+		[titleInputBackground release];
 		
-		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 10, 300, 31 )];
-		_titleInput.borderStyle = UITextBorderStyleRoundedRect;
+		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 13, 300, 31 )];
 		_titleInput.placeholder = @"Trip Title";
+		_titleInput.backgroundColor = [UIColor clearColor];
 		[_titleInput becomeFirstResponder];
 		[self.view addSubview:_titleInput];
 		
-		_startDateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		_startDateButton.frame = CGRectMake( 10, 50, 145, 31 );
-		[_startDateButton setTitle:[Utils dateWithDate:[NSDate date]] forState:UIControlStateNormal];
-		[_startDateButton addTarget:self action:@selector(startDateButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:_startDateButton];
-		
-//		UILabel *label = [[UILabel alloc] init];
-		
-		_endDateButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		_endDateButton.frame = CGRectMake( 165, 50, 145, 31 );
-		[_endDateButton setTitle:[Utils dateWithDate:[NSDate date]] forState:UIControlStateNormal];
-		[_endDateButton addTarget:self action:@selector(endDateButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:_endDateButton];
-		
-		UIButton *borderButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		borderButton.frame = CGRectMake( 10, 90, 300, 62 );
-		borderButton.enabled = NO;
-		[self.view addSubview:borderButton];
+		UIImageView *summaryInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"trip_add_summary_bg.png"]];
+		summaryInputBackground.frame = CGRectMake( 0, 50, summaryInputBackground.frame.size.width, summaryInputBackground.frame.size.height );
+		[self.view addSubview:summaryInputBackground];
+		[summaryInputBackground release];
 		
 		_summaryInput = [[UITextView alloc] initWithFrame:CGRectMake( 10, 90, 300, 62 )];
 		_summaryInput.editable = YES;
 		_summaryInput.backgroundColor = [UIColor clearColor];
 		[self.view addSubview:_summaryInput];
-		
-		_startDate = [[NSDate alloc] init];
-		_endDate = [[NSDate alloc] init];
 	}
 	
 	return self;
@@ -92,8 +78,6 @@
 	[data setObject:[Utils email] forKey:@"email"];
 	[data setObject:[Utils password] forKey:@"password"];
 	[data setObject:_titleInput.text forKey:@"trip_title"];
-	[data setObject:[Utils dateStringForUpload:_startDate] forKey:@"start_date"];
-	[data setObject:[Utils dateStringForUpload:_endDate] forKey:@"end_date"];
 	[data setObject:_summaryInput.text forKey:@"summary"];
 	[self loadURL:API_TRIP_ADD withData:data];
 }
@@ -118,53 +102,6 @@
 	}
 	
 	[self dismissModalViewControllerAnimated:YES];
-}
-
-
-#pragma mark -
-#pragma mark Selectors
-
-- (void)startDateButtonDidTouchUpInside
-{
-	_currentPickerCaller = _startDateButton;
-	[self showPickerWithDate:_startDate];
-}
-
-- (void)endDateButtonDidTouchUpInside
-{
-	_currentPickerCaller = _endDateButton;
-	[self showPickerWithDate:_endDate];
-}
-
-- (void)pickerValueChanged:(id)picker
-{
-	if( _currentPickerCaller == _startDateButton )
-		_startDate = [picker date];
-	
-	else if( _currentPickerCaller == _endDateButton )
-		_endDate = [picker date];
-	
-	else
-		return;
-	
-	[_currentPickerCaller setTitle:[Utils dateWithDate:[picker date]] forState:UIControlStateNormal];
-}
-
-
-#pragma mark -
-#pragma mark Utils
-
-- (void)showPickerWithDate:(NSDate *)date
-{
-	[_titleInput resignFirstResponder];
-	[_summaryInput resignFirstResponder];
-	
-	UIDatePicker *picker = [[UIDatePicker alloc] initWithFrame:CGRectMake( 0, 200, 320, 214 )];
-	picker.datePickerMode = UIDatePickerModeDate;
-	picker.date = date;
-	[picker addTarget:self action:@selector(pickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-	[self.view addSubview:picker];
-	[picker release];
 }
 
 @end

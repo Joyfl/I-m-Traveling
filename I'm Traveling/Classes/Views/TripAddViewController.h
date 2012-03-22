@@ -15,14 +15,7 @@
 	TripListViewController *tripListViewController;
 	
 	UITextField *_titleInput;
-	UIButton *_startDateButton;
-	UIButton *_endDateButton;
 	UITextView *_summaryInput;
-	
-	NSDate *_startDate;
-	NSDate *_endDate;
-	
-	UIButton *_currentPickerCaller;
 }
 
 @property (nonatomic, retain) TripListViewController *tripListViewController;
