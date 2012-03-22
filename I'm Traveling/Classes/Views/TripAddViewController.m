@@ -34,7 +34,7 @@
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Done" target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
