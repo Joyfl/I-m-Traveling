@@ -33,11 +33,34 @@
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 440 ) style:UITableViewStyleGrouped];
-		_tableView.delegate = self;
-		_tableView.dataSource = self;
-		_tableView.scrollEnabled = NO;
-		[self.view addSubview:_tableView];
+		
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 100 )];
+		_mapView.layer.cornerRadius = 8;
+		_mapView.userTrackingMode = MKUserTrackingModeFollow;
+		[self.view addSubview:_mapView];
+		
+		UIImageView *nameInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"place_add_name_bg.png"]];
+		nameInputBackground.frame = CGRectMake( 0, 100, 320, 50 );
+		[self.view addSubview:nameInputBackground];
+		[nameInputBackground release];
+		
+		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 112, 282, 31 )];
+		_nameInput.placeholder = @"Place name";
+		_nameInput.font = [UIFont boldSystemFontOfSize:15];
+		[_nameInput becomeFirstResponder];
+		[self.view addSubview:_nameInput];
+		
+		UIButton *categoryButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 150, 320, 50 )];
+		[categoryButton setBackgroundImage:[UIImage imageNamed:@"place_add_category_bg.png"] forState:UIControlStateNormal];
+		[categoryButton addTarget:self action:@selector(categoryButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:categoryButton];
+		
+		_categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 10, 282, 31 )];
+		_categoryLabel.backgroundColor = [UIColor clearColor];
+		_categoryLabel.font = [UIFont boldSystemFontOfSize:15];
+		_categoryLabel.text = @"0";
+		[categoryButton addSubview:_categoryLabel];
+		[categoryButton release];
 		
 		_picker = [[UIPickerView alloc] initWithFrame:CGRectMake( 0, 200, 320, 250 )];
 		_picker.delegate = self;
@@ -67,67 +90,17 @@
 	[data setObject:_nameInput.text forKey:@"place_name"];
 	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.latitude] forKey:@"latitude"];
 	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
-	[data setObject:_categoryCell.textLabel.text forKey:@"category"];
+	[data setObject:_categoryLabel.text forKey:@"category"];
 	[self loadURL:API_PLACE_ADD withData:data];
 }
 
 
 #pragma mark -
-#pragma mark UITableViewDelegate, UITableViewDataSource
+#pragma mark Selectors
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (void)categoryButtonDidTouchUpInside
 {
-	return 2;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	if( section == 0 ) return 1;
-	else if( section == 1 ) return 2;
-	return 0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if( indexPath.section == 0 ) return 70;
-	return 44;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	if( indexPath.section == 0 )
-	{
-		_mapView = [[MKMapView alloc] init];
-		_mapView.layer.cornerRadius = 8;
-		_mapView.userTrackingMode = MKUserTrackingModeFollow;
-		
-		cell.backgroundView = _mapView;
-	}
-	else if( indexPath.row == 0 )
-	{
-		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 10, 282, 30 )];
-		_nameInput.placeholder = @"Place name";
-		[_nameInput becomeFirstResponder];
-		[cell addSubview:_nameInput];
-	}
-	else
-	{
-		cell.textLabel.text = @"0";
-		_categoryCell = cell;
-	}
-	
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if( indexPath.row == 1 )
-	{
-		[_nameInput resignFirstResponder];
-	}
+	[_nameInput resignFirstResponder];
 }
 
 
@@ -151,7 +124,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	_categoryCell.textLabel.text = [NSString stringWithFormat:@"%d", row];
+	_categoryLabel.text = [NSString stringWithFormat:@"%d", row];
 }
 
 

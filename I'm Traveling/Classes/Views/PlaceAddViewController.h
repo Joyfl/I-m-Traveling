@@ -11,14 +11,13 @@
 
 @class PlaceSelectionViewController;
 
-@interface PlaceAddViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface PlaceAddViewController : ImTravelingViewController <MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 {
 	PlaceSelectionViewController *placeSelectionViewController;
 	
-	UITableView *_tableView;
 	MKMapView *_mapView;
 	UITextField *_nameInput;
-	UITableViewCell *_categoryCell;
+	UILabel *_categoryLabel;
 	UIPickerView *_picker;
 }
 
