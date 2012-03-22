@@ -37,7 +37,7 @@
 	BOOL _saveToLocal;
 	
 	id _currentFirstResponder;
-	UIButton *_dismissKeyboardButton;
+	UIButton *_keyboardHideButton;
 }
 
 - (id)initWithImage:(UIImage *)image;
