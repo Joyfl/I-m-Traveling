@@ -73,9 +73,9 @@ enum {
 		selectedDate = [[NSDate alloc] init];
 		selectedTime = [[NSDate alloc] init];
 		
-		_dismissKeyboardButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		_dismissKeyboardButton.frame = CGRectMake( 320-80-10, 416-216-37+10, 80, 37 );
-		[_dismissKeyboardButton addTarget:self action:@selector(dismissKeyboardButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
+		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
+		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
@@ -277,7 +277,7 @@ enum {
 			_dateButtonLabel.font = [UIFont boldSystemFontOfSize:36];
 			_dateButtonLabel.textColor = [UIColor colorWithRed:0.90 green:0.77 blue:0.66 alpha:1.0];
 			_dateButtonLabel.textAlignment = UITextAlignmentCenter;
-			_dateButtonLabel.text = [Utils onlyDateWithDate:[NSDate date]];
+			_dateButtonLabel.text = [Utils onlyDateWithDate:selectedDate];
 			_dateButtonLabel.backgroundColor = [UIColor clearColor];
 			_dateButtonLabel.shadowColor = [UIColor whiteColor];
 			_dateButtonLabel.shadowOffset = CGSizeMake( 0, 0.3 );
@@ -529,12 +529,12 @@ enum {
 
 - (void)keyboardDidShow
 {
-	[self.view addSubview:_dismissKeyboardButton];
+	[self.view addSubview:_keyboardHideButton];
 }
 
 - (void)keyboardWillHide
 {
-	[_dismissKeyboardButton removeFromSuperview];
+	[_keyboardHideButton removeFromSuperview];
 	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
@@ -543,7 +543,7 @@ enum {
 	[UIView commitAnimations];
 }
 
-- (void)dismissKeyboardButtonDidTouchUpInside
+- (void)keyboardHideButtonDidTouchUpInside
 {
 	if( _currentFirstResponder != nil )
 	{
