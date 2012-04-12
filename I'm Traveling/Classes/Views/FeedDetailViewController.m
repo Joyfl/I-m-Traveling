@@ -15,6 +15,10 @@
 #import "SimpleFeedListViewController.h"
 #import "Comment.h"
 
+#define MAP_HEIGHT	736
+#define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
+#define WEBVIEW_Y	70
+
 @interface FeedDetailViewController (Private)
 
 - (void)preloadFeedDetail;
@@ -44,8 +48,6 @@
 
 @synthesize ref, mapView=_mapView, loaded, originalRegion;
 
-#define MAP_HEIGHT	736
-#define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
 
 // Feed List에서 Detail로 넘어올 때 로딩과정에서 생기는 부자연스러움을 없애기 위해 미리 생성 후 로드한다.
 + (FeedDetailViewController *)viewController
@@ -113,7 +115,7 @@
 		for( int i = 0; i < 3; i++ )
 		{
 			FeedDetailWebView *detailWebView = [[FeedDetailWebView alloc] initWithFeedDetailViewController:self];
-			detailWebView.frame = CGRectMake( i * 320 - 320, 100, 320, detailWebView.frame.size.height );
+			detailWebView.frame = CGRectMake( i * 320 - 320, WEBVIEW_Y, 320, detailWebView.frame.size.height );
 			[_webViews addObject:detailWebView];
 		}
 		
@@ -632,7 +634,7 @@
 {
 	if( self.ref == 0 )
 	{
-		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
+		self.centerWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, 367 );
 		
 		[self performSelector:@selector(animationDidFinish) withObject:nil afterDelay:0.5];
 		
@@ -643,7 +645,7 @@
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
 		_upperImageView.frame = CGRectMake( 0, -_upperImageView.frame.size.height, 320, _upperImageView.frame.size.height );
-		_lowerImageView.frame = CGRectMake( 0, 100, 320, _lowerImageView.frame.size.height );
+		_lowerImageView.frame = CGRectMake( 0, 90, 320, _lowerImageView.frame.size.height );
 		[UIView commitAnimations];
 	}
 	else if( self.ref == 1 )
@@ -656,7 +658,7 @@
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
-		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
+		self.centerWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, 367 );
 		[UIView commitAnimations];
 	}
 	else
@@ -665,7 +667,7 @@
 		[_scrollView addSubview:self.centerWebView];
 		[_scrollView addSubview:self.rightWebView];
 		
-		self.centerWebView.frame = CGRectMake( 0, 100, 320, 367 );
+		self.centerWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, 367 );
 	}
 }
 
@@ -769,8 +771,8 @@
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
-		self.leftWebView.frame = CGRectMake( 0, 100, 320, self.leftWebView.frame.size.height );
-		self.centerWebView.frame = CGRectMake( 320, 100, 320, self.centerWebView.frame.size.height );
+		self.leftWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, self.leftWebView.frame.size.height );
+		self.centerWebView.frame = CGRectMake( 320, WEBVIEW_Y, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
 		
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
@@ -783,7 +785,7 @@
 		
 		[self resizeContentHeight];
 		
-		self.leftWebView.frame = CGRectMake( -320, 100, 320, self.leftWebView.frame.size.height );
+		self.leftWebView.frame = CGRectMake( -320, WEBVIEW_Y, 320, self.leftWebView.frame.size.height );
 		
 		// 왼쪽 피드 로드
 		[self prepareFeedDetailWithIndex:_currentFeedIndex - 1];
@@ -799,8 +801,8 @@
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
-		self.rightWebView.frame = CGRectMake( 0, 100, 320, self.rightWebView.frame.size.height );
-		self.centerWebView.frame = CGRectMake( -320, 100, 320, self.centerWebView.frame.size.height );
+		self.rightWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, self.rightWebView.frame.size.height );
+		self.centerWebView.frame = CGRectMake( -320, WEBVIEW_Y, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
 		
 		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
@@ -813,7 +815,7 @@
 		
 		[self resizeContentHeight];
 		
-		self.rightWebView.frame = CGRectMake( 320, 100, 320, self.rightWebView.frame.size.height );
+		self.rightWebView.frame = CGRectMake( 320, WEBVIEW_Y, 320, self.rightWebView.frame.size.height );
 		
 		// 오른쪽 피드 로드
 		[self prepareFeedDetailWithIndex:_currentFeedIndex + 1];
@@ -893,7 +895,8 @@
 
 - (void)resizeContentHeight
 {
-	NSInteger wtfSpace = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] numComments] ? 100 : 96;
+	// 왜 공간이 생기는지 모르겠음.
+	NSInteger wtfSpace = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] numComments] ? WEBVIEW_Y : WEBVIEW_Y - 4;
 	
 	[_commentBar removeFromSuperview];
 	[_scrollView addSubview:_commentBar];
