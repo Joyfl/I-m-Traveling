@@ -75,7 +75,7 @@
 		return;
 	}
 	
-	NSString *func = [[NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *func = [NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   feedObj.tripId,
 					   feedObj.feedId,
 					   feedObj.userId,
@@ -88,11 +88,9 @@
 					   feedObj.review,
 					   [Utils writeJSON:feedObj.info],
 					   feedObj.numAllFeeds,
-					   feedObj.numLikes] retain];
+					   feedObj.numLikes];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
-//	NSLog( @"%@", func );
-//	[_detailViewController feedDetailDidFinishCreating:self];
 	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];	
 }
 

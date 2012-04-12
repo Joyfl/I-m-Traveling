@@ -91,6 +91,8 @@
 	placeAddViewController.placeSelectionViewController = self;
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:placeAddViewController];
 	[self presentModalViewController:navigationController animated:YES];
+	[placeAddViewController release];
+	[navigationController release];
 }
 
 
@@ -140,6 +142,8 @@
 		
 		[_places setObject:place forKey:[NSNumber numberWithInteger:place.placeId]];
 		[self addPlace:place];
+		
+		[place release];
 	}
 }
 

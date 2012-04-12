@@ -33,14 +33,17 @@
 		leftSpacer.width = 4;
 		
 		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"button_back.png"] retain] forState:UIControlStateNormal];
+		[backButton setBackgroundImage:[UIImage imageNamed:@"button_back.png"] forState:UIControlStateNormal];
 		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
 		[backButton addTarget:self action:@selector(backButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];		
 		
 		UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
 		backBarButtonItem.style = UIBarButtonItemStyleBordered;
+		[backButton release];
 		
-		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backBarButtonItem, nil];
+		self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:leftSpacer, backBarButtonItem, nil];
+		[leftSpacer release];
+		[backBarButtonItem release];
 		
 		_ref = 0;
 		_feeds = [feeds retain];
@@ -107,6 +110,7 @@
 		feedDetailViewController.ref = 2;
 		[feedDetailViewController activateWithFeedIndex:i];
 		[self.navigationController pushViewController:feedDetailViewController animated:YES];
+		[feedDetailViewController release];
 	}
 }
 

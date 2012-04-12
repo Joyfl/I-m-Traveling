@@ -37,6 +37,7 @@
 		UIImageView *postIt = [[UIImageView alloc] initWithFrame:CGRectMake( 40, 6, 260, 68 )];
 		postIt.image = [UIImage imageNamed:@"postit.png"];
 		[self addSubview:postIt];
+		[postIt release];
 		
 		// Item
 		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 13, 50, 20 )];
@@ -77,7 +78,7 @@
 
 - (UILabel *)createInfoLabelWithText:(NSString *)text andFrame:(CGRect)frame
 {
-	UILabel *infoLabel = [[UILabel alloc] initWithFrame:frame];
+	UILabel *infoLabel = [[[UILabel alloc] initWithFrame:frame] autorelease];
 	infoLabel.text = text;
 	infoLabel.backgroundColor = [UIColor clearColor];
 	infoLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -88,7 +89,7 @@
 
 - (UITextField *)createInfoInputWithPlaceholder:(NSString *)placeholder row:(NSInteger)row andFrame:(CGRect)frame;
 {
-	UITextField *infoInput = [[UITextField alloc] initWithFrame:frame];
+	UITextField *infoInput = [[[UITextField alloc] initWithFrame:frame] autorelease];
 	infoInput.placeholder = placeholder;
 	infoInput.tag = row; // tag에 indexPath.row를 저장시켜놓고, textDidBeginEditting에서 그 row에 해당하는 cell의 y좌표로 이동시킨다.
 	infoInput.font = [UIFont systemFontOfSize:14];

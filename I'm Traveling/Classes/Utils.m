@@ -40,19 +40,19 @@
 + (NSString *)getHtmlFromUrl:(NSString *)url
 {
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
-	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	return [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 }
 
 + (id)parseJSON:(NSString *)json
 {
 	SBJsonParser *parser = [[SBJsonParser alloc] init];
-	return [parser objectWithString:json];
+	return [[parser autorelease] objectWithString:json];
 }
 
 + (NSString *)writeJSON:(id)object
 {
 	SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-	return [writer stringWithObject:object];
+	return [[writer autorelease] stringWithObject:object];
 }
 
 + (NSInteger)getCellIdWithLatitude:(double)latitude longitude:(double)longitude
@@ -100,7 +100,7 @@
 
 + (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time
 {
-	NSTimeZone *timezone = [[NSTimeZone localTimeZone] autorelease];
+	NSTimeZone *timezone = [NSTimeZone localTimeZone];
 	return [NSString stringWithFormat:@"%@\n%@", [Utils dateWithDate:date andTimezone:timezone], [Utils timeWithDate:time andTimezone:timezone]];
 }
 

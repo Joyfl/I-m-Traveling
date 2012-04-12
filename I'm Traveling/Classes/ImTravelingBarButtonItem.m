@@ -15,11 +15,11 @@
 	UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
 	[button setTitle:title forState:UIControlStateNormal];
-	[button setBackgroundImage:[[UIImage imageNamed:@"button.png"] retain] forState:UIControlStateNormal];
+	[button setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
 	[button setFrame:CGRectMake( 0, 0, 60, 31 )];
 	[button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 	
-	return [super initWithCustomView:button];
+	return [super initWithCustomView:[button autorelease]];
 }
 
 @end

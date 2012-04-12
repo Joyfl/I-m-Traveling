@@ -56,6 +56,7 @@
 		[arguments removeObjectAtIndex:0];
 		
 		[self messageFromWebView:message arguements:arguments];
+		[arguments release];
 		
 		return NO;
     }

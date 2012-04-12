@@ -18,7 +18,7 @@
 	{
 		messagePrefix = @"imtraveling:";
 		
-		self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
+		self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )] autorelease];
 		self.webView.delegate = self;
 		self.webView.scrollView.showsHorizontalScrollIndicator = NO;
 		[self.view addSubview:webView];
@@ -55,8 +55,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -93,7 +91,7 @@
 	if ( messagePrefix != nil && [[[request URL] absoluteString] hasPrefix:messagePrefix] )
 	{
 		NSString *data = [[NSMutableArray arrayWithArray:[[[request URL] absoluteString] componentsSeparatedByString:messagePrefix]] objectAtIndex:1];
-		NSMutableArray *arguments = [[NSMutableArray alloc] initWithArray:[data componentsSeparatedByString:@":"]];
+		NSMutableArray *arguments = [NSMutableArray arrayWithArray:[data componentsSeparatedByString:@":"]];
 		
 		NSString *message = [arguments objectAtIndex:0];
 		[arguments removeObjectAtIndex:0];

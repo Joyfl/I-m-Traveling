@@ -35,53 +35,62 @@ enum {
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
 		
-		UIButton *gpsButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[gpsButton setBackgroundImage:[[UIImage imageNamed:@"button_gps.png"] retain] forState:UIControlStateNormal];
+		UIButton *gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[gpsButton setBackgroundImage:[UIImage imageNamed:@"button_gps.png"] forState:UIControlStateNormal];
 		[gpsButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[gpsButton addTarget:self action:@selector(onGPSButtonTouch) forControlEvents:UIControlEventTouchUpInside];		
 		
 		UIBarButtonItem *gpsBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:gpsButton];
 		gpsBarButtonItem.style = UIBarButtonItemStyleBordered;
 		
-		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, gpsBarButtonItem, nil];
+		self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:leftSpacer, gpsBarButtonItem, nil];
+		
+		[leftSpacer release];
+		[gpsBarButtonItem release];
 		
 		
 		// title
 		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 150.0, 31.0 )];
 		
 		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 75.0, 31.0 )];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new.png"] retain] forState:UIControlStateNormal];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateHighlighted];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateDisabled];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_new.png"] forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_new_selected.png"] forState:UIControlStateHighlighted];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_new_selected.png"] forState:UIControlStateDisabled];
 		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		newButton.tag = kTagAllButton;
 		[alignButtons addSubview:newButton];
 		[newButton sendActionsForControlEvents:UIControlEventTouchDown];
+		[newButton release];
 		
 		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 75, 0, 76.0, 31.0 )];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following.png"] retain] forState:UIControlStateNormal];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateHighlighted];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateDisabled];
+		[followingButton setImage:[UIImage imageNamed:@"button_following.png"] forState:UIControlStateNormal];
+		[followingButton setImage:[UIImage imageNamed:@"button_following_selected.png"] forState:UIControlStateHighlighted];
+		[followingButton setImage:[UIImage imageNamed:@"button_following_selected.png"] forState:UIControlStateDisabled];
 		[followingButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		followingButton.tag = kTagFollowingButton;
 		[alignButtons addSubview:followingButton];
+		[followingButton release];
 		
 		self.navigationItem.titleView = alignButtons;
+		[alignButtons release];
 		
 		
 		// right
 		UIBarButtonItem *rightSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		rightSpacer.width = 4;
 		
-		UIButton *listButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[listButton setBackgroundImage:[[UIImage imageNamed:@"button_list.png"] retain] forState:UIControlStateNormal];
+		UIButton *listButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[listButton setBackgroundImage:[UIImage imageNamed:@"button_list.png"] forState:UIControlStateNormal];
 		[listButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[listButton addTarget:self action:@selector(onListButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 		
 		UIBarButtonItem *listBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:listButton];
 		listBarButtonItem.style = UIBarButtonItemStyleBordered;
 		
-		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, listBarButtonItem, nil];		
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:rightSpacer, listBarButtonItem, nil];
+		
+		[rightSpacer release];
+		[listBarButtonItem release];
 		
 		_feedMapObjects = [[NSMutableDictionary alloc] init];
 		
@@ -194,6 +203,8 @@ enum {
 			[_feedMapView addAnnotation:feedObject];
 		
 		[_feedMapObjects setObject:feedObject forKey:[NSNumber numberWithInt:feedObject.feedId]];
+		
+		[feedObject release];
 	}
 }
 
@@ -216,7 +227,7 @@ enum {
 	Pin *pin = (Pin *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
 	if( pin == nil )
 	{
-		pin = [[Pin alloc] initWithAnnotation:annotation reuseIdentifier:pinId];
+		pin = [[[Pin alloc] initWithAnnotation:annotation reuseIdentifier:pinId] autorelease];
 	}
 	
 	pin.userInteractionEnabled = YES;
@@ -224,6 +235,7 @@ enum {
 	
 	UIButton *feedButton = [[UIButton buttonWithType:UIButtonTypeDetailDisclosure] retain];
 	pin.rightCalloutAccessoryView = feedButton;
+	[feedButton release];
 	
 	return pin;
 }

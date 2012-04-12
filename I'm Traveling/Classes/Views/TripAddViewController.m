@@ -82,6 +82,7 @@
 	[data setObject:_titleInput.text forKey:@"trip_title"];
 	[data setObject:_summaryInput.text forKey:@"summary"];
 	[self loadURL:API_TRIP_ADD withData:data];
+	[data release];
 }
 
 
@@ -101,6 +102,7 @@
 		trip.tripId = [[json objectForKey:@"RESULT"] integerValue];
 		trip.title = _titleInput.text;
 		[tripListViewController selectTrip:trip];
+		[trip release];
 	}
 	
 	[self dismissModalViewControllerAnimated:YES];

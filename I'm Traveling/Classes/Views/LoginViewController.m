@@ -29,6 +29,7 @@
 		
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
 		
 		_emailInput = [[UITextField alloc] initWithFrame:CGRectMake( 60, 30, 200, 31 )];
 		_emailInput.borderStyle = UITextBorderStyleRoundedRect;
@@ -36,6 +37,7 @@
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
 		_emailInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[self.view addSubview:_emailInput];
+		[_emailInput release];
 		
 		_passwordInput = [[UITextField alloc] initWithFrame:CGRectMake( 60, 70, 200, 31 )];
 		_passwordInput.borderStyle = UITextBorderStyleRoundedRect;
@@ -43,18 +45,21 @@
 		_passwordInput.secureTextEntry = YES;
 		_passwordInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		[self.view addSubview:_passwordInput];
+		[_passwordInput release];
 		
 		UIButton *loginButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		loginButton.frame = CGRectMake( 60, 110, 200, 37 );
 		[loginButton setTitle:@"Login" forState:UIControlStateNormal];
 		[loginButton addTarget:self action:@selector(loginButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:loginButton];
+		[loginButton release];
 		
 		UIButton *signUpButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		signUpButton.frame = CGRectMake( 60, 150, 200, 37 );
 		[signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
 		[signUpButton addTarget:self action:@selector(signUpButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:signUpButton];
+		[signUpButton release];
 	}
 	
 	return self;

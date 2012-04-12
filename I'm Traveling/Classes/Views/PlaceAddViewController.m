@@ -92,6 +92,7 @@
 	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
 	[data setObject:_categoryLabel.text forKey:@"category"];
 	[self loadURL:API_PLACE_ADD withData:data];
+	[data release];
 }
 
 
@@ -142,6 +143,7 @@
 		place.latitude = _mapView.userLocation.coordinate.latitude;
 		place.longitude = _mapView.userLocation.coordinate.longitude;
 		[placeSelectionViewController selectPlace:place];
+		[place release];
 		[self dismissModalViewControllerAnimated:YES];
 	}
 }

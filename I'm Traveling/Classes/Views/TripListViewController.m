@@ -75,6 +75,8 @@
 	tripAddViewController.tripListViewController = self;
 	ImTravelingNavigationController *navigaionController = [[ImTravelingNavigationController alloc] initWithRootViewController:tripAddViewController];
 	[self presentModalViewController:navigaionController animated:YES];
+	[tripAddViewController release];
+	[navigaionController release];
 }
 
 
@@ -119,7 +121,7 @@
 	// trip이 없을 경우
 	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
 	{
-		[[[UIAlertView alloc] initWithTitle:@"No Trips!" message:@"There are no trips! You have to start a new trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+		[[[[UIAlertView alloc] initWithTitle:@"No Trips!" message:@"There are no trips! You have to start a new trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease]show];
 		return;
 	}
 	
@@ -135,6 +137,7 @@
 		
 		[_trips setObject:trip forKey:[NSNumber numberWithInteger:trip.tripId]];
 		[self addSimpleTrip:trip];
+		[trip release];
 	}
 }
 

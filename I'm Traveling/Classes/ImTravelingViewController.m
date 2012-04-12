@@ -22,6 +22,7 @@
 		
 		_loadingAlert = [[UIAlertView alloc] initWithTitle:@"Loading..." message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
 		[_loadingAlert addSubview:indicatorView];
+		[indicatorView release];
 	}
 	
 	return self;
@@ -33,7 +34,7 @@
 - (void)loadURL:(NSString *)url
 {
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
 }
 
 - (void)loadURL:(NSString *)url withData:(NSDictionary *)data
@@ -47,7 +48,7 @@
 	url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
 }
 
 - (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data
@@ -100,7 +101,7 @@
 	
     [request setHTTPBody:body];
 	
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
 }
 
 - (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
@@ -142,6 +143,7 @@
 {
 	NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	[self loadingDidFinish:result];
+	[result release];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

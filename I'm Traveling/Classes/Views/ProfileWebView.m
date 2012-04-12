@@ -62,6 +62,7 @@
 					   0] retain];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
+	[func release];
 	
 	NSLog( @"%@", func );
 }
