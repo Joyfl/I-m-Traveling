@@ -91,6 +91,7 @@
 
 - (void)loadingDidFinish:(NSString *)result
 {
+	NSLog( @"%@", result );
 	NSDictionary *json = [Utils parseJSON:result];
 	
 	// ShareViewController - TripListViewController에서 여행 추가 버튼을 눌러 들어온 경우

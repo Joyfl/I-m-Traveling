@@ -130,8 +130,16 @@
 {
 	[self clear];
 	
-	NSArray *places = [Utils parseJSON:result];
-	for( NSDictionary *p in places )
+	id json = [Utils parseJSON:result];
+	
+	// 장소가 없을 경우
+	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
+	{
+		NSLog( @"No Places" );
+		return;
+	}
+	
+	for( NSDictionary *p in json )
 	{
 		Place *place = [[Place alloc] init];
 		place.placeId = [[p objectForKey:@"place_id"] integerValue];
