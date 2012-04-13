@@ -673,24 +673,23 @@
 
 - (void)animateDisappearance
 {
-	[self performSelector:@selector(backAnimationDidFinish) withObject:nil afterDelay:0.5];
-	
 	if( ref == 0 )
 	{
-		[self.centerWebView removeFromSuperview];
-		
-		[self.view addSubview:_upperImageView];
-		[self.view addSubview:_lowerImageView];
-		
-		[UIView beginAnimations:nil context:NULL];
-		[UIView setAnimationDelay:0];
-		[UIView setAnimationDuration:0.5];
-		_upperImageView.frame = CGRectMake( 0, _upperImageViewOriginalY, 320, _upperImageView.frame.size.height );
-		_lowerImageView.frame = CGRectMake( 0, _lowerImageViewOriginalY, 320, _lowerImageView.frame.size.height );
-		[UIView commitAnimations];
+		// scroll view 컨텐츠 y좌표를 0으로 이동시키고 애니메이션시킴.
+		if( _scrollView.contentOffset.y == 0 )
+		{
+			[self scrollViewDidScrollToTopFromBack];
+		}
+		else
+		{
+			[self performSelector:@selector(scrollViewDidScrollToTopFromBack) withObject:nil afterDelay:0.5];
+			[_scrollView setContentOffset:CGPointZero animated:YES];
+		}
 	}
 	else if( ref == 1 )
 	{
+		[self performSelector:@selector(backAnimationDidFinish) withObject:nil afterDelay:0.5];
+		
 		[_mapView setRegion:originalRegion animated:YES];
 		
 		[UIView beginAnimations:nil context:NULL];
@@ -701,7 +700,6 @@
 	}
 	else
 	{
-		[UIView cancelPreviousPerformRequestsWithTarget:self];
 		[self backAnimationDidFinish];
 	}
 }
@@ -724,10 +722,29 @@
 	[_lowerImageView removeFromSuperview];
 }
 
+- (void)scrollViewDidScrollToTopFromBack
+{
+	[self performSelector:@selector(backAnimationDidFinish) withObject:nil afterDelay:0.5];
+	
+	[self.centerWebView removeFromSuperview];
+	
+	[self.view addSubview:_upperImageView];
+	[self.view addSubview:_lowerImageView];
+	
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.5];
+	_upperImageView.frame = CGRectMake( 0, _upperImageViewOriginalY, 320, _upperImageView.frame.size.height );
+	_lowerImageView.frame = CGRectMake( 0, _lowerImageViewOriginalY, 320, _lowerImageView.frame.size.height );
+	[UIView commitAnimations];
+}
+
 - (void)backAnimationDidFinish
 {
 	if( ref == 0 )
 	{
+		
+		
 		[_upperImageView removeFromSuperview];
 		[_lowerImageView removeFromSuperview];
 	}
