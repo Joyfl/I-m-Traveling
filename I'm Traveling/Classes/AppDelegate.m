@@ -174,7 +174,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	[self performSelector:@selector(presentShareViewControllerWithImage:) withObject:[info objectForKey:@"UIImagePickerControllerOriginalImage"] afterDelay:0.5];
+	NSLog( @"Album : %@", info );
+	UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+	UIImageWriteToSavedPhotosAlbum( image, nil, nil, nil );
+	[self performSelector:@selector(presentShareViewControllerWithImage:) withObject:image afterDelay:0.5];
 }
 
 - (void)presentShareViewControllerWithImage:(UIImage *)image
