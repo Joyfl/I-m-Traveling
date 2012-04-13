@@ -272,7 +272,7 @@ enum {
 
 - (FeedObject *)createFeedFromDictionary:(NSDictionary *)feed
 {
-	FeedObject *feedObj = [[FeedObject alloc] init];
+	FeedObject *feedObj = [[[FeedObject alloc] init] autorelease];
 	feedObj.feedId = [[feed objectForKey:@"feed_id"] integerValue];
 	feedObj.userId = [[feed objectForKey:@"user_id"] integerValue];
 	feedObj.name = [feed objectForKey:@"name"];
