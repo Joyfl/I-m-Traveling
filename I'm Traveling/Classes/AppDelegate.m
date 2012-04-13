@@ -174,15 +174,16 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	[tabBarController dismissModalViewControllerAnimated:YES];
 	[self performSelector:@selector(presentShareViewControllerWithImage:) withObject:[info objectForKey:@"UIImagePickerControllerOriginalImage"] afterDelay:0.5];
 }
 
 - (void)presentShareViewControllerWithImage:(UIImage *)image
 {
+	[tabBarController dismissModalViewControllerAnimated:NO];
+	
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ShareViewController alloc] initWithImage:image]];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
-	[tabBarController presentModalViewController:navigationController animated:YES];
+	[tabBarController presentModalViewController:navigationController animated:NO];
 }
 
 @end
