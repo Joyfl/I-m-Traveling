@@ -1,0 +1,69 @@
+/* 
+ Localizable.strings
+ I'm Traveling
+ 
+ Created by 전 수열 on 12. 4. 14..
+ Copyright (c) 2012년 Joyfl. All rights reserved.
+ */
+
+// Common
+"PULL_DOWN_TO_UPDATE" = "Pull down to update.";
+"RELEASE_TO_UPDATE" = "Release to update.";
+"BACK" = "Back";
+"LOADING" = "Loading...";
+"CANCEL" = "Cancel";
+"DONE" = "Done";
+
+// Tab Bar
+"TAB_FEED" = "Feed";
+"TAB_SHARE" = "Share";
+"TAB_PROFILE" = "Profile";
+
+// Feed List, Map
+"NEW" = "New";
+"POPULAR" = "Popular";
+"FOLLOWING" = "Following";
+
+// Feed Detail
+"SEE_ALL_N_FEEDS" = "See all %d feed(s).";
+"N_LIKES_THIS_FEED" = "%d people like(s) this feeds.";
+"LEAVE_A_COMMENT" = "Leave a comment";
+"SEND" = "Send";
+
+// Share
+"TITLE_SHARE" = "Share a trip"
+"TAKE_A_PICTURE" = "Take a picture";
+"FROM_LIBRARY" = "From Library";
+"UPLOAD" = "Upload";
+"SELECT_A_TRIP" = "Select a trip";
+"SELECT_A_PLACE" = "Select a place";
+"SAVE_TO_LOCAL" = "Save to local";
+"ASK_CANCEL" = "Do you really want to cancel?";
+"NO" = "No";
+"YES" = "Yes";
+
+// Trip List
+"TITLE_TRIP_LIST" = "Trip List";
+"NEW_TRIP" = "New";
+
+// Trip Add
+"TITLE_TRIP_ADD" = "Start a new trip";
+"TRIP_TITLE" = "Trip title";
+
+// Place List
+"TITLE_PLACE_LIST" = "Select a place";
+"ADD_PLACE" = "Add";
+
+// Place Add
+"TITLE_PLACE_ADD" = "Add a place";
+"PLACE_NAME" = "Place name";
+
+// Time Select
+"TITLE_TIME_SELECT" = "Select a time";
+"DATE" = "Date";
+"TIME" = "Time";
+
+// Profile
+"FOLLWERS" = "Followers";
+"BADGES" = "Badges";
+"SEE_ALL_N_TRIPS" = "See all %d trip(s).";

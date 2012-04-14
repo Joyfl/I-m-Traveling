@@ -1,0 +1,69 @@
+/* 
+  Localizable.strings
+  I'm Traveling
+
+  Created by 전 수열 on 12. 4. 14..
+  Copyright (c) 2012년 Joyfl. All rights reserved.
+*/
+
+// Common
+"PULL_DOWN_TO_UPDATE" = "업데이트하시려면 아래로 당기세요.";
+"RELEASE_TO_UPDATE" = "업데이트하시려면 당겼다 놓으세요.";
+"BACK" = "뒤로";
+"LOADING" = "로딩중...";
+"CANCEL" = "취소";
+"DONE" = "완료";
+
+// Tab Bar
+"TAB_FEED" = "피드";
+"TAB_SHARE" = "공유";
+"TAB_PROFILE" = "프로필";
+
+// Feed List, Map
+"NEW" = "최신순";
+"POPULAR" = "인기순";
+"FOLLOWING" = "팔로잉";
+
+// Feed Detail
+"SEE_ALL_N_FEEDS" = "%d개의 피드 모두보기";
+"N_LIKES_THIS_FEED" = "%d명의 사람들이 이 피드를 좋아합니다.";
+"LEAVE_A_COMMENT" = "댓글 쓰기";
+"SEND" = "전송";
+
+// Share
+"TITLE_SHARE" = "여행 공유하기"
+"TAKE_A_PICTURE" = "사진 찍기";
+"FROM_LIBRARY" = "라이브러리에서 선택";
+"UPLOAD" = "업로드";
+"SELECT_A_TRIP" = "여행을 선택해주세요.";
+"SELECT_A_PLACE" = "장소를 선택해주세요.";
+"SAVE_TO_LOCAL" = "로컬에 저장하기";
+"ASK_CANCEL" = "공유를 취소하시겠습니까?";
+"NO" = "아니오";
+"YES" = "예";
+
+// Trip List
+"TITLE_TRIP_LIST" = "여행 목록";
+"NEW_TRIP" = "새 여행";
+
+// Trip Add
+"TITLE_TRIP_ADD" = "새 여행 시작하기";
+"TRIP_TITLE" = "여행 제목";
+
+// Place List
+"TITLE_PLACE_LIST" = "장소를 선택해주세요";
+"ADD_PLACE" = "장소 추가";
+
+// Place Add
+"TITLE_PLACE_ADD" = "장소 추가하기";
+"PLACE_NAME" = "장소 이름";
+
+// Time Select
+"TITLE_TIME_SELECT" = "시간을 선택해주세요";
+"DATE" = "날짜";
+"TIME" = "시간";
+
+// Profile
+"FOLLWERS" = "팔로워";
+"BADGES" = "뱃지";
+"SEE_ALL_N_TRIPS" = "%d개의 여행 모두보기";
