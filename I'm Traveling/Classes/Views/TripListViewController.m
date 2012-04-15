@@ -27,13 +27,13 @@
 {
 	if( self = [super init] )
 	{
-		self.navigationItem.title = @"Select a trip";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_TRIP_LIST", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(addButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"NEW_TRIP", @"" ) target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
 		[addButton release];
 		
@@ -121,7 +121,7 @@
 	// trip이 없을 경우
 	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
 	{
-		[[[[UIAlertView alloc] initWithTitle:@"No Trips!" message:@"There are no trips! You have to start a new trip." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease]show];
+		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"NO_TRIPS_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	

@@ -14,6 +14,12 @@
 "CANCEL" = "Cancel";
 "DONE" = "Done";
 
+// Login
+"INVALID_EMAIL" = "Invalid email.";
+"INVALID_PASSWORD" = "Invalid password.";
+"SIGN_UP" = "Sign Up";
+"LOGIN_FAILED_MSG" = "Login failed. Check your email and password again.";
+
 // Tab Bar
 "TAB_FEED" = "Feed";
 "TAB_SHARE" = "Share";
@@ -23,6 +29,7 @@
 "NEW" = "New";
 "POPULAR" = "Popular";
 "FOLLOWING" = "Following";
+"ALL" = "All";
 
 // Feed Detail
 "SEE_ALL_N_FEEDS" = "See all %d feed(s).";
@@ -31,9 +38,10 @@
 "SEND" = "Send";
 
 // Share
-"TITLE_SHARE" = "Share a trip"
+"TITLE_SHARE" = "Share a trip";
 "TAKE_A_PICTURE" = "Take a picture";
 "FROM_LIBRARY" = "From Library";
+"NO_SUPPORT_CAMERA" = "This device doesn't support camera.";
 "UPLOAD" = "Upload";
 "SELECT_A_TRIP" = "Select a trip";
 "SELECT_A_PLACE" = "Select a place";
@@ -41,10 +49,14 @@
 "ASK_CANCEL" = "Do you really want to cancel?";
 "NO" = "No";
 "YES" = "Yes";
+"ITEM" = "Item";
+"VALUE" = "Price";
+"UNIT" = "Unit";
 
 // Trip List
 "TITLE_TRIP_LIST" = "Trip List";
 "NEW_TRIP" = "New";
+"NO_TRIPS_MSG" = "There is no trips. Press 'New' button to start a new trip.";
 
 // Trip Add
 "TITLE_TRIP_ADD" = "Start a new trip";
@@ -53,6 +65,7 @@
 // Place List
 "TITLE_PLACE_LIST" = "Select a place";
 "ADD_PLACE" = "Add";
+"NO_PLACES_MSG" = "There is no places registered around. Press 'Add' button to add a place where you are.";
 
 // Place Add
 "TITLE_PLACE_ADD" = "Add a place";

@@ -40,26 +40,26 @@
 		[postIt release];
 		
 		// Item
-		UILabel *itemLabel = [self createInfoLabelWithText:@"Item" andFrame:CGRectMake( 54, 13, 50, 20 )];
+		UILabel *itemLabel = [self createInfoLabelWithText:NSLocalizedString( @"ITEM", @"" ) andFrame:CGRectMake( 54, 13, 50, 20 )];
 		[self addSubview:itemLabel];
 		
-		itemInput = [self createInfoInputWithPlaceholder:@"Item" row:row andFrame:CGRectMake( 105, 14, 200, 20 )];
+		itemInput = [self createInfoInputWithPlaceholder:NSLocalizedString( @"ITEM", @"" ) row:row andFrame:CGRectMake( 105, 14, 200, 20 )];
 		itemInput.textColor = [UIColor colorWithRed:0.419 green:0.258 blue:0.098 alpha:1.0];
 		[itemInput addTarget:_shareViewController action:@selector(itemInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self addSubview:itemInput];
 		
 		// Value
-		UILabel *valueLabel = [self createInfoLabelWithText:@"Value" andFrame:CGRectMake( 54, 38, 50, 20 )];
+		UILabel *valueLabel = [self createInfoLabelWithText:NSLocalizedString( @"VALUE", @"" ) andFrame:CGRectMake( 54, 38, 50, 20 )];
 		[self addSubview:valueLabel];
 		
-		valueInput = [self createInfoInputWithPlaceholder:@"Value" row:row andFrame:CGRectMake( 105, 39, 70, 20 )];
+		valueInput = [self createInfoInputWithPlaceholder:NSLocalizedString( @"VALUE", @"" ) row:row andFrame:CGRectMake( 105, 39, 70, 20 )];
 		valueInput.textColor = [UIColor colorWithRed:0.678 green:0.243 blue:0.337 alpha:1.0];
 		valueInput.keyboardType = UIKeyboardTypeNumberPad;
 		[valueInput addTarget:_shareViewController action:@selector(valueInputEdittingChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self addSubview:valueInput];
 		
 		// Unit
-		UILabel *unitLabel = [self createInfoLabelWithText:@"Unit" andFrame:CGRectMake( 185, 38, 50, 20 )];
+		UILabel *unitLabel = [self createInfoLabelWithText:NSLocalizedString( @"UNIT", @"" ) andFrame:CGRectMake( 185, 38, 50, 20 )];
 		[self addSubview:unitLabel];
 		
 		unitButton = [[UIButton alloc] initWithFrame:CGRectMake( 210, 38, 70, 20 )];

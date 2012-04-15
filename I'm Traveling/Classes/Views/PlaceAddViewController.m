@@ -23,13 +23,13 @@
 {
 	if( self = [super init] )
 	{
-		self.navigationItem.title = @"Add a place";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_PLACE_ADD", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"ADD", @"" ) target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
@@ -45,7 +45,7 @@
 		[nameInputBackground release];
 		
 		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 112, 282, 31 )];
-		_nameInput.placeholder = @"Place name";
+		_nameInput.placeholder = NSLocalizedString( @"PLACE_NAME", @"" );
 		_nameInput.font = [UIFont boldSystemFontOfSize:15];
 		[_nameInput becomeFirstResponder];
 		[self.view addSubview:_nameInput];

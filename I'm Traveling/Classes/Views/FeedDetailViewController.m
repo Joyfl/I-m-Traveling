@@ -146,7 +146,7 @@
 		
 		_commentInput = [[UITextField alloc] initWithFrame:CGRectMake( 17, 9, 220, 23 )];
 		_commentInput.delegate = self;
-		_commentInput.placeholder = @"Leave a comment";
+		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
 		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentBar addSubview:_commentInput];
@@ -156,7 +156,7 @@
 		
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		_sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-		[_sendButton setTitle:@"Send" forState:UIControlStateNormal];
+		[_sendButton setTitle:NSLocalizedString( @"SEND", @"Send" ) forState:UIControlStateNormal];
 		[_sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
 		[_sendButton addTarget:self action:@selector(sendButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_commentBar addSubview:_sendButton];

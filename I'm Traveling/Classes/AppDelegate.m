@@ -34,18 +34,18 @@
 	tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tab_bar.png"];
 	
 	ImTravelingNavigationController *feedNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
-	feedNavigationController.title = @"Feed";
+	feedNavigationController.title = NSLocalizedString( @"TAB_FEED", @"Feed" );
 	feedNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_feed.png"] retain];
 	
 	ImTravelingNavigationController *shareNavigationController = [[ImTravelingNavigationController alloc] init];
-	shareNavigationController.title = @"Upload";
+	shareNavigationController.title = NSLocalizedString( @"TAB_UPLOAD", @"Upload" );
 	
 	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
 	[uploadButton setImage:[[UIImage imageNamed:@"tab_share.png"] retain] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
 	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
-	profileNavigationController.title = @"Profile";
+	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
 	profileNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_profile.png"] retain];
 	
 	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UIViewController alloc] init], profileNavigationController, nil];
@@ -135,7 +135,7 @@
 
 - (void)presentActionSheet
 {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Camera", @"Album", nil];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString( @"TAKE_A_PICTURE", @"Camera" ), NSLocalizedString( @"FROM_LIBRARY", @"Album" ), nil];
 	[actionSheet showInView:self.window];
 	[actionSheet release];
 
@@ -153,7 +153,7 @@
 		}
 		@catch (NSException *exception)
 		{
-			[[[UIAlertView alloc] initWithTitle:@"This device doesn't support camera." message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+			[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"NO_SUPPORT_CAMERA", @"This device doesn't support camera.") message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 			return;
 		}
 		

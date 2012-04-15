@@ -25,13 +25,13 @@
 	{
 		self.view.backgroundColor = [UIColor colorWithRed:0.97 green:0.88 blue:0.80 alpha:1.0];
 		
-		self.navigationItem.title = @"Select a date";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_TIME_SELECT", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Done" target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"DONE", @"" ) target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
@@ -46,7 +46,7 @@
 		
 		UILabel *dateButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 8, 50, 31 )];
 		dateButtonLabel.font = [UIFont boldSystemFontOfSize:15];
-		dateButtonLabel.text = @"Date";
+		dateButtonLabel.text = NSLocalizedString( @"DATE", @"" );
 		dateButtonLabel.textColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1];
 		dateButtonLabel.backgroundColor = [UIColor clearColor];
 		[_dateButton addSubview:dateButtonLabel];
@@ -68,7 +68,7 @@
 		
 		UILabel *timeButtonLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 8, 50, 31 )];
 		timeButtonLabel.font = [UIFont boldSystemFontOfSize:15];
-		timeButtonLabel.text = @"Time";
+		timeButtonLabel.text = NSLocalizedString( @"TIME", @"" );
 		timeButtonLabel.textColor = [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1];
 		timeButtonLabel.backgroundColor = [UIColor clearColor];
 		[_timeButton addSubview:timeButtonLabel];

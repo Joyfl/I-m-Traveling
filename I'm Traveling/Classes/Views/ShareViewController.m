@@ -125,7 +125,7 @@ enum {
 
 - (void)cancelButtonDidTouchUpInside
 {
-	[[[[UIAlertView alloc] initWithTitle:@"Cancel" message:@"Do you really want to cancel?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] autorelease] show];
+	[[[[UIAlertView alloc] initWithTitle:@"Cancel" message:NSLocalizedString( @"ASK_CANCEL", @"Do you really want to cancel?" ) delegate:self cancelButtonTitle:NSLocalizedString( @"NO", @"No" ) otherButtonTitles:NSLocalizedString( @"YES", @"Yes" ), nil] autorelease] show];
 }
 
 - (void)uploadButtonDidTouchUpInside
@@ -234,7 +234,7 @@ enum {
 			_tripLabel.font = [UIFont boldSystemFontOfSize:13];
 			_tripLabel.textAlignment = UITextAlignmentCenter;
 			_tripLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
-			_tripLabel.text = @"여행을 선택해주세요.";
+			_tripLabel.text = NSLocalizedString( @"SELECT_A_TRIP", @"여행을 선택해주세요." );
 		}
 		[cell addSubview:_tripLabel];
 		
@@ -254,7 +254,7 @@ enum {
 			_placeLabel.font = [UIFont boldSystemFontOfSize:13];
 			_placeLabel.textAlignment = UITextAlignmentCenter;
 			_placeLabel.textColor = [UIColor colorWithRed:0.17 green:0.15 blue:0.20 alpha:1.0];
-			_placeLabel.text = @"장소를 선택해주세요.";
+			_placeLabel.text = NSLocalizedString( @"SELECT_A_PLACE", @"장소를 선택해주세요." );
 		}
 		[cell addSubview:_placeLabel];
 		
@@ -375,7 +375,7 @@ enum {
 	else if( indexPath.section == kSectionSaveToLocal )
 	{
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-		cell.textLabel.text = @"Save to local";
+		cell.textLabel.text = NSLocalizedString( @"SAVE_TO_LOCAL", @"Save to local" );
 		cell.textLabel.backgroundColor = [UIColor clearColor];
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
 		cell.accessoryType = UITableViewCellAccessoryNone;

@@ -30,13 +30,13 @@
 {
 	if( self = [super init] )
 	{
-		self.navigationItem.title = @"Select a place";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_PLACE_LIST", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Add" target:self action:@selector(addButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"ADD_PLACE", @"" ) target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
 		[addButton release];
 		
@@ -135,7 +135,7 @@
 	// 장소가 없을 경우
 	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
 	{
-		NSLog( @"No Places" );
+		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"NO_PLACES_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	

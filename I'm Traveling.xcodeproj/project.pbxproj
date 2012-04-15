@@ -463,12 +463,12 @@
 				036B32B914FC114900C1BA70 /* TripListViewController.m */,
 				03F24B9D15105B4000B1CB85 /* TripAddViewController.h */,
 				03F24B9E15105B4100B1CB85 /* TripAddViewController.m */,
-				0302937214FAC68E00E31F9A /* TimeSelectionViewController.h */,
-				0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */,
 				0302936C14FAC20A00E31F9A /* PlaceSelectionViewController.h */,
 				0302936D14FAC20A00E31F9A /* PlaceSelectionViewController.m */,
 				033DC51B1511727500272459 /* PlaceAddViewController.h */,
 				033DC51C1511727500272459 /* PlaceAddViewController.m */,
+				0302937214FAC68E00E31F9A /* TimeSelectionViewController.h */,
+				0302937314FAC68F00E31F9A /* TimeSelectionViewController.m */,
 				03E76B5B15029EE700DDDB20 /* InfoCell.h */,
 				03E76B5C15029EE700DDDB20 /* InfoCell.m */,
 				0300E72314D23E6B00611039 /* ProfileViewController.h */,
@@ -998,7 +998,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "I'm Traveling/I'm Traveling-Prefix.pch";
 				INFOPLIST_FILE = "I'm Traveling/I'm Traveling-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1011,7 +1011,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "I'm Traveling/I'm Traveling-Prefix.pch";
 				INFOPLIST_FILE = "I'm Traveling/I'm Traveling-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

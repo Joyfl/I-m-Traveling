@@ -28,13 +28,13 @@
 {
 	if( self = [super init] )
 	{
-		self.navigationItem.title = @"Start a new trip";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_TRIP_ADD", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Done" target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"DONE", @"" ) target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
@@ -43,7 +43,7 @@
 		[titleInputBackground release];
 		
 		_titleInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 13, 300, 31 )];
-		_titleInput.placeholder = @"Trip Title";
+		_titleInput.placeholder = NSLocalizedString( @"TRIP_TITLE", @"" );
 		_titleInput.backgroundColor = [UIColor clearColor];
 		_titleInput.font = [UIFont boldSystemFontOfSize:15];
 		[_titleInput becomeFirstResponder];

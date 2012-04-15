@@ -14,6 +14,14 @@
 "CANCEL" = "취소";
 "DONE" = "완료";
 
+// Login
+"INVALID_EMAIL" = "잘못된 이메일주소입니다.";
+"INVALID_PASSWORD" = "잘못된 패스워드입니다.";
+"SIGN_UP" = "회원가입";
+"LOGIN_FAILED_MSG" = "로그인에 실패했습니다. 이메일과 패스워드를 확인해주세요.";
+
+// Sign up
+
 // Tab Bar
 "TAB_FEED" = "피드";
 "TAB_SHARE" = "공유";
@@ -23,6 +31,7 @@
 "NEW" = "최신순";
 "POPULAR" = "인기순";
 "FOLLOWING" = "팔로잉";
+"All" = "모두보기";
 
 // Feed Detail
 "SEE_ALL_N_FEEDS" = "%d개의 피드 모두보기";
@@ -31,9 +40,10 @@
 "SEND" = "전송";
 
 // Share
-"TITLE_SHARE" = "여행 공유하기"
+"TITLE_SHARE" = "여행 공유하기";
 "TAKE_A_PICTURE" = "사진 찍기";
 "FROM_LIBRARY" = "라이브러리에서 선택";
+"NO_SUPPORT_CAMERA" = "해당 기기는 카메라를 지원하지 않습니다.";
 "UPLOAD" = "업로드";
 "SELECT_A_TRIP" = "여행을 선택해주세요.";
 "SELECT_A_PLACE" = "장소를 선택해주세요.";
@@ -41,10 +51,14 @@
 "ASK_CANCEL" = "공유를 취소하시겠습니까?";
 "NO" = "아니오";
 "YES" = "예";
+"ITEM" = "항목";
+"VALUE" = "가격";
+"UNIT" = "단위";
 
 // Trip List
 "TITLE_TRIP_LIST" = "여행 목록";
 "NEW_TRIP" = "새 여행";
+"NO_TRIPS_MSG" = "여행이 없습니다. '새 여행' 버튼을 눌러 새로운 여행을 시작하세요.";
 
 // Trip Add
 "TITLE_TRIP_ADD" = "새 여행 시작하기";
@@ -53,6 +67,7 @@
 // Place List
 "TITLE_PLACE_LIST" = "장소를 선택해주세요";
 "ADD_PLACE" = "장소 추가";
+"NO_PLACES_MSG" = "주위에 등록된 장소가 없습니다. '장소 추가' 버튼을 클릭해서 당신이 있는 위치를 추가해보세요.";
 
 // Place Add
 "TITLE_PLACE_ADD" = "장소 추가하기";
