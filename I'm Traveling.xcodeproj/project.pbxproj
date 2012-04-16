@@ -69,6 +69,7 @@
 		031CA4F114EF57850015D2AC /* ImTravelingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 031CA4F014EF57840015D2AC /* ImTravelingViewController.m */; };
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
 		033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033DC51C1511727500272459 /* PlaceAddViewController.m */; };
+		0343DB9D153C9BF100DEF931 /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0343DB9C153C9BF100DEF931 /* DejalActivityView.m */; };
 		0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70215076B96006D9297 /* FeedAnnotation.m */; };
 		0347F71315076B96006D9297 /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70615076B96006D9297 /* FeedObject.m */; };
 		0347F71415076B96006D9297 /* Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70815076B96006D9297 /* Info.m */; };
@@ -245,6 +246,8 @@
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		033DC51B1511727500272459 /* PlaceAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAddViewController.h; sourceTree = "<group>"; };
 		033DC51C1511727500272459 /* PlaceAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAddViewController.m; sourceTree = "<group>"; };
+		0343DB9B153C9BF100DEF931 /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DejalActivityView.h; sourceTree = "<group>"; };
+		0343DB9C153C9BF100DEF931 /* DejalActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DejalActivityView.m; sourceTree = "<group>"; };
 		0347F70115076B96006D9297 /* FeedAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedAnnotation.h; sourceTree = "<group>"; };
 		0347F70215076B96006D9297 /* FeedAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedAnnotation.m; sourceTree = "<group>"; };
 		0347F70515076B96006D9297 /* FeedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedObject.h; sourceTree = "<group>"; };
@@ -600,6 +603,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		0343DB9A153C9BF000DEF931 /* DejalActivityView */ = {
+			isa = PBXGroup;
+			children = (
+				0343DB9B153C9BF100DEF931 /* DejalActivityView.h */,
+				0343DB9C153C9BF100DEF931 /* DejalActivityView.m */,
+			);
+			name = DejalActivityView;
+			path = Classes/DejalActivityView;
+			sourceTree = "<group>";
+		};
 		0347F70015076B96006D9297 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -657,6 +670,7 @@
 			isa = PBXGroup;
 			children = (
 				0300E6D714D1A93100611039 /* Classes */,
+				0343DB9A153C9BF000DEF931 /* DejalActivityView */,
 				039F640014C5CEE6002EC78F /* Supporting Files */,
 			);
 			path = "I'm Traveling";
@@ -920,6 +934,7 @@
 				03EC1951151382ED00E99A2E /* SimpleFeedListViewController.m in Sources */,
 				03DBD5531515C30C002A02E1 /* ImTravelingBarButtonItem.m in Sources */,
 				03DBD56815160A0B002A02E1 /* Comment.m in Sources */,
+				0343DB9D153C9BF100DEF931 /* DejalActivityView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

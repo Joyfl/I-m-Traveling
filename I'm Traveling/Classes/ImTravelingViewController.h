@@ -10,8 +10,6 @@
 
 @interface ImTravelingViewController : UIViewController <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLAuthenticationChallengeSender>
 {
-	UIAlertView *_loadingAlert;
-	
 	NSMutableData *responseData;
 }
 

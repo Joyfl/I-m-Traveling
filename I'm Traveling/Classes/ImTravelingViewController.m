@@ -7,6 +7,7 @@
 //
 
 #import "ImTravelingViewController.h"
+#import "DejalActivityView.h"
 
 @implementation ImTravelingViewController
 
@@ -15,14 +16,6 @@
 	if( self = [super init] )
 	{
 		responseData = [[NSMutableData alloc] init];
-		
-		UIActivityIndicatorView *indicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake( 125, 50, 30, 40 )];
-		indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-		[indicatorView startAnimating];
-		
-		_loadingAlert = [[UIAlertView alloc] initWithTitle:@"Loading..." message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-		[_loadingAlert addSubview:indicatorView];
-		[indicatorView release];
 	}
 	
 	return self;
@@ -162,12 +155,18 @@
 
 - (void)startBusy
 {
-	[_loadingAlert show];
+	self.view.userInteractionEnabled = NO;
+	self.navigationController.view.userInteractionEnabled = NO;
+	
+	[DejalBezelActivityView activityViewForView:self.view];
 }
 
 - (void)stopBusy
 {
-	[_loadingAlert dismissWithClickedButtonIndex:0 animated:YES];
+	self.view.userInteractionEnabled = YES;
+	self.navigationController.view.userInteractionEnabled = YES;
+	
+	[DejalBezelActivityView removeView];
 }
 
 @end
