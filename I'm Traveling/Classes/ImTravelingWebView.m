@@ -7,6 +7,7 @@
 //
 
 #import "ImTravelingWebView.h"
+#import "Const.h"
 
 @implementation ImTravelingWebView
 
@@ -24,25 +25,21 @@
 	return self;
 }
 
-- (void)loadLocalPage:(NSString *)htmlFileName
+- (void)loadPage:(NSString *)page
 {
-	NSURL *url = [[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:htmlFileName ofType:@"html" inDirectory:@"www"] isDirectory:NO] retain];
+#ifdef LOCAL
+	NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:page ofType:@"html" inDirectory:@"www"] isDirectory:NO];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
 	[self loadRequest:req];
 	
-	[url release];
 	[req release];
-	
-}
-
-- (void)loadRemotePage:(NSString *)urlString
-{
-	NSURL *url = [[NSURL URLWithString:urlString] retain];
+#else
+	NSURL *url = [NSURL URLWithString:page];
 	NSURLRequest *req = [[NSURLRequest alloc] initWithURL:url];
 	[self loadRequest:req];
 	
-	[url release];
 	[req release];
+#endif
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

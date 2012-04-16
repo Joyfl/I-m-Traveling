@@ -103,7 +103,7 @@ enum {
 		
 		_mapViewController = [[MapViewController alloc] init];
 		
-		[self loadRemotePage:HTML_INDEX];
+		[self loadPage:HTML_INDEX];
     }
 	
     return self;

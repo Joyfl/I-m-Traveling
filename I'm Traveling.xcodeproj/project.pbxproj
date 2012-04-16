@@ -143,7 +143,6 @@
 		03DBD54F1515C187002A02E1 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD54D1515C187002A02E1 /* button.png */; };
 		03DBD5501515C187002A02E1 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD54E1515C187002A02E1 /* button@2x.png */; };
 		03DBD5531515C30C002A02E1 /* ImTravelingBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DBD5521515C30C002A02E1 /* ImTravelingBarButtonItem.m */; };
-		03DBD55915160182002A02E1 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD55815160182002A02E1 /* minus.png */; };
 		03DBD562151601D7002A02E1 /* time_select_date_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD55E151601D6002A02E1 /* time_select_date_bg.png */; };
 		03DBD563151601D7002A02E1 /* time_select_date_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD55F151601D6002A02E1 /* time_select_date_bg@2x.png */; };
 		03DBD564151601D7002A02E1 /* time_select_time_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DBD560151601D6002A02E1 /* time_select_time_bg.png */; };
@@ -844,7 +843,6 @@
 				03DBD54C1515BD24002A02E1 /* search_bar@2x.png in Resources */,
 				03DBD54F1515C187002A02E1 /* button.png in Resources */,
 				03DBD5501515C187002A02E1 /* button@2x.png in Resources */,
-				03DBD55915160182002A02E1 /* minus.png in Resources */,
 				03DBD562151601D7002A02E1 /* time_select_date_bg.png in Resources */,
 				03DBD563151601D7002A02E1 /* time_select_date_bg@2x.png in Resources */,
 				03DBD564151601D7002A02E1 /* time_select_time_bg.png in Resources */,

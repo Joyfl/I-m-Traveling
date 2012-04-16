@@ -13,12 +13,6 @@
 #import "Const.h"
 #import "ImTravelingBarButtonItem.h"
 
-@interface TripAddViewController()
-
-- (void)showPickerWithDate:(NSDate *)date;
-
-@end
-
 
 @implementation TripAddViewController
 

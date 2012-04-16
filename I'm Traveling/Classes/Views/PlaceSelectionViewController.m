@@ -60,7 +60,7 @@
 		searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
 		[self.view addSubview:searchBar];
 		
-		[self loadRemotePage:HTML_INDEX];
+		[self loadPage:HTML_INDEX];
 	}
 	
 	return self;

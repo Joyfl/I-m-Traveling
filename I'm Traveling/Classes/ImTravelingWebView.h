@@ -13,8 +13,7 @@
 	NSString *messagePrefix;
 }
 
-- (void)loadLocalPage:(NSString *)htmlFileName;
-- (void)loadRemotePage:(NSString *)urlString;
+- (void)loadPage:(NSString *)page;
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments;
 

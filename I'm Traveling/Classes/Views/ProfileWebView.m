@@ -19,7 +19,7 @@
 		self.opaque = NO;
 		self.scrollView.scrollEnabled = NO;
 		
-		[self loadRemotePage:HTML_INDEX];
+		[self loadPage:HTML_INDEX];
 	}
 	
 	return self;

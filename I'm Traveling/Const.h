@@ -6,7 +6,14 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#define HTML_INDEX				@"http://jshs.woobi.co.kr/traveling/index.html"
+// 정의되어있으면 loadPage에서 local파일을 로드한다.
+#define LOCAL
+
+#ifdef LOCAL
+	#define HTML_INDEX			@"index"
+#else
+	#define HTML_INDEX			@"http://jshs.woobi.co.kr/traveling/index.html"
+#endif
 
 #define API_LOGIN				@"https://imtraveling.joyfl.kr/login.php"
 #define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"

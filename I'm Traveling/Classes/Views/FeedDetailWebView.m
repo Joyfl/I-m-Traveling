@@ -35,7 +35,7 @@
 		
 		_detailViewController = detailViewController;
 		
-		[self loadRemotePage:HTML_INDEX];
+		[self loadPage:HTML_INDEX];
 	}
 	
 	return self;
