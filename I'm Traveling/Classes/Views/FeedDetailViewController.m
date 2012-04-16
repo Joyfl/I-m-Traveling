@@ -839,11 +839,6 @@
 	}
 }
 
-- (void)currentFeedDidChange:(NSUInteger)oldIndex newIndex:(NSUInteger)newIndex
-{
-	[_webViews exchangeObjectAtIndex:oldIndex withObjectAtIndex:newIndex];
-}
-
 - (void)backButtonDidTouchUpInside
 {
 	[self animateDisappearance];
