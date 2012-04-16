@@ -22,7 +22,7 @@
 
 @implementation ProfileViewController
 
-- (id)init
+- (id)initWithUserId:(NSInteger)userId
 {
     if( self = [super init] )
 	{
@@ -42,7 +42,7 @@
 		[_scrollView addSubview:_webView];
 		
 		userObject = [[UserObject alloc] init];
-		userObject.userId = 2;
+		userObject.userId = userId;
     }
     return self;
 }

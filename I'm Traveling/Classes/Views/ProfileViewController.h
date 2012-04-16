@@ -22,4 +22,6 @@
 	BOOL created;
 }
 
+- (id)initWithUserId:(NSInteger)userId;
+
 @end

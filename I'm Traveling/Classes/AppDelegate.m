@@ -35,18 +35,18 @@
 	
 	ImTravelingNavigationController *feedNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
 	feedNavigationController.title = NSLocalizedString( @"TAB_FEED", @"Feed" );
-	feedNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_feed.png"] retain];
+	feedNavigationController.tabBarItem.image = [UIImage imageNamed:@"tab_feed.png"];
 	
 	ImTravelingNavigationController *shareNavigationController = [[ImTravelingNavigationController alloc] init];
 	shareNavigationController.title = NSLocalizedString( @"TAB_UPLOAD", @"Upload" );
 	
 	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
-	[uploadButton setImage:[[UIImage imageNamed:@"tab_share.png"] retain] forState:UIControlStateNormal];
+	[uploadButton setImage:[UIImage imageNamed:@"tab_share.png"] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
 	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
 	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
-	profileNavigationController.tabBarItem.image = [[UIImage imageNamed:@"tab_profile.png"] retain];
+	profileNavigationController.tabBarItem.image = [UIImage imageNamed:@"tab_profile.png"];
 	
 	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UIViewController alloc] init], profileNavigationController, nil];
 	[tabBarController.tabBar addSubview:uploadButton];
