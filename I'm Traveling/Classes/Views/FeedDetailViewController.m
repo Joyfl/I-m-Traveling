@@ -775,6 +775,11 @@
 	_lowerImageView.frame = CGRectMake( 0, offset, 320, _lowerImageView.frame.size.height );
 }
 
+- (void)feedChangeAnimationDidFinish
+{
+	[self stopBusy];
+}
+
 
 #pragma mark -
 #pragma mark Touch Selectors
@@ -783,7 +788,11 @@
 {
 	if( 0 < _currentFeedIndex )
 	{
+		[self startBusy];
+		
 		_currentFeedIndex --;
+		
+		[self performSelector:@selector(feedChangeAnimationDidFinish) withObject:nil afterDelay:0.5];
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
@@ -813,7 +822,11 @@
 {
 	if( _currentFeedIndex < _feedDetailObjects.count - 1 )
 	{
+		[self startBusy];
+		
 		_currentFeedIndex ++;
+		
+		[self performSelector:@selector(feedChangeAnimationDidFinish) withObject:nil afterDelay:0.5];
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
