@@ -31,6 +31,7 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
 	
 	tabBarController = [[UITabBarController alloc] init];
+	tabBarController.delegate = self;
 	tabBarController.tabBar.backgroundImage = [UIImage imageNamed:@"tab_bar.png"];
 	
 	ImTravelingNavigationController *feedNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[FeedListViewController alloc] init]];
@@ -44,9 +45,12 @@
 	[uploadButton setImage:[UIImage imageNamed:@"tab_share.png"] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
-	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ProfileViewController alloc] init]];
+	ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+	if( [Utils loggedIn] ) [profileViewController setUserId:[Utils userId]];
+	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:profileViewController];
 	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
 	profileNavigationController.tabBarItem.image = [UIImage imageNamed:@"tab_profile.png"];
+	[profileViewController release];
 	
 	tabBarController.viewControllers = [[NSArray alloc] initWithObjects:feedNavigationController, [[UIViewController alloc] init], profileNavigationController, nil];
 	[tabBarController.tabBar addSubview:uploadButton];
@@ -127,6 +131,32 @@
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
 	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UITabBarDelegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+	// ProfileView 선택시 로그인이 되어있지 않으면 LoginView를 띄움
+	if( [[[(UINavigationController *)viewController viewControllers] objectAtIndex:0] isKindOfClass:[ProfileViewController class]] )
+	{
+		ProfileViewController *profileViewController = [[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
+		
+		if( ![Utils loggedIn] )
+		{
+			[self presentLoginViewController];
+			return NO;
+		}
+		else
+		{
+			[profileViewController setUserId:[Utils userId]];
+			return YES;
+		}
+	}
+	
+	return YES;
 }
 
 

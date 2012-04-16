@@ -22,9 +22,9 @@
 
 @implementation ProfileViewController
 
-- (id)initWithUserId:(NSInteger)userId
+- (id)init
 {
-    if( self = [super init] )
+	if( self = [super init] )
 	{
 		self.view.backgroundColor = [UIColor darkGrayColor];
 		
@@ -42,9 +42,13 @@
 		[_scrollView addSubview:_webView];
 		
 		userObject = [[UserObject alloc] init];
-		userObject.userId = userId;
     }
     return self;
+}
+
+- (void)setUserId:(NSInteger)userId
+{
+	userObject.userId = userId;
 }
 
 - (void)didReceiveMemoryWarning
