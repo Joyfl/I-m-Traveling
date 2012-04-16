@@ -11,6 +11,7 @@
 #import "Const.h"
 #import "Comment.h"
 #import "Utils.h"
+#import "ProfileViewController.h"
 
 @implementation FeedDetailWebView
 
@@ -50,6 +51,13 @@
 	if( [message isEqualToString:@"all_feed"] )
 	{
 		[_detailViewController seeAllFeeds];
+	}
+	else if( [message isEqualToString:@"create_profile"] )
+	{
+		ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+		[profileViewController setUserId:[[arguments objectAtIndex:0] integerValue]];
+		[_detailViewController.navigationController pushViewController:profileViewController animated:YES];
+		[profileViewController release];
 	}
 }
 

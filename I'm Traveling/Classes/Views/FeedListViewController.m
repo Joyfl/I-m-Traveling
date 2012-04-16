@@ -11,6 +11,8 @@
 #import "Const.h"
 #import "Utils.h"
 #import "FeedObject.h"
+#import "ImTravelingNavigationController.h"
+#import "ProfileViewController.h"
 
 @interface FeedListViewController (Private)
 
@@ -237,6 +239,13 @@ enum {
 		detailViewController.ref = 0;
 		[detailViewController activateWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 		[self.navigationController pushViewController:detailViewController animated:NO];
+	}
+	else if( [message isEqualToString:@"create_profile"] )
+	{
+		ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+		[profileViewController setUserId:[[arguments objectAtIndex:0] integerValue]];
+		[self.navigationController pushViewController:profileViewController animated:YES];
+		[profileViewController release];
 	}
 }
 
