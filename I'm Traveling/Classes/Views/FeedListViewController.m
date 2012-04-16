@@ -13,6 +13,7 @@
 #import "FeedObject.h"
 #import "ImTravelingNavigationController.h"
 #import "ProfileViewController.h"
+#import "DejalActivityView.h"
 
 @interface FeedListViewController (Private)
 
@@ -179,6 +180,8 @@ enum {
 {
 	if( [message isEqualToString:@"feed_detail"] )
 	{
+		[self startBusy];
+		
 		CGFloat originalOffset = webView.scrollView.contentOffset.y;
 		
 		CGFloat offset = [[arguments objectAtIndex:1] floatValue];

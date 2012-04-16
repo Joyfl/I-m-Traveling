@@ -710,6 +710,8 @@
 		[self removeUpperAndLowerImages];
 	else
 		_animationFinished = YES;
+	
+	[self stopBusy];
 }
 
 - (void)removeUpperAndLowerImages

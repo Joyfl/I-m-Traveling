@@ -155,17 +155,18 @@
 
 - (void)startBusy
 {
-	self.view.userInteractionEnabled = NO;
-	self.navigationController.view.userInteractionEnabled = NO;
+	UIView *view;
 	
-	[DejalBezelActivityView activityViewForView:self.view];
+	if( self.tabBarController )
+		view = self.tabBarController.view;
+	else
+		view = self.view;
+	
+	[DejalBezelActivityView activityViewForView:view];
 }
 
 - (void)stopBusy
 {
-	self.view.userInteractionEnabled = YES;
-	self.navigationController.view.userInteractionEnabled = YES;
-	
 	[DejalBezelActivityView removeView];
 }
 
