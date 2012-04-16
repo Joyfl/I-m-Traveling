@@ -955,6 +955,11 @@
 			// ref가 1일 경우의 애니메이션 (ref 0, 2의 애니메이션은 viewDidAppear에서)
 			[self performSelectorOnMainThread:@selector(animateAppearance) withObject:nil waitUntilDone:NO];
 		}
+		else
+		{
+			// Simple Feed List에서 넘어올 경우 stopBusy
+			[self stopBusy];
+		}
 		
 		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
 	}

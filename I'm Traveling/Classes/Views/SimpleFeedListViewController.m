@@ -98,6 +98,8 @@
 {
 	if( [message isEqualToString:@"select_feed"] )
 	{
+		[self startBusy];
+		
 		NSInteger feedId = [[arguments objectAtIndex:0] integerValue];
 		NSInteger i;
 		for( i = 0; i < _feeds.count; i++ )
