@@ -745,10 +745,10 @@
 {
 	if( ref == 0 )
 	{
-		
-		
 		[_upperImageView removeFromSuperview];
 		[_lowerImageView removeFromSuperview];
+		[_upperImageView release];
+		[_lowerImageView release];
 	}
 	else if( ref == 1 )
 	{
