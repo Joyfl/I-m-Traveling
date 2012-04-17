@@ -14,13 +14,17 @@ public class MainActivity extends TabActivity
 	public void onCreate( Bundle savedInstanceState)
 	{
 		super.onCreate( savedInstanceState );
+		setContentView( R.layout.main );
 		
 		TabHost tabHost = getTabHost();
-		tabHost.getTabWidget().setPadding( 0, 50, 0, 0 );
 		
 		// Feed Tab
 		tabHost.addTab( tabHost.newTabSpec( "Feed" )
 				.setIndicator( "Feed" )
+				.setContent( new Intent( this, FeedListActivity.class ) ) );
+		
+		tabHost.addTab( tabHost.newTabSpec( "Profile" )
+				.setIndicator( "Profile" )
 				.setContent( new Intent( this, FeedListActivity.class ) ) );
 	}
 }
