@@ -1,10 +1,10 @@
 /* 
- Localizable.strings
- I'm Traveling
- 
- Created by 전 수열 on 12. 4. 14..
- Copyright (c) 2012년 Joyfl. All rights reserved.
- */
+  Localizable.strings
+  I'm Traveling
+
+  Created by 전 수열 on 12. 4. 14..
+  Copyright (c) 2012년 Joyfl. All rights reserved.
+*/
 
 // Common
 "PULL_DOWN_TO_UPDATE" = "업데이트하시려면 아래로 당기세요.";

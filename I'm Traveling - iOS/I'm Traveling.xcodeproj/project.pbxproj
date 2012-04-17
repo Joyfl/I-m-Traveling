@@ -266,6 +266,8 @@
 		0351468915058E7200CA94E0 /* share_image_top_border@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_image_top_border@2x.png"; sourceTree = "<group>"; };
 		035FDEAE14F0F50B002A2D1B /* ImTravelingWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingWebView.h; sourceTree = "<group>"; };
 		035FDEAF14F0F50B002A2D1B /* ImTravelingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingWebView.m; sourceTree = "<group>"; };
+		036457E2153E278100486A2E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		036457E3153E279C00486A2E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		036B32B814FC114900C1BA70 /* TripListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripListViewController.h; sourceTree = "<group>"; };
 		036B32B914FC114900C1BA70 /* TripListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripListViewController.m; sourceTree = "<group>"; };
 		036B32CF14FE8B4400C1BA70 /* share_top_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_top_bg.png; sourceTree = "<group>"; };
@@ -381,8 +383,6 @@
 		03F24B9D15105B4000B1CB85 /* TripAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripAddViewController.h; sourceTree = "<group>"; };
 		03F24B9E15105B4100B1CB85 /* TripAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripAddViewController.m; sourceTree = "<group>"; };
 		03FD65E21539586200F4C9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		03FD65E41539586600F4C9E0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/xoul/workspace/I'm Traveling/Resources/ko.lproj/Localizable.strings"; sourceTree = "<absolute>"; };
-		03FD65E51539586600F4C9E0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = "/Users/xoul/workspace/I'm Traveling/I'm Traveling/ko.lproj/InfoPlist.strings"; sourceTree = "<absolute>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -756,6 +756,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ko,
 			);
 			mainGroup = 039F63EA14C5CEE6002EC78F;
 			productRefGroup = 039F63F614C5CEE6002EC78F /* Products */;
@@ -945,7 +946,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				039F640314C5CEE6002EC78F /* en */,
-				03FD65E51539586600F4C9E0 /* ko */,
+				036457E2153E278100486A2E /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -954,7 +955,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				03FD65E21539586200F4C9E0 /* en */,
-				03FD65E41539586600F4C9E0 /* ko */,
+				036457E3153E279C00486A2E /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
