@@ -1,6 +1,7 @@
-package kr.joyfl;
+package kr.joyfl.imtraveling.activities;
 
-import kr.joyfl.activities.FeedListActivity;
+import kr.joyfl.R;
+import kr.joyfl.R.layout;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +12,14 @@ public class MainActivity extends TabActivity
 {
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate( Bundle savedInstanceState)
+	public void onCreate( Bundle savedInstanceState )
 	{
 		super.onCreate( savedInstanceState );
-		setContentView( R.layout.main );
+		setContentView( R.layout.tab_activity_controller );
 		
 		TabHost tabHost = getTabHost();
 		
-		// Feed Tab
+		// Feed Tab		
 		tabHost.addTab( tabHost.newTabSpec( "Feed" )
 				.setIndicator( "Feed" )
 				.setContent( new Intent( this, FeedListActivity.class ) ) );
