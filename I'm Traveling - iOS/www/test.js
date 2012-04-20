@@ -29,16 +29,16 @@ function init()
 	
 	clear();
 	
-	//var temp = makeClass("ul", "shadowTest", getId("page"));
-	//var temp2 = makeClass("li", "shadowText", temp);
+	//var temp = _("ul", "shadowTest", $("#page"));
+	//var temp2 = _("li", "shadowText", temp);
 	
 	//t_fl();
-	t_fd();
+	//t_fd();
 	//t_cl();
 	//t_sf();
 	//t_st();
 	//t_pl();
-	//t_p();
+	t_p();
 	//t_pll();
 	//t_usf();
 	//t_msf();
@@ -73,16 +73,16 @@ function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/
 
 function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place, _region)
 {
-	var cover = makeClass("div", "cover profileImage", header);
-	var profileImage = makeClass("img", "profileImage", header);
+	var cover = _("div", ".cover profileImage", header);
+	var profileImage = _("img", ".profileImage", header);
 	
-	var upperWrap = makeClass("div", "upperWrap", header);
-	var lowerWrap = makeClass("div", "lowerWrap", header);
+	var upperWrap = _("div", ".upperWrap", header);
+	var lowerWrap = _("div", ".lowerWrap", header);
 	
-	var userName = makeClass("div", "userName", upperWrap);
-	var time = makeClass("div", "time", upperWrap);
-	var place = makeClass("div", "place", lowerWrap);
-	var region = makeClass("div", "region", lowerWrap);
+	var userName = _("div", ".userName", upperWrap);
+	var time = _("div", ".time", upperWrap);
+	var place = _("div", ".place", lowerWrap);
+	var region = _("div", ".region", lowerWrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
@@ -101,21 +101,21 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 
 function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 {
-	var cover = makeClass("div", "cover picture", thumbnail);
-	var picture = makeClass("img", "picture", thumbnail);
+	var cover = _("div", ".cover picture", thumbnail);
+	var picture = _("img", ".picture", thumbnail);
 	
 	if(isThumbnail)
 	{
-		var feedback = makeClass("div", "feedback", thumbnail);
+		var feedback = _("div", ".feedback", thumbnail);
 	
-		var commentWrap = makeClass("div", "iconWrap", feedback);
-		var likeWrap = makeClass("div", "iconWrap", feedback);
+		var commentWrap = _("div", ".iconWrap", feedback);
+		var likeWrap = _("div", ".iconWrap", feedback);
 	
-		var likeIcon = makeClass("img", "icon", likeWrap);
-		var commentIcon = makeClass("img", "icon", commentWrap);
+		var likeIcon = _("img", ".icon", likeWrap);
+		var commentIcon = _("img", ".icon", commentWrap);
 	
-		var likeText = makeClass("div", "iconText green", likeWrap);
-		var commentText = makeClass("div", "iconText blue", commentWrap);
+		var likeText = _("div", ".iconText green", likeWrap);
+		var commentText = _("div", ".iconText blue", commentWrap);
 		
 		likeIcon.src = iconLike;
 		commentIcon.src = iconComment;
@@ -139,9 +139,9 @@ function fillInfoList(infoList, info)
 	var n = info.length;
 	for(var i = 0; i < n; i++)
 	{
-		var component = makeClass("div", "infoListComponent", infoList);
-		var leftWrap = makeClass("div", "leftWrap", component);
-		var rightWrap = makeClass("div", "rightWrap", component);
+		var component = _("div", ".infoListComponent", infoList);
+		var leftWrap = _("div", ".leftWrap", component);
+		var rightWrap = _("div", ".rightWrap", component);
 		
 		leftWrap.innerHTML = "<img src=\"./resource/coin.png\" class=\"coin\" /> " + info[i].item;
 		if(info[i].unit == '\\')
@@ -153,38 +153,37 @@ function fillInfoList(infoList, info)
 
 function fillLikeBar(likeBar, trip_id, num_likes)
 {
-	makeClass("img", "smallIcon", likeBar).src = iconLike;
-	makeClass("div", "pseudo-1", likeBar).innerHTML = "<span class=\"likeBarNumber\">" + num_likes + "</span> people likes this feed."
+	_("img", ".smallIcon", likeBar).src = iconLike;
+	_("div", ".pseudo-1", likeBar).innerHTML = "<span class=\"likeBarNumber\">" + num_likes + "</span> people likes this feed."
 	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
 function createArrow()
 {
-	var page = getId("page");
+	var page = $("#page");
 	var marger = document.createElement("div");
 	marger.id = "marger";
 	document.body.insertBefore(marger, page);
-	var topArrow = makeId("img", "topArrow", marger);
+	var topArrow = _("img", "#topArrow", marger);
 	topArrow.src = "resource/topArrow.png";
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 	var shadower = document.createElement("div");
-	//shadower.className = "softShadow";
 	shadower.id = "shadower";
 	document.body.insertBefore(shadower, page);
 }
 
 function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 {
-	var cover = makeClass("div", "cover profileImage", wrap);
-	var thumbnail = makeClass("img", "profileImage", wrap);
+	var cover = _("div", ".cover profileImage", wrap);
+	var thumbnail = _("img", ".profileImage", wrap);
 	
-	var upperWrap = makeClass("div", "upperWrap", wrap);
-	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	var upperWrap = _("div", ".upperWrap", wrap);
+	var lowerWrap = _("div", ".lowerWrap", wrap);
 	
-	var place = makeClass("div", "place darkblue", upperWrap);
-	var time = makeClass("div", "time", upperWrap);
-	var review = makeClass("div", "review", lowerWrap);
-	var zfbe = makeClass("div", "zfbe", wrap);
+	var place = _("div", ".place darkblue", upperWrap);
+	var time = _("div", ".time", upperWrap);
+	var review = _("div", ".review", lowerWrap);
+	var zfbe = _("div", ".zfbe", wrap);
 		
 	thumbnail.src = picture_url;
 	time.innerText = _time;
@@ -202,17 +201,17 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 
 function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date, _summary, num_feeds)
 {
-	var cover = makeClass("div", "cover profileImage", wrap);
-	var thumbnail = makeClass("img", "profileImage", wrap);
+	var cover = _("div", ".cover profileImage", wrap);
+	var thumbnail = _("img", ".profileImage", wrap);
 	
-	var upperWrap = makeClass("div", "upperWrap", wrap);
-	var lowerWrap = makeClass("div", "lowerWrap", wrap);
+	var upperWrap = _("div", ".upperWrap", wrap);
+	var lowerWrap = _("div", ".lowerWrap", wrap);
 	
-	var time = makeClass("div", "time", upperWrap);
-	var numText = makeClass("div", "numText", upperWrap);
-	var title = makeClass("div", "title", upperWrap);
-	var summary = makeClass("div", "summary", lowerWrap);
-	var zfbe = makeClass("div", "zfbe", wrap);
+	var time = _("div", ".time", upperWrap);
+	var numText = _("div", ".numText", upperWrap);
+	var title = _("div", ".title", upperWrap);
+	var summary = _("div", ".summary", lowerWrap);
+	var zfbe = _("div", ".zfbe", wrap);
 		
 	thumbnail.src = picture_url;
 	time.innerText = start_date + " ~ " + end_date;
@@ -230,12 +229,12 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 
 function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
 {
-	var cover = makeClass("div", "cover profileImage", wrap);
-	var profileImage = makeClass("img", "profileImage", wrap);
+	var cover = _("div", ".cover profileImage", wrap);
+	var profileImage = _("img", ".profileImage", wrap);
 	
-	var textWrap = makeClass("div", "peopleText", wrap);
-	var userName = makeClass("div", "userName", textWrap);
-	var nation = makeClass("div", "nation", textWrap);
+	var textWrap = _("div", ".peopleText", wrap);
+	var userName = _("div", ".userName", textWrap);
+	var nation = _("div", ".nation", textWrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
@@ -247,15 +246,15 @@ function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 function fillPlaceList(wrap, place_id, name, category)
 {
 	wrap.onclick = function() { call("select_place:" + place_id); };
-	makeClass("div", "name", wrap).innerText = name;
-	makeClass("div", "category", wrap).innerText = category;
-	makeClass("div", "zfbe", wrap);
+	_("div", ".name", wrap).innerText = name;
+	_("div", ".category", wrap).innerText = category;
+	_("div", ".zfbe", wrap);
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
 {
-	getId("page").style.marginTop = "6em";
-	getId("page").style.marginBottom = "6em";
+	$("#page").style.marginTop = "6em";
+	$("#page").style.marginBottom = "6em";
 	
 	wrap.innerHTML = "\
 		<div class=\"boing softShadow\"></div>\
@@ -296,17 +295,17 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 		\
 		<div class=\"bottomWrap\"></div>";
 	
-	getClass("profileImage")[1].src = profile_image_url;
+	$(".profileImage")[1].src = profile_image_url;
 	var onTrip;
 	if(is_on_trip) onTrip = "resource/traveling.png";
-	getClass("onTrip")[0].src = onTrip;
+	$(".onTrip")[0].src = onTrip;
 	
-	var badgeWrap = getClass("badgeWrap")[0];
-	var userName = getClass("userName")[0];
-	var nationWrap = getClass("nationWrap")[0];
+	var badgeWrap = $(".badgeWrap")[0];
+	var userName = $(".userName")[0];
+	var nationWrap = $(".nationWrap")[0];
 	
 	for(var i = 0; i < min(badges.length, 4); i++)
-		makeClass("img", "badge", badgeWrap).src = rep_badges[i];
+		_("img", ".badge", badgeWrap).src = rep_badges[i];
 	
 	var wSize = intToPixel(getWidth() - emToPixel(11));
 	setWidth(badgeWrap, wSize);
@@ -317,30 +316,30 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	
 	if(notice > 0)
 	{
-		getClass("noticeImage")[0].src = "resource/bulb.png";
-		getClass("noticeText")[0].innerHTML = "<div class=\"green\">" + notice + "</div>";
+		$(".noticeImage")[0].src = "resource/bulb.png";
+		$(".noticeText")[0].innerHTML = "<div class=\"green\">" + notice + "</div>";
 	}
 	
-	var numbers = getClass("number");
+	var numbers = $(".number");
 	numbers[0].innerText = followers;
 	numbers[1].innerText = following;
 	numbers[2].innerText = badges;
 	
-	var texts = getClass("text");
+	var texts = $(".text");
 	texts[0].innerText = "Followers";
 	texts[1].innerText = "Following";
 	texts[2].innerText = "Badges";
 	
-	var bottomWrap = getClass("bottomWrap")[0];
-	makeClass("div", "border", bottomWrap);
-	var seeAllFeed = makeClass("div", "seeAllFeed seeAll", bottomWrap);
+	var bottomWrap = $(".bottomWrap")[0];
+	_("div", ".border", bottomWrap);
+	var seeAllFeed = _("div", ".seeAllFeed seeAll", bottomWrap);
 	seeAllFeed.onclick = function() { call("all_feed:" + trip_id); };
-	makeClass("div", "border", bottomWrap);
-	var seeAllTrip = makeClass("div", "seeAllTrip seeAll", bottomWrap);
+	_("div", ".border", bottomWrap);
+	var seeAllTrip = _("div", ".seeAllTrip seeAll", bottomWrap);
 	seeAllTrip.onclick = function() { call("all_trip:" + user_id); };
 	
-	makeClass("div", "darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	makeClass("div", "darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	_("div", ".darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	_("div", ".darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
 }
 
 
@@ -350,13 +349,13 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 
 function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, _review, num_likes, num_comments, isThumbnail)
 {
-	var header = makeClass("div", "header", wrap);
+	var header = _("div", ".header", wrap);
 	fillHeader(header, user_id, profile_image_url, name, time, place, region);
 	
-	var thumbnail = makeClass("div", "thumbnail component", wrap);
+	var thumbnail = _("div", ".thumbnail component", wrap);
 	fillThumbnail(thumbnail, picture_url, num_likes, num_comments, isThumbnail);
 	
-	var review = makeClass("div", "review component", wrap);
+	var review = _("div", ".review component", wrap);
 	review.innerText = _review;
 	
 	createGap(wrap, 0.1);
@@ -366,115 +365,34 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 
 function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 {
-	var infoList = makeClass("ul", "infoList", wrap);
+	var infoList = _("ul", ".infoList", wrap);
 	fillInfoList(infoList, info);
 	
-	makeClass("div", "border", wrap);
+	_("div", ".border", wrap);
 	
-	var button = makeClass("div", "seeAll", wrap);
+	var button = _("div", ".seeAll", wrap);
 	button.innerText = "See all " + num_all_feeds + " feeds";
 	
-	var likeBar = makeClass("div", "likeBar", wrap);
+	var likeBar = _("div", ".likeBar", wrap);
 	fillLikeBar(likeBar, trip_id, num_likes);
 	
-	makeClass("div", "border", wrap);
+	_("div", ".border", wrap);
 	
 	button.onclick = function() { call("all_feed:" + trip_id); };
 }
 
-/*function fillCommentList(commentList, comments)
-{
-	var n = comments.length;
-	for(var i = 0; i < n; i++)
-		addComment(commentList, comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
-}*/
-
-
-
-
-// Front-End Functions
-
-function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
-{
-	var wrap = makeClass("div", "wrap", getId("page"));
-	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
-}
-
-function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
-{
-	var wrap = document.createElement("div");
-	var page = getId("page");
-	page.insertBefore(wrap, page.firstChild);
-	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
-}
-
-function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
-{
-	sf.push(1);
-	var wrap, cName;
-	if(sf.length % 2 == 0) cName = "simpleFeed even";
-	else cName = "simpleFeed odd";
-	wrap = makeClass("div", cName, getId("page"));
-	wrap.id = "simple_feed_" + feed_id;
-	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
-}
-
-function addUnloadedSimpleFeed(feed_id)
-{
-	addSimpleFeed(feed_id, " ", " ", " ", "loading...");
-}
-
-function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
-{
-	wrap = getId("simple_feed_" + feed_id);
-	wrap.innerHTML = "";
-	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
-}
-
-function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, num_feeds)
-{
-	st.push(1);
-	var wrap, cName;
-	if(st.length % 2 == 0) cName = "simpleTrip even";
-	else cName = "simpleTrip odd";
-	wrap = makeClass("div", cName, getId("page"));
-	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, num_feeds);
-}
-
-function addPeople(user_id, profile_image_url, name, nation, isFollowing)
-{
-	var wrap = makeClass("div", "header", getId("page"));
-	fillPeople(wrap, user_id, profile_image_url, name, nation, isFollowing);
-}
-
-function addPlace(place_id, name, category)
-{
-	pl.push(1);
-	var wrap, cName;
-	if(pl.length % 2 == 0) cName = "placeList even";
-	else cName = "placeList odd";
-	wrap = makeClass("div", cName, getId("page"));
-	fillPlaceList(wrap, place_id, name, category);
-}
-
-function addComment(user_id, profile_image_url, name, _time, _content)
-{
-	cl.push(1);
-	var wrap, cName;
-	if(cl.length % 2 == 0) cName = "commentWrap even";
-	else cName = "commentWrap odd";
-	wrap = makeClass("div", cName, getId("page"));
+function fillComment(wrap, user_id, profile_image_url, name, _time, _content)
+{	
+	var cover = _("div", ".cover profileImage", wrap);
+	var profileImage = _("img", ".profileImage", wrap);
 	
-	var cover = makeClass("div", "cover profileImage", wrap);
-	var profileImage = makeClass("img", "profileImage", wrap);
+	var upperWrap = _("div", ".upperWrap", wrap);
+	var lowerWrap = _("div", ".lowerWrap", wrap);
 	
-	var upperWrap = makeClass("div", "upperWrap", wrap);
-	var lowerWrap = makeClass("div", "lowerWrap", wrap);
-	
-	var userName = makeClass("div", "userName", upperWrap);
-	var time = makeClass("div", "time", upperWrap);
-	var content = makeClass("div", "review", lowerWrap);
-	var zfbe = makeClass("div", "zfbe", wrap);
+	var userName = _("div", ".userName", upperWrap);
+	var time = _("div", ".time", upperWrap);
+	var content = _("div", ".review", lowerWrap);
+	var zfbe = _("div", ".zfbe", wrap);
 		
 	profileImage.src = profile_image_url;
 	userName.innerText = name;
@@ -491,17 +409,85 @@ function addComment(user_id, profile_image_url, name, _time, _content)
 	userName.onclick = profile;
 }
 
+
+
+
+// Front-End Functions
+
+function addFeed(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
+{
+	var wrap = _("div", ".wrap", $("#page"));
+	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
+}
+
+function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
+{
+	var wrap = document.createElement("div");
+	var page = $("#page");
+	page.insertBefore(wrap, page.firstChild);
+	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
+}
+
+function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
+{
+	sf.push(1);
+	var wrap = _("div", coloring(sf.length, ".simpleFeed"), $("#page"));
+	wrap.id = "simple_feed_" + feed_id;
+	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
+}
+
+function addUnloadedSimpleFeed(feed_id)
+{
+	addSimpleFeed(feed_id, " ", " ", " ", "loading...");
+}
+
+function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
+{
+	var wrap = $("#simple_feed_" + feed_id);
+	wrap.innerHTML = "";
+	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
+}
+
+function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, num_feeds)
+{
+	st.push(1);
+	var wrap = _("div", coloring(st.length, ".simpleTrip"), $("#page"));
+	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, num_feeds);
+}
+
+function addPeople(user_id, profile_image_url, name, nation, isFollowing)
+{
+	var wrap = _("div", ".header", $("#page"));
+	fillPeople(wrap, user_id, profile_image_url, name, nation, isFollowing);
+}
+
+function addPlace(place_id, name, category)
+{
+	pl.push(1);
+	var wrap = _("div", coloring(pl.length, ".placeList"), $("#page"));
+	fillPlaceList(wrap, place_id, name, category);
+}
+
+function addComment(user_id, profile_image_url, name, _time, _content)
+{
+	cl.push(1);
+	if(!$("#commentList"))
+		_("div", "#commentList", $("#page"));
+	var wrap = _("div", coloring(cl.length, ".commentWrap"), $("#commentList"));
+	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
+}
+
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
 {
 	createArrow();
-	var wrap = makeClass("div", "wrap", getId("page"));
+	var wrap = _("div", ".wrap", $("#page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
 	fillFeedContents(wrap, JSON.parse(info), trip_id, num_all_feeds, num_likes);
 }
 
 function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
 {
-	var wrap = makeClass("div", "profile", getId("page"));
+	var wrap = _("div", ".profile", $("#page"));
 	fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip);
 }
 
@@ -510,40 +496,60 @@ function createProfile(user_id, profile_image_url, name, nation, followers, foll
 
 // Basic Functions
 
-function makeClass(type, className, parent) {
-	component = document.createElement(type);
-	component.className = className;
-	parent.appendChild(component);
-	return component;
+function $(input)
+{
+	var content = input.slice(1, input.length);
+	if(input[0] == "#")
+		return document.getElementById(content);
+	else if(input[0] == ".")
+		return document.getElementsByClassName(content);
+	else if(input[0] == "*")
+		return document.getElementsByName(content);
+	else if(input[0] == "<" && input[input.length - 1] == ">")
+		return document.getElementsByTagName(content.slice(0, content.length - 1));
 }
-function makeId(type, id, parent) {
-	component = document.createElement(type);
-	component.id = id;
-	parent.appendChild(component);
-	return component;
+
+function _(type, name, parent)
+{
+	element = document.createElement(type);
+	if(name[0] == "#")	
+		element.id = name.slice(1, name.length);
+	else if(name[0] == ".")
+		element.className = name.slice(1, name.length);
+	parent.appendChild(element);
+	return element;
+}
+
+function coloring(index, name)
+{
+	if(index % 2 == 0) name += " even";
+	else name += " odd";
+	return name;
 }
 
 function createGap(parent, height) {
-	gap = document.createElement("div");
-	gap.className = "gap";
+	var gap = _("div", ".gap", parent);
 	gap.style.height = intToEm(height);
-	parent.appendChild(gap);
 	return gap;
 }
 function clear() {
-	var page = getId("page");
+	var page = $("#page");
 	if(page) document.body.removeChild(page);
-	makeId("div", "page", document.body);
+	_("div", "#page", document.body);
 	
-	var temp = getId("marger");
+	var temp = $("#marger");
 	if(temp) document.body.removeChild(temp);
-	temp = getId("shadower");
+	temp = $("#shadower");
 	if(temp) document.body.removeChild(temp);
 	
 	sf = new Array();
 	st = new Array();
 	pl = new Array();
 	cl = new Array();
+}
+function clearCommentList()
+{
+	if($("#commentList")) $("#page").removeChild($("#commentList"));
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
@@ -553,11 +559,8 @@ function intToEm(value) { return value.toString() + "em"; }
 function pixelToEm(value) { return value/RATIO; }
 function emToPixel(value) { return value*RATIO; }
 
-function getId(id) { return document.getElementById(id); }
-function getClass(name) { return document.getElementsByClassName(name); }
-
 function getEmSize() {
-	var temp = makeClass("div", "pseudo", document.body);
+	var temp = _("div", ".pseudo", document.body);
 	temp.style.height = "1em";
 	var ret = temp.offsetHeight;
 	document.body.removeChild(temp);
@@ -567,8 +570,8 @@ function getEmSizeByEl(el) {
 	if (typeof el == "string") el = document.getElementById(el);
 	if (el != null)
 	{
-    	var tempDiv = document.createElement('div');
-    	tempDiv.style.height = '1em';
+    	var tempDiv = document.createElement("div");
+    	tempDiv.style.height = "1em";
     	el.appendChild(tempDiv);
     	var emSize = tempDiv.offsetHeight;
     	el.removeChild(tempDiv);
