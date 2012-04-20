@@ -185,26 +185,34 @@ enum {
 		CGFloat originalOffset = webView.scrollView.contentOffset.y;
 		
 		CGFloat offset = [[arguments objectAtIndex:1] floatValue];
+		UIImage *upperImage;
 		
-		// Upper Image
-		CGSize upperImageSize = CGSizeMake( 320, offset );
-		
-		if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
+		if( offset > 0 )
 		{
-			if( [[UIScreen mainScreen] scale] == 2.0 )
-				UIGraphicsBeginImageContextWithOptions( upperImageSize, NO, 2.0 );
+			// Upper Image
+			CGSize upperImageSize = CGSizeMake( 320, offset );
 			
+			if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
+			{
+				if( [[UIScreen mainScreen] scale] == 2.0 )
+					UIGraphicsBeginImageContextWithOptions( upperImageSize, NO, 2.0 );
+				
+				else
+					UIGraphicsBeginImageContext( upperImageSize );
+			}
 			else
+			{
 				UIGraphicsBeginImageContext( upperImageSize );
+			}
+			
+			[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
+			upperImage = UIGraphicsGetImageFromCurrentImageContext();
+			UIGraphicsEndImageContext();
 		}
 		else
 		{
-			UIGraphicsBeginImageContext( upperImageSize );
+			upperImage = [[UIImage alloc] init];
 		}
-		
-		[webView.layer renderInContext:UIGraphicsGetCurrentContext()];
-		UIImage *upperImage = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
 		
 		// Lower Image
 		self.webView.scrollView.contentOffset = CGPointMake( 0, webView.scrollView.contentOffset.y + offset );
@@ -215,7 +223,7 @@ enum {
 		frame.size.height = 367 + ABS( offset );
 		self.webView.frame = frame;
 		
-		CGSize lowerImageSize = CGSizeMake( 320, frame.size.height );
+		CGSize lowerImageSize = CGSizeMake( 320, 367 );
 		
 		if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
 		{
@@ -241,6 +249,7 @@ enum {
 		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
 		detailViewController.ref = 0;
 		[detailViewController activateWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
+		
 		[self.navigationController pushViewController:detailViewController animated:NO];
 	}
 	else if( [message isEqualToString:@"create_profile"] )
