@@ -1,11 +1,9 @@
 package kr.joyfl.imtraveling.activities;
 
 import kr.joyfl.R;
-import kr.joyfl.R.layout;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TabHost;
 
 public class MainActivity extends TabActivity

@@ -1,12 +1,10 @@
 package kr.joyfl.imtraveling.activities;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -49,7 +47,34 @@ public class FeedListActivity extends Activity
 					loadData( "http://imtraveling.joyfl.kr/feed_list.php?from=0&order_type=1" );
 				}
 			}
+			
+			@Override
+			public boolean shouldOverrideUrlLoading( WebView webView, String url )
+			{
+				String[] components = url.split( ":" );
+				if( components[0].equals( "imtraveling" ) )
+				{
+					messageFromWebView( components[1], Arrays.copyOfRange( components, 2, components.length ) );
+					return true;
+				}
+				
+				return false;
+			}
 		} );
+	}
+	
+	public void messageFromWebView( String message, String[] arguments )
+	{
+		Log.i( "I'm Traveling", "msg : " + message );
+		for( String arg : arguments )
+			Log.i( "I'm Traveling", "args : " + arg );
+		
+		// temp code
+//		webView.buildDrawingCache();
+//		Bitmap bitmap = webView.getDrawingCache();
+//		ImageView imageView = new ImageView( this );
+//		imageView.setImageBitmap( bitmap );
+//		setContentView( imageView );
 	}
 	
 	public void executeJavascript( String javascript )

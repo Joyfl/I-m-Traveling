@@ -21,7 +21,6 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".imtraveling.activities.NavigationActivityController" />
         <activity android:name=".imtraveling.activities.FeedListActivity" />
     </application>
 
