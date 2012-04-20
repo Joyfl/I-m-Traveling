@@ -380,7 +380,7 @@ enum {
 	[_feedListObjects setObject:feedObj forKey:key];
 	
 	NSString *functionName = top ? @"addFeedTop" : @"addFeed";
-	NSString *func = [[NSString stringWithFormat:@"%@(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *func = [NSString stringWithFormat:@"%@(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
 					   functionName,
 					   feedObj.feedId,
 					   feedObj.userId,
@@ -392,7 +392,7 @@ enum {
 					   feedObj.pictureURL,
 					   feedObj.review,
 					   feedObj.numLikes,
-					   feedObj.numComments] retain];
+					   feedObj.numComments];
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
