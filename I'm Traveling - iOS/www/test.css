@@ -13,41 +13,15 @@ a
 	color: #473e4d;
 }
 
-@font-face
-{
-	font-family: "Helvetica 75 Bold";
-	src: url("font/HelveticaNeue 75 Bold.otf");
-}
-
-@font-face
-{
-	font-family: "Helvetica 37 Thin Condensed";
-	src: url("font/HelveticaNeue 37 Thin Condensed.otf");
-}
-
-@font-face
-{
-	font-family: "Sandol";
-	src: url("font/산돌고딕M.ttf");
-}
-
-@font-face
-{
-	font-family: "Sandol";
-	src: url("font/산돌고딕B.ttf");
-	font-weight: bold;
-}
-
 html, body
 {
 	overflow-x: hidden;
-	font-family: "Sandol", "Helvetica 75 Bold";
+	font-family: "Helvetica", "Apple SD Gothic Neo";
 	-webkit-user-select: none;
 	-ms-user-select: none;
 	-moz-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-	
 	background-color: transparent;
 	font-size: 10px;
 }
@@ -202,6 +176,13 @@ ul, ol, li
 	font-size: 1.6em;
 	font-weight: bold !important;
 	color: #140e17;
+	width: 80%;
+	height: 1.3em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
 }
 
 .region
@@ -211,6 +192,9 @@ ul, ol, li
 	font-size: 1.1em;
 	color: #876d56;
 	margin-top: 0.3em;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
 }
 
 
@@ -260,6 +244,9 @@ ul, ol, li
 	float: left;
 	margin-top: 0.07em;
 	font-size: 1.3em;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
 }
 
 .review

@@ -49,7 +49,7 @@ function init()
 
 // Test Functions
 
-function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
+function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", pic2, reviewShort, 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", 4, 4); }
 function t_cl()
 {

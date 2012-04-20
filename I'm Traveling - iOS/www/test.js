@@ -32,13 +32,13 @@ function init()
 	//var temp = _("ul", "shadowTest", $("#page"));
 	//var temp2 = _("li", "shadowText", temp);
 	
-	//t_fl();
+	t_fl();
 	//t_fd();
 	//t_cl();
 	//t_sf();
 	//t_st();
 	//t_pl();
-	t_p();
+	//t_p();
 	//t_pll();
 	//t_usf();
 	//t_msf();
@@ -49,7 +49,7 @@ function init()
 
 // Test Functions
 
-function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "Las Vegas", "KOR", pic2, reviewShort, 113, 113); }
+function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", pic2, reviewShort, 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", 4, 4); }
 function t_cl()
 {
