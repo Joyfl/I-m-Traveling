@@ -163,6 +163,8 @@ static DejalActivityView *dejalActivityView = nil;
 {
     if ([dejalActivityView isEqual:self])
         dejalActivityView = nil;
+	
+	[super dealloc];
 }
 
 /*
