@@ -682,6 +682,7 @@ ul, ol, li
 	text-align: center;
 	font-size: 3.5em;
 	color: #302935;
+	font-weight: bold;
 }
 
 .text
@@ -689,6 +690,7 @@ ul, ol, li
 	text-align: center;
 	font-size: 1.5em;
 	color: #53455f;
+	font-weight: bold;
 }
 
 .bottomWrap .seeAll

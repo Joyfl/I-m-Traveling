@@ -38,7 +38,7 @@ function init()
 	//t_sf();
 	//t_st();
 	//t_pl();
-	t_p();
+	//t_p();
 	//t_pll();
 	//t_usf();
 	//t_msf();
