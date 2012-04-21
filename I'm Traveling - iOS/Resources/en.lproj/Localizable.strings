@@ -77,6 +77,6 @@
 "TIME" = "Time";
 
 // Profile
-"FOLLWERS" = "Followers";
-"BADGES" = "Badges";
-"SEE_ALL_N_TRIPS" = "See all %d trip(s).";
+"TRIPS" = "Trips";
+"FOLLOWINGS" = "Followings";
+"FOLLOWERS" = "Followers";

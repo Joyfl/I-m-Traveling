@@ -79,6 +79,6 @@
 "TIME" = "시간";
 
 // Profile
-"FOLLWERS" = "팔로워";
-"BADGES" = "뱃지";
-"SEE_ALL_N_TRIPS" = "%d개의 여행 모두보기";
+"TRIPS" = "여행";
+"FOLLOWINGS" = "팔로잉";
+"FOLLOWERS" = "팔로워";

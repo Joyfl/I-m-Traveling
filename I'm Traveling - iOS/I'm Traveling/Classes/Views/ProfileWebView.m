@@ -47,24 +47,23 @@
 {
 	[self clear];
 	
-	NSString *func = [[NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, %d, %d, '%@', %d, %d, %d, %d )",
+	NSString *func = [NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, '%@', %d, '%@', %d, '%@', %d, %d )",
 					   userObj.userId,
 					   userObj.profileImageURL,
 					   userObj.name,
 					   userObj.nation,
-					   userObj.numFollowers,
-					   userObj.numFollowings,
-					   /*userObj.numBadges"*/0,
-					   @"[]",
-					   /*notice*/0,
-					   userObj.numFeeds,
 					   userObj.numTrips,
-					   0] retain];
+					   NSLocalizedString( @"TRIPS", @"" ),
+					   userObj.numFollowers,
+					   NSLocalizedString( @"FOLLOWINGS", @"" ),
+					   userObj.numFollowings,
+					   NSLocalizedString( @"FOLLOWERS", @"" ),
+					   /*notice*/0,
+					   0];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
-	[func release];
 	
-	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 @end
