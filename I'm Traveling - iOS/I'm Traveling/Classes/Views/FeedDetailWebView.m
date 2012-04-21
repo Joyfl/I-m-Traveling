@@ -83,7 +83,7 @@
 		return;
 	}
 	
-	NSString *func = [NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *func = [NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
 					   feedObj.tripId,
 					   feedObj.feedId,
 					   feedObj.userId,
@@ -95,8 +95,8 @@
 					   feedObj.pictureURL,
 					   feedObj.review,
 					   [Utils writeJSON:feedObj.info],
-					   feedObj.numAllFeeds,
-					   feedObj.numLikes];
+					   [NSString stringWithFormat:NSLocalizedString( @"SEE_ALL_N_FEEDS", @"" ), feedObj.numAllFeeds],
+					   [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), feedObj.numLikes]];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];	
