@@ -644,7 +644,7 @@ ul, ol, li
 
 .noticeText
 {
-	margin-top: 2.2em;
+	margin-top: 2em;
 }
 
 .noticeText .green
@@ -656,7 +656,7 @@ ul, ol, li
 .infoBox
 {
 	width: 33%;
-	height: 5.5em;
+	height: 6em;
 	float: left;
 }
 

@@ -50,7 +50,7 @@ function init()
 // Test Functions
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", pic2, reviewShort, 113, 113); }
-function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", 4, 4); }
+function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", "See all 4 feeds", "4 people likes this feed"); }
 function t_cl()
 {
 	for(var i = 0; i < comments.length; i++)
@@ -60,8 +60,8 @@ function t_cl()
 }
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
-function t_pl() { for(var i = 0; i < 6; i++) addPeople(123, pic1, "바나나", "KOR", false); }
-function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, 72, 7, new Array(pic1, pic1, pic1, pic1), 99, 233, 233, true); }
+function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, pic1, "바나나", "KOR", false); }
+function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, "Followers", 72, "Following", 7, "Trips", 99, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
 function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
@@ -151,10 +151,11 @@ function fillInfoList(infoList, info)
 	}
 }
 
-function fillLikeBar(likeBar, trip_id, num_likes)
+function fillLikeBar(likeBar, trip_id, likes_text)
 {
 	_("img", ".smallIcon", likeBar).src = iconLike;
-	_("div", ".pseudo-1", likeBar).innerHTML = "<span class=\"likeBarNumber\">" + num_likes + "</span> people likes this feed."
+	_("div", ".pseudo-1", likeBar).innerHTML = likes_text;
+	//_("div", ".pseudo-1", likeBar).innerHTML = "<span class=\"likeBarNumber\">" + num_likes + "</span> people likes this feed.";
 	likeBar.onclick = function() { call("people_list:" + "trip:" + trip_id); };
 }
 
@@ -227,7 +228,7 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 	wrap.onclick = function() { call("select_trip:" + trip_id); };
 }
 
-function fillPeople(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
+function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
 {
 	var cover = _("div", ".cover profileImage", wrap);
 	var profileImage = _("img", ".profileImage", wrap);
@@ -251,7 +252,7 @@ function fillPlaceList(wrap, place_id, name, category)
 	_("div", ".zfbe", wrap);
 }
 
-function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
+function fillProfile(wrap, user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip)
 {
 	$("#page").style.marginTop = "6em";
 	$("#page").style.marginBottom = "6em";
@@ -304,8 +305,8 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	var userName = $(".userName")[0];
 	var nationWrap = $(".nationWrap")[0];
 	
-	for(var i = 0; i < min(badges.length, 4); i++)
-		_("img", ".badge", badgeWrap).src = rep_badges[i];
+	//for(var i = 0; i < min(badges.length, 4); i++)
+	//	_("img", ".badge", badgeWrap).src = rep_badges[i];
 	
 	var wSize = intToPixel(getWidth() - emToPixel(11));
 	setWidth(badgeWrap, wSize);
@@ -321,25 +322,31 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers, 
 	}
 	
 	var numbers = $(".number");
-	numbers[0].innerText = followers;
-	numbers[1].innerText = following;
-	numbers[2].innerText = badges;
+	numbers[0].innerText = followers_num;
+	numbers[1].innerText = following_num;
+	numbers[2].innerText = trips_num;
 	
 	var texts = $(".text");
-	texts[0].innerText = "Followers";
-	texts[1].innerText = "Following";
-	texts[2].innerText = "Badges";
+	texts[0].innerText = following_text;
+	texts[1].innerText = following_text;
+	texts[2].innerText = trips_text;
 	
 	var bottomWrap = $(".bottomWrap")[0];
 	_("div", ".border", bottomWrap);
+	
+	/*
 	var seeAllFeed = _("div", ".seeAllFeed seeAll", bottomWrap);
-	seeAllFeed.onclick = function() { call("all_feed:" + trip_id); };
+	seeAllFeed.onclick = function() { call("all_feed:" + user_id); };
 	_("div", ".border", bottomWrap);
 	var seeAllTrip = _("div", ".seeAllTrip seeAll", bottomWrap);
 	seeAllTrip.onclick = function() { call("all_trip:" + user_id); };
+
+	_("div", ".darkblue", seeAllFeed).innerHTML = see_all_feed_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	_("div", ".darkgreen", seeAllTrip).innerHTML = see_all_trip_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
 	
-	_("div", ".darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	_("div", ".darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	//_("div", ".darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	//_("div", ".darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	*/
 }
 
 
@@ -363,7 +370,7 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	thumbnail.onclick = function() { call("feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
 }
 
-function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
+function fillFeedContents(wrap, info, trip_id, see_all_feed_text, likes_text)
 {
 	var infoList = _("ul", ".infoList", wrap);
 	fillInfoList(infoList, info);
@@ -371,10 +378,10 @@ function fillFeedContents(wrap, info, trip_id, num_all_feeds, num_likes)
 	_("div", ".border", wrap);
 	
 	var button = _("div", ".seeAll", wrap);
-	button.innerText = "See all " + num_all_feeds + " feeds";
+	button.innerText = see_all_feed_text;
 	
 	var likeBar = _("div", ".likeBar", wrap);
-	fillLikeBar(likeBar, trip_id, num_likes);
+	fillLikeBar(likeBar, trip_id, likes_text);
 	
 	_("div", ".border", wrap);
 	
@@ -455,10 +462,10 @@ function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summar
 	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, num_feeds);
 }
 
-function addPeople(user_id, profile_image_url, name, nation, isFollowing)
+function addPerson(user_id, profile_image_url, name, nation, isFollowing)
 {
 	var wrap = _("div", ".header", $("#page"));
-	fillPeople(wrap, user_id, profile_image_url, name, nation, isFollowing);
+	fillPerson(wrap, user_id, profile_image_url, name, nation, isFollowing);
 }
 
 function addPlace(place_id, name, category)
@@ -477,18 +484,18 @@ function addComment(user_id, profile_image_url, name, _time, _content)
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
 }
 
-function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, num_all_feeds, num_likes)
+function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, see_all_feed_text, likes_text)
 {
 	createArrow();
 	var wrap = _("div", ".wrap", $("#page"));
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, 0, 0, false);
-	fillFeedContents(wrap, JSON.parse(info), trip_id, num_all_feeds, num_likes);
+	fillFeedContents(wrap, JSON.parse(info), trip_id, see_all_feed_text, likes_text);
 }
 
-function createProfile(user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip)
+function createProfile(user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip)
 {
 	var wrap = _("div", ".profile", $("#page"));
-	fillProfile(wrap, user_id, profile_image_url, name, nation, followers, following, badges, rep_badges, notice, num_feeds, num_trips, is_on_trip);
+	fillProfile(wrap, user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip);
 }
 
 
