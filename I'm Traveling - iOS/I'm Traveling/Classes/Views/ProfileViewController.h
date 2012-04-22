@@ -38,7 +38,7 @@
 	BOOL activated;
 }
 
-- (void)activateWithUserId:(NSInteger)userId;
+- (void)activateWithUserId:(NSInteger)userId userName:(NSString *)name;
 
 @property (nonatomic, assign) BOOL activated;
 

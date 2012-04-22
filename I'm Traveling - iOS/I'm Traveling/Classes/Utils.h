@@ -13,6 +13,7 @@
 
 + (BOOL)loggedIn;
 + (NSInteger)userId;
++ (NSString *)userName;
 + (NSString *)email;
 + (NSString *)password;
 + (NSString *)getHtmlFromUrl:(NSString *)url;

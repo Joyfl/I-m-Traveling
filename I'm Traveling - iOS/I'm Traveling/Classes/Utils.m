@@ -24,6 +24,14 @@
 	return [[[SettingsManager manager] getSettingForKey:key] integerValue];
 }
 
++ (NSString *)userName
+{
+#warning temp code
+	return @"전수열";
+	NSString *key = SETTING_KEY_USER_NAME;
+	return [[SettingsManager manager] getSettingForKey:key];
+}
+
 + (NSString *)email
 {
 	NSString *key = SETTING_KEY_EMAIL;

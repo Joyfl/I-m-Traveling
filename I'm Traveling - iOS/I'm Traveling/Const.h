@@ -35,4 +35,5 @@
 #define SETTING_KEY_EMAIL		@"email"
 #define SETTING_KEY_PASSWORD	@"password"
 #define SETTING_KEY_USER_ID		@"user_id"
+#define SETTING_KEY_USER_NAME	@"user_name"
 #define SETTING_KEY_REGION		@"region"

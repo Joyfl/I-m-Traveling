@@ -46,14 +46,15 @@
     return self;
 }
 
-- (void)activateWithUserId:(NSInteger)userId
+- (void)activateWithUserId:(NSInteger)userId userName:(NSString *)name
 {
-	NSLog( @"activate : %d", userId );
 	activated = YES;
 	user.userId = userId;
+	user.name = name;
+	self.navigationItem.title = name;
+	
 	[self startBusy];
 	[self loadPage:HTML_INDEX];
-//	[self performSelector:@selector(loadPage:) withObject:HTML_INDEX afterDelay:0.5];
 }
 
 - (void)didReceiveMemoryWarning
