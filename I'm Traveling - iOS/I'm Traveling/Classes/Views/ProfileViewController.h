@@ -13,13 +13,27 @@
 {
 	UIImageView *_coverImageView;
 	UIScrollView *_scrollView;
-//	ProfileWebView *_webView;
 	
 	UserObject *user;
+	NSMutableArray *trips;
+	NSMutableArray *followings;
+	NSMutableArray *followers;
 	
+	/**
+	 * 0 : Trips
+	 * 1 : Following
+	 * 2 : Followers
+	 */
+	NSInteger currentTab;
 	
-	// 생성된 적이 있는지 (viewDidAppear는 다른 탭으로 전환했다가 다시 돌아와도 호출되기 때문에 중복 생성 방지)
-	BOOL created;
+	/**
+	 * 0 : Profile 로딩중
+	 * 1 : Trips 로딩중
+	 * 2 : Following 로딩중
+	 * 3 : Followers 로딩중
+	 * 4 : 완료
+	 */
+	NSInteger loadingProgress;
 }
 
 - (void)setUserId:(NSInteger)userId;

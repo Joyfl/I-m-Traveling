@@ -113,4 +113,11 @@
 	[webView stringByEvaluatingJavaScriptFromString:@"clear();"];
 }
 
+- (void)resizeWebViewHeight:(UIWebView *)wv
+{
+	CGRect frame = wv.frame;
+	frame.size.height = [[wv stringByEvaluatingJavaScriptFromString:@"getHeight()"] floatValue];
+	wv.frame = frame;
+}
+
 @end

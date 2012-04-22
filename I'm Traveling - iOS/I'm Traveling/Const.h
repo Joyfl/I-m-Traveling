@@ -28,6 +28,8 @@
 #define API_UPLOAD				@"https://imtraveling.joyfl.kr/upload.php"
 #define API_PROFILE				@"https://imtraveling.joyfl.kr/profile.php"
 #define API_PROFILE_IMAGE		@"http://imtraveling.joyfl.kr/profile/"
+#define API_FOLLOWING_LIST		@""
+#define API_FOLLOWERS_LIST		@""
 
 #define SETTING_KEY_LOGGED_IN	@"logged_in"
 #define SETTING_KEY_EMAIL		@"email"

@@ -10,6 +10,7 @@
 #import "SettingsManager.h"
 #import "Const.h"
 #import "Utils.h"
+#import "TripObject.h"
 
 
 @implementation ProfileViewController
@@ -37,6 +38,9 @@
 		[_scrollView addSubview:self.webView];
 		
 		user = [[UserObject alloc] init];
+		trips = [[NSMutableArray alloc] init];
+		followers = [[NSMutableArray alloc] init];
+		followings = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -78,14 +82,12 @@
     // e.g. self.myOutlet = nil;
 }
 
+/*
 - (void)viewDidAppear:(BOOL)animated
 {
-	if( !created )
-	{
-//		[_webView clear];
-//		[self prepareProfile];
-	}
+	
 }
+*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -105,23 +107,26 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
-	if( [message isEqualToString:@"profile_following"] )
+	if( [message isEqualToString:@"profile_trips"] )
 	{
-		
+		currentTab = 0;
+		[self prepareTrips];
+	}
+	else if( [message isEqualToString:@"profile_following"] )
+	{
+		currentTab = 1;
+		[self prepareFollowings];
 	}
 	else if( [message isEqualToString:@"profile_followers"] )
 	{
-		
-	}
-	else if( [message isEqualToString:@"profile_trips"] )
-	{
-		
+		currentTab = 2;
+		[self prepareFollowers];
 	}
 }
 
 
 #pragma mark -
-#pragma mark Profile
+#pragma mark Prepare
 
 - (void)prepareProfile
 {
@@ -133,28 +138,172 @@
 	{
 		[self loadProfile];
 	}
-	
-	created = YES;
 }
+
+- (void)prepareTrips
+{
+	if( loadingProgress > 1 )
+		[self createTrips];	
+}
+
+- (void)prepareFollowings
+{
+	if( loadingProgress > 2 )
+		[self createFollowings];
+}
+
+- (void)prepareFollowers
+{
+	if( loadingProgress > 3 )
+		[self createFollowers];
+}
+
+
+#pragma mark -
+#pragma mark Load
 
 - (void)loadProfile
 {
 	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId]];
 }
 
+- (void)loadTrips
+{
+	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId]];
+}
+
+- (void)loadFollowings
+{
+	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_FOLLOWING_LIST, user.userId]];
+}
+
+- (void)loadFollowers
+{
+	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_FOLLOWERS_LIST, user.userId]];
+}
+
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSDictionary *u = [Utils parseJSON:result];
-	user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
-	user.name = [u objectForKey:@"name"];
-	user.nation = [u objectForKey:@"nation"];
-	user.numFeeds = [[u objectForKey:@"num_feeds"] integerValue];
-	user.numTrips = [[u objectForKey:@"num_trips"] integerValue];
-	user.numFollowers = [[u objectForKey:@"num_followers"] integerValue];
-	user.numFollowings = [[u objectForKey:@"num_followings"] integerValue];
-	user.complete = YES;
+	NSLog( @"process : %d, tab : %d", loadingProgress, currentTab );
 	
-	[self createProfile];
+	switch( loadingProgress++ )
+	{
+		case 0:
+		{
+			NSDictionary *json = [Utils parseJSON:result];
+			user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
+			user.name = [json objectForKey:@"name"];
+			user.nation = [json objectForKey:@"nation"];
+			user.numFeeds = [[json objectForKey:@"num_feeds"] integerValue];
+			user.numTrips = [[json objectForKey:@"num_trips"] integerValue];
+			user.numFollowers = [[json objectForKey:@"num_followers"] integerValue];
+			user.numFollowings = [[json objectForKey:@"num_followings"] integerValue];
+			user.complete = YES;
+			
+			[self createProfile];
+			[self loadTrips];
+			
+			break;
+		}
+			
+		case 1:
+		{
+			NSArray *json = [Utils parseJSON:result];
+			for( NSDictionary *t in json )
+			{
+				TripObject *trip = [[TripObject alloc] init];
+				trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
+				trip.title = [t objectForKey:@"trip_title"];
+				trip.startDate = [t objectForKey:@"start_date"];
+				trip.endDate = [t objectForKey:@"end_date"];
+				trip.summary = [t objectForKey:@"summary"];
+				trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
+				[trips addObject:trip];
+				[trip release];
+			}
+			
+			if( currentTab == 0 )
+			{
+				[self prepareTrips];
+				[self stopBusy];
+			}
+			
+//			[self loadFollowings];
+			
+			break;
+		}
+			
+		case 2:
+		{
+			break;
+		}
+			
+		case 3:
+		{
+			break;
+		}
+			
+		case 4:
+		{
+			break;
+		}
+	}
+}
+
+
+#pragma mark -
+#pragma mark Create
+
+- (void)createProfile
+{
+	[self clear];
+	
+	NSString *func = [NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, '%@', %d, '%@', %d, '%@', %d, %d )",
+					  user.userId,
+					  user.profileImageURL,
+					  user.name,
+					  user.nation,
+					  user.numTrips,
+					  NSLocalizedString( @"TRIPS", @"" ),
+					  user.numFollowers,
+					  NSLocalizedString( @"FOLLOWING", @"" ),
+					  user.numFollowings,
+					  NSLocalizedString( @"FOLLOWERS", @"" ),
+					  /*notice*/0,
+					  0];
+	
+	[self.webView stringByEvaluatingJavaScriptFromString:func];
+	
+	//	NSLog( @"%@", func );
+}
+
+- (void)createTrips
+{
+	for( TripObject *trip in trips )
+	{
+		NSString *func = [NSString stringWithFormat:@"addSimpleTrip( %d, '%@', '%@', '%@', '%@', '%@', %d );",
+						  trip.tripId,
+						  @"http://imtraveling.joyfl.kr/feed/2_5.jpg",
+						  trip.title,
+						  trip.startDate,
+						  trip.endDate,
+						  trip.summary,
+						  trip.numFeeds];
+		[self.webView stringByEvaluatingJavaScriptFromString:func];
+	}
+	
+	[self resizeWebViewHeight:self.webView];
+	[self resizeContentHeight];
+}
+
+- (void)createFollowings
+{
+	
+}
+
+- (void)createFollowers
+{
+	
 }
 
 
@@ -180,31 +329,10 @@
 	_coverImageView.frame = frame;
 }
 
-
-#pragma mark -
-#pragma mark JavaScript Function
-
-- (void)createProfile
+- (void)resizeContentHeight
 {
-	[self clear];
-	
-	NSString *func = [NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, '%@', %d, '%@', %d, '%@', %d, %d )",
-					  user.userId,
-					  user.profileImageURL,
-					  user.name,
-					  user.nation,
-					  user.numTrips,
-					  NSLocalizedString( @"TRIPS", @"" ),
-					  user.numFollowers,
-					  NSLocalizedString( @"FOLLOWING", @"" ),
-					  user.numFollowings,
-					  NSLocalizedString( @"FOLLOWERS", @"" ),
-					  /*notice*/0,
-					  0];
-	
-	[self.webView stringByEvaluatingJavaScriptFromString:func];
-	
-	//	NSLog( @"%@", func );
+	_scrollView.contentSize = CGSizeMake( 320, self.webView.frame.size.height + 38 );
 }
+
 
 @end
