@@ -913,6 +913,13 @@
 #pragma mark -
 #pragma mark From FeedDetailWebView
 
+- (void)resizeWebViewHeight:(UIWebView *)wv
+{
+	CGRect frame = wv.frame;
+	frame.size.height = [[wv stringByEvaluatingJavaScriptFromString:@"getHeight()"] floatValue];
+	wv.frame = frame;
+}
+
 - (void)resizeContentHeight
 {
 	// 왜 공간이 생기는지 모르겠음.

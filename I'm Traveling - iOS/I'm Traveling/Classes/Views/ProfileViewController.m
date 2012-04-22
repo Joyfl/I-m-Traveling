@@ -30,7 +30,7 @@
 		[self.view addSubview:_scrollView];
 		_scrollView.contentSize = CGSizeMake( 320, 368 );
 		
-		self.webView.frame = CGRectMake( 0, 97, 320, 471 );
+		self.webView.frame = CGRectMake( 0, 97, 320, 270 );
 		self.webView.backgroundColor = [UIColor clearColor];
 		self.webView.opaque = NO;
 		self.webView.scrollView.scrollEnabled = NO;
@@ -110,16 +110,19 @@
 	if( [message isEqualToString:@"profile_trips"] )
 	{
 		currentTab = 0;
+		[self clearTabContents];
 		[self prepareTrips];
 	}
 	else if( [message isEqualToString:@"profile_following"] )
 	{
 		currentTab = 1;
+		[self clearTabContents];
 		[self prepareFollowings];
 	}
 	else if( [message isEqualToString:@"profile_followers"] )
 	{
 		currentTab = 2;
+		[self clearTabContents];
 		[self prepareFollowers];
 	}
 }
@@ -229,22 +232,62 @@
 			}
 			
 //			[self loadFollowings];
+#warning temp code
+			[self loadingDidFinish:@"[{\"dest_id\":1, \"dest_name\":\"진재규\"}, {\"dest_id\":3, \"dest_name\":\"설진석\"}]"];
 			
 			break;
 		}
 			
 		case 2:
 		{
+			NSArray *json = [Utils parseJSON:result];
+			for( NSDictionary *u in json )
+			{
+				UserObject *following = [[UserObject alloc] init];
+				following.userId = [[u objectForKey:@"dest_id"] integerValue];
+				following.name = [u objectForKey:@"dest_name"];
+				following.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, following.userId];
+				[followings addObject:following];
+				[following release];
+			}
+			
+			if( currentTab == 1 )
+			{
+				[self prepareFollowings];
+				[self stopBusy];
+			}
+			
+#warning temp code
+			[self loadingDidFinish:@"[{\"src_id\":4, \"src_name\":\"우철규\"}]"];
+			
 			break;
 		}
 			
 		case 3:
 		{
+			NSArray *json = [Utils parseJSON:result];
+			for( NSDictionary *u in json )
+			{
+				UserObject *follower = [[UserObject alloc] init];
+				follower.userId = [[u objectForKey:@"src_id"] integerValue];
+				follower.name = [u objectForKey:@"src_name"];
+				follower.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, follower.userId];
+				[followers addObject:follower];
+				[follower release];
+			}
+			
+			if( currentTab == 2 )
+			{
+				[self prepareFollowers];
+				[self stopBusy];
+			}
+			
 			break;
 		}
 			
 		case 4:
 		{
+			[self stopBusy];
 			break;
 		}
 	}
@@ -292,18 +335,48 @@
 		[self.webView stringByEvaluatingJavaScriptFromString:func];
 	}
 	
-	[self resizeWebViewHeight:self.webView];
 	[self resizeContentHeight];
 }
 
 - (void)createFollowings
 {
+	for( UserObject *following in followings )
+	{
+		NSString *func = [NSString stringWithFormat:@"addPerson( %d, '%@', '%@', '%@', %d );",
+						  following.userId,
+						  following.profileImageURL,
+						  following.name,
+						  /*following.nation*/@"KOR",
+						  1];
+		[self.webView stringByEvaluatingJavaScriptFromString:func];
+	}
 	
+	[self resizeContentHeight];
 }
 
 - (void)createFollowers
 {
+	for( UserObject *follower in followers )
+	{
+		NSString *func = [NSString stringWithFormat:@"addPerson( %d, '%@', '%@', '%@', %d );",
+						  follower.userId,
+						  follower.profileImageURL,
+						  follower.name,
+						  /*follower.nation*/@"KOR",
+						  1];
+		[self.webView stringByEvaluatingJavaScriptFromString:func];
+	}
 	
+	[self resizeContentHeight];
+}
+
+
+#pragma mark -
+#pragma mark JavaScript Functions
+
+- (void)clearTabContents
+{
+	[self.webView stringByEvaluatingJavaScriptFromString:@"var children = page.children; for( var i = children.length - 1; i > 0; i-- ) page.removeChild( children[i] );"];
 }
 
 
@@ -331,8 +404,11 @@
 
 - (void)resizeContentHeight
 {
+	CGRect frame = self.webView.frame;
+	frame.size.height = [[self.webView stringByEvaluatingJavaScriptFromString:@"getHeight()"] floatValue];
+	if( frame.size.height < 330 ) frame.size.height = 330;
+	self.webView.frame = frame;
 	_scrollView.contentSize = CGSizeMake( 320, self.webView.frame.size.height + 38 );
 }
-
 
 @end

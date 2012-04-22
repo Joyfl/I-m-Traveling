@@ -18,7 +18,7 @@
 
 - (void)loadPage:(NSString *)page;
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments;
-- (void)resizeWebViewHeight:(UIWebView *)wv;
+
 - (void)clear;
 
 @property (nonatomic, retain) UIWebView *webView;
