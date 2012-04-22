@@ -46,7 +46,7 @@
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
 	ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
-	if( [Utils loggedIn] ) [profileViewController setUserId:[Utils userId]];
+	if( [Utils loggedIn] ) [profileViewController activateWithUserId:[Utils userId]];
 	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:profileViewController];
 	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
 	profileNavigationController.tabBarItem.image = [UIImage imageNamed:@"tab_profile.png"];
@@ -139,19 +139,20 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-	// ProfileView 선택시 로그인이 되어있지 않으면 LoginView를 띄움
+	// ProfileView 선택시
 	if( [[[(UINavigationController *)viewController viewControllers] objectAtIndex:0] isKindOfClass:[ProfileViewController class]] )
 	{
 		ProfileViewController *profileViewController = [[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
 		
+		// 로그인이 되어있지 않으면 LoginView를 띄움
 		if( ![Utils loggedIn] )
 		{
 			[self presentLoginViewController];
 			return NO;
 		}
-		else
+		else if( !profileViewController.activated )
 		{
-			[profileViewController setUserId:[Utils userId]];
+			[profileViewController activateWithUserId:[Utils userId]];
 			return YES;
 		}
 	}

@@ -34,8 +34,12 @@
 	 * 4 : 완료
 	 */
 	NSInteger loadingProgress;
+	
+	BOOL activated;
 }
 
-- (void)setUserId:(NSInteger)userId;
+- (void)activateWithUserId:(NSInteger)userId;
+
+@property (nonatomic, assign) BOOL activated;
 
 @end

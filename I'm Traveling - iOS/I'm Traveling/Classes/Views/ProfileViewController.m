@@ -15,6 +15,8 @@
 
 @implementation ProfileViewController
 
+@synthesize activated;
+
 - (id)init
 {
 	if( self = [super init] )
@@ -40,15 +42,18 @@
 		trips = [[NSMutableArray alloc] init];
 		followers = [[NSMutableArray alloc] init];
 		followings = [[NSMutableArray alloc] init];
-		
-		[self loadPage:HTML_INDEX];
     }
     return self;
 }
 
-- (void)setUserId:(NSInteger)userId
+- (void)activateWithUserId:(NSInteger)userId
 {
+	NSLog( @"activate : %d", userId );
+	activated = YES;
 	user.userId = userId;
+	[self startBusy];
+	[self loadPage:HTML_INDEX];
+//	[self performSelector:@selector(loadPage:) withObject:HTML_INDEX afterDelay:0.5];
 }
 
 - (void)didReceiveMemoryWarning
