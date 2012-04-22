@@ -34,13 +34,14 @@
 		self.webView.backgroundColor = [UIColor clearColor];
 		self.webView.opaque = NO;
 		self.webView.scrollView.scrollEnabled = NO;
-		[self loadPage:HTML_INDEX];
 		[_scrollView addSubview:self.webView];
 		
 		user = [[UserObject alloc] init];
 		trips = [[NSMutableArray alloc] init];
 		followers = [[NSMutableArray alloc] init];
 		followings = [[NSMutableArray alloc] init];
+		
+		[self loadPage:HTML_INDEX];
     }
     return self;
 }
@@ -299,8 +300,6 @@
 
 - (void)createProfile
 {
-	[self clear];
-	
 	NSString *func = [NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, '%@', %d, '%@', %d, '%@', %d, %d )",
 					  user.userId,
 					  user.profileImageURL,
@@ -316,8 +315,6 @@
 					  0];
 	
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
-	
-	//	NSLog( @"%@", func );
 }
 
 - (void)createTrips
