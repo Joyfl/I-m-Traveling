@@ -11,14 +11,6 @@
 #import "Const.h"
 #import "Utils.h"
 
-@interface ProfileViewController (Private)
-
-- (void)prepareProfile;
-- (void)createProfile;
-- (void)loadProfile;
-
-@end
-
 
 @implementation ProfileViewController
 
@@ -37,18 +29,21 @@
 		[self.view addSubview:_scrollView];
 		_scrollView.contentSize = CGSizeMake( 320, 368 );
 		
-		_webView = [[ProfileWebView alloc] init];
-		_webView.frame = CGRectMake( 0, 97, 320, 471 );
-		[_scrollView addSubview:_webView];
+		self.webView.frame = CGRectMake( 0, 97, 320, 471 );
+		self.webView.backgroundColor = [UIColor clearColor];
+		self.webView.opaque = NO;
+		self.webView.scrollView.scrollEnabled = NO;
+		[self loadPage:HTML_INDEX];
+		[_scrollView addSubview:self.webView];
 		
-		userObject = [[UserObject alloc] init];
+		user = [[UserObject alloc] init];
     }
     return self;
 }
 
 - (void)setUserId:(NSInteger)userId
 {
-	userObject.userId = userId;
+	user.userId = userId;
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,8 +82,8 @@
 {
 	if( !created )
 	{
-		[_webView clear];
-		[self prepareProfile];
+//		[_webView clear];
+//		[self prepareProfile];
 	}
 }
 
@@ -100,11 +95,37 @@
 
 
 #pragma mark -
+#pragma mark UIWebViewController
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[self clear];
+	[self prepareProfile];
+}
+
+- (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
+{
+	if( [message isEqualToString:@"profile_following"] )
+	{
+		
+	}
+	else if( [message isEqualToString:@"profile_followers"] )
+	{
+		
+	}
+	else if( [message isEqualToString:@"profile_trips"] )
+	{
+		
+	}
+}
+
+
+#pragma mark -
 #pragma mark Profile
 
 - (void)prepareProfile
 {
-	if( userObject.complete )
+	if( user.complete )
 	{
 		[self createProfile];
 	}
@@ -116,28 +137,22 @@
 	created = YES;
 }
 
-- (void)createProfile
-{
-	[_webView createProfile:userObject];
-	self.navigationItem.title = userObject.name;
-}
-
 - (void)loadProfile
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, userObject.userId]];
+	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId]];
 }
 
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSDictionary *user = [Utils parseJSON:result];
-	userObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, userObject.userId];
-	userObject.name = [user objectForKey:@"name"];
-	userObject.nation = [user objectForKey:@"nation"];
-	userObject.numFeeds = [[user objectForKey:@"num_feeds"] integerValue];
-	userObject.numTrips = [[user objectForKey:@"num_trips"] integerValue];
-	userObject.numFollowers = [[user objectForKey:@"num_followers"] integerValue];
-	userObject.numFollowings = [[user objectForKey:@"num_followings"] integerValue];
-	userObject.complete = YES;
+	NSDictionary *u = [Utils parseJSON:result];
+	user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
+	user.name = [u objectForKey:@"name"];
+	user.nation = [u objectForKey:@"nation"];
+	user.numFeeds = [[u objectForKey:@"num_feeds"] integerValue];
+	user.numTrips = [[u objectForKey:@"num_trips"] integerValue];
+	user.numFollowers = [[u objectForKey:@"num_followers"] integerValue];
+	user.numFollowings = [[u objectForKey:@"num_followings"] integerValue];
+	user.complete = YES;
 	
 	[self createProfile];
 }
@@ -163,6 +178,33 @@
 	}
 	
 	_coverImageView.frame = frame;
+}
+
+
+#pragma mark -
+#pragma mark JavaScript Function
+
+- (void)createProfile
+{
+	[self clear];
+	
+	NSString *func = [NSString stringWithFormat:@"createProfile(%d, '%@', '%@', '%@', %d, '%@', %d, '%@', %d, '%@', %d, %d )",
+					  user.userId,
+					  user.profileImageURL,
+					  user.name,
+					  user.nation,
+					  user.numTrips,
+					  NSLocalizedString( @"TRIPS", @"" ),
+					  user.numFollowers,
+					  NSLocalizedString( @"FOLLOWING", @"" ),
+					  user.numFollowings,
+					  NSLocalizedString( @"FOLLOWERS", @"" ),
+					  /*notice*/0,
+					  0];
+	
+	[self.webView stringByEvaluatingJavaScriptFromString:func];
+	
+	//	NSLog( @"%@", func );
 }
 
 @end
