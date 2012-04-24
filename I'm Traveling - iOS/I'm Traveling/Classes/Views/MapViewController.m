@@ -242,15 +242,14 @@ enum {
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	FeedObject *feedObj = (FeedObject *)view.annotation;
-	FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-	detailViewController.ref = 1;
+	[self startBusy];
 	
+	FeedObject *feedObj = (FeedObject *)view.annotation;
 	CGRect rect = [_feedMapView convertRegion:_feedMapView.region toRectToView:self.view];
 	rect.origin.y -= ( _feedMapView.frame.size.height - 100 ) * 0.5;
-	detailViewController.originalRegion = [_feedMapView convertRect:rect toRegionFromView:self.view];
 	
-	[detailViewController activateWithFeedObject:feedObj];
+	FeedDetailViewController *detailViewController = [[FeedDetailViewController alloc] initFromMapWithFeed:feedObj originalRegion:[_feedMapView convertRect:rect toRegionFromView:self.view]];
+	
 	[self.navigationController pushViewController:detailViewController animated:NO];
 }
 

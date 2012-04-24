@@ -180,11 +180,15 @@ enum {
 {
 	if( [message isEqualToString:@"feed_detail"] )
 	{
+		NSLog( @"detail" );
+		NSDate *date = [NSDate date];
+		
 		[self startBusy];
 		
 		CGFloat originalOffset = webView.scrollView.contentOffset.y;
 		
 		CGFloat offset = [[arguments objectAtIndex:1] floatValue];
+//		CGFloat height = [[arguments objectAtIndex:2] floatValue];
 		UIImage *upperImage;
 		
 		if( offset > 0 )
@@ -223,7 +227,7 @@ enum {
 		frame.size.height = 367 + ABS( offset );
 		self.webView.frame = frame;
 		
-		CGSize lowerImageSize = CGSizeMake( 320, 367 );
+		CGSize lowerImageSize = CGSizeMake( 320, 600 );
 		
 		if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
 		{
@@ -245,12 +249,11 @@ enum {
 		self.webView.scrollView.contentOffset = CGPointMake( 0, originalOffset );
 		self.webView.frame = originalFrame;
 		
-		FeedDetailViewController *detailViewController = [FeedDetailViewController viewController];
-		[detailViewController setUpperImageView:[[UIImageView alloc] initWithImage:upperImage] lowerImageView:[[UIImageView alloc] initWithImage:lowerImage] lowerImageViewOffset:offset];
-		detailViewController.ref = 0;
-		[detailViewController activateWithFeedObject:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
-		
+		FeedDetailViewController *detailViewController = [[FeedDetailViewController alloc] initFromListWithFeed:[_feedListObjects objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]] upperImage:upperImage lowerImage:lowerImage lowerImageViewOffset:offset];		
 		[self.navigationController pushViewController:detailViewController animated:NO];
+		[detailViewController release];
+		
+		NSLog( @"interval : %f", [[NSDate date] timeIntervalSinceDate:date] );
 	}
 	else if( [message isEqualToString:@"create_profile"] )
 	{

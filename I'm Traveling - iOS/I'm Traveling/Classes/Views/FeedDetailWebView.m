@@ -65,6 +65,7 @@
 {
 	[self clear];
 	self.loaded = YES;
+	[_detailViewController webViewDidFinishLoad:self];
 }
 
 #pragma mark - Javascript Function

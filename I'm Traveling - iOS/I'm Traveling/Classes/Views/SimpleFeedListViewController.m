@@ -108,11 +108,11 @@
 				break;
 		}
 		
-		FeedDetailViewController *feedDetailViewController = [[FeedDetailViewController alloc] initWithFeeds:_feeds];
-		feedDetailViewController.ref = 2;
-		[feedDetailViewController activateWithFeedIndex:i];
-		[self.navigationController pushViewController:feedDetailViewController animated:YES];
-		[feedDetailViewController release];
+//		FeedDetailViewController *feedDetailViewController = [[FeedDetailViewController alloc] initWithFeeds:_feeds];
+//		feedDetailViewController.ref = 2;
+//		[feedDetailViewController activateWithFeedIndex:i];
+//		[self.navigationController pushViewController:feedDetailViewController animated:YES];
+//		[feedDetailViewController release];
 	}
 }
 

@@ -21,22 +21,6 @@
 
 @interface FeedDetailViewController (Private)
 
-- (void)preloadFeedDetail;
-- (void)prepareFeedDetailWithIndex:(NSInteger)index;
-- (void)createFeedDetail:(FeedObject *)feedObject atIndex:(NSInteger)index;
-- (void)loadFeedDetailFromLoadingQueue;
-
-- (void)animateAppearance;
-- (void)animateDisappearance;
-
-- (void)removeUpperAndLowerImages;
-
-- (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed;
-- (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId;
-
-- (void)resizeWebViewHeight:(FeedDetailWebView *)webView;
-- (void)resizeContentHeight;
-
 @property (retain, readonly) FeedDetailWebView *leftWebView;
 @property (retain, readonly) FeedDetailWebView *centerWebView;
 @property (retain, readonly) FeedDetailWebView *rightWebView;
@@ -46,32 +30,18 @@
 
 @implementation FeedDetailViewController
 
-@synthesize ref, mapView=_mapView, loaded, originalRegion;
+//@synthesize ref, mapView=_mapView;
 
-
-// Feed List에서 Detail로 넘어올 때 로딩과정에서 생기는 부자연스러움을 없애기 위해 미리 생성 후 로드한다.
-+ (FeedDetailViewController *)viewController
+- (id)initWithFeed:(FeedObject *)feed
 {
-	static FeedDetailViewController *_detailViewController;
-	
-	if( _detailViewController == nil )
-	{
-		_detailViewController = [[FeedDetailViewController alloc] initWithFeeds:nil];
-	}
-	
-	return _detailViewController;
-}
-
-- (id)initWithFeeds:(NSMutableArray *)feeds
-{
-    if( self = [super init] )
+	if( self = [super init] )
 	{
 		// Navigation Bar
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
 		
-		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[backButton setBackgroundImage:[[UIImage imageNamed:@"button_back.png"] retain] forState:UIControlStateNormal];
+		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[backButton setBackgroundImage:[UIImage imageNamed:@"button_back.png"] forState:UIControlStateNormal];
 		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
 		[backButton addTarget:self action:@selector(backButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];		
 		
@@ -115,23 +85,15 @@
 		for( int i = 0; i < 3; i++ )
 		{
 			FeedDetailWebView *detailWebView = [[FeedDetailWebView alloc] initWithFeedDetailViewController:self];
-			detailWebView.frame = CGRectMake( i * 320 - 320, WEBVIEW_Y, 320, detailWebView.frame.size.height );
+			detailWebView.frame = CGRectMake( i * 320 - 320, WEBVIEW_Y, 320, 367 - WEBVIEW_Y );
 			[_webViews addObject:detailWebView];
+			[detailWebView release];
 		}
 		
 		_feedLoadingQueue = [[LoadingQueue alloc] init];
 		_commentLoadingQueue = [[LoadingQueue alloc] init];
 		
-		if( feeds )
-		{
-			_feedDetailObjects = [feeds retain];
-			_feedLoadingQueue.maxIndex = _feedDetailObjects.count;
-		}
-		else
-		{
-			_feedDetailObjects = [[NSMutableArray alloc] init];
-		}
-		
+		_feedDetailObjects = [[NSMutableArray alloc] init];
 		
 		_commentBar = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 40 )];
 		
@@ -164,27 +126,64 @@
 		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
 		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
 		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
+		self.navigationItem.title = _feedObjectFromPrevView.place;
+		
+		_feedObjectFromPrevView = feed;
     }
 	
     return self;
 }
 
-- (void)activateWithFeedObject:(FeedObject *)feedObject
+- (id)initFromListWithFeed:(FeedObject *)feed upperImage:(UIImage *)upperImage lowerImage:(UIImage *)lowerImage lowerImageViewOffset:(CGFloat)offset
 {
-	self.loaded = _animationFinished = _loadingFinished = NO;
-	
-	self.navigationItem.title = _feedObjectFromPrevView.place;
-	
-	for( int i = 0; i < 3; i++ )
+	if( self = [self initWithFeed:feed] )
 	{
-		[[_webViews objectAtIndex:i] clear];
+		ref = 0;
+		
+		_upperImageView = [[UIImageView alloc] initWithImage:upperImage];
+		_lowerImageView = [[UIImageView alloc] initWithImage:lowerImage];
+		_lowerImageView.frame = CGRectMake( 0, offset, 320, _lowerImageView.frame.size.height );
+		
+		_upperImageViewOriginalY = 0;
+		_lowerImageViewOriginalY = offset;
+		
+		[self.view addSubview:_upperImageView];
+		[self.view addSubview:_lowerImageView];
+		
+		[self setMapViewRegionLatitude:feed.latitude longitude:feed.longitude animated:NO];
 	}
 	
-	if( ref != 2 )
+	return self;
+}
+
+- (id)initFromMapWithFeed:(FeedObject *)feed originalRegion:(MKCoordinateRegion)originalRegion
+{
+	if( self = [self initWithFeed:feed] )
 	{
-		_feedObjectFromPrevView = feedObject;
-		[_feedDetailObjects removeAllObjects];
-		[_feedLoadingQueue removeAllObjects];
+		ref = 1;
+		
+		_mapView.region = _originalRegion = originalRegion;
+		[self setMapViewRegionLatitude:feed.latitude longitude:feed.longitude animated:YES];
+	}
+	
+	return self;
+}
+
+- (id)initFromSimpleListWithFeed:(FeedObject *)feed
+{
+	if( self = [self initWithFeed:feed] )
+	{
+		
+	}
+	
+	return self;
+}
+
+- (void)webViewDidFinishLoad:(FeedDetailWebView *)webView
+{
+	if( webView == self.centerWebView )
+	{
 		[self preloadFeedDetail];
 	}
 }
@@ -222,22 +221,19 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-	if( loaded ) return;
 	
-	// 현재 피드의 region으로 애니메이션 (ref = 1일 경우에만 애니메이션)
-	if( _feedObjectFromPrevView )
-		[self setMapViewRegionLatitude:_feedObjectFromPrevView.latitude longitude:_feedObjectFromPrevView.longitude animated:ref ? YES : NO];
-	
-	// Animation 적용 (ref 1의 애니메이션은 loadDidFinish에서)
-	[self animateAppearance];
-	
-	loaded = YES;
+	[_scrollView release];
+	[_mapView release];
+	[_webViews release];
+	[_feedDetailObjects release];
+	[_feedLoadingQueue release];
+	[_commentLoadingQueue release];
+	[_leftFeedButton release];
+	[_rightFeedButton release];
+	[_commentBar release];
+	[_commentInput release];
+	[_sendButton release];
+	[_keyboardHideButton release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -263,12 +259,12 @@
 		
 		if( feedObject.complete )
 		{
-			NSLog( @"create : %d", index );
+//			NSLog( @"create : %d", index );
 			[self createFeedDetail:feedObject atIndex:index];
 		}
 		else
 		{
-			NSLog( @"load : %d", index );
+//			NSLog( @"load : %d", index );
 			[_feedLoadingQueue addIndex:index];
 			[self loadFeedDetailFromLoadingQueue];
 		}
@@ -299,6 +295,10 @@
 	}
 }
 
+
+#pragma mark -
+#pragma mark Comments
+
 - (void)prepareCommentsWithFeedIndex:(NSInteger)feedIndex
 {
 	if( 0 <= index && feedIndex < _feedDetailObjects.count )
@@ -308,37 +308,21 @@
 		if( feed.numComments == 0 )
 			return;
 		
-		NSLog( @"Prepare comment index : %d (num : %d)", feedIndex, feed.numComments );
+//		NSLog( @"Prepare comment index : %d (num : %d)", feedIndex, feed.numComments );
 		
 		if( feed.comments.count == feed.numComments )
 		{
-			NSLog( @"add comments : %d", feedIndex );
+//			NSLog( @"add comments : %d", feedIndex );
 			[self addComments:feed.comments atIndex:feedIndex];
 		}
 		else
 		{
-			NSLog( @"load comments : %d", feedIndex );
+//			NSLog( @"load comments : %d", feedIndex );
 			[_commentLoadingQueue addIndex:feedIndex];
 			[self loadCommentsFromLoadingQueue];
 		}
 	}
 }
-
-/*- (void)addComment:(Comment *)comment atIndex:(NSInteger)index
-{
-	if( index < _currentFeedIndex )
-	{
-		[self.leftWebView addComment:comment];
-	}
-	else if( _currentFeedIndex < index )
-	{
-		[self.rightWebView addComment:comment];
-	}
-	else
-	{
-		[self.centerWebView addComment:comment];
-	}
-}*/
 
 - (void)addComments:(NSArray *)comments atIndex:(NSInteger)index
 {
@@ -358,7 +342,7 @@
 	for( Comment *comment in comments )
 		[webView addComment:comment];
 	
-	NSLog( @"comments were added : %d", index );
+//	NSLog( @"comments were added : %d", index );
 }
 
 - (void)loadCommentsFromLoadingQueue
@@ -367,15 +351,14 @@
 	{
 		NSLog( @"%d", _commentLoadingQueue.firstIndex );
 		NSInteger feedId = [[_feedDetailObjects objectAtIndex:_commentLoadingQueue.firstIndex] feedId];
-		NSLog( @"load comments from queue : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] );
+//		NSLog( @"load comments from queue : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] );
 		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId]];
 	}
 }
 
-
 - (void)loadingDidFinish:(NSString *)result
 {
-	NSLog( @"res : %@", result );
+//	NSLog( @"res : %@", result );
 	id json = [Utils parseJSON:result];
 	
 	// Feed Detail or ERROR
@@ -408,14 +391,16 @@
 		}
 		
 		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex];
-		[self completeFeedObject:feedObject fromDictionary:json];
+		[self fillFeedObject:feedObject fromDictionary:json];
 		
 		// 첫 로딩
 		if( _feedObjectFromPrevView )
 		{
-			// UI 수정은 Main Thread에서, Detail에서 다른 Detail을 로드할 경우는 modifyFeedDetail 사용
+			// UI 수정은 Main Thread에서
 			[self.centerWebView clear];
-			[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
+			[self.centerWebView createFeedDetail:feedObject];
+//			[self resizeContentHeight];
+//			[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 			[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
 			[self handleAllFeeds:[json objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 			
@@ -427,6 +412,8 @@
 			[_feedLoadingQueue addIndex:_currentFeedIndex + 1];
 			
 			_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
+			
+			[self animateAppearance];
 		}
 		else
 		{
@@ -443,7 +430,7 @@
 	// Comment
 	else if( [json isKindOfClass:[NSArray class]] )
 	{
-		NSLog( @"comments in json : %@", json );
+//		NSLog( @"comments in json : %@", json );
 		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
 		
 		for( NSDictionary *c in json )
@@ -464,7 +451,7 @@
 	}
 }
 
-- (void)completeFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed
+- (void)fillFeedObject:(FeedObject *)feedObject fromDictionary:(NSDictionary *)feed
 {
 	// ref가 0, 1, 2일 경우에 공통적으로 해당
 	feedObject.tripId = [[feed objectForKey:@"trip_id"] integerValue];
@@ -625,21 +612,13 @@
 #pragma mark -
 #pragma mark Animations
 
-- (void)setOriginalRegion:(MKCoordinateRegion)region
-{
-	_mapView.region = originalRegion = region;
-}
-
 - (void)animateAppearance
 {
-	if( self.ref == 0 )
+	[self performSelector:@selector(animationDidFinish) withObject:nil afterDelay:0.5];
+	
+	if( ref == 0 )
 	{
 		self.centerWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, 367 );
-		
-		[self performSelector:@selector(animationDidFinish) withObject:nil afterDelay:0.5];
-		
-		[self.view addSubview:_upperImageView];
-		[self.view addSubview:_lowerImageView];
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
@@ -648,7 +627,7 @@
 		_lowerImageView.frame = CGRectMake( 0, 90, 320, _lowerImageView.frame.size.height );
 		[UIView commitAnimations];
 	}
-	else if( self.ref == 1 )
+	else if( ref == 1 )
 	{
 		[_scrollView addSubview:self.leftWebView];
 		[_scrollView addSubview:self.centerWebView];
@@ -690,7 +669,7 @@
 	{
 		[self performSelector:@selector(backAnimationDidFinish) withObject:nil afterDelay:0.5];
 		
-		[_mapView setRegion:originalRegion animated:YES];
+		[_mapView setRegion:_originalRegion animated:YES];
 		
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
@@ -706,12 +685,10 @@
 
 - (void)animationDidFinish
 {
-	if( _loadingFinished )
-		[self removeUpperAndLowerImages];
-	else
-		_animationFinished = YES;
-	
 	[self stopBusy];
+	
+	if( ref == 0 )
+		[self removeUpperAndLowerImages];
 }
 
 - (void)removeUpperAndLowerImages
@@ -766,7 +743,7 @@
 	[_mapView removeAnnotations:_mapView.annotations];
 }
 
-- (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(float)offset
+- (void)setUpperImageView:(UIImageView *)upperImageView lowerImageView:(UIImageView *)lowerImageView lowerImageViewOffset:(CGFloat)offset
 {
 	_upperImageView = upperImageView;
 	_lowerImageView = lowerImageView;
@@ -943,7 +920,7 @@
 	{
 		[self resizeContentHeight];
 		
-		if( ref == 0 )
+		/*if( ref == 0 )
 		{
 			if( _animationFinished )
 				[self removeUpperAndLowerImages];
@@ -959,7 +936,7 @@
 		{
 			// Simple Feed List에서 넘어올 경우 stopBusy
 			[self stopBusy];
-		}
+		}*/
 		
 		[self prepareCommentsWithFeedIndex:_currentFeedIndex];
 	}
