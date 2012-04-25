@@ -144,7 +144,7 @@
 	NSLog( @"Loading Error : %@", error );
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
 	NSLog( @"loadingDidFinish : Overriding is needed." );
 }
