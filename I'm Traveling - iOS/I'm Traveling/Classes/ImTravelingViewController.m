@@ -149,6 +149,10 @@
 	NSLog( @"loadingDidFinish : Overriding is needed." );
 }
 
+- (BOOL)isError:(NSDictionary *)result
+{
+	return [[json objectForKey:@"status"] integerValue] == 0;
+}
 
 #pragma mark -
 #pragma mark Utils

@@ -17,6 +17,7 @@
 - (void)loadURL:(NSString *)url withData:(NSDictionary *)data;
 - (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data;
 - (void)loadingDidFinish:(NSString *)data;
+- (BOOL)isError:(NSDictionary *)result;
 
 - (void)startBusy;
 - (void)stopBusy;
