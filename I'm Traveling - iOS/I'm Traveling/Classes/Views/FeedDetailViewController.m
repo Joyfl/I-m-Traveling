@@ -356,42 +356,23 @@
 	}
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
-//	NSLog( @"res : %@", result );
-	id json = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:data];
 	
-	// Feed Detail or ERROR
-	if( [json isKindOfClass:[NSDictionary class]] )
+	if( [self isError:json] )
 	{
-		if( [json objectForKey:@"ERROR"] )
-		{
-			NSLog( @"ERROR! : %@", [json objectForKey:@"ERROR"] );
-			return;
-		}
-		
-		// 댓글 등록 완료
-		if( [json objectForKey:@"RESULT"] )
-		{
-			Comment *comment = [[Comment alloc] init];
-			comment.commentId = [[json objectForKey:@"RESULT"] integerValue];
-			comment.userId = [Utils userId];
-			comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
-#warning name!!!!
-			comment.name = @"전수열";
-			comment.time = [Utils dateStringForUpload:[NSDate date]];
-			comment.comment = _commentInput.text;
-			[self.centerWebView addComment:comment];
-			
-			_commentInput.text = @"";
-			_commentInput.enabled = YES;
-			_sendButton.enabled = YES;
-			
-			return;
-		}
-		
+		NSLog( @"Error : %@", [json objectForKey:@"error"] );
+		return;
+	}
+	
+	id result = [json objectForKey:@"result"];
+	
+	// Feed Detail
+	if( [result isKindOfClass:[NSDictionary class]] )
+	{		
 		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex];
-		[self fillFeedObject:feedObject fromDictionary:json];
+		[self fillFeedObject:feedObject fromDictionary:result];
 		
 		// 첫 로딩
 		if( _feedObjectFromPrevView )
@@ -402,7 +383,7 @@
 //			[self resizeContentHeight];
 //			[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
 			[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
-			[self handleAllFeeds:[json objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
+			[self handleAllFeeds:[result objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 			
 			[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
 			
@@ -428,12 +409,12 @@
 	}
 	
 	// Comment
-	else if( [json isKindOfClass:[NSArray class]] )
+	else if( [result isKindOfClass:[NSArray class]] )
 	{
 //		NSLog( @"comments in json : %@", json );
 		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
 		
-		for( NSDictionary *c in json )
+		for( NSDictionary *c in result )
 		{
 			Comment *comment = [[Comment alloc] init];
 			comment.commentId = [[c objectForKey:@"feed_comment_id"] integerValue];
@@ -448,6 +429,26 @@
 		
 		[self addComments:feed.comments atIndex:_commentLoadingQueue.firstIndex];
 		[_commentLoadingQueue removeLoadedFromLoadingQueue];
+	}
+	
+	// 댓글 등록 완료
+	else if( [result isKindOfClass:[NSString class]] )
+	{
+		Comment *comment = [[Comment alloc] init];
+		comment.commentId = [result integerValue];
+		comment.userId = [Utils userId];
+		comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
+#warning name!!!!
+		comment.name = @"전수열";
+		comment.time = [Utils dateStringForUpload:[NSDate date]];
+		comment.comment = _commentInput.text;
+		[self.centerWebView addComment:comment];
+		
+		_commentInput.text = @"";
+		_commentInput.enabled = YES;
+		_sendButton.enabled = YES;
+		
+		return;
 	}
 }
 
@@ -855,7 +856,7 @@
 	[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
 	[data setObject:_commentInput.text forKey:@"comment"];
 	[data setObject:@"1" forKey:@"type"];
-	[self loadURL:[NSString stringWithFormat:@"%@", API_FEED_COMMENT] withData:data];
+	[self loadURL:API_FEED_COMMENT withData:data];
 }
 
 

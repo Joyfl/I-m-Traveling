@@ -192,22 +192,30 @@
 	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_FOLLOWERS_LIST, user.userId]];
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
 	NSLog( @"process : %d, tab : %d", loadingProgress, currentTab );
+	
+	NSDictionary *json = [Utils parseJSON:data];
+	if( [self isError:json] )
+	{
+		NSLog( @"Error" );
+		return;
+	}
+	
+	NSDictionary *result = [json objectForKey:@"result"];
 	
 	switch( loadingProgress++ )
 	{
 		case 0:
 		{
-			NSDictionary *json = [Utils parseJSON:result];
 			user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
-			user.name = [json objectForKey:@"name"];
-			user.nation = [json objectForKey:@"nation"];
-			user.numFeeds = [[json objectForKey:@"num_feeds"] integerValue];
-			user.numTrips = [[json objectForKey:@"num_trips"] integerValue];
-			user.numFollowers = [[json objectForKey:@"num_followers"] integerValue];
-			user.numFollowings = [[json objectForKey:@"num_followings"] integerValue];
+			user.name = [result objectForKey:@"name"];
+			user.nation = [result objectForKey:@"nation"];
+			user.numFeeds = [[result objectForKey:@"num_feeds"] integerValue];
+			user.numTrips = [[result objectForKey:@"num_trips"] integerValue];
+			user.numFollowers = [[result objectForKey:@"num_followers"] integerValue];
+			user.numFollowings = [[result objectForKey:@"num_followings"] integerValue];
 			user.complete = YES;
 			
 			[self createProfile];
@@ -218,8 +226,7 @@
 			
 		case 1:
 		{
-			NSArray *json = [Utils parseJSON:result];
-			for( NSDictionary *t in json )
+			for( NSDictionary *t in result )
 			{
 				TripObject *trip = [[TripObject alloc] init];
 				trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
@@ -240,15 +247,14 @@
 			
 //			[self loadFollowings];
 #warning temp code
-			[self loadingDidFinish:@"[{\"dest_id\":1, \"dest_name\":\"진재규\"}, {\"dest_id\":3, \"dest_name\":\"설진석\"}]"];
+			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"dest_id\":1, \"dest_name\":\"진재규\"}, {\"dest_id\":3, \"dest_name\":\"설진석\"}]}"];
 			
 			break;
 		}
 			
 		case 2:
 		{
-			NSArray *json = [Utils parseJSON:result];
-			for( NSDictionary *u in json )
+			for( NSDictionary *u in result )
 			{
 				UserObject *following = [[UserObject alloc] init];
 				following.userId = [[u objectForKey:@"dest_id"] integerValue];
@@ -265,15 +271,14 @@
 			}
 			
 #warning temp code
-			[self loadingDidFinish:@"[{\"src_id\":4, \"src_name\":\"우철규\"}]"];
+			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"src_id\":4, \"src_name\":\"우철규\"}]}"];
 			
 			break;
 		}
 			
 		case 3:
 		{
-			NSArray *json = [Utils parseJSON:result];
-			for( NSDictionary *u in json )
+			for( NSDictionary *u in result )
 			{
 				UserObject *follower = [[UserObject alloc] init];
 				follower.userId = [[u objectForKey:@"src_id"] integerValue];

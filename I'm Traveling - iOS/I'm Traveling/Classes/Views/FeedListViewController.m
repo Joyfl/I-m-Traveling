@@ -272,9 +272,16 @@ enum {
 	[self loadFeedsFrom:0 to:10];
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
-	NSArray *feeds = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:data];
+	if( [self isError:json] )
+	{
+		NSLog( @"Error" );
+		return;
+	}
+	
+	NSArray *feeds = [json objectForKey:@"result"];
 	
 	// reload일 경우에는 리스트의 위에 로딩한 피드를 역순으로 추가한다.
 	if( reloading )

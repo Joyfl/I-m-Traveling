@@ -47,10 +47,6 @@
 	UITextField *_commentInput;
 	UIButton *_sendButton;
 	UIButton *_keyboardHideButton;
-	
-	// ref = 0일 경우 애니메이션과 로딩이 모두 끝난 후에 upperImageView와 lowerImageView를 제거함
-//	BOOL _animationFinished;
-//	BOOL _loadingFinished;
 }
 
 + (FeedDetailViewController *)viewController;

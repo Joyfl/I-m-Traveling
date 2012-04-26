@@ -26,6 +26,7 @@
 
 - (void)loadURL:(NSString *)url
 {
+	NSLog( @"%@", url );
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
 	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
 }
@@ -40,8 +41,7 @@
 	url = [url substringToIndex:url.length - 1];
 	url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
+	[self loadURL:url];
 }
 
 - (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data
@@ -149,7 +149,7 @@
 	NSLog( @"loadingDidFinish : Overriding is needed." );
 }
 
-- (BOOL)isError:(NSDictionary *)result
+- (BOOL)isError:(NSDictionary *)json
 {
 	return [[json objectForKey:@"status"] integerValue] == 0;
 }
