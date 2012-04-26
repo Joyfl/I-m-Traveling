@@ -438,8 +438,7 @@
 		comment.commentId = [result integerValue];
 		comment.userId = [Utils userId];
 		comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
-#warning name!!!!
-		comment.name = @"전수열";
+		comment.name = [Utils userName];
 		comment.time = [Utils dateStringForUpload:[NSDate date]];
 		comment.comment = _commentInput.text;
 		[self.centerWebView addComment:comment];

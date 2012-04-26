@@ -110,17 +110,21 @@
 	[self loadURL:[NSString stringWithFormat:@"%@?email=%@&password=%@", API_LOGIN, email, password]];
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
-	NSDictionary *json = [Utils parseJSON:result];
-	if( [json objectForKey:@"ERROR"] )
+	NSDictionary *json = [Utils parseJSON:data];
+	if( [self isError:json] )
 	{
 		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"LOGIN_FAILED_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
-	NSNumber *userId = (NSNumber *)[json objectForKey:@"RESULT"];
+	NSDictionary *result = [json objectForKey:@"result"];
+	
+	NSNumber *userId = (NSNumber *)[result objectForKey:@"user_id"];
+	NSString *name = [result objectForKey:@"name"];
 	[[SettingsManager manager] setSetting:userId forKey:SETTING_KEY_USER_ID];
+	[[SettingsManager manager] setSetting:name forKey:SETTING_KEY_USER_NAME];
 	[[SettingsManager manager] flush];
 	
 	[self dismissModalViewControllerAnimated:YES];
