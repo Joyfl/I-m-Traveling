@@ -38,7 +38,7 @@ function init()
 	//t_sf();
 	//t_st();
 	//t_pl();
-	//t_p();
+	t_p();
 	//t_pll();
 	//t_usf();
 	//t_msf();
@@ -61,7 +61,7 @@ function t_cl()
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, pic1, "바나나", "KOR", false); }
-function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 68, "Followers", 72, "Following", 7, "Trips", 99, true); }
+function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Following", 99, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
 function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
@@ -252,7 +252,7 @@ function fillPlaceList(wrap, place_id, name, category)
 	_("div", ".zfbe", wrap);
 }
 
-function fillProfile(wrap, user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip)
+function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip)
 {
 	$("#page").style.marginTop = "6em";
 	$("#page").style.marginBottom = "6em";
@@ -322,17 +322,22 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, followers_n
 	}
 	
 	var numbers = $(".number");
-	numbers[0].innerText = followers_num;
+	numbers[0].innerText = trips_num;
 	numbers[1].innerText = following_num;
-	numbers[2].innerText = trips_num;
+	numbers[2].innerText = followers_num;
 	
 	var texts = $(".text");
-	texts[0].innerText = following_text;
+	texts[0].innerText = trips_text;
 	texts[1].innerText = following_text;
-	texts[2].innerText = trips_text;
+	texts[2].innerText = followers_text;
 	
 	var bottomWrap = $(".bottomWrap")[0];
 	_("div", ".border", bottomWrap);
+	
+	var infoBoxes = $(".infoBox");
+	infoBoxes[0].onclick = function() { call("profile_trips"); };
+	infoBoxes[1].onclick = function() { call("profile_following"); };
+	infoBoxes[2].onclick = function() { call("profile_followers"); };
 	
 	/*
 	var seeAllFeed = _("div", ".seeAllFeed seeAll", bottomWrap);
@@ -492,10 +497,10 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 	fillFeedContents(wrap, JSON.parse(info), trip_id, see_all_feed_text, likes_text);
 }
 
-function createProfile(user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip)
+function createProfile(user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip)
 {
 	var wrap = _("div", ".profile", $("#page"));
-	fillProfile(wrap, user_id, profile_image_url, name, nation, followers_num, followers_text, following_num, following_text, trips_num, trips_text, notice, is_on_trip);
+	fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip);
 }
 
 
