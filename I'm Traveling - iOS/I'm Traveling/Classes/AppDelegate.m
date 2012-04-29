@@ -204,7 +204,11 @@
 {
 	NSLog( @"Album : %@", info );
 	UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-	UIImageWriteToSavedPhotosAlbum( image, nil, nil, nil );
+	
+	// 카메라로 찍은 경우 앨범에 저장
+	if( picker.sourceType == UIImagePickerControllerSourceTypeCamera )
+		UIImageWriteToSavedPhotosAlbum( image, nil, nil, nil );
+	
 	[self performSelector:@selector(presentShareViewControllerWithImage:) withObject:image afterDelay:0.5];
 }
 
