@@ -170,15 +170,27 @@
 	return self;
 }
 
-- (id)initFromSimpleListWithFeed:(FeedObject *)feed
+/*
+- (id)initFromSimpleListWithFeedIndex:(NSInteger *)feedIndex
 {
 	if( self = [self initWithFeed:feed] )
 	{
+		_currentFeedIndex = feedIndex;
 		
+		FeedObject *currentFeed = [_feedDetailObjects objectAtIndex:index];
+		[self activateWithFeedObject:currentFeed];
+		
+		[self createFeedDetail:currentFeed atIndex:index];
+		
+		[self drawAllFeedsOnMap];
+		[self setMapViewRegionLatitude:currentFeed.latitude longitude:currentFeed.longitude animated:NO];
+		
+		[self prepareFeedDetailWithIndex:index - 1];
+		[self prepareFeedDetailWithIndex:index + 1];
 	}
-	
 	return self;
 }
+*/
 
 - (void)webViewDidFinishLoad:(FeedDetailWebView *)webView
 {
@@ -186,26 +198,6 @@
 	{
 		[self preloadFeedDetail];
 	}
-}
-
-/**
- * SimpleFeedList에서 호출
- */
-- (void)activateWithFeedIndex:(NSInteger)index
-{
-	NSLog( @"-----------------------------------------" );
-	_currentFeedIndex = index;
-	
-	FeedObject *currentFeed = [_feedDetailObjects objectAtIndex:index];
-	[self activateWithFeedObject:currentFeed];
-	
-	[self createFeedDetail:currentFeed atIndex:index];
-	
-	[self drawAllFeedsOnMap];
-	[self setMapViewRegionLatitude:currentFeed.latitude longitude:currentFeed.longitude animated:NO];
-	
-	[self prepareFeedDetailWithIndex:index - 1];
-	[self prepareFeedDetailWithIndex:index + 1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -959,8 +951,10 @@
 
 - (void)seeAllFeeds
 {
+	/*
 	SimpleFeedListViewController *simpleFeedListViewController = [[SimpleFeedListViewController alloc] initFromFeedDetailViewControllerFeeds:_feedDetailObjects lastFeedIndex:_currentFeedIndex];
 	[self.navigationController pushViewController:simpleFeedListViewController animated:YES];
+	 */
 }
 
 

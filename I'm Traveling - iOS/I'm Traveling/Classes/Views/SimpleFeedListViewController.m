@@ -96,6 +96,7 @@
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
+	/*
 	if( [message isEqualToString:@"select_feed"] )
 	{
 		[self startBusy];
@@ -108,12 +109,11 @@
 				break;
 		}
 		
-//		FeedDetailViewController *feedDetailViewController = [[FeedDetailViewController alloc] initWithFeeds:_feeds];
-//		feedDetailViewController.ref = 2;
-//		[feedDetailViewController activateWithFeedIndex:i];
-//		[self.navigationController pushViewController:feedDetailViewController animated:YES];
-//		[feedDetailViewController release];
+		FeedDetailViewController *feedDetailViewController = [[FeedDetailViewController alloc] initFromSimpleListWithFeedIndex:i];
+		[self.navigationController pushViewController:feedDetailViewController animated:YES];
+		[feedDetailViewController release];
 	}
+	*/
 }
 
 
