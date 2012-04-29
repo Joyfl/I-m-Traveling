@@ -132,20 +132,23 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
-	NSDictionary *json = [Utils parseJSON:result];
-	if( [json objectForKey:@"RESULT"] )
+	NSDictionary *json = [Utils parseJSON:data];
+	if( [self isError:json] )
 	{
-		Place *place = [[Place alloc] init];
-		place.placeId = [[json objectForKey:@"RESULT"] integerValue];
-		place.name = _nameInput.text;
-		place.latitude = _mapView.userLocation.coordinate.latitude;
-		place.longitude = _mapView.userLocation.coordinate.longitude;
-		[placeSelectionViewController selectPlace:place];
-		[place release];
-		[self dismissModalViewControllerAnimated:YES];
+		NSLog( @"Error!" );
+		return;
 	}
+	
+	Place *place = [[Place alloc] init];
+	place.placeId = [[json objectForKey:@"result"] integerValue];
+	place.name = _nameInput.text;
+	place.latitude = _mapView.userLocation.coordinate.latitude;
+	place.longitude = _mapView.userLocation.coordinate.longitude;
+	[placeSelectionViewController selectPlace:place];
+	[place release];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

@@ -126,20 +126,21 @@
 #pragma mark ImTravelingViewController
 
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
 	[self clear];
 	
-	id json = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:data];
 	
 	// 장소가 없을 경우
-	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
+	if( [self isError:json] )
 	{
 		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"NO_PLACES_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
-	for( NSDictionary *p in json )
+	NSArray *places = [json objectForKey:@"result"];
+	for( NSDictionary *p in places )
 	{
 		Place *place = [[Place alloc] init];
 		place.placeId = [[p objectForKey:@"place_id"] integerValue];

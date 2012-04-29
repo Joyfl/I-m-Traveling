@@ -83,18 +83,22 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
-	NSLog( @"%@", result );
-	NSDictionary *json = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:data];
+	if( [self isError:json] )
+	{
+		NSLog( @"Error" );
+		return;
+	}
 	
 	// ShareViewController - TripListViewController에서 여행 추가 버튼을 눌러 들어온 경우
 	// 여행을 추가하면 추가한 여행이 자동으로 선택되어지도록 한다.
-	if( tripListViewController != nil && [json objectForKey:@"RESULT"] )
+	if( tripListViewController != nil )
 	{
 		// Upload할 때에는 trip id와 title밖에 필요가 없음.
 		TripObject *trip = [[TripObject alloc] init];
-		trip.tripId = [[json objectForKey:@"RESULT"] integerValue];
+		trip.tripId = [[json objectForKey:@"result"] integerValue];
 		trip.title = _titleInput.text;
 		[tripListViewController selectTrip:trip];
 		[trip release];

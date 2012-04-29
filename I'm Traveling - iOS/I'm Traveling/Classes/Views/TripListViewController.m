@@ -112,20 +112,22 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(NSString *)data
 {
 	[self clear];
 	
-	id json = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:data];
 	
 	// trip이 없을 경우
-	if( [json isKindOfClass:[NSDictionary class]] && [[json objectForKey:@"ERROR"] integerValue] == 1 )
+	if( [self isError:json] )
 	{
 		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"NO_TRIPS_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
-	for( NSDictionary *t in json )
+	NSArray *trips = [json objectForKey:@"result"];
+	
+	for( NSDictionary *t in trips )
 	{
 		TripObject *trip = [[TripObject alloc] init];
 		trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
