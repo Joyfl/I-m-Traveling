@@ -49,16 +49,11 @@
 	UIButton *_keyboardHideButton;
 }
 
-+ (FeedDetailViewController *)viewController;
-
 - (id)initFromListWithFeed:(FeedObject *)feed upperImage:(UIImage *)upperImage lowerImage:(UIImage *)lowerImage lowerImageViewOffset:(CGFloat)offset;
 - (id)initFromMapWithFeed:(FeedObject *)feed originalRegion:(MKCoordinateRegion)originalRegion;
+//- (id)initFromSimpleListWithFeedIndex:(NSInteger *)feedIndex;
 - (void)seeAllFeeds;
 - (void)webViewDidFinishLoad:(FeedDetailWebView *)webView;
-
-//@property (nonatomic, assign) NSInteger ref;
-//@property (nonatomic, retain) MKMapView *mapView;
-//@property (nonatomic, assign) BOOL loaded;
-//@property (nonatomic, assign) MKCoordinateRegion originalRegion;
+- (void)commentDidAdd:(FeedDetailWebView *)webView;
 
 @end
