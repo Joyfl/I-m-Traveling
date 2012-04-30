@@ -50,11 +50,11 @@ enum {
 		
 		self.navigationItem.title = @"Share";
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *uploadButton = [[ImTravelingBarButtonItem alloc] initWithTitle:@"Upload" target:self action:@selector(uploadButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *uploadButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:@"Upload" target:self action:@selector(uploadButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = uploadButton;
 		[uploadButton release];
 		

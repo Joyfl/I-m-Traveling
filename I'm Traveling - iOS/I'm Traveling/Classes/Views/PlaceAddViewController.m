@@ -25,11 +25,11 @@
 	{
 		self.navigationItem.title = NSLocalizedString( @"TITLE_PLACE_ADD", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithTitle:NSLocalizedString( @"ADD", @"" ) target:self action:@selector(doneButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *doneButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"ADD", @"" ) target:self action:@selector(doneButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		

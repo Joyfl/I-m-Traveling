@@ -10,6 +10,11 @@
 
 @interface ImTravelingBarButtonItem : UIBarButtonItem
 
-- (id)initWithTitle:(NSString *)title target:(id)target action:(SEL)action;
+enum {
+	ImTravelingBarButtonItemTypeNormal = 0,
+	ImTravelingBarButtonItemTypeBack = 1
+};
+
+- (id)initWithType:(NSInteger)type title:(NSString *)title target:(id)target action:(SEL)action;
 
 @end

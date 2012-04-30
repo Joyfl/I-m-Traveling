@@ -10,16 +10,30 @@
 
 @implementation ImTravelingBarButtonItem
 
-- (id)initWithTitle:(NSString *)title target:(id)target action:(SEL)action
+- (id)initWithType:(NSInteger)type title:(NSString *)title target:(id)target action:(SEL)action
 {
-	UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
 	[button setTitle:title forState:UIControlStateNormal];
-	[button setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
-	[button setFrame:CGRectMake( 0, 0, 60, 31 )];
+	
+	UIImage *bg;
+	switch( type )
+	{
+		case ImTravelingBarButtonItemTypeNormal:
+			bg = [UIImage imageNamed:@"button.png"];
+			[button setFrame:CGRectMake( 0, 0, 60, 31 )];
+			break;
+			
+		case ImTravelingBarButtonItemTypeBack:
+			bg = [UIImage imageNamed:@"button.png"];
+			[button setFrame:CGRectMake( 0, 0, 50, 31 )];
+			break;
+	}
+	
+	[button setBackgroundImage:bg forState:UIControlStateNormal];
 	[button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 	
-	return [super initWithCustomView:[button autorelease]];
+	return [super initWithCustomView:button];
 }
 
 @end
