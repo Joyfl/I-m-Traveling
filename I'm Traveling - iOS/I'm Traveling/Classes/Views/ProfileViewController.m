@@ -384,7 +384,7 @@
 
 - (void)clearTabContents
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:@"var children = page.children; for( var i = children.length - 1; i > 0; i-- ) page.removeChild( children[i] );"];
+	[self.webView stringByEvaluatingJavaScriptFromString:@"clearProfileTabContents()"];
 }
 
 
