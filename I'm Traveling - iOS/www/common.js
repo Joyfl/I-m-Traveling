@@ -91,7 +91,7 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	place.innerText = _place;
 	region.innerText = _region;
 	
-	var profile = function(){ call("create_profile:" + user_id); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + _userName); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
@@ -241,7 +241,7 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	userName.innerText = _userName;
 	nation.innerText = _nation;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id); };
+	wrap.onclick = function() { call("create_profile:" + user_id + ":" + _userName); };
 }
 
 function fillPlaceList(wrap, place_id, name, category)
@@ -372,7 +372,7 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	
 	createGap(wrap, 0.1);
 	
-	thumbnail.onclick = function() { call("feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset)); };
+	thumbnail.onclick = function() { call("feed_detail:" + feed_id + ":" + (wrap.offsetTop - window.pageYOffset) + ":" + wrap.clientHeight); };
 }
 
 function fillFeedContents(wrap, info, trip_id, see_all_feed_text, likes_text)
@@ -416,7 +416,7 @@ function fillComment(wrap, user_id, profile_image_url, name, _time, _content)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	
-	var profile = function(){ call("create_profile:" + user_id); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + _userName); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 }
@@ -559,9 +559,17 @@ function clear() {
 	pl = new Array();
 	cl = new Array();
 }
+
 function clearCommentList()
 {
 	if($("#commentList")) $("#page").removeChild($("#commentList"));
+}
+function clearProfileTabContents()
+{
+	var page = $("#page");
+	var children = page.childNodes;
+	for(var i = children.length - 1; i > 0; i--)
+		page.removeChild(children[i]);
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
