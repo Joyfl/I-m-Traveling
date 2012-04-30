@@ -39,6 +39,7 @@
 }
 
 - (void)activateWithUserId:(NSInteger)userId userName:(NSString *)name;
+- (void)activateFromTabBarWithUserId:(NSInteger)userId userName:(NSString *)name;
 
 @property (nonatomic, assign) BOOL activated;
 

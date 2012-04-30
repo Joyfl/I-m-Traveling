@@ -79,5 +79,7 @@
 "TIME" = "시간";
 
 // Profile
+"EDIT" = "편집";
+"SETTINGS" = "설정";
 "TRIPS" = "여행";
 "FOLLOWERS" = "팔로워";

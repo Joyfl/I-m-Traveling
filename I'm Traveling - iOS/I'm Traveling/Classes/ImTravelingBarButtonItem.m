@@ -25,7 +25,7 @@
 			break;
 			
 		case ImTravelingBarButtonItemTypeBack:
-			bg = [UIImage imageNamed:@"button.png"];
+			bg = [UIImage imageNamed:@"button_back.png"];
 			[button setFrame:CGRectMake( 0, 0, 50, 31 )];
 			break;
 	}

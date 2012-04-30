@@ -46,7 +46,7 @@
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
 	ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
-	if( [Utils loggedIn] ) [profileViewController activateWithUserId:[Utils userId] userName:[Utils userName]];
+	if( [Utils loggedIn] ) [profileViewController activateFromTabBarWithUserId:[Utils userId] userName:[Utils userName]];
 	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:profileViewController];
 	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
 	profileNavigationController.tabBarItem.image = [UIImage imageNamed:@"tab_profile.png"];
@@ -149,7 +149,7 @@
 		}
 		else if( !profileViewController.activated )
 		{
-			[profileViewController activateWithUserId:[Utils userId] userName:[Utils userName]];
+			[profileViewController activateFromTabBarWithUserId:[Utils userId] userName:[Utils userName]];
 			return YES;
 		}
 	}

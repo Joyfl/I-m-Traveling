@@ -11,7 +11,7 @@
 #import "Const.h"
 #import "Utils.h"
 #import "TripObject.h"
-
+#import "ImtravelingBarButtonItem.h"
 
 @implementation ProfileViewController
 
@@ -46,12 +46,35 @@
     return self;
 }
 
+- (void)activateFromTabBarWithUserId:(NSInteger)userId userName:(NSString *)name
+{
+	activated = YES;
+	user.userId = userId;
+	user.name = name;
+	self.navigationItem.title = name;
+	
+	ImTravelingBarButtonItem *editButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"EDIT", @"" ) target:self action:@selector(editButtonDidTouchUpInside)];
+	self.navigationItem.leftBarButtonItem = editButton;
+	[editButton release];
+	
+	ImTravelingBarButtonItem *settingsButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"SETTINGS", @"" ) target:self action:@selector(settingsButtonDidTouchUpInside)];
+	self.navigationItem.rightBarButtonItem = settingsButton;
+	[settingsButton release];
+	
+	[self startBusy];
+	[self loadPage:HTML_INDEX];
+}
+
 - (void)activateWithUserId:(NSInteger)userId userName:(NSString *)name
 {
 	activated = YES;
 	user.userId = userId;
 	user.name = name;
 	self.navigationItem.title = name;
+
+	ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:@"" target:self action:@selector(backButtonDidTouchUpInside)];
+	self.navigationItem.leftBarButtonItem = backButton;
+	[backButton release];
 	
 	[self startBusy];
 	[self loadPage:HTML_INDEX];
@@ -417,6 +440,25 @@
 	if( frame.size.height < 330 ) frame.size.height = 330;
 	self.webView.frame = frame;
 	_scrollView.contentSize = CGSizeMake( 320, self.webView.frame.size.height + 38 );
+}
+
+
+#pragma mark -
+#pragma mark Selectors
+
+- (void)editButtonDidTouchUpInside
+{
+	
+}
+
+- (void)settingsButtonDidTouchUpInside
+{
+	
+}
+
+- (void)backButtonDidTouchUpInside
+{
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
