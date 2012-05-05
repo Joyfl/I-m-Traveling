@@ -35,8 +35,8 @@ function init()
 	//t_fl();
 	//t_fd();
 	//t_cl();
-	//t_sf();
-	t_st();
+	t_sf();
+	//t_st();
 	//t_pl();
 	//t_p();
 	//t_pll();
@@ -58,8 +58,8 @@ function t_cl()
 		addComment(comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
 	}
 }
-function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
-function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행", 7); }
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + reviewLong); }
+function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행" + reviewLong, 7); }
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, pic1, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 99, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
@@ -226,6 +226,7 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 	setHeight(cover, intToEm(pixelToEm(thumbnail.clientHeight)));
 	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(1.6)));
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
+	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	
 	wrap.onclick = function() { call("select_trip:" + trip_id); };
 }

@@ -445,6 +445,14 @@ ul, ol, li
 {
 	font-size: 1.5em;
 	color: #513d2b;
+	
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
+	word-wrap: break-word;
+	
+	margin-bottom: 0.4em;
 }
 
 .simpleTrip .lowerWrap
