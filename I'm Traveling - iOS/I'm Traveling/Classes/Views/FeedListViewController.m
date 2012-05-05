@@ -43,43 +43,61 @@ enum {
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
 		
-		UIButton *regionButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[regionButton setBackgroundImage:[[UIImage imageNamed:@"button_region.png"] retain] forState:UIControlStateNormal];
+		UIButton *regionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[regionButton setBackgroundImage:[UIImage imageNamed:@"button_region.png"] forState:UIControlStateNormal];
 		[regionButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[regionButton addTarget:self action:@selector(onRegionButtonTouch) forControlEvents:UIControlEventTouchUpInside];		
 		
 		UIBarButtonItem *regionBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:regionButton];
 		regionBarButtonItem.style = UIBarButtonItemStyleBordered;
 		
+		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, regionBarButtonItem, nil];
+		[leftSpacer release];
+		[regionBarButtonItem release];
+		
 		
 		// title
-		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 226.0, 31.0 )];
+		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 228, 31 )];
 		
-		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 75.0, 31.0 )];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new.png"] retain] forState:UIControlStateNormal];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateHighlighted];
-		[newButton setBackgroundImage:[[UIImage imageNamed:@"button_new_selected.png"] retain] forState:UIControlStateDisabled];
-		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
+		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 76, 31 )];
 		newButton.tag = kTagNewButton;
+		newButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		newButton.titleEdgeInsets = UIEdgeInsetsMake( 0, 4, 0, 0 );
+		[newButton setTitle:NSLocalizedString( @"NEW", @"" ) forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left.png"] forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateHighlighted];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateDisabled];
+		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		[alignButtons addSubview:newButton];
 		newButton.highlighted = YES;
 		newButton.enabled = NO;
+		[newButton release];
 		
-		UIButton *popularButton = [[UIButton alloc] initWithFrame:CGRectMake( 75.0, 0, 75.0, 31.0 )];
-		[popularButton setImage:[[UIImage imageNamed:@"button_popular.png"] retain] forState:UIControlStateNormal];
-		[popularButton setImage:[[UIImage imageNamed:@"button_popular_selected.png"] retain] forState:UIControlStateHighlighted];
-		[popularButton setImage:[[UIImage imageNamed:@"button_popular_selected.png"] retain] forState:UIControlStateDisabled];
-		[popularButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
+		UIButton *popularButton = [[UIButton alloc] initWithFrame:CGRectMake( 76, 0, 76, 31 )];
 		popularButton.tag = kTagPopularButton;
+		popularButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		[popularButton setTitle:NSLocalizedString( @"POPULAR", @"" ) forState:UIControlStateNormal];
+		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center.png"] forState:UIControlStateNormal];
+		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center_selected.png"] forState:UIControlStateHighlighted];
+		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center_selected.png"] forState:UIControlStateDisabled];
+		[popularButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		[alignButtons addSubview:popularButton];
+		[popularButton release];
 		
-		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 150.0, 0, 76.0, 31.0 )];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following.png"] retain] forState:UIControlStateNormal];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateHighlighted];
-		[followingButton setImage:[[UIImage imageNamed:@"button_following_selected.png"] retain] forState:UIControlStateDisabled];
-		[followingButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
+		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 149, 0, 76, 31 )];
 		followingButton.tag = kTagFollowingButton;
+		followingButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		followingButton.titleEdgeInsets = UIEdgeInsetsMake( 0, -4, 0, 0 );
+		[followingButton setTitle:NSLocalizedString( @"FOLLOWING", @"" ) forState:UIControlStateNormal];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right.png"] forState:UIControlStateNormal];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateHighlighted];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateDisabled];
+		[followingButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		[alignButtons addSubview:followingButton];
+		[followingButton release];
+		
+		self.navigationItem.titleView = alignButtons;
+		[alignButtons release];
 		
 		
 		// right
@@ -94,9 +112,6 @@ enum {
 		UIBarButtonItem *mapBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:mapButton];
 		mapBarButtonItem.style = UIBarButtonItemStyleBordered;
 		
-		
-		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, regionBarButtonItem, nil];
-		self.navigationItem.titleView = alignButtons;
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, mapBarButtonItem, nil];
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
