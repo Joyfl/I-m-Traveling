@@ -188,6 +188,7 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 		
 	thumbnail.src = picture_url;
 	time.innerText = _time;
+	time.disabled = true;
 	place.innerText = _place;
 	review.innerText = _review;
 	
@@ -216,6 +217,7 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 		
 	thumbnail.src = picture_url;
 	time.innerText = start_date + " ~ " + end_date;
+	time.disabled = true;
 	if(num_feeds > 1) numText.innerText = num_feeds + " feeds";
 	else numText.innerText = num_feeds + " feed";
 	title.innerText = _title;
