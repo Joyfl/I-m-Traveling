@@ -8,16 +8,10 @@
 
 #import "LoginViewController.h"
 #import "SettingsManager.h"
-#import "CommonCrypto/CommonDigest.h"
 #import "Const.h"
 #import "Utils.h"
-
-@interface LoginViewController (Private)
-
-- (NSString *)sha1:(NSString *)input;
-
-@end
-
+#import "PrivacyViewController.h"
+#import "ImTravelingNavigationController.h"
 
 @implementation LoginViewController
 
@@ -94,12 +88,14 @@
 		return;
 	}
 	
-	[self loginWithEmail:email andPassword:[self sha1:password]];
+	[self loginWithEmail:email andPassword:[Utils sha1:password]];
 }
 
 - (void)signUpButtonDidTouchUpInside
 {
-	NSLog( @"sign up" );
+	PrivacyViewController *privacyViewController = [[PrivacyViewController alloc] init];	
+	[self.navigationController pushViewController:privacyViewController animated:YES];
+	[privacyViewController release];
 }
 
 - (void)loginWithEmail:(NSString *)email andPassword:(NSString *)password
@@ -128,24 +124,6 @@
 	[[SettingsManager manager] flush];
 	
 	[self dismissModalViewControllerAnimated:YES];
-}
-
-
-#pragma mark -
-#pragma mark Crypto
-
-- (NSString *)sha1:(NSString *)input
-{
-	NSData *data = [input dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-	
-	uint8_t digest[CC_SHA1_DIGEST_LENGTH];
-	CC_SHA1( data.bytes, data.length, digest );
-	
-	NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-	for( int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++ )
-		[output appendFormat:@"%02x", digest[i]];
-	
-	return output;
 }
 
 @end

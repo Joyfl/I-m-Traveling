@@ -27,5 +27,6 @@
 + (NSString *)timeWithDate:(NSDate *)date andTimezone:(NSTimeZone *)timezone;
 + (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time;
 + (NSString *)dateStringForUpload:(NSDate *)date;
++ (NSString *)sha1:(NSString *)input;
 
 @end

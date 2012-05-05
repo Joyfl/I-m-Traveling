@@ -16,6 +16,7 @@
 #endif
 
 #define API_LOGIN				@"https://imtraveling.joyfl.kr/login.php"
+#define API_SIGN_UP				@"https://imtraveling.joyfl.kr/register.php"
 #define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"
 #define API_FEED_DETAIL			@"https://imtraveling.joyfl.kr/feed_detail.php"
 #define API_FEED_COMMENT		@"https://imtraveling.joyfl.kr/feed_comment.php"

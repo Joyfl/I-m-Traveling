@@ -163,6 +163,12 @@
 		03E76B5D15029EE700DDDB20 /* InfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 03E76B5C15029EE700DDDB20 /* InfoCell.m */; };
 		03EC1951151382ED00E99A2E /* SimpleFeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EC1950151382ED00E99A2E /* SimpleFeedListViewController.m */; };
 		03F24B9F15105B4100B1CB85 /* TripAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F24B9E15105B4100B1CB85 /* TripAddViewController.m */; };
+		03FB8EC71553C00400E1C14C /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FB8EC61553C00400E1C14C /* SignUpViewController.m */; };
+		03FB8ECB15540BBA00E1C14C /* PrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FB8ECA15540BBA00E1C14C /* PrivacyViewController.m */; };
+		03FB8ECD15540E5100E1C14C /* privacy_en.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8ECC15540E5100E1C14C /* privacy_en.txt */; };
+		03FB8ECF15540E6500E1C14C /* privacy_ko.txt in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8ECE15540E6500E1C14C /* privacy_ko.txt */; };
+		03FB8ED5155504F200E1C14C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8ED4155504F100E1C14C /* icon.png */; };
+		03FB8ED7155504F600E1C14C /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8ED6155504F500E1C14C /* icon@2x.png */; };
 		03FD65E11539586200F4C9E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03FD65E31539586200F4C9E0 /* Localizable.strings */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
@@ -379,6 +385,14 @@
 		03EC1950151382ED00E99A2E /* SimpleFeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleFeedListViewController.m; sourceTree = "<group>"; };
 		03F24B9D15105B4000B1CB85 /* TripAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripAddViewController.h; sourceTree = "<group>"; };
 		03F24B9E15105B4100B1CB85 /* TripAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripAddViewController.m; sourceTree = "<group>"; };
+		03FB8EC51553C00400E1C14C /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		03FB8EC61553C00400E1C14C /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		03FB8EC915540BBA00E1C14C /* PrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacyViewController.h; sourceTree = "<group>"; };
+		03FB8ECA15540BBA00E1C14C /* PrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivacyViewController.m; sourceTree = "<group>"; };
+		03FB8ECC15540E5100E1C14C /* privacy_en.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy_en.txt; sourceTree = "<group>"; };
+		03FB8ECE15540E6500E1C14C /* privacy_ko.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = privacy_ko.txt; sourceTree = "<group>"; };
+		03FB8ED4155504F100E1C14C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
+		03FB8ED6155504F500E1C14C /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		03FD65E21539586200F4C9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
@@ -476,6 +490,10 @@
 				0300E72614D23E6B00611039 /* RegionViewController.m */,
 				03BB027F14F91BD200AFC6BC /* LoginViewController.h */,
 				03BB028014F91BD200AFC6BC /* LoginViewController.m */,
+				03FB8EC915540BBA00E1C14C /* PrivacyViewController.h */,
+				03FB8ECA15540BBA00E1C14C /* PrivacyViewController.m */,
+				03FB8EC51553C00400E1C14C /* SignUpViewController.h */,
+				03FB8EC61553C00400E1C14C /* SignUpViewController.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -594,6 +612,8 @@
 				03BB027C14F902E300AFC6BC /* cover_temp.jpg */,
 				0311F6EB14E43AAC0081B74E /* ui */,
 				03FD65E31539586200F4C9E0 /* Localizable.strings */,
+				03FB8ECC15540E5100E1C14C /* privacy_en.txt */,
+				03FB8ECE15540E6500E1C14C /* privacy_ko.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -632,6 +652,8 @@
 		039F63EA14C5CEE6002EC78F = {
 			isa = PBXGroup;
 			children = (
+				03FB8ED6155504F500E1C14C /* icon@2x.png */,
+				03FB8ED4155504F100E1C14C /* icon.png */,
 				03266C1514C668B200B4A447 /* www */,
 				039F63FF14C5CEE6002EC78F /* I'm Traveling */,
 				03266C3A14C67BB800B4A447 /* Resources */,
@@ -872,6 +894,10 @@
 				03780403151B758800BD72BD /* place_add_name_bg.png in Resources */,
 				03780404151B758800BD72BD /* place_add_name_bg@2x.png in Resources */,
 				03FD65E11539586200F4C9E0 /* Localizable.strings in Resources */,
+				03FB8ECD15540E5100E1C14C /* privacy_en.txt in Resources */,
+				03FB8ECF15540E6500E1C14C /* privacy_ko.txt in Resources */,
+				03FB8ED5155504F200E1C14C /* icon.png in Resources */,
+				03FB8ED7155504F600E1C14C /* icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,6 +956,8 @@
 				03DBD5531515C30C002A02E1 /* ImTravelingBarButtonItem.m in Sources */,
 				03DBD56815160A0B002A02E1 /* Comment.m in Sources */,
 				0343DB9D153C9BF100DEF931 /* DejalActivityView.m in Sources */,
+				03FB8EC71553C00400E1C14C /* SignUpViewController.m in Sources */,
+				03FB8ECB15540BBA00E1C14C /* PrivacyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

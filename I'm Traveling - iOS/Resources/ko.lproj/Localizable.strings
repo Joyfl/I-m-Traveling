@@ -20,7 +20,9 @@
 "SIGN_UP" = "회원가입";
 "LOGIN_FAILED_MSG" = "로그인에 실패했습니다. 이메일과 패스워드를 확인해주세요.";
 
-// Sign up
+// Sign Up
+"PRIVACY_FILE" = "privacy_ko";
+"PRIVACY_AGREE" = "약관에 동의합니다.";
 
 // Tab Bar
 "TAB_FEED" = "피드";

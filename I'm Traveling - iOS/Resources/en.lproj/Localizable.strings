@@ -20,6 +20,10 @@
 "SIGN_UP" = "Sign Up";
 "LOGIN_FAILED_MSG" = "Login failed. Check your email and password again.";
 
+// Sign Up
+"PRIVACY_FILE" = "privacy_en";
+"PRIVACY_AGREE" = "Agree to privacy.";
+
 // Tab Bar
 "TAB_FEED" = "Feed";
 "TAB_SHARE" = "Share";
