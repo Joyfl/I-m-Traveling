@@ -21,12 +21,13 @@
 	{
 		case ImTravelingBarButtonItemTypeNormal:
 			bg = [UIImage imageNamed:@"button.png"];
-			[button setFrame:CGRectMake( 0, 0, 60, 31 )];
+			button.frame = CGRectMake( 0, 0, 60, 31 );
 			break;
 			
 		case ImTravelingBarButtonItemTypeBack:
 			bg = [UIImage imageNamed:@"button_back.png"];
-			[button setFrame:CGRectMake( 0, 0, 50, 31 )];
+			button.frame = CGRectMake( 0, 0, 50, 31 );
+			button.titleEdgeInsets = UIEdgeInsetsMake( 0, 6, 0, 0 );
 			break;
 	}
 	

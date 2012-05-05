@@ -14,6 +14,7 @@
 #import "Pin.h"
 #import "SimpleFeedListViewController.h"
 #import "Comment.h"
+#import "ImTravelingBarButtonItem.h"
 
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
@@ -30,8 +31,6 @@
 
 @implementation FeedDetailViewController
 
-//@synthesize ref, mapView=_mapView;
-
 - (id)initWithFeed:(FeedObject *)feed
 {
 	if( self = [super init] )
@@ -40,18 +39,11 @@
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
 		
-		UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		[backButton setBackgroundImage:[UIImage imageNamed:@"button_back.png"] forState:UIControlStateNormal];
-		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
-		[backButton addTarget:self action:@selector(backButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];		
-		
-		UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-		backBarButtonItem.style = UIBarButtonItemStyleBordered;
-		
-		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backBarButtonItem, nil];
+		ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:NSLocalizedString( @"BACK", @"" ) target:self action:@selector(backButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backButton, nil];
+		[backButton release];
 		
 		self.view.backgroundColor = [UIColor darkGrayColor];
-		
 		
 		// Map View
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, MAP_HEIGHT )];

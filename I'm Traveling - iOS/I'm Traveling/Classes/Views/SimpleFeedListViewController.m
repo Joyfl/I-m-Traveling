@@ -10,6 +10,7 @@
 #import "Const.h"
 #import "FeedDetailViewController.h"
 #import "FeedObject.h"
+#import "ImTravelingBarButtonItem.h"
 
 @interface SimpleFeedListViewController ()
 
@@ -32,18 +33,11 @@
 		UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		leftSpacer.width = 4;
 		
-		UIButton *backButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[backButton setBackgroundImage:[UIImage imageNamed:@"button_back.png"] forState:UIControlStateNormal];
-		[backButton setFrame:CGRectMake( 0.0f, 0.0f, 50.0f, 31.0f )];
-		[backButton addTarget:self action:@selector(backButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];		
+		ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:NSLocalizedString( @"BACK", @"" ) target:self action:@selector(backButtonDidTouchUpInside)];
 		
-		UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-		backBarButtonItem.style = UIBarButtonItemStyleBordered;
-		[backButton release];
-		
-		self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:leftSpacer, backBarButtonItem, nil];
+		self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:leftSpacer, backButton, nil];
 		[leftSpacer release];
-		[backBarButtonItem release];
+		[backButton release];
 		
 		_ref = 0;
 		_feeds = [feeds retain];
