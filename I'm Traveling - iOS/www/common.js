@@ -91,7 +91,7 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	place.innerText = _place;
 	region.innerText = _region;
 	
-	var profile = function(){ call("create_profile:" + user_id + ":" + _userName); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
@@ -241,7 +241,7 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	userName.innerText = _userName;
 	nation.innerText = _nation;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id + ":" + _userName); };
+	wrap.onclick = function() { call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
 }
 
 function fillPlaceList(wrap, place_id, name, category)
@@ -416,7 +416,7 @@ function fillComment(wrap, user_id, profile_image_url, name, _time, _content)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	
-	var profile = function(){ call("create_profile:" + user_id + ":" + _userName); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 }
