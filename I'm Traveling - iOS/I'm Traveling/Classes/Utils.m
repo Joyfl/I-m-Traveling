@@ -27,8 +27,6 @@
 
 + (NSString *)userName
 {
-#warning temp code
-	return @"전수열";
 	NSString *key = SETTING_KEY_USER_NAME;
 	return [[SettingsManager manager] getSettingForKey:key];
 }
