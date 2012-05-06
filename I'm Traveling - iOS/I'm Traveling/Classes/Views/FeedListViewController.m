@@ -273,7 +273,7 @@ enum {
 	else if( [message isEqualToString:@"create_profile"] )
 	{
 		ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
-		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[arguments objectAtIndex:1]];
+		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[[arguments objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 		[self.navigationController pushViewController:profileViewController animated:YES];
 		[profileViewController release];
 	}
