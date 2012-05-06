@@ -13,6 +13,7 @@
 "LOADING" = "Loading...";
 "CANCEL" = "Cancel";
 "DONE" = "Done";
+"OK" = "OK";
 
 // Login
 "INVALID_EMAIL" = "Invalid email.";
@@ -85,3 +86,13 @@
 "SETTINGS" = "Settings";
 "TRIPS" = "Trips";
 "FOLLOWERS" = "Followers";
+
+// Settings
+"NOTICE" = "Notice";
+"FEEDBACK" = "Feedback";
+"GUIDE" = "I'm Traveling Guide";
+"ACCOUNTS" = "Accounts";
+"NOTIFICATIONS" = "Notifications";
+"LOGOUT" = "Logout";
+"WITHDRAWAL" = "Membership Withdrawal";
+"LOGGED_OUT" = "Logged Out.";

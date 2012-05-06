@@ -44,6 +44,23 @@
 	return [[SettingsManager manager] getSettingForKey:key];
 }
 
++ (void)logout
+{
+	NSString *key = SETTING_KEY_USER_ID;
+	[[SettingsManager manager] clearSettingForKey:key];
+	
+	key = SETTING_KEY_USER_NAME;
+	[[SettingsManager manager] clearSettingForKey:key];
+	
+	key = SETTING_KEY_EMAIL;
+	[[SettingsManager manager] clearSettingForKey:key];
+	
+	key = SETTING_KEY_PASSWORD;
+	[[SettingsManager manager] clearSettingForKey:key];
+	
+	[[SettingsManager manager] flush];
+}
+
 + (NSString *)getHtmlFromUrl:(NSString *)url
 {
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];

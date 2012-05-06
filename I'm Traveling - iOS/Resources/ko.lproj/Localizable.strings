@@ -13,6 +13,7 @@
 "LOADING" = "로딩중...";
 "CANCEL" = "취소";
 "DONE" = "완료";
+"OK" = "확인";
 
 // Login
 "INVALID_EMAIL" = "잘못된 이메일주소입니다.";
@@ -85,3 +86,13 @@
 "SETTINGS" = "설정";
 "TRIPS" = "여행";
 "FOLLOWERS" = "팔로워";
+
+// Settings
+"NOTICE" = "공지사항";
+"FEEDBACK" = "피드백";
+"GUIDE" = "I'm Traveling 가이드";
+"ACCOUNTS" = "계졍 연동";
+"NOTIFICATIONS" = "알림";
+"LOGOUT" = "로그아웃";
+"WITHDRAWAL" = "회원 탈퇴";
+"LOGGED_OUT" = "로그아웃되었습니다.";

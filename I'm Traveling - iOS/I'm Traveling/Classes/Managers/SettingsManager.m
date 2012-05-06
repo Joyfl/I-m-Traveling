@@ -45,6 +45,11 @@
 	[_settings setObject:data forKey:key];
 }
 
+- (void)clearSettingForKey:(id)key
+{
+	[_settings removeObjectForKey:key];
+}
+
 - (BOOL)flush
 {
 	return [_settings writeToFile:[[NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES ) objectAtIndex:0] stringByAppendingPathComponent:@"Settings.plist"] atomically:YES];

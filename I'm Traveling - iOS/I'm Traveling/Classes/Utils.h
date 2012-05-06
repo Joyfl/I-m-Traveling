@@ -16,6 +16,8 @@
 + (NSString *)userName;
 + (NSString *)email;
 + (NSString *)password;
++ (void)logout;
+
 + (NSString *)getHtmlFromUrl:(NSString *)url;
 + (id)parseJSON:(NSString *)json;
 + (NSString *)writeJSON:(id)object;

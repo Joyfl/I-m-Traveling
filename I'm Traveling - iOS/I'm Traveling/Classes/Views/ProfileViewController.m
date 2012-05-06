@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "TripObject.h"
 #import "ImtravelingBarButtonItem.h"
+#import "SettingsViewController.h"
 
 @implementation ProfileViewController
 
@@ -453,7 +454,9 @@
 
 - (void)settingsButtonDidTouchUpInside
 {
-	
+	SettingsViewController *settingsViewController = [[SettingsViewController alloc] init];
+	[self.navigationController pushViewController:settingsViewController animated:YES];
+	[settingsViewController release];
 }
 
 - (void)backButtonDidTouchUpInside

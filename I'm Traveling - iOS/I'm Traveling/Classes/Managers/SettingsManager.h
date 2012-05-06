@@ -17,6 +17,7 @@
 
 - (id)getSettingForKey:(id)key;
 - (void)setSetting:(id)data forKey:(id)key;
+- (void)clearSettingForKey:(id)key;
 - (BOOL)flush;
 
 @end
