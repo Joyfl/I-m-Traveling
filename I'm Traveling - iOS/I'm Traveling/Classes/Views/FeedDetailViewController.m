@@ -52,6 +52,10 @@
 		_mapView.zoomEnabled = NO;
 		[self.view addSubview:_mapView];
 		
+		UIImageView *googleLogo = [self googleLogo];
+		NSLog( @"frame : %@", NSStringFromCGRect( googleLogo.frame ) );
+		googleLogo.frame = CGRectMake( 6, 325, googleLogo.frame.size.width, googleLogo.frame.size.height );
+		
 		// Scroll View
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
@@ -974,4 +978,14 @@
 	[_mapView setRegion:MKCoordinateRegionMakeWithDistance( CLLocationCoordinate2DMake( latitude, longitude ), 200, 200 ) animated:animated];
 }
 
+- (UIImageView *)googleLogo
+{
+	for( UIView *subview in _mapView.subviews )
+	{
+		if( [subview isMemberOfClass:[UIImageView class]] )
+			return (UIImageView *)subview;
+	}
+	
+	return nil;
+}
 @end
