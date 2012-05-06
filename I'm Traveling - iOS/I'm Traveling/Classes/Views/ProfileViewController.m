@@ -72,7 +72,7 @@
 	user.name = name;
 	self.navigationItem.title = name;
 
-	ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:@"" target:self action:@selector(backButtonDidTouchUpInside)];
+	ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:NSLocalizedString( @"BACK", @"" ) target:self action:@selector(backButtonDidTouchUpInside)];
 	self.navigationItem.leftBarButtonItem = backButton;
 	[backButton release];
 	
