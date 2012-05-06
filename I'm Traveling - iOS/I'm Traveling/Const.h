@@ -31,6 +31,8 @@
 #define API_PROFILE_IMAGE		@"http://imtraveling.joyfl.kr/profile/"
 #define API_FOLLOWING_LIST		@""
 #define API_FOLLOWERS_LIST		@""
+#define API_NOTICE_LIST			@"https://imtraveling.joyfl.kr/notice_list.php"
+#define API_NOTICE_DETAIL		@"https://imtraveling.joyfl.kr/notice_detail.php"
 
 #define SETTING_KEY_LOGGED_IN	@"logged_in"
 #define SETTING_KEY_EMAIL		@"email"

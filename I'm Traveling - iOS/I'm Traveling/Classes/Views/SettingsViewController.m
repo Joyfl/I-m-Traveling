@@ -9,6 +9,7 @@
 #import "SettingsViewController.h"
 #import "ImTravelingBarButtonItem.h"
 #import "Utils.h"
+#import "NoticeListViewController.h"
 
 @implementation SettingsViewController
 
@@ -122,7 +123,9 @@ enum {
 		case 0:
 			if( indexPath.row == 0 )
 			{
-				
+				NoticeListViewController *noticeListViewController = [[NoticeListViewController alloc] init];
+				[self.navigationController pushViewController:noticeListViewController animated:YES];
+				[noticeListViewController release];
 			}
 			else if( indexPath.row == 1 )
 			{

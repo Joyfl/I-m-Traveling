@@ -168,6 +168,8 @@
 		03FB8EF015554EDC00E1C14C /* button_bar_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8EE415554EDC00E1C14C /* button_bar_right@2x.png */; };
 		03FB8EF115554EDC00E1C14C /* button_bar_left_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FB8EE515554EDC00E1C14C /* button_bar_left_selected@2x.png */; };
 		03FB8EF415563C2000E1C14C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FB8EF315563C1F00E1C14C /* SettingsViewController.m */; };
+		03FB8EF71556855700E1C14C /* NoticeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FB8EF61556855600E1C14C /* NoticeListViewController.m */; };
+		03FB8EFA1556A7B300E1C14C /* NoticeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FB8EF91556A7B200E1C14C /* NoticeDetailViewController.m */; };
 		03FD65E11539586200F4C9E0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 03FD65E31539586200F4C9E0 /* Localizable.strings */; };
 		03FDD10F14D4534D006E453A /* FeedDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03FDD10E14D4534D006E453A /* FeedDetailViewController.m */; };
 /* End PBXBuildFile section */
@@ -392,6 +394,10 @@
 		03FB8EE515554EDC00E1C14C /* button_bar_left_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_bar_left_selected@2x.png"; sourceTree = "<group>"; };
 		03FB8EF215563C1E00E1C14C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		03FB8EF315563C1F00E1C14C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		03FB8EF51556855500E1C14C /* NoticeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeListViewController.h; sourceTree = "<group>"; };
+		03FB8EF61556855600E1C14C /* NoticeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeListViewController.m; sourceTree = "<group>"; };
+		03FB8EF81556A7B100E1C14C /* NoticeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeDetailViewController.h; sourceTree = "<group>"; };
+		03FB8EF91556A7B200E1C14C /* NoticeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeDetailViewController.m; sourceTree = "<group>"; };
 		03FD65E21539586200F4C9E0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		03FDD10D14D4534D006E453A /* FeedDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedDetailViewController.h; sourceTree = "<group>"; };
 		03FDD10E14D4534D006E453A /* FeedDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedDetailViewController.m; sourceTree = "<group>"; };
@@ -487,6 +493,10 @@
 				0300E72414D23E6B00611039 /* ProfileViewController.m */,
 				03FB8EF215563C1E00E1C14C /* SettingsViewController.h */,
 				03FB8EF315563C1F00E1C14C /* SettingsViewController.m */,
+				03FB8EF51556855500E1C14C /* NoticeListViewController.h */,
+				03FB8EF61556855600E1C14C /* NoticeListViewController.m */,
+				03FB8EF81556A7B100E1C14C /* NoticeDetailViewController.h */,
+				03FB8EF91556A7B200E1C14C /* NoticeDetailViewController.m */,
 				0300E72514D23E6B00611039 /* RegionViewController.h */,
 				0300E72614D23E6B00611039 /* RegionViewController.m */,
 				03BB027F14F91BD200AFC6BC /* LoginViewController.h */,
@@ -956,6 +966,8 @@
 				03FB8EC71553C00400E1C14C /* SignUpViewController.m in Sources */,
 				03FB8ECB15540BBA00E1C14C /* PrivacyViewController.m in Sources */,
 				03FB8EF415563C2000E1C14C /* SettingsViewController.m in Sources */,
+				03FB8EF71556855700E1C14C /* NoticeListViewController.m in Sources */,
+				03FB8EFA1556A7B300E1C14C /* NoticeDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
