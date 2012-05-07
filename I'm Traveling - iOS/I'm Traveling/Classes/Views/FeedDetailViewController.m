@@ -43,6 +43,10 @@
 		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backButton, nil];
 		[backButton release];
 		
+		ImTravelingBarButtonItem *likeButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"LIKE", @"" ) target:self action:@selector(likeButtonDidTouchUpInside)];
+		self.navigationItem.rightBarButtonItem = likeButton;
+		[likeButton release];
+		
 		self.view.backgroundColor = [UIColor darkGrayColor];
 		
 		// Map View
@@ -750,6 +754,12 @@
 
 #pragma mark -
 #pragma mark Touch Selectors
+
+#warning like 구현해야함
+- (void)likeButtonDidTouchUpInside
+{
+	
+}
 
 - (void)leftFeedButtonDidTouchUpInside
 {
