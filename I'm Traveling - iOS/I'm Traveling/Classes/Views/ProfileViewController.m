@@ -13,6 +13,7 @@
 #import "TripObject.h"
 #import "ImtravelingBarButtonItem.h"
 #import "SettingsViewController.h"
+#import "FeedDetailViewController.h"
 
 @implementation ProfileViewController
 
@@ -155,6 +156,17 @@
 		currentTab = 2;
 		[self clearTabContents];
 		[self prepareFollowers];
+	}
+	else if( [message isEqualToString:@"select_feed"] )
+	{
+//		FeedDetailViewController *feedDetailViewController = [[FeedDetailViewController alloc] init
+	}
+	else if( [message isEqualToString:@"create_profile"] )
+	{
+		ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[Utils decodeURI:[arguments objectAtIndex:1]]];
+		[self.navigationController pushViewController:profileViewController animated:YES];
+		[profileViewController release];
 	}
 }
 

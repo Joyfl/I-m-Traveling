@@ -150,4 +150,9 @@
 	return output;
 }
 
++ (NSString *)decodeURI:(NSString *)input
+{
+	return [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 @end

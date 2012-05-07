@@ -55,7 +55,7 @@
 	else if( [message isEqualToString:@"create_profile"] )
 	{
 		ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
-		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[arguments objectAtIndex:1]];
+		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[Utils decodeURI:[arguments objectAtIndex:1]]];
 		[_detailViewController.navigationController pushViewController:profileViewController animated:YES];
 		[profileViewController release];
 	}

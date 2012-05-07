@@ -30,5 +30,5 @@
 + (NSString *)stringWithDate:(NSDate *)date andTime:(NSDate *)time;
 + (NSString *)dateStringForUpload:(NSDate *)date;
 + (NSString *)sha1:(NSString *)input;
-
++ (NSString *)decodeURI:(NSString *)input;
 @end
