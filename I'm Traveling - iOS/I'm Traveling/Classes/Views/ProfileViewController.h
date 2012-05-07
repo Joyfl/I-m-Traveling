@@ -13,6 +13,7 @@
 {
 	UIImageView *_coverImageView;
 	UIScrollView *_scrollView;
+	UIImageView *_arrow;
 	
 	UserObject *user;
 	NSMutableArray *trips;

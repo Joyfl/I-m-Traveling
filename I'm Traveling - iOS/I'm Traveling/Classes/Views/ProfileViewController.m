@@ -40,6 +40,9 @@
 		self.webView.scrollView.scrollEnabled = NO;
 		[_scrollView addSubview:self.webView];
 		
+		_arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_arrow.png"]];
+		_arrow.frame = CGRectMake( 40, 168, 22, 14 );
+		
 		user = [[UserObject alloc] init];
 		trips = [[NSMutableArray alloc] init];
 		followers = [[NSMutableArray alloc] init];
@@ -142,18 +145,21 @@
 	if( [message isEqualToString:@"profile_trips"] )
 	{
 		currentTab = 0;
+		[self animateArrow];
 		[self clearTabContents];
 		[self prepareTrips];
 	}
 	else if( [message isEqualToString:@"profile_following"] )
 	{
 		currentTab = 1;
+		[self animateArrow];
 		[self clearTabContents];
 		[self prepareFollowings];
 	}
 	else if( [message isEqualToString:@"profile_followers"] )
 	{
 		currentTab = 2;
+		[self animateArrow];
 		[self clearTabContents];
 		[self prepareFollowers];
 	}
@@ -256,7 +262,6 @@
 			
 			[self createProfile];
 			[self loadTrips];
-			
 			break;
 		}
 			
@@ -280,11 +285,11 @@
 				[self prepareTrips];
 				[self stopBusy];
 			}
+
 			
 //			[self loadFollowings];
 #warning temp code
 			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"dest_id\":1, \"dest_name\":\"진재규\"}, {\"dest_id\":3, \"dest_name\":\"설진석\"}]}"];
-			
 			break;
 		}
 			
@@ -308,7 +313,6 @@
 			
 #warning temp code
 			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"src_id\":4, \"src_name\":\"우철규\"}]}"];
-			
 			break;
 		}
 			
@@ -330,6 +334,7 @@
 				[self stopBusy];
 			}
 			
+			[self.webView addSubview:_arrow];
 			break;
 		}
 			
@@ -474,6 +479,20 @@
 - (void)backButtonDidTouchUpInside
 {
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark Animations
+
+- (void)animateArrow
+{
+	[UIView setAnimationDuration:0.5];
+	[UIView beginAnimations:nil context:nil];
+	CGRect frame = _arrow.frame;
+	frame.origin.x = 40 + 104 * currentTab;
+	_arrow.frame = frame;
+	[UIView commitAnimations];
 }
 
 @end
