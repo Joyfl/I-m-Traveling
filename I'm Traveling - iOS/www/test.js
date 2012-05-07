@@ -32,10 +32,10 @@ function init()
 	//var temp = _("ul", "shadowTest", $("#page"));
 	//var temp2 = _("li", "shadowText", temp);
 	
-	//t_fl();
+	t_fl();
 	//t_fd();
 	//t_cl();
-	t_sf();
+	//t_sf();
 	//t_st();
 	//t_pl();
 	//t_p();
@@ -91,7 +91,7 @@ function fillHeader(header, user_id, _profileImageSrc, _userName, _time, _place,
 	place.innerText = _place;
 	region.innerText = _region;
 	
-	var profile = function(){ call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + _userName); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 	
@@ -244,7 +244,7 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	userName.innerText = _userName;
 	nation.innerText = _nation;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
+	wrap.onclick = function() { call("create_profile:" + user_id + ":" + _userName); };
 }
 
 function fillPlaceList(wrap, place_id, name, category)
@@ -419,7 +419,7 @@ function fillComment(wrap, user_id, profile_image_url, name, _time, _content)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	
-	var profile = function(){ call("create_profile:" + user_id + ":" + decodeURI(_userName)); };
+	var profile = function(){ call("create_profile:" + user_id + ":" + name); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 }
