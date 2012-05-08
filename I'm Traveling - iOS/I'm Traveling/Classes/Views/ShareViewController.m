@@ -48,13 +48,13 @@ enum {
 	{
 		self.view.backgroundColor = [UIColor grayColor];
 		
-		self.navigationItem.title = @"Share";
+		self.navigationItem.title = NSLocalizedString( @"TITLE_SHARE", @"" );
 		
-		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:@"Cancel" target:self action:@selector(cancelButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		ImTravelingBarButtonItem *uploadButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:@"Upload" target:self action:@selector(uploadButtonDidTouchUpInside)];
+		ImTravelingBarButtonItem *uploadButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"UPLOAD", @"" ) target:self action:@selector(uploadButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = uploadButton;
 		[uploadButton release];
 		
