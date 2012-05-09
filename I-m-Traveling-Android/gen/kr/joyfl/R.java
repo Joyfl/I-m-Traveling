@@ -15,13 +15,16 @@ public final class R {
         public static final int navigation_bar=0x7f020001;
     }
     public static final class id {
-        public static final int content=0x7f050001;
-        public static final int webView=0x7f050000;
+        public static final int content=0x7f050003;
+        public static final int layout=0x7f050000;
+        public static final int navigationBar=0x7f050001;
+        public static final int webView=0x7f050002;
     }
     public static final class layout {
-        public static final int feed_list=0x7f030000;
-        public static final int navigation_activity_controller=0x7f030001;
-        public static final int tab_activity_controller=0x7f030002;
+        public static final int feed_detail=0x7f030000;
+        public static final int feed_list=0x7f030001;
+        public static final int navigation_activity_controller=0x7f030002;
+        public static final int tab_activity_controller=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

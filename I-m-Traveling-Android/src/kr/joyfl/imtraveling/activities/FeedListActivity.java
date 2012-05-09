@@ -12,18 +12,33 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.joyfl.R;
+import kr.joyfl.imtraveling.Const;
 import kr.joyfl.imtraveling.models.Feed;
 import android.app.Activity;
+import android.app.ActivityGroup;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Picture;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-public class FeedListActivity extends Activity
+public class FeedListActivity extends ActivityGroup
 {
 	public WebView webView;
-	ArrayList<Feed> feeds;
+	public ArrayList<Feed> feeds;
+	
+	public static Bitmap topBitmap = null;
+	public static Bitmap bottomBitmap = null;
 	
 	@Override
 	public void onCreate( Bundle savedInstanceState )
@@ -34,6 +49,7 @@ public class FeedListActivity extends Activity
 		feeds = new ArrayList<Feed>();
 		
 		webView = (WebView)findViewById( R.id.webView );
+		webView.setScrollBarStyle( View.SCROLLBARS_INSIDE_OVERLAY );
 		webView.getSettings().setJavaScriptEnabled( true );
 		webView.loadUrl( "http://jshs.woobi.co.kr/traveling/index.html" );
 		webView.setWebViewClient( new WebViewClient()
@@ -69,12 +85,27 @@ public class FeedListActivity extends Activity
 		for( String arg : arguments )
 			Log.i( "I'm Traveling", "args : " + arg );
 		
-		// temp code
-//		webView.buildDrawingCache();
-//		Bitmap bitmap = webView.getDrawingCache();
-//		ImageView imageView = new ImageView( this );
-//		imageView.setImageBitmap( bitmap );
-//		setContentView( imageView );
+		if( message.equals( "feed_detail" ) )
+		{
+			int offset = Integer.parseInt( arguments[1] );
+			int height = Integer.parseInt( arguments[2] );
+			
+			log( "webView.getWidth() : " + webView.getWidth() );
+			Bitmap bitmap = Bitmap.createBitmap( webView.getWidth() * 2 / 3, webView.getContentHeight(), Bitmap.Config.ARGB_8888 );
+			Canvas canvas = new Canvas( bitmap );
+			canvas.drawPicture( webView.capturePicture() );
+			
+			if( offset > 0 )
+			{
+				log( "top!!, scrollY : " + webView.getScrollY() );
+				topBitmap = Bitmap.createBitmap( bitmap, 0, webView.getScrollY() * 2 / 3, bitmap.getWidth(), offset );
+			}
+			
+			bottomBitmap = Bitmap.createBitmap( bitmap, 0,  webView.getScrollY() * 2 / 3 + offset, bitmap.getWidth(), height );
+			
+			Const.navigationBarHeight = findViewById( R.id.navigationBar ).getHeight();
+			setContentView( getLocalActivityManager().startActivity( "feed_detail", new Intent( this, FeedDetailActivity.class ) ).getDecorView() );
+		}
 	}
 	
 	public void executeJavascript( String javascript )
@@ -90,12 +121,17 @@ public class FeedListActivity extends Activity
 		
 		try
 		{
-			JSONArray json = new JSONArray( data );
-			
-			for( int i = 0; i < json.length(); i++ )
+			JSONObject json = new JSONObject( data );
+			if( json.getInt( "status" ) == 0 )
 			{
-				JSONObject f = json.getJSONObject( i );
-				
+				log( "Error" );
+			}
+			
+			JSONArray feeds = json.getJSONArray( "result" );
+			
+			for( int i = 0; i < feeds.length(); i++ )
+			{
+				JSONObject f = feeds.getJSONObject( i );
 				Feed feed = new Feed();
 				feed.feedId = f.getInt( "feed_id" );
 				feed.userId = f.getInt( "user_id" );
@@ -113,7 +149,7 @@ public class FeedListActivity extends Activity
 		}
 		catch( Exception e )
 		{
-			
+			log( "Exception", e.toString() );
 		}
 	}
 	
@@ -185,5 +221,15 @@ public class FeedListActivity extends Activity
 				params += ",";
 		}
 		return params + ")";
+	}
+	
+	public void log( String s )
+	{
+		Log.i( "I'm Traveling", s );
+	}
+	
+	public void log( String head, String s )
+	{
+		Log.i( "I'm Traveling", "[" + head + "] " + s );
 	}
 }

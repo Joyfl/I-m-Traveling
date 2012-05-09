@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ImageView 
+    <ImageView
+        android:id="@+id/navigationBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0px"
@@ -12,7 +13,6 @@
     <WebView
         android:id="@+id/webView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-    
-        android:adjustViewBounds="true" />
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true" />t
 </LinearLayout>

@@ -22,6 +22,8 @@
         </activity>
         
         <activity android:name=".imtraveling.activities.FeedListActivity" />
+        <activity android:name=".imtraveling.activities.FeedDetailActivity"
+            	  android:theme="@android:style/Theme.NoTitleBar" />
     </application>
 
 </manifest>
