@@ -27,7 +27,7 @@
 
 // Tab Bar
 "TAB_FEED" = "피드";
-"TAB_SHARE" = "공유";
+"TAB_SHARE" = "tab_share_kr.png";
 "TAB_PROFILE" = "프로필";
 
 // Feed List, Map

@@ -42,7 +42,7 @@
 	shareNavigationController.title = NSLocalizedString( @"TAB_UPLOAD", @"Upload" );
 	
 	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
-	[uploadButton setImage:[UIImage imageNamed:@"tab_share.png"] forState:UIControlStateNormal];
+	[uploadButton setImage:[UIImage imageNamed:NSLocalizedString( @"TAB_SHARE", @"" )] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
 	ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
@@ -126,7 +126,7 @@
 - (void)presentLoginViewController
 {
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
-	[navigationController.navigationBar setBackgroundImage:[[UIImage imageNamed:@"navigation_bar.png"] retain] forBarMetrics:UIBarMetricsDefault];
+	[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar.png"] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:YES];
 }
 
