@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+		<title>Gradient Generator</title> 
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link type="text/css" rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		<script type="text/javascript">
+			function go()
+			{
+				var from = document.getElementById("from").value;
+				var to = document.getElementById("to").value;
+				var result = document.getElementById("result");
+				var ret = "";
+				var mode = ["", "-webkit-", "-moz-", "-o-"];
+				for(var i = 0; i < mode.length; i++)
+				{
+					ret += "background: ";
+					ret += mode[i];
+					ret += "gradient(linear, left top, left bottom, from(" + from + "), to(" + to + "));\n";
+				}
+				result.value = ret;
+			}
+		</script>
+	</head> 
+	<body> 
+		<div data-role="page" data-theme="b">
+			<div data-role="content">
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a">
+						<div data-role="fieldcontain">
+						    <label for="from">From:</label>
+						    <input type="text" name="from" id="from" value="" placeholder="#e9ece3" />
+						</div>	
+					</div>
+					<div class="ui-block-b">
+						<div data-role="fieldcontain">
+						    <label for="to">To:</label>
+						    <input type="text" name="to" id="to" value="" placeholder="#e9e9e9" />
+						</div>	
+					</div>	   
+					<div class="ui-block-c">
+						<button id="go" style="margin-top: 10px" onclick="go();">Go!</button>
+					</div>
+				</fieldset>	
+				<div>
+					<label for="result">Result:</label>
+					<textarea name="result" id="result" style="min-height: 150px"></textarea>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

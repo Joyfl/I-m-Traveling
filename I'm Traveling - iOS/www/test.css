@@ -4,7 +4,19 @@
 {
 	margin: 0em;
 	padding: 0em;
-	/*text-shadow: 0px 1px 1px white;*/
+}
+
+html, body
+{
+	overflow-x: hidden;
+	font-family: "Helvetica", "Apple SD Gothic Neo";
+	background-color: transparent;
+	font-size: 10px;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
 }
 
 a
@@ -13,37 +25,20 @@ a
 	color: #473e4d;
 }
 
-html, body
-{
-	overflow-x: hidden;
-	font-family: "Helvetica", "Apple SD Gothic Neo";
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-	background-color: transparent;
-	font-size: 10px;
-}
-
 ul, ol, li
 {
 	list-style-type: none;
 }
 
-#page, .pseudo
+#page
 {
-	background-color: #f7e3d2;
-}
-
-.unshadow
-{
-	text-shadow: 0px 0px 0px white;
+	background-color: #f6e2d1;
 }
 
 .cover
 {
 	position: absolute;
+	
 	box-shadow: 0px 0.1em 0.2em #333333 inset;
 	-webkit-box-shadow: 0px 0.1em 0.2em #333333 inset;
 	-ms-box-shadow: 0px 0.1em 0.2em #333333 inset;
@@ -53,19 +48,13 @@ ul, ol, li
 
 .component
 {
-	margin: 0.5em 5% 0.5em 5%;
+	margin: 0em 5% 0em 5%;
 	width: 90%;
 }
 
 .gap
 {
 	width: 100%;
-	clear: both;
-}
-
-.testShadow
-{
-    text-shadow: 1px 1px white, -1px -1px #444;
 }
 
 .blue
@@ -100,67 +89,76 @@ ul, ol, li
 
 .even
 {
-	background-color: #e7cbb1;
+	background-image: url("./resource/gradient/even.png");
+	/*background: gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -webkit-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -moz-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background: -o-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));*/
+	background-size: 100% 100%;
+	border-top: 1px solid #F1DFCF;
+	border-bottom: 1px solid #E0BFA0;
 }
 
 .odd
 {
-	background: gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -webkit-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -ms-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -moz-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -o-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
+	background-image: url("./resource/gradient/odd.png");
+	/*background: gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
+	background: -webkit-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
+	background: -moz-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
+	background: -o-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));*/
 	background-size: 100% 100%;
+	border-top: 1px solid #F4E4D6;
+	border-bottom: 1px solid #F1DFCF;
 }
 
 
 
-/* Section Header */
+/* Section Header (Optimized for Feed List) */
 
 .header
 {
-	/*background-image: url("resource/gradient-header.png");*/
-	background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background-image: url("./resource/gradient/section_header.png");
+	/*background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
 	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
 	background: -ms-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
 	background: -moz-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
-	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
+	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));*/
 	background-size: 100% 100%;
+	border-top: 1px solid #D6BDA6;
+	border-bottom: 1px solid #F8F1EA;
 	clear: both;
 	height: 5.1em;
 }
 
-.profileImage
+.header .profileImage
 {
 	width: 3.5em;
 	height: 3.5em;
 	margin: 0.8em;
 	border: 0px solid #ffffff;
-	border-radius: 0.4em;
+	border-radius: 4px;
 	float: left;
 }
 
-.upperWrap
+.header .upperWrap
 {
 	float: left;
 	margin-top: 1em;
 }
 
-.lowerWrap
+.header .lowerWrap
 {
 	float: left;
 }
 
-.userName
+.header .name
 {
-	/*font-family: "Helvetica 37 Thin Condensed";*/
 	float: left;
 	font-size: 1.4em;
-	/*font-weight: bolder;*/
-	color: #473e4d;
+	color: #52455c;
 }
 
-.time
+.header .time
 {
 	margin-top: 0.2em;
 	float: right;
@@ -170,50 +168,58 @@ ul, ol, li
 	color: #473e4d;
 }
 
-.place
+.header .place
 {
 	float: left;
 	font-size: 1.6em;
 	font-weight: bold !important;
-	color: #140e17;
+	color: #232323;
 	width: 80%;
 	height: 1.3em;
 	overflow: hidden;
+	
+	text-shadow: 0px 1px 1px white;
+	
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
-	-ms-text-overflow: ellipsis;
 	-webkit-text-overflow: ellipsis;
 }
 
-.region
+.header .region
 {
 	float: right;
 	text-align: right;
 	font-size: 1.1em;
-	color: #876d56;
+	color: #87655b;
 	margin-top: 0.3em;
+	
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
-	-ms-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
 }
 
 
 
 
-/* Section Content */
+/* Section Content (Optimized for Feed List) */
 
-.thumbnail
+.content
 {
-	margin-top: 1em;
+	padding: 1em 0em 1em 0em;
 }
 
-.picture
+.content .thumbnail
+{
+	
+}
+
+.content .picture
 {
 	border: 0px solid #ffffff;
 	border-radius: 0.7em;
 }
 
-.feedback
+.content .feedback
 {
 	position: relative;
 	margin-left: 93%;
@@ -223,21 +229,21 @@ ul, ol, li
 	left: -10.9em;
 }
 
-.iconWrap
+.content .iconWrap
 {
 	width: 4.1em;
 	float: right;
 	margin-right: 0.5em;
 }
 
-.icon
+.content .icon
 {
 	float: left;
 	width: 1.3em;
 	height: 1.3em;
 }
 
-.iconText
+.content .iconText
 {
 	width: 2em;
 	text-align: right;
@@ -249,10 +255,13 @@ ul, ol, li
 	-ms-text-overflow: ellipsis;
 }
 
-.review
+.content .review
 {
 	font-size: 1.3em;
-
+	
+	text-shadow: 0px 1px 1px white;
+	color: #302935;
+	
 	white-space: pre-wrap;
 	white-space: -moz-pre-wrap;
 	white-space: -pre-wrap;
@@ -265,9 +274,9 @@ ul, ol, li
 
 /* Detail Part */
 
-#marger
+#topMargin
 {
-	height: 2em;
+	height: 1.9em;
 }
 
 #topArrow
@@ -275,7 +284,7 @@ ul, ol, li
 	height: 2em;
 }
 
-#shadower
+#topShadow
 {
 	top: 2em;
 	width: 100%;
@@ -286,12 +295,11 @@ ul, ol, li
 	
 	box-shadow: 0em 0em 1em rgba(68, 68, 68, 1);
 	-webkit-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
-	-ms-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 	-moz-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 	-o-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 }
 
-.infoList
+.detail .infoList
 {
 	margin-top: 0em;
 	padding-top: 1em;
@@ -303,21 +311,21 @@ ul, ol, li
 	background-color: #e9cdb3;
 }
 
-.infoListComponent
+.detail .infoList li
 {
 	clear: both;
-	height: 1.9em;
+	height: 1.5em;
 	padding-left: 5%;
 	padding-right: 5%;
 }
 
-.coin
+.detail .infoList .coin
 {
 	width: 1.1em;
 	vertical-align: text-bottom;
 }
 
-.leftWrap
+.detail .infoList .leftWrap
 {
 	font-size: 1.3em;
 	float: left;
@@ -325,7 +333,7 @@ ul, ol, li
 	color: #6b4219;
 }
 
-.rightWrap
+.detail .infoList .rightWrap
 {
 	font-size: 1.3em;
 	text-align: right;
@@ -334,50 +342,52 @@ ul, ol, li
 	color: #ad3e56;
 }
 
-.moneyUnit
+.detail .infoList .moneyUnit
 {
 	color: #3b2e43;
 }
 
-.seeAll
+.detail .seeAll
 {
 	font-size: 1.75em;
 	height: 1.5em;
-	padding-top: 0.5em;
+	padding-top: 0.4em;
 	padding-left: 1em;
-	/*background-image: url("resource/gradient-see-all.png");*/
-	background: gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
+	background-image: url("./resource/gradient/see_all.png");
+	/*background: gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 	background: -webkit-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 	background: -ms-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 	background: -moz-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
-	background: -o-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
+	background: -o-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));*/
+	background-size: 100% 100%;
+	color: #3D2C48;
+	text-shadow: 0px 1px 1px white;
+	border-top: 1px solid #F7EEE7;
 }
 
-.likeBar
+.detail .likeBar
 {
 	font-size: 1.3em;
-	/*background-image: url("resource/gradient-like.png");*/
-	background: gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	background-image: url("./resource/gradient/like_bar.png");
+	/*background: gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -webkit-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -ms-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -moz-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
-	background: -o-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
+	background: -o-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));*/
+	background-size: 100% 100%;
 	padding: 0.4em;
-	color: #232323;
-}
-
-.likeBar
-{
 	color: #3d2c48;
+	border-bottom: 1px solid #D9A981;
 }
 
-.smallIcon
+.detail .likeBar .smallIcon
 {
 	float: left;
 	height: 1em;
 	width: 1em;
 	margin-right: 0.5em;
 }
+
 
 
 
