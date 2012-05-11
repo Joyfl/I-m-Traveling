@@ -46,8 +46,6 @@ enum {
 {
     if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor grayColor];
-		
 		self.navigationItem.title = NSLocalizedString( @"TITLE_SHARE", @"" );
 		
 		ImTravelingBarButtonItem *cancelButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"CANCEL", @"" ) target:self action:@selector(cancelButtonDidTouchUpInside)];
@@ -62,9 +60,14 @@ enum {
 		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, 416 ) style:UITableViewStylePlain];
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
-		_tableView.backgroundColor = [UIColor darkGrayColor];
+		_tableView.backgroundColor = [UIColor colorWithRed:0.93 green:0.83 blue:0.73 alpha:1.0];
 		_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 		[self.view addSubview:_tableView];
+		
+		UIView *topBackgroundView = [[UIView alloc] initWithFrame:CGRectMake( 0, -300, 320, 300 )];
+		topBackgroundView.backgroundColor = [UIColor darkGrayColor];
+		[_tableView addSubview:topBackgroundView];
+		[topBackgroundView release];
 		
 		_image = [image retain];
 		

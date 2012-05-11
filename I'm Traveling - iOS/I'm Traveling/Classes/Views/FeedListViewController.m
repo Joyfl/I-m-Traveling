@@ -104,8 +104,8 @@ enum {
 		UIBarButtonItem *rightSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
 		rightSpacer.width = 4;
 		
-		UIButton *mapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-		[mapButton setBackgroundImage:[[UIImage imageNamed:@"button_map.png"] retain] forState:UIControlStateNormal];
+		UIButton *mapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		[mapButton setBackgroundImage:[UIImage imageNamed:@"button_map.png"] forState:UIControlStateNormal];
 		[mapButton setFrame:CGRectMake( 0.0f, 0.0f, 28.0f, 28.0f )];
 		[mapButton addTarget:self action:@selector( onMapButtonTouch ) forControlEvents:UIControlEventTouchUpInside];
 		
@@ -115,7 +115,16 @@ enum {
 		self.navigationItem.rightBarButtonItems = [[NSArray alloc] initWithObjects:rightSpacer, mapBarButtonItem, nil];
 		
 		self.webView.frame = CGRectMake( 0, 0, 320, 367 );
-		self.webView.backgroundColor = [UIColor darkGrayColor];
+		self.webView.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
+		
+		// remove shadow
+		for(UIView *subview in [[[webView subviews] objectAtIndex:0] subviews] )
+		{ 
+			if([subview isKindOfClass:[UIImageView class]])
+			{
+				subview.hidden = YES;
+			} 
+		} 
 		
 		_feedListObjects = [[NSMutableDictionary alloc] init];
 		

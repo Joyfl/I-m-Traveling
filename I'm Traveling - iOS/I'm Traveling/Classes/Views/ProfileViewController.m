@@ -23,7 +23,12 @@
 {
 	if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor darkGrayColor];
+		self.view.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
+		
+		UIView *topBackgroundView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 100 )];
+		topBackgroundView.backgroundColor = [UIColor darkGrayColor];
+		[self.view addSubview:topBackgroundView];
+		[topBackgroundView release];
 		
 		_coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 0, -85, 320, 320 )];
 		[_coverImageView setImage:[UIImage imageNamed:@"cover_temp.jpg"]];
@@ -31,8 +36,8 @@
 		
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
-		[self.view addSubview:_scrollView];
 		_scrollView.contentSize = CGSizeMake( 320, 368 );
+		[self.view addSubview:_scrollView];
 		
 		self.webView.frame = CGRectMake( 0, 97, 320, 270 );
 		self.webView.backgroundColor = [UIColor clearColor];
