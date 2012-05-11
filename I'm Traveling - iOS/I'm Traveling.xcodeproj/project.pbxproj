@@ -54,6 +54,8 @@
 		03266C1614C668B200B4A447 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 03266C1514C668B200B4A447 /* www */; };
 		0333966F155D592F004AB469 /* logo_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 0333966D155D592F004AB469 /* logo_gray.png */; };
 		03339670155D592F004AB469 /* logo_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0333966E155D592F004AB469 /* logo_gray@2x.png */; };
+		03339676155D602E004AB469 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 03339675155D602E004AB469 /* Default.png */; };
+		03339678155D6045004AB469 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03339677155D6044004AB469 /* Default@2x.png */; };
 		033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033DC51C1511727500272459 /* PlaceAddViewController.m */; };
 		0343DB9D153C9BF100DEF931 /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0343DB9C153C9BF100DEF931 /* DejalActivityView.m */; };
 		0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70215076B96006D9297 /* FeedAnnotation.m */; };
@@ -242,6 +244,8 @@
 		03266C1514C668B200B4A447 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		0333966D155D592F004AB469 /* logo_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_gray.png; sourceTree = "<group>"; };
 		0333966E155D592F004AB469 /* logo_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_gray@2x.png"; sourceTree = "<group>"; };
+		03339675155D602E004AB469 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		03339677155D6044004AB469 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		033DC51B1511727500272459 /* PlaceAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAddViewController.h; sourceTree = "<group>"; };
 		033DC51C1511727500272459 /* PlaceAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAddViewController.m; sourceTree = "<group>"; };
 		0343DB9B153C9BF100DEF931 /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DejalActivityView.h; sourceTree = "<group>"; };
@@ -679,8 +683,10 @@
 		039F63EA14C5CEE6002EC78F = {
 			isa = PBXGroup;
 			children = (
-				03FB8ED6155504F500E1C14C /* icon@2x.png */,
+				03339675155D602E004AB469 /* Default.png */,
+				03339677155D6044004AB469 /* Default@2x.png */,
 				03FB8ED4155504F100E1C14C /* icon.png */,
+				03FB8ED6155504F500E1C14C /* icon@2x.png */,
 				03266C1514C668B200B4A447 /* www */,
 				039F63FF14C5CEE6002EC78F /* I'm Traveling */,
 				03266C3A14C67BB800B4A447 /* Resources */,
@@ -929,6 +935,8 @@
 				036BF0D61559362A009E28C9 /* tab_share_kr@2x.png in Resources */,
 				0333966F155D592F004AB469 /* logo_gray.png in Resources */,
 				03339670155D592F004AB469 /* logo_gray@2x.png in Resources */,
+				03339676155D602E004AB469 /* Default.png in Resources */,
+				03339678155D6045004AB469 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
