@@ -68,6 +68,11 @@ enum {
 		[_tableView addSubview:topBackgroundView];
 		[topBackgroundView release];
 		
+		UIImageView *grayLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_gray.png"]];
+		grayLogo.center = CGPointMake( 160, -60 );
+		[_tableView addSubview:grayLogo];
+		[grayLogo release];
+		
 		_image = [image retain];
 		
 		_info = [[NSMutableArray alloc] init];
