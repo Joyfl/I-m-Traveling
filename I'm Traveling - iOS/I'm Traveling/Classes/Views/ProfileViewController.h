@@ -11,6 +11,7 @@
 
 @interface ProfileViewController : UIWebViewController <UIScrollViewDelegate>
 {
+	UIImageView *_imageTopBorder;
 	UIImageView *_coverImageView;
 	UIScrollView *_scrollView;
 	UIImageView *_arrow;

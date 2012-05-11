@@ -34,6 +34,10 @@
 		[_coverImageView setImage:[UIImage imageNamed:@"cover_temp.jpg"]];
 		[self.view addSubview:_coverImageView];
 		
+		_imageTopBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_image_top_border.png"]];
+		_imageTopBorder.hidden = YES;
+		[_coverImageView addSubview:_imageTopBorder];
+		
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
 		_scrollView.contentSize = CGSizeMake( 320, 368 );
@@ -179,6 +183,20 @@
 		[self.navigationController pushViewController:profileViewController animated:YES];
 		[profileViewController release];
 	}
+}
+
+
+#pragma mark -
+#pragma mark UIScrollView
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = YES;
 }
 
 
