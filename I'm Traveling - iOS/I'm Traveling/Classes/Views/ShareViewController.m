@@ -38,8 +38,7 @@ enum {
 	kSectionTripPlaceDate = 1,
 	kSectionReview = 2,
 	kSectionInfo = 3,
-	kSectionAddInfo = 4,
-	kSectionSaveToLocal = 5
+	kSectionAddInfo = 4
 };
 
 -(id)initWithImage:(UIImage *)image
@@ -157,8 +156,7 @@ enum {
 	// 2 : Review
 	// 3 : Info
 	// 4 : Add Info
-	// 5 : Save to local
-	return 6;
+	return 5;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -372,31 +370,6 @@ enum {
 		[postIt addTarget:self action:@selector(plusButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[cell addSubview:postIt];
 		[postIt release];
-	}
-	
-	// Save to local
-	else if( indexPath.section == kSectionSaveToLocal )
-	{
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-		cell.textLabel.text = NSLocalizedString( @"SAVE_TO_LOCAL", @"Save to local" );
-		cell.textLabel.backgroundColor = [UIColor clearColor];
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:15];
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		UIView *bg = [[UIView alloc] initWithFrame:cell.frame];
-		bg.backgroundColor = [UIColor colorWithRed:0.937 green:0.831 blue:0.737 alpha:1.0];
-		cell.backgroundView = bg;
-		[bg release];
-		
-		UISwitch *saveToLocalSwitch = [[UISwitch alloc] init];
-		CGRect frame = saveToLocalSwitch.frame;
-		frame.origin.x = 220;
-		frame.origin.y = 7;
-		saveToLocalSwitch.frame = frame;
-		[saveToLocalSwitch addTarget:self action:@selector(saveToLocalSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
-		[cell addSubview:saveToLocalSwitch];
-		[saveToLocalSwitch release];
 	}
 	
 	return cell;
