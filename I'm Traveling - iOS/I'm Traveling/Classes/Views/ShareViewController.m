@@ -137,6 +137,7 @@ enum {
 
 - (void)uploadButtonDidTouchUpInside
 {
+	[self startBusy];
 	[self upload];
 }
 
@@ -669,7 +670,17 @@ enum {
 
 - (void)loadingDidFinish:(NSString *)result
 {
+	[self stopBusy];
+	
 	NSLog( @"upload result : %@", result );
+	
+	NSDictionary *json = [Utils parseJSON:result];
+	if( [self isError:json] )
+	{
+		
+		return;
+	}
+	
 	[self dismissModalViewControllerAnimated:YES];
 }
 
