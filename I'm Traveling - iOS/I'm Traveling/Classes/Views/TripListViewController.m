@@ -121,7 +121,7 @@
 	// trip이 없을 경우
 	if( [self isError:json] )
 	{
-		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"NO_TRIPS_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NO_TRIPS_MSG", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	

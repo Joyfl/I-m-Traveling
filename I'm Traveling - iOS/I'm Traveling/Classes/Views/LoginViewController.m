@@ -77,14 +77,14 @@
 	NSString *email = _emailInput.text;
 	if( email.length == 0 )
 	{
-		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"INVALID_EMAIL", @"" ) message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"INVALID_EMAIL", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
 	NSString *password = _passwordInput.text;
 	if( password.length == 0 )
 	{
-		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"INVALID_PASSWORD", @"" ) message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"INVALID_PASSWORD", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
@@ -111,7 +111,7 @@
 	NSDictionary *json = [Utils parseJSON:data];
 	if( [self isError:json] )
 	{
-		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"LOGIN_FAILED_MSG", @"" ) delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease] show];
+		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"LOGIN_FAILED_MSG", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	

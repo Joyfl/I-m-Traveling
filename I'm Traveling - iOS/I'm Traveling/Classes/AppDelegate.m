@@ -165,7 +165,7 @@
 
 - (void)presentActionSheet
 {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString( @"TAKE_A_PICTURE", @"Camera" ), NSLocalizedString( @"FROM_LIBRARY", @"Album" ), nil];
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString( @"CANCEL", @"" ) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString( @"TAKE_A_PICTURE", @"Camera" ), NSLocalizedString( @"FROM_LIBRARY", @"Album" ), nil];
 	[actionSheet showInView:self.window];
 	[actionSheet release];
 
@@ -183,7 +183,7 @@
 		}
 		@catch (NSException *exception)
 		{
-			[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"NO_SUPPORT_CAMERA", @"This device doesn't support camera.") message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+			[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NO_SUPPORT_CAMERA", @"") delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 			return;
 		}
 		
