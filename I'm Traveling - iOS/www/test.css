@@ -22,7 +22,7 @@ html, body
 a
 {
 	text-decoration: none;
-	color: #473e4d;
+	color: #473E4D;
 }
 
 ul, ol, li
@@ -32,7 +32,7 @@ ul, ol, li
 
 #page
 {
-	background-color: #f6e2d1;
+	background-color: #F6E2D1;
 }
 
 .component
@@ -46,24 +46,33 @@ ul, ol, li
 	width: 100%;
 }
 
+.extensor
+{
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
 .blue
 {
-	color: #3a7a87 !important;
+	color: #3A7A87 !important;
 }
 
 .darkblue
 {
-	color: #20434a !important;
+	color: #20434A !important;
 }
 
 .green
 {
-	color: #6c8a40 !important;
+	color: #6C8A40 !important;
 }
 
 .darkgreen
 {
-	color: #3a4a22 !important;
+	color: #3A4A22 !important;
 }
 
 .right
@@ -74,6 +83,30 @@ ul, ol, li
 .left
 {
 	float: left;
+}
+
+.paragraph
+{
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -o-pre-wrap;
+	white-space: -webkit-pre-wrap;
+	word-wrap: break-word;
+}
+
+.ellipsis
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-moz-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.shadow
+{
+	text-shadow: 0px 1px 0px #E8E8E8;
 }
 
 .even
@@ -116,7 +149,7 @@ ul, ol, li
 	width: 3.5em;
 	height: 3.5em;
 	margin: 0.8em;
-	border: 0px solid #ffffff;
+	border: 0px solid #FFFFFF;
 	border-radius: 4px;
 	float: left;
 }
@@ -148,19 +181,20 @@ ul, ol, li
 .header .upperWrap
 {
 	float: left;
-	margin-top: 1em;
+	margin-top: 0.6em;
 }
 
 .header .lowerWrap
 {
 	float: left;
+	margin-top: -0.2em;
 }
 
 .header .name
 {
 	float: left;
 	font-size: 1.4em;
-	color: #52455c;
+	color: #52455C;
 }
 
 .header .time
@@ -170,37 +204,26 @@ ul, ol, li
 	text-align: right;
 	font-size: 1em;
 	font-weight: bold;
-	color: #473e4d;
+	color: #473E4D;
 }
 
 .header .place
 {
 	float: left;
-	font-size: 1.6em;
+	font-size: 1.8em;
 	font-weight: bold !important;
 	color: #232323;
 	width: 80%;
 	height: 1.3em;
-	overflow: hidden;
-	
-	text-shadow: 0px 1px 1px white;
-	
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
 }
 
 .header .region
 {
 	float: right;
 	text-align: right;
-	font-size: 1.1em;
-	color: #87655b;
+	font-size: 1.2em;
+	color: #87655B;
 	margin-top: 0.3em;
-	
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-webkit-text-overflow: ellipsis;
 }
 
 
@@ -220,8 +243,8 @@ ul, ol, li
 
 .content .picture
 {
-	border: 0px solid #ffffff;
-	border-radius: 0.7em;
+	border: 0px solid #FFFFFF;
+	border-radius: 7px;
 }
 
 .content .feedback
@@ -236,9 +259,8 @@ ul, ol, li
 
 .content .iconWrap
 {
-	width: 4.1em;
 	float: right;
-	margin-right: 0.5em;
+	margin-right: 1em;
 }
 
 .content .icon
@@ -250,28 +272,18 @@ ul, ol, li
 
 .content .iconText
 {
-	width: 2em;
 	text-align: right;
 	float: left;
-	margin-top: 0.07em;
 	font-size: 1.3em;
-	text-overflow: ellipsis;
-	-o-text-overflow: ellipsis;
-	-ms-text-overflow: ellipsis;
+	font-weight: bold;
+	margin-left: 0.3em;
+	margin-top: -0.1em;
 }
 
 .content .review
 {
-	font-size: 1.3em;
-	
-	text-shadow: 0px 1px 1px white;
+	font-size: 1.7em;
 	color: #302935;
-	
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap;
-	word-wrap: break-word;
 }
 
 
@@ -307,12 +319,12 @@ ul, ol, li
 #detail #infoList
 {
 	margin-top: 0em;
-	padding-top: 1em;
+	padding-top: 0.9em;
 	padding-bottom: 1em;
 	margin-left: 10%;
 	margin-right: 10%;
 	width: 80%;
-	background-color: #e9cdb3;
+	background-color: #E9CDB3;
 }
 
 #detail #infoList li
@@ -331,7 +343,7 @@ ul, ol, li
 
 #detail #infoList .moneyUnit
 {
-	color: #3b2e43 !important;
+	color: #3B2E43 !important;
 }
 
 #detail #infoList .leftWrap
@@ -343,7 +355,7 @@ ul, ol, li
 #detail #infoList .leftWrap span
 {
 	font-size: 1.3em;
-	color: #6b4219;
+	color: #6B4219;
 }
 
 #detail #infoList .rightWrap
@@ -356,7 +368,7 @@ ul, ol, li
 {
 	font-size: 1.3em;
 	text-align: right;
-	color: #ad3e56;
+	color: #AD3E56;
 	float: right;
 	margin-left: 0.3em;
 }
@@ -380,7 +392,7 @@ ul, ol, li
 #detail #seeAll span
 {
 	font-size: 1.75em;
-	text-shadow: 0px 1px 1px white;
+	font-weight: bold;
 	color: #3D2C48;
 }
 
@@ -429,7 +441,6 @@ ul, ol, li
 	font-weight: bold;
 	margin-top: 0.9em;
 	color: #302935;
-	text-shadow: 0px 1px 1px white;
 }
 
 .person .nation
@@ -450,7 +461,7 @@ ul, ol, li
 
 
 
-/* Comment, SimpleFeed, SimpleTrip, placeList */
+/* Comment, SimpleFeed, SimpleTrip */
 
 .commentWrap, .simpleFeed
 {
@@ -489,7 +500,7 @@ ul, ol, li
 	float: left;
 	text-align: left;
 	font-size: 1.2em;
-	color: #876d56;
+	color: #876D56;
 }
 
 .simpleTrip .numText
@@ -498,7 +509,7 @@ ul, ol, li
 	font-size: 1.2em;
 	text-align: right;
 	margin-top: 0.2em;
-	color: #9f8268;
+	color: #9F8268;
 }
 
 .simpleTrip .title
@@ -507,20 +518,13 @@ ul, ol, li
 	font-size: 1.8em;
 	font-weight: bold;
 	margin-top: 1.1em;
-	color: #3d2c48;
+	color: #3D2C48;
 }
 
 .simpleTrip .summary
 {
 	font-size: 1.5em;
-	color: #513d2b;
-	
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap;
-	word-wrap: break-word;
-	
+	color: #513D2B;
 	margin-bottom: 0.4em;
 }
 
@@ -545,14 +549,10 @@ ul, ol, li
 	margin-bottom: 0.1em;
 }
 
-.zfbe
-{
-	clear: both;
-	content: ".";
-	display: block;
-	height: 0;
-	visibility: hidden;
-}
+
+
+
+/* Place List */
 
 .placeList
 {
@@ -566,25 +566,12 @@ ul, ol, li
 {
 	font-size: 1.7em;
 	color: #302935;
-	
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap;
-	word-wrap: break-word;
 }
 
 .placeList .category
 {
 	font-size: 1.3em;
-	
-	white-space: pre-wrap;
-	white-space: -moz-pre-wrap;
-	white-space: -pre-wrap;
-	white-space: -o-pre-wrap;
-	word-wrap: break-word;
-	
-	color: #9f8268;
+	color: #9F8268;
 }
 
 
@@ -594,7 +581,7 @@ ul, ol, li
 
 .profile
 {
-	background-color: #f3d9c1
+	background-color: #F3D9C1
 }
 
 .softShadow
@@ -615,7 +602,7 @@ ul, ol, li
 	top: 2em;
 	border-top-left-radius: 1.1em;
 	border-top-right-radius: 1.1em;
-	background-color: #f3d9c1;
+	background-color: #F3D9C1;
 }
 
 .topWrap
@@ -624,14 +611,14 @@ ul, ol, li
 	height: 13em;
 	width: 100%;
 	position: absolute;
-	background-color: #f3d9c1;
+	background-color: #F3D9C1;
 }
 
 .topWrapPseudo
 {
 	margin-top: -1em;
 	height: 3em;
-	background-color: #f3d9c1;
+	background-color: #F3D9C1;
 }
 
 .profileInfo
@@ -701,7 +688,7 @@ ul, ol, li
 {
 	float: left;
 	font-size: 1.2em;
-	color: #87645a;
+	color: #87645A;
 }
 
 .noticeWrap
@@ -766,7 +753,7 @@ ul, ol, li
 {
 	text-align: center;
 	font-size: 1.5em;
-	color: #53455f;
+	color: #53455F;
 	font-weight: bold;
 }
 
@@ -797,7 +784,7 @@ ul, ol, li
 .seeAllTrip
 {
 	background: none;
-	background-color: #efd0b4;
+	background-color: #EFD0B4;
 }
 
 .border
