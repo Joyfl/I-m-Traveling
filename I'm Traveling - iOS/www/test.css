@@ -97,7 +97,7 @@ ul, ol, li
 	background: -o-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));*/
 	background-size: 100% 100%;
 	border-top: 1px solid #F4E4D6;
-	border-bottom: 1px solid #F1DFCF;
+	/*border-bottom: 1px solid #F1DFCF;*/
 }
 
 .cover
@@ -304,19 +304,18 @@ ul, ol, li
 	-o-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 }
 
-.detail .infoList
+#detail #infoList
 {
 	margin-top: 0em;
 	padding-top: 1em;
 	padding-bottom: 1em;
 	margin-left: 10%;
 	margin-right: 10%;
-	margin-bottom: 1.5em;
 	width: 80%;
 	background-color: #e9cdb3;
 }
 
-.detail .infoList li
+#detail #infoList li
 {
 	clear: both;
 	height: 1.5em;
@@ -324,39 +323,49 @@ ul, ol, li
 	padding-right: 5%;
 }
 
-.detail .infoList .coin
+#detail #infoList .coin
 {
-	width: 1.1em;
+	width: 1.3em;
 	vertical-align: text-bottom;
 }
 
-.detail .infoList .leftWrap
+#detail #infoList .moneyUnit
 {
-	font-size: 1.3em;
+	color: #3b2e43 !important;
+}
+
+#detail #infoList .leftWrap
+{
 	float: left;
 	width: 45%;
+}
+
+#detail #infoList .leftWrap span
+{
+	font-size: 1.3em;
 	color: #6b4219;
 }
 
-.detail .infoList .rightWrap
+#detail #infoList .rightWrap
+{
+	float: right;
+	width: 45%;	
+}
+
+#detail #infoList .rightWrap span
 {
 	font-size: 1.3em;
 	text-align: right;
-	float: right;
-	width: 45%;
 	color: #ad3e56;
+	float: right;
+	margin-left: 0.3em;
 }
 
-.detail .infoList .moneyUnit
+#detail #seeAll
 {
-	color: #3b2e43;
-}
-
-.detail .seeAll
-{
-	font-size: 1.75em;
-	height: 1.5em;
-	padding-top: 0.4em;
+	/*font-size: 1.75em;*/
+	height: 3em;
+	padding-top: 0.7em;
 	padding-left: 1em;
 	background-image: url("./resource/gradient/see_all.png");
 	/*background: gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
@@ -365,12 +374,22 @@ ul, ol, li
 	background: -moz-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
 	background: -o-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));*/
 	background-size: 100% 100%;
-	color: #3D2C48;
-	text-shadow: 0px 1px 1px white;
 	border-top: 1px solid #F7EEE7;
 }
 
-.detail .likeBar
+#detail #seeAll span
+{
+	font-size: 1.75em;
+	text-shadow: 0px 1px 1px white;
+	color: #3D2C48;
+}
+
+#detail #seeAll .arrow
+{
+	margin-top: 0.3em;
+}
+
+#detail #likeBar
 {
 	font-size: 1.3em;
 	background-image: url("./resource/gradient/like_bar.png");
@@ -385,12 +404,47 @@ ul, ol, li
 	border-bottom: 1px solid #D9A981;
 }
 
-.detail .likeBar .smallIcon
+#detail #likeBar #likeIcon
 {
 	float: left;
 	height: 1em;
 	width: 1em;
 	margin-right: 0.5em;
+}
+
+
+
+
+/* People List */
+
+.person
+{
+	height: 5em;
+}
+
+.person .userName
+{
+	float: left;
+	font-size: 1.7em;
+	font-weight: bold;
+	margin-top: 0.9em;
+	color: #302935;
+	text-shadow: 0px 1px 1px white;
+}
+
+.person .nation
+{
+	float: left;
+	font-size: 1.2em;
+	margin-top: 1.5em;
+	margin-left: 0.4em;
+	color: #87655B;
+}
+
+.person .arrow
+{
+	height: 1.7em;
+	margin-top: 1.6em;
 }
 
 
@@ -726,9 +780,9 @@ ul, ol, li
 {
 	display: inline;
 	float: right;
-	height: 1em;
+	height: 1.5em;
 	margin-top: 0em;
-	margin-right: 0.75em;
+	margin-right: 1em;
 }
 
 .seeAllFeed
@@ -773,14 +827,14 @@ ul, ol, li
 	float: left;
 }
 
-.nation
+/*.nation
 {
 	float: left;
 	font-size: 1.1em;
 	color: #876d56;
 	margin-top: 0.3em;
 	clear: both;
-}
+}*/
 
 #loading {
 	position: absolute;

@@ -3,7 +3,7 @@
 srcLike = "resource/like.png";
 srcComment = "resource/comment.png";
 srcRightArrow = "resource/right_arrow.png";
-srcTopArrow = "resource/topArrow.png";
+srcTopArrow = "resource/top_arrow.png";
 srcTraveling = "resource/traveling.png";
 srcBulb = "resource/bulb.png";
 srcCoin = "resource/coin.png";
@@ -17,19 +17,20 @@ dmyThumbnailWhite = "resource/dummy/thumbnail_white.jpg";
 
 // Constants
 
-server = "http://imtraveling.joyfl.kr";
+SERVER = "http://imtraveling.joyfl.kr";
 RATIO = 10;
-scrollerWidth = 1.5;
+SCROLLER_WIDTH = 1.5;
 
 
 
 
 // Variables
 
-sf = new Array();
-st = new Array();
-pl = new Array();
-cl = new Array();
+simpleFeedArray = [];
+simpleTripArray = [];
+placeArray = [];
+commentArray = [];
+peopleArray = [];
 
 
 
@@ -52,11 +53,11 @@ dmyReviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKviewe
 function init()
 {
 	RATIO = getEmSize();
-	scrollerWidth = pixelToEm(getScrollerWidth());
+	SCROLLER_WIDTH = pixelToEm(getScrollerWidth());
 	
 	clear();
 	
-	t_fl();
+	//t_fl();
 	//t_fd();
 	
 	//t_p();
@@ -68,7 +69,7 @@ function init()
 	//t_st();
 	
 	//t_pll();
-	//t_pl();
+	t_pl();
 	
 	
 	//t_cl();
@@ -81,7 +82,7 @@ function init()
 // Test Functions
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", dmyThumbnailWhite, dmyReviewShort, 113, 113); }
-function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
+function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
 //"[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]"
 function t_cl()
 {
@@ -126,11 +127,11 @@ function fillHeader(header, user_id, _profileImageSrc, _name, _time, _place, _re
 	var upperWrap = _("div", ".upperWrap", header);
 	var lowerWrap = _("div", ".lowerWrap", header);
 	
-	var name = _("div", ".name", upperWrap);
-	var time = _("div", ".time", upperWrap);
+	var name = _("span", ".name", upperWrap);
+	var time = _("span", ".time", upperWrap);
 	
-	var place = _("div", ".place", lowerWrap);
-	var region = _("div", ".region", lowerWrap);
+	var place = _("span", ".place", lowerWrap);
+	var region = _("span", ".region", lowerWrap);
 	
 	profileImage.src = _profileImageSrc;
 	name.innerText = _name;
@@ -142,8 +143,8 @@ function fillHeader(header, user_id, _profileImageSrc, _name, _time, _place, _re
 	profileImage.onclick = call_profile;
 	name.onclick = call_profile;
 	
-	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6 - scrollerWidth);
-	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6 - scrollerWidth);
+	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6 - SCROLLER_WIDTH);
+	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6 - SCROLLER_WIDTH);
 }
 
 function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
@@ -178,8 +179,8 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeIcon = _("img", ".icon", likeWrap);
 		var commentIcon = _("img", ".icon", commentWrap);
 	
-		var likeText = _("div", ".iconText .green", likeWrap);
-		var commentText = _("div", ".iconText .blue", commentWrap);
+		var likeText = _("span", ".iconText .green", likeWrap);
+		var commentText = _("span", ".iconText .blue", commentWrap);
 		
 		likeIcon.src = srcLike;
 		commentIcon.src = srcComment;
@@ -216,17 +217,22 @@ function fillInfoList(infoList, info)
 		var leftWrap = _("div", ".leftWrap", component);
 		var rightWrap = _("div", ".rightWrap", component);
 		
-		leftWrap.innerHTML = "<img src=\"./resource/coin.png\" class=\"coin\" /> " + info[i].item;
-		if(info[i].unit == '\\')
-			rightWrap.innerHTML = "<span class=\"moneyUnit\">" + info[i].unit + "</span> " + info[i].value;
-		else
-			rightWrap.innerHTML = info[i].value + " <span class=\"moneyUnit\">" + info[i].unit + "</span>";
+		_("img", ".coin", leftWrap).src = srcCoin;
+		_("span", "", leftWrap).innerText = " " + info[i].item;
+		
+		// Case for [unit + value] (Consider float: right!)
+		_("span", "", rightWrap).innerText = " " + info[i].value;
+		_("span", ".moneyUnit", rightWrap).innerText = info[i].unit;
+		
+		// Case for [value + unit] (Consider float: right!)
+		//_("span", ".moneyUnit", rightWrap).innerText = info[i].unit;
+		//_("span", "", rightWrap).innerText = " " + info[i].value;
 	}
 }
 
 function fillLikeBar(likeBar, trip_id, likes_text)
 {
-	_("img", ".smallIcon", likeBar).src = srcIconLike;
+	_("img", "#likeIcon", likeBar).src = srcLike;
 	_("span", "", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
 }
@@ -243,17 +249,12 @@ function createArrow()
 
 	var page = $("#page");
 	
-	var topMargin = document.createElement("div");
-	topMargin.id = "topMargin";
-	document.body.insertBefore(topMargin, page);
+	var topShadow = _("div", "#topShadow", document.body, true);
+	var topMargin = _("div", "#topMargin", document.body, true);
 	
 	var topArrow = _("img", "#topArrow", topMargin);
 	topArrow.src = srcTopArrow;
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
-	
-	var topShadow = document.createElement("div");
-	topShadow.id = "topShadow";
-	document.body.insertBefore(topShadow, page);
 }
 
 function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
@@ -281,7 +282,7 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	
-	wrap.onclick = function() { call("select_feed:" + feed_id); };
+	wrap.onclick = function() { call(["select_feed", feed_id]); };
 }
 
 function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date, _summary, num_feeds)
@@ -311,7 +312,7 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 12);
 	
-	wrap.onclick = function() { call("select_trip:" + trip_id); };
+	wrap.onclick = function() { call(["select_trip", trip_id]); };
 }
 
 function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
@@ -319,8 +320,8 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	var cover = _("div", ".cover .profileImage", wrap);
 	var profileImage = _("img", ".profileImage", wrap);
 	
-	var userName = _("div", ".userName", wrap);
-	var nation = _("div", ".nation", wrap);
+	var userName = _("span", ".userName", wrap);
+	var nation = _("span", ".nation", wrap);
 	var arrow = _("img", ".arrow", wrap);
 	
 	profileImage.src = _profileImageSrc;
@@ -333,7 +334,7 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 
 function fillPlaceList(wrap, place_id, name, category)
 {
-	wrap.onclick = function() { call("select_place:" + place_id); };
+	wrap.onclick = function() { call(["select_place", place_id]); };
 	_("div", ".name", wrap).innerText = name;
 	_("div", ".category", wrap).innerText = category;
 	_("div", ".zfbe", wrap);
@@ -495,22 +496,22 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 		</wrap>
 	*/
 	
-	var detail = _("div", ".detail", wrap);
+	var detail = _("div", "#detail", wrap);
 	
-	var infoList = _("ul", ".infoList", detail);
+	var infoList = _("ul", "#infoList", detail);
 	fillInfoList(infoList, info);
 	
+	createGap(detail, 1.5);
 	createGap(detail, 0.1, false, "#E4C1A3");
 	
-	var button = _("div", ".seeAll", detail);
+	var button = _("div", "#seeAll", detail);
 	_("span", "", button).innerText = see_all_feed_text;
-	_("img", ".arrow", button).src = srcArrow;
-	//button.innerHTML = see_all_feed_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	_("img", ".arrow", button).src = srcRightArrow;
 	
-	var likeBar = _("div", ".likeBar", detail);
+	var likeBar = _("div", "#likeBar", detail);
 	fillLikeBar(likeBar, trip_id, likes_text);
 	
-	//createGap(detail, 0.1, false, "#F7EAE4");
+	// createGap(detail, 0.1, false, "#F7EAE4");
 	// see all comment
 	// comment list
 	
@@ -540,7 +541,7 @@ function fillComment(wrap, user_id, profile_image_url, name, _time, _content)
 	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 	
-	var profile = function(){ call("create_profile:" + user_id + ":" + name); };
+	var profile = function(){ call(["create_profile", user_id, name]); };
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 }
@@ -559,17 +560,15 @@ function addFeed(feed_id, user_id, profile_image_url, name, time, place, region,
 
 function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments)
 {
-	var wrap = document.createElement("div");
-	wrap.className = ".feed_list";
-	var page = $("#page");
-	page.insertBefore(wrap, page.firstChild);
+	var wrap = _("div", ".feed_list", $("#page"), true);
 	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, num_likes, num_comments, true);
+	createGap(wrap, 0.1, false, "#F7F2ED");
 }
 
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
-	sf.push(1);
-	var wrap = _("div", coloring(sf.length, ".simpleFeed"), $("#page"));
+	simpleFeedArray.push(1);
+	var wrap = _("div", coloring(simpleFeedArray.length, ".simpleFeed"), $("#page"));
 	wrap.id = "simple_feed_" + feed_id;
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
 }
@@ -588,30 +587,31 @@ function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
 
 function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, num_feeds)
 {
-	st.push(1);
-	var wrap = _("div", coloring(st.length, ".simpleTrip"), $("#page"));
+	simpleTripArray.push(1);
+	var wrap = _("div", coloring(simpleTripArray.length, ".simpleTrip"), $("#page"));
 	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, num_feeds);
 }
 
 function addPerson(user_id, profile_image_url, name, nation, isFollowing)
 {
-	var wrap = _("div", ".person", $("#page"));
+	peopleArray.push(1);
+	var wrap = _("div", coloring(peopleArray.length, ".person"), $("#page"));
 	fillPerson(wrap, user_id, profile_image_url, name, nation, isFollowing);
 }
 
 function addPlace(place_id, name, category)
 {
-	pl.push(1);
-	var wrap = _("div", coloring(pl.length, ".placeList"), $("#page"));
+	placeArray.push(1);
+	var wrap = _("div", coloring(placeArray.length, ".placeList"), $("#page"));
 	fillPlaceList(wrap, place_id, name, category);
 }
 
 function addComment(user_id, profile_image_url, name, _time, _content)
 {
-	cl.push(1);
+	commentArray.push(1);
 	if(!$("#commentList"))
 		_("div", "#commentList", $("#page"));
-	var wrap = _("div", coloring(cl.length, ".commentWrap"), $("#commentList"));
+	var wrap = _("div", coloring(commentArray.length, ".commentWrap"), $("#commentList"));
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
 }
 
@@ -649,28 +649,34 @@ function $(input)
 		return null;
 }
 
-function _(type, content, parent)
+function giveAttribute(element, attribute)
 {
-	element = document.createElement(type);
 	var className = "";
-	content = content.split(" ");
-	for(var i = 0; i < content.length; i++)
+	attribute = attribute.split(" ");
+	for(var i = 0; i < attribute.length; i++)
 	{
-		var cutOff = content[i].slice(1, content[i].length);
-		if(content[i][0] == "#")	
+		var cutOff = attribute[i].slice(1, attribute[i].length);
+		if(attribute[i][0] == "#")	
 			element.id = cutOff;
-		else if(content[i][0] == ".")
+		else if(attribute[i][0] == ".")
 			className += cutOff + " ";
 	}
 	element.className = className;
-	parent.appendChild(element);
+}
+
+function _(type, attribute, parent, onTop)
+{
+	element = document.createElement(type);
+	giveAttribute(element, attribute);
+	if(onTop) parent.insertBefore(element, parent.firstChild);
+	else parent.appendChild(element);
 	return element;
 }
 
 function coloring(index, name)
 {
-	if(index % 2 == 0) name += " even";
-	else name += " odd";
+	if(index % 2 == 0) name += " .even";
+	else name += " .odd";
 	return name;
 }
 
@@ -689,10 +695,11 @@ function clear() {
 	if($("#topMargin")) document.body.removeChild($("#topMargin"));
 	if($("#topShadow")) document.body.removeChild($("#topShadow"));
 	
-	sf = new Array();
-	st = new Array();
-	pl = new Array();
-	cl = new Array();
+	simpleFeedArray = [];
+	simpleTripArray = [];
+	placeArray = [];
+	commentArray = [];
+	peopleArray = [];
 }
 
 function clearCommentList()
