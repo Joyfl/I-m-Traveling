@@ -14,6 +14,8 @@
 "CANCEL" = "취소";
 "DONE" = "완료";
 "OK" = "확인";
+"OOPS" = "어머나 세상에!";
+"I_GOT_IT" = "알겠어요";
 
 // Login
 "INVALID_EMAIL" = "잘못된 이메일주소입니다.";
@@ -49,6 +51,7 @@
 "FROM_LIBRARY" = "라이브러리에서 선택";
 "NO_SUPPORT_CAMERA" = "해당 기기는 카메라를 지원하지 않습니다.";
 "UPLOAD" = "업로드";
+"NETWORK_CONNECTION_LOST_WHILE_UPLOADING" = "업로드중 네트워크 연결이 끊어졌습니다. 피드는 로컬에 저장되고, 네트워크에 연결되면 자동으로 업로드됩니다. 업로드 진행 상황은 프로필의 알림에서 볼 수 있습니다.";
 "SELECT_A_TRIP" = "여행을 선택해주세요.";
 "SELECT_A_PLACE" = "장소를 선택해주세요.";
 "SAVE_TO_LOCAL" = "로컬에 저장하기";

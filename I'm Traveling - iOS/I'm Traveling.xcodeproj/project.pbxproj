@@ -56,6 +56,8 @@
 		03339670155D592F004AB469 /* logo_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0333966E155D592F004AB469 /* logo_gray@2x.png */; };
 		03339676155D602E004AB469 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 03339675155D602E004AB469 /* Default.png */; };
 		03339678155D6045004AB469 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03339677155D6044004AB469 /* Default@2x.png */; };
+		0333967C155EB5DC004AB469 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0333967B155EB5DC004AB469 /* Reachability.m */; };
+		03339687155EBB29004AB469 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03339686155EBB29004AB469 /* SystemConfiguration.framework */; };
 		033DC51D1511727500272459 /* PlaceAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 033DC51C1511727500272459 /* PlaceAddViewController.m */; };
 		0343DB9D153C9BF100DEF931 /* DejalActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0343DB9C153C9BF100DEF931 /* DejalActivityView.m */; };
 		0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70215076B96006D9297 /* FeedAnnotation.m */; };
@@ -246,6 +248,9 @@
 		0333966E155D592F004AB469 /* logo_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_gray@2x.png"; sourceTree = "<group>"; };
 		03339675155D602E004AB469 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		03339677155D6044004AB469 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		0333967A155EB5DC004AB469 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		0333967B155EB5DC004AB469 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		03339686155EBB29004AB469 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		033DC51B1511727500272459 /* PlaceAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceAddViewController.h; sourceTree = "<group>"; };
 		033DC51C1511727500272459 /* PlaceAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceAddViewController.m; sourceTree = "<group>"; };
 		0343DB9B153C9BF100DEF931 /* DejalActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DejalActivityView.h; sourceTree = "<group>"; };
@@ -424,6 +429,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03339687155EBB29004AB469 /* SystemConfiguration.framework in Frameworks */,
 				039B583414D67C6600E5212C /* MapKit.framework in Frameworks */,
 				039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */,
 				0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */,
@@ -459,6 +465,7 @@
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
 				0347F70915076B96006D9297 /* LoadingQueue.h */,
 				0347F70A15076B96006D9297 /* LoadingQueue.m */,
+				03339679155EB5DC004AB469 /* Reachability */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
 				03AD0FEF14DBCE0800D9573D /* SBJSON */,
@@ -649,6 +656,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		03339679155EB5DC004AB469 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				0333967A155EB5DC004AB469 /* Reachability.h */,
+				0333967B155EB5DC004AB469 /* Reachability.m */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
 		0343DB9A153C9BF000DEF931 /* DejalActivityView */ = {
 			isa = PBXGroup;
 			children = (
@@ -706,6 +722,7 @@
 		039F63F814C5CEE6002EC78F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				03339686155EBB29004AB469 /* SystemConfiguration.framework */,
 				039B583314D67C6600E5212C /* MapKit.framework */,
 				039B583114D67C2100E5212C /* CoreLocation.framework */,
 				0309901914CB31DD00715F5A /* QuartzCore.framework */,
@@ -1000,6 +1017,7 @@
 				03FB8EF415563C2000E1C14C /* SettingsViewController.m in Sources */,
 				03FB8EF71556855700E1C14C /* NoticeListViewController.m in Sources */,
 				03FB8EFA1556A7B300E1C14C /* NoticeDetailViewController.m in Sources */,
+				0333967C155EB5DC004AB469 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,11 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class Reachability;
+
 @interface ImTravelingViewController : UIViewController <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLAuthenticationChallengeSender>
 {
+	Reachability *internetReachability;
+	BOOL networkAvailable;
+	
 	NSMutableData *responseData;
 }
 
+- (void)networkAvailabilityDidChange:(BOOL)available;
 - (void)loadURL:(NSString *)url;
 - (void)loadURL:(NSString *)url withData:(NSDictionary *)data;
 - (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data;

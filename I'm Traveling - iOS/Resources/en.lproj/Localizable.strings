@@ -14,6 +14,8 @@
 "CANCEL" = "Cancel";
 "DONE" = "Done";
 "OK" = "OK";
+"OOPS" = "Oops!";
+"I_GOT_IT" = "I got it";
 
 // Login
 "INVALID_EMAIL" = "Invalid email.";
@@ -49,6 +51,7 @@
 "FROM_LIBRARY" = "From Library";
 "NO_SUPPORT_CAMERA" = "This device doesn't support camera.";
 "UPLOAD" = "Upload";
+"NETWORK_CONNECTION_LOST_WHILE_UPLOADING" = "Network connection was lost while uploading. Feed will be saved in local, and uploaded automatically when network is available. You can see uploading progress at Profile > Notifications.";
 "SELECT_A_TRIP" = "Select a trip";
 "SELECT_A_PLACE" = "Select a place";
 "SAVE_TO_LOCAL" = "Save to local";

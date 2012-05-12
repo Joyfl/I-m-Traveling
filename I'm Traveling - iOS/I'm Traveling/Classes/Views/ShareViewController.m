@@ -138,6 +138,8 @@ enum {
 - (void)uploadButtonDidTouchUpInside
 {
 	[self startBusy];
+	
+	_uploading = YES;
 	[self upload];
 }
 
@@ -682,6 +684,26 @@ enum {
 	}
 	
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark Reachability
+
+- (void)networkAvailabilityDidChange:(BOOL)available
+{
+	NSLog( @"networkAvailabilityDidChange" );
+	
+	if( _uploading ) NSLog( @"uploading" );
+	if( available ) NSLog( @"available" );
+	
+	if( _uploading && !available )
+	{
+		_uploading = NO;
+		[self stopBusy];
+		
+		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NETWORK_CONNECTION_LOST_WHILE_UPLOADING", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
+	}
 }
 
 @end
