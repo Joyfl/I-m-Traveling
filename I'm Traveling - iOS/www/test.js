@@ -1,23 +1,50 @@
-// Variables
+// Resources
 
-pic1 = "resource/test/face.jpg";
-pic2 = "resource/test/thumbnail.jpg";
+srcLike = "resource/like.png";
+srcComment = "resource/comment.png";
+srcRightArrow = "resource/right_arrow.png";
+srcTopArrow = "resource/topArrow.png";
+srcTraveling = "resource/traveling.png";
+srcBulb = "resource/bulb.png";
+srcCoin = "resource/coin.png";
+
+dmyProfileImage = "resource/dummy/profile_image.jpg";
+dmyThumbnailBlack = "resource/dummy/thumbnail_black.jpg";
+dmyThumbnailWhite = "resource/dummy/thumbnail_white.jpg";
+
+
+
+
+// Constants
+
 server = "http://imtraveling.joyfl.kr";
-comments = new Array({"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevaaaaaaaaaieweviweeviweviewevieweviewdf"}, {"user_id":"123", "profile_image_src":pic1, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"});
-//infos = new Array({"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"});
-likes = new Array({"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"});
-iconLike = "resource/like.png";
-iconComment = "resource/comment.png";
 RATIO = 10;
 scrollerWidth = 1.5;
-reviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweviwf3eevie";
-reviewKor = "마ㅏㅏ럼ㄴㅇㄹㅁㄴㅇㄹㄱㄴㅇㄱㅇㄴㄱㅁㅇㄴㅂㄴㅇㅎㅁㄱㅇㄴㅎㅁㄱㅇㄴㅎㄱㅁㅈㅇㄴㅎㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹasdfasdfasdfasdfasdfㄱㅈㅇㄴㅁㅈ";
-reviewLong = "ㄱrevSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieS";
-reviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieivwevie";
+
+
+
+
+// Variables
+
 sf = new Array();
 st = new Array();
 pl = new Array();
 cl = new Array();
+
+
+
+
+// Dummy Data
+
+dmyComments = [{"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevaaaaaaaaaieweviweeviweviewevieweviewdf"}, {"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"}];
+dmyLikes = [{"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"}];
+dmyInfo = [{"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}];
+dmyReviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweviwf3eevie";
+dmyReviewKor = "마ㅏㅏ럼ㄴㅇㄹㅁㄴㅇㄹㄱㄴㅇㄱㅇㄴㄱㅁㅇㄴㅂㄴㅇㅎㅁㄱㅇㄴㅎㅁㄱㅇㄴㅎㄱㅁㅈㅇㄴㅎㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹasdfasdfasdfasdfasdfㄱㅈㅇㄴㅁㅈ";
+dmyReviewLong = "ㄱrevSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieS";
+dmyReviewLongLong = "revSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieSSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKFJDHKvieweviweeviwevieweviweeviweviewevieweviewviewevieweviewevieivwevie";
+
+
 
 
 // Initialize 
@@ -29,19 +56,23 @@ function init()
 	
 	clear();
 	
-	//var temp = _("ul", "shadowTest", $("#page"));
-	//var temp2 = _("li", "shadowText", temp);
+	t_fl();
+	//t_fd();
 	
-	//t_fl();
-	t_fd();
-	//t_cl();
-	//t_sf();
-	//t_st();
-	//t_pl();
 	//t_p();
-	//t_pll();
+	
+	//t_sf();
 	//t_usf();
 	//t_msf();
+	
+	//t_st();
+	
+	//t_pll();
+	//t_pl();
+	
+	
+	//t_cl();
+	
 }
 
 
@@ -49,8 +80,9 @@ function init()
 
 // Test Functions
 
-function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, pic1, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", pic2, reviewShort, 113, 113); }
-function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", "[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]", "See all 4 feeds", "4 people likes this feed"); }
+function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "Nana", "09 JAN", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ", "KOR", dmyThumbnailWhite, dmyReviewShort, 113, 113); }
+function t_fd() {createFeedDetail(123, 123, 123, pic1, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", pic2, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
+//"[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]"
 function t_cl()
 {
 	for(var i = 0; i < comments.length; i++)
@@ -58,13 +90,13 @@ function t_cl()
 		addComment(comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
 	}
 }
-function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + reviewLong); }
-function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, pic2, "Title", "29 FEB", "01 MAR", "기차 여행" + reviewLong, 7); }
-function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, pic1, "바나나", "KOR", false); }
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewLong); }
+function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행" + dmyReviewLong, 7); }
+function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_p() { createProfile(123, pic1, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 99, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
-function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, pic2, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
+function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
 
 
 
@@ -146,11 +178,11 @@ function fillThumbnail(thumbnail, pictureUrl, _likes, _comments, isThumbnail)
 		var likeIcon = _("img", ".icon", likeWrap);
 		var commentIcon = _("img", ".icon", commentWrap);
 	
-		var likeText = _("div", ".iconText green", likeWrap);
-		var commentText = _("div", ".iconText blue", commentWrap);
+		var likeText = _("div", ".iconText .green", likeWrap);
+		var commentText = _("div", ".iconText .blue", commentWrap);
 		
-		likeIcon.src = iconLike;
-		commentIcon.src = iconComment;
+		likeIcon.src = srcLike;
+		commentIcon.src = srcComment;
 		
 		likeText.innerText = _likes;
 		commentText.innerText = _comments;
@@ -194,7 +226,7 @@ function fillInfoList(infoList, info)
 
 function fillLikeBar(likeBar, trip_id, likes_text)
 {
-	_("img", ".smallIcon", likeBar).src = iconLike;
+	_("img", ".smallIcon", likeBar).src = srcIconLike;
 	_("span", "", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
 }
@@ -216,7 +248,7 @@ function createArrow()
 	document.body.insertBefore(topMargin, page);
 	
 	var topArrow = _("img", "#topArrow", topMargin);
-	topArrow.src = "resource/topArrow.png";
+	topArrow.src = srcTopArrow;
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 	
 	var topShadow = document.createElement("div");
@@ -284,18 +316,19 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 
 function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollowing)
 {
-	var cover = _("div", ".cover profileImage", wrap);
+	var cover = _("div", ".cover .profileImage", wrap);
 	var profileImage = _("img", ".profileImage", wrap);
 	
-	var textWrap = _("div", ".peopleText", wrap);
-	var userName = _("div", ".userName", textWrap);
-	var nation = _("div", ".nation", textWrap);
+	var userName = _("div", ".userName", wrap);
+	var nation = _("div", ".nation", wrap);
+	var arrow = _("img", ".arrow", wrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	nation.innerText = _nation;
+	arrow.src = srcRightArrow;
 	
-	wrap.onclick = function() { call("create_profile:" + user_id + ":" + _userName); };
+	wrap.onclick = function() { call(["create_profile", user_id, _userName]); };
 }
 
 function fillPlaceList(wrap, place_id, name, category)
@@ -354,7 +387,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 	var onTrip;
 	if(is_on_trip)
 	{	
-		onTrip = "resource/traveling.png";
+		onTrip = srcTraveling;
 		$(".onTrip")[0].src = onTrip;
 	}
 	
@@ -374,7 +407,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 	
 	if(notice > 0)
 	{
-		$(".noticeImage")[0].src = "resource/bulb.png";
+		$(".noticeImage")[0].src = srcBulb;
 		$(".noticeText")[0].innerHTML = "<div class=\"green\">" + notice + "</div>";
 	}
 	
@@ -392,9 +425,9 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 	_("div", ".border", bottomWrap);
 	
 	var infoBoxes = $(".infoBox");
-	infoBoxes[0].onclick = function() { call("profile_trips"); };
-	infoBoxes[1].onclick = function() { call("profile_following"); };
-	infoBoxes[2].onclick = function() { call("profile_followers"); };
+	infoBoxes[0].onclick = function() { call(["profile_trips"]); };
+	infoBoxes[1].onclick = function() { call(["profile_following"]); };
+	infoBoxes[2].onclick = function() { call(["profile_followers"]); };
 	
 	/*
 	var seeAllFeed = _("div", ".seeAllFeed seeAll", bottomWrap);
@@ -469,8 +502,10 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 	
 	createGap(detail, 0.1, false, "#E4C1A3");
 	
-	var button = _("div", ".seeAll", detail); 
-	button.innerHTML = see_all_feed_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
+	var button = _("div", ".seeAll", detail);
+	_("span", "", button).innerText = see_all_feed_text;
+	_("img", ".arrow", button).src = srcArrow;
+	//button.innerHTML = see_all_feed_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
 	
 	var likeBar = _("div", ".likeBar", detail);
 	fillLikeBar(likeBar, trip_id, likes_text);
@@ -560,7 +595,7 @@ function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summar
 
 function addPerson(user_id, profile_image_url, name, nation, isFollowing)
 {
-	var wrap = _("div", ".header", $("#page"));
+	var wrap = _("div", ".person", $("#page"));
 	fillPerson(wrap, user_id, profile_image_url, name, nation, isFollowing);
 }
 

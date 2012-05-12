@@ -35,17 +35,6 @@ ul, ol, li
 	background-color: #f6e2d1;
 }
 
-.cover
-{
-	position: absolute;
-	
-	box-shadow: 0px 0.1em 0.2em #333333 inset;
-	-webkit-box-shadow: 0px 0.1em 0.2em #333333 inset;
-	-ms-box-shadow: 0px 0.1em 0.2em #333333 inset;
-	-moz-box-shadow: 0px 0.1em 0.2em #333333 inset;
-	-o-box-shadow: 0px 0.1em 0.2em #333333 inset;
-}
-
 .component
 {
 	margin: 0em 5% 0em 5%;
@@ -111,6 +100,27 @@ ul, ol, li
 	border-bottom: 1px solid #F1DFCF;
 }
 
+.cover
+{
+	position: absolute;
+	
+	box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-webkit-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-ms-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-moz-box-shadow: 0px 0.1em 0.2em #333333 inset;
+	-o-box-shadow: 0px 0.1em 0.2em #333333 inset;
+}
+
+.profileImage
+{
+	width: 3.5em;
+	height: 3.5em;
+	margin: 0.8em;
+	border: 0px solid #ffffff;
+	border-radius: 4px;
+	float: left;
+}
+
 
 
 /* Section Header (Optimized for Feed List) */
@@ -132,12 +142,7 @@ ul, ol, li
 
 .header .profileImage
 {
-	width: 3.5em;
-	height: 3.5em;
-	margin: 0.8em;
-	border: 0px solid #ffffff;
-	border-radius: 4px;
-	float: left;
+	
 }
 
 .header .upperWrap
