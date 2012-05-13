@@ -32,10 +32,10 @@
 @implementation FeedDetailViewController
 
 enum {
-	kTokenIdFirstFeedDetail = 0,
-	kTokenIdFeedDetail = 1,
-	kTokenIdCommentList = 2,
-	kTokenIdSendComment = 3
+	// Feed Detail : 0 ~ 999
+	// Feed Comment : 1000 ~ 1999
+	kTokenIdFirstFeedDetail = 10000,
+	kTokenIdSendComment = 10001
 };
 
 - (id)initWithFeed:(FeedObject *)feed
@@ -64,7 +64,6 @@ enum {
 		[self.view addSubview:_mapView];
 		
 		UIImageView *googleLogo = [self googleLogo];
-		NSLog( @"frame : %@", NSStringFromCGRect( googleLogo.frame ) );
 		googleLogo.frame = CGRectMake( 6, 325, googleLogo.frame.size.width, googleLogo.frame.size.height );
 		
 		// Scroll View
@@ -96,9 +95,6 @@ enum {
 			[_webViews addObject:detailWebView];
 			[detailWebView release];
 		}
-		
-		_feedLoadingQueue = [[LoadingQueue alloc] init];
-		_commentLoadingQueue = [[LoadingQueue alloc] init];
 		
 		_feedDetailObjects = [[NSMutableArray alloc] init];
 		
@@ -225,8 +221,6 @@ enum {
 	[_mapView release];
 	[_webViews release];
 	[_feedDetailObjects release];
-	[_feedLoadingQueue release];
-	[_commentLoadingQueue release];
 	[_leftFeedButton release];
 	[_rightFeedButton release];
 	[_commentBar release];
@@ -247,7 +241,7 @@ enum {
 
 - (void)preloadFeedDetail
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] withData:nil andId:0];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] withData:nil andId:kTokenIdFirstFeedDetail];
 }
 
 - (void)prepareFeedDetailWithIndex:(NSInteger)index
@@ -258,14 +252,11 @@ enum {
 		
 		if( feedObject.complete )
 		{
-//			NSLog( @"create : %d", index );
 			[self createFeedDetail:feedObject atIndex:index];
 		}
 		else
 		{
-//			NSLog( @"load : %d", index );
-			[_feedLoadingQueue addIndex:index];
-			[self loadFeedDetailFromLoadingQueue];
+			[self loadFeedDetailWithIndex:index];
 		}
 	}
 }
@@ -286,11 +277,11 @@ enum {
 	}
 }
 
-- (void)loadFeedDetailFromLoadingQueue
+- (void)loadFeedDetailWithIndex:(NSInteger)feedIndex
 {
-	if( _feedLoadingQueue.count > 0 )
+	if( 0 <= feedIndex && feedIndex < _numAllFeeds )
 	{
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex] feedId]] withData:nil andId:0];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] withData:nil andId:feedIndex];
 	}
 }
 
@@ -307,18 +298,13 @@ enum {
 		if( feed.numComments == 0 )
 			return;
 		
-//		NSLog( @"Prepare comment index : %d (num : %d)", feedIndex, feed.numComments );
-		
 		if( feed.comments.count == feed.numComments )
 		{
-//			NSLog( @"add comments : %d", feedIndex );
 			[self addComments:feed.comments atIndex:feedIndex];
 		}
 		else
 		{
-//			NSLog( @"load comments : %d", feedIndex );
-			[_commentLoadingQueue addIndex:feedIndex];
-			[self loadCommentsFromLoadingQueue];
+			[self loadCommentWithFeedIndex:feedIndex];
 		}
 	}
 }
@@ -340,19 +326,11 @@ enum {
 	
 	for( Comment *comment in comments )
 		[webView addComment:comment];
-	
-//	NSLog( @"comments were added : %d", index );
 }
 
-- (void)loadCommentsFromLoadingQueue
+- (void)loadCommentWithFeedIndex:(NSInteger)feedIndex
 {
-	if( _commentLoadingQueue.count > 0 )
-	{
-		NSLog( @"%d", _commentLoadingQueue.firstIndex );
-		NSInteger feedId = [[_feedDetailObjects objectAtIndex:_commentLoadingQueue.firstIndex] feedId];
-//		NSLog( @"load comments from queue : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] );
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] withData:nil andId:0];
-	}
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] withData:nil andId:1000 + feedIndex];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
@@ -365,53 +343,53 @@ enum {
 		return;
 	}
 	
-	id result = [json objectForKey:@"result"];
-	
-	// Feed Detail
-	if( [result isKindOfClass:[NSDictionary class]] )
-	{		
-		FeedObject *feedObject = _feedObjectFromPrevView ? _feedObjectFromPrevView : [_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex];
+	// Preload
+	if( token.tokenId == kTokenIdFirstFeedDetail )
+	{
+		NSDictionary *result = [json objectForKey:@"result"];
+		
+		FeedObject *feedObject = _feedObjectFromPrevView;
 		[self fillFeedObject:feedObject fromDictionary:result];
 		
-		// 첫 로딩
-		if( _feedObjectFromPrevView )
-		{
-			// UI 수정은 Main Thread에서
-			[self.centerWebView clear];
-			[self.centerWebView createFeedDetail:feedObject];
-//			[self resizeContentHeight];
-//			[self.centerWebView performSelectorOnMainThread:@selector(createFeedDetail:) withObject:feedObject waitUntilDone:NO];
-			[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
-			[self handleAllFeeds:[result objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
-			
-			[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
-			
-			[self changeNavigationBarTitle];
-			
-			[_feedLoadingQueue addIndex:_currentFeedIndex - 1];
-			[_feedLoadingQueue addIndex:_currentFeedIndex + 1];
-			
-			_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
-			
-			[self animateAppearance];
-		}
-		else
-		{
-			[_feedDetailObjects replaceObjectAtIndex:_feedLoadingQueue.firstIndex withObject:feedObject];
-			
-			[self createFeedDetail:feedObject atIndex:_feedLoadingQueue.firstIndex];
-			
-			[_feedLoadingQueue removeLoadedFromLoadingQueue];
-		}
+		// UI 수정은 Main Thread에서
+		[self.centerWebView clear];
+		[self.centerWebView createFeedDetail:feedObject];
+		[self performSelectorOnMainThread:@selector(resizeContentHeight) withObject:nil waitUntilDone:NO];
+		[self handleAllFeeds:[result objectForKey:@"all_feeds"] currentFeedId:feedObject.feedId];
 		
-		[self loadFeedDetailFromLoadingQueue];
+		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
+		
+		[self changeNavigationBarTitle];
+		
+		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
+		
+		[self animateAppearance];
+		
+		[self loadFeedDetailWithIndex:_currentFeedIndex - 1];
+		[self loadFeedDetailWithIndex:_currentFeedIndex + 1];
 	}
 	
-	// Comment
-	else if( [result isKindOfClass:[NSArray class]] )
+	// Feed Detail
+	else if( token.tokenId / 1000 < 1 )
 	{
-//		NSLog( @"comments in json : %@", json );
-		FeedObject *feed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+		NSDictionary *result = [json objectForKey:@"result"];
+		
+		NSInteger feedIndex = token.tokenId;
+		
+		FeedObject *feedObject = [_feedDetailObjects objectAtIndex:feedIndex];
+		[self fillFeedObject:feedObject fromDictionary:result];
+		
+		[_feedDetailObjects replaceObjectAtIndex:feedIndex withObject:feedObject];
+		
+		[self createFeedDetail:feedObject atIndex:feedIndex];
+	}
+	
+	// Comment List
+	else if( token.tokenId / 10000 < 1 )
+	{
+		FeedObject *feed = [_feedDetailObjects objectAtIndex:token.tokenId - 1000];
+		
+		NSArray *result = [json objectForKey:@"result"];
 		
 		for( NSDictionary *c in result )
 		{
@@ -423,18 +401,18 @@ enum {
 			comment.time = [c objectForKey:@"time"];
 			comment.comment = [c objectForKey:@"comment"];
 			[feed.comments addObject:comment];
-//			[self addComment:comment atIndex:_commentLoadingQueue.firstIndex];
 		}
 		
-		[self addComments:feed.comments atIndex:_commentLoadingQueue.firstIndex];
-		[_commentLoadingQueue removeLoadedFromLoadingQueue];
+		[self addComments:feed.comments atIndex:token.tokenId - 1000];
 	}
 	
-	// 댓글 등록 완료
-	else if( [result isKindOfClass:[NSString class]] )
+	// Send Comment
+	else if( token.tokenId == kTokenIdSendComment )
 	{
+		NSInteger result = [[json objectForKey:@"result"] integerValue];
+		
 		Comment *comment = [[Comment alloc] init];
-		comment.commentId = [result integerValue];
+		comment.commentId = result;
 		comment.userId = [Utils userId];
 		comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
 		comment.name = [Utils userName];
@@ -445,8 +423,6 @@ enum {
 		_commentInput.text = @"";
 		_commentInput.enabled = YES;
 		_sendButton.enabled = YES;
-		
-		return;
 	}
 }
 
@@ -478,8 +454,7 @@ enum {
 
 - (void)handleAllFeeds:(NSArray *)allFeeds currentFeedId:(NSInteger)currentFeedId
 {
-	_feedLoadingQueue.maxIndex = allFeeds.count;
-	_commentLoadingQueue.maxIndex = allFeeds.count;
+	_numAllFeeds = allFeeds.count;
 	
 	// 모든 피드들의 위치. 지도에 선 그릴 때 필요
 	CLLocationCoordinate2D coordinates[allFeeds.count];
@@ -497,7 +472,6 @@ enum {
 		if( feedObj.feedId == currentFeedId )
 		{
 			_currentFeedIndex = i;
-			NSLog( @"_currentFeedIndex : %d", _currentFeedIndex );
 		}
 		
 		[_mapView addAnnotation:feedObj];
@@ -860,7 +834,7 @@ enum {
 	[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
 	[data setObject:_commentInput.text forKey:@"comment"];
 	[data setObject:@"1" forKey:@"type"];
-	[self.loader loadURL:API_FEED_COMMENT withData:data andId:0];
+	[self.loader loadURL:API_FEED_COMMENT withData:data andId:kTokenIdSendComment];
 }
 
 

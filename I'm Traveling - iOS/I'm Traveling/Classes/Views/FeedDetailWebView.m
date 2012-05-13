@@ -106,7 +106,7 @@
 - (void)clearComments
 {
 	NSLog( @"clear comments" );
-	[self stringByEvaluatingJavaScriptFromString:@"(function() { var comments = getClass( 'commentWrap' ); var page = getId( 'page' ); for( var i = comments.length - 1; i >= 0; i-- ) page.removeChild( comments[i] ); } )();"];
+	[self stringByEvaluatingJavaScriptFromString:@"clearCommentList();"];
 }
 
 - (void)addComment:(Comment *)comment

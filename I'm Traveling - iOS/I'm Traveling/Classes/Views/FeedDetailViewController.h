@@ -28,8 +28,10 @@
 	NSMutableArray *_feedDetailObjects;
 	NSInteger _currentFeedIndex;
 	
-	LoadingQueue *_feedLoadingQueue;
-	LoadingQueue *_commentLoadingQueue;
+//	LoadingQueue *_feedLoadingQueue;
+//	LoadingQueue *_commentLoadingQueue;
+	
+	NSInteger _numAllFeeds;
 	
 	// List 애니메이션용 이미지뷰
 	UIImageView *_upperImageView;

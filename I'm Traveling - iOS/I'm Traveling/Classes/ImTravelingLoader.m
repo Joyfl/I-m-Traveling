@@ -158,7 +158,13 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-	ImTravelingLoaderToken *token = [_queue objectAtIndex:0];
+	if( _queue.count == 0 )
+	{
+		NSLog( @"Loading queue is empty!" );
+		return;
+	}
+	
+	ImTravelingLoaderToken *token = [[_queue objectAtIndex:0] retain];
 	[_queue removeObjectAtIndex:0];
 	
 	token.data = [[NSString alloc] initWithData:_responseData encoding:NSUTF8StringEncoding];
