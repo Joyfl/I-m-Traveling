@@ -183,7 +183,8 @@ enum {
 	NSLog( @"load %d ~ %d", _feedListObjects.count, _feedListObjects.count + 10 );
 	
 	loading = YES;
-	[self loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to]];
+	
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to] withData:nil andId:0];
 }
 
 
@@ -296,9 +297,9 @@ enum {
 	[self loadFeedsFrom:0 to:10];
 }
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		NSLog( @"Error" );

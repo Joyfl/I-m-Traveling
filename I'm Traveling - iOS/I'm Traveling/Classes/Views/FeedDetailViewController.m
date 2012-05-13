@@ -31,6 +31,13 @@
 
 @implementation FeedDetailViewController
 
+enum {
+	kTokenIdFirstFeedDetail = 0,
+	kTokenIdFeedDetail = 1,
+	kTokenIdCommentList = 2,
+	kTokenIdSendComment = 3
+};
+
 - (id)initWithFeed:(FeedObject *)feed
 {
 	if( self = [super init] )
@@ -240,7 +247,7 @@
 
 - (void)preloadFeedDetail
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref]];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] withData:nil andId:0];
 }
 
 - (void)prepareFeedDetailWithIndex:(NSInteger)index
@@ -283,7 +290,7 @@
 {
 	if( _feedLoadingQueue.count > 0 )
 	{
-		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex] feedId]]];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:_feedLoadingQueue.firstIndex] feedId]] withData:nil andId:0];
 	}
 }
 
@@ -344,13 +351,13 @@
 		NSLog( @"%d", _commentLoadingQueue.firstIndex );
 		NSInteger feedId = [[_feedDetailObjects objectAtIndex:_commentLoadingQueue.firstIndex] feedId];
 //		NSLog( @"load comments from queue : %@", [NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] );
-		[self loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId]];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, feedId] withData:nil andId:0];
 	}
 }
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	
 	if( [self isError:json] )
 	{
@@ -853,7 +860,7 @@
 	[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
 	[data setObject:_commentInput.text forKey:@"comment"];
 	[data setObject:@"1" forKey:@"type"];
-	[self loadURL:API_FEED_COMMENT withData:data];
+	[self.loader loadURL:API_FEED_COMMENT withData:data andId:0];
 }
 
 

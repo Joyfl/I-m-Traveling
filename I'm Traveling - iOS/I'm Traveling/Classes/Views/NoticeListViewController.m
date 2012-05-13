@@ -31,7 +31,7 @@
 		_tableView.dataSource = self;
 		[self.view addSubview:_tableView];
 		
-		[self loadURL:[NSString stringWithFormat:@"%@?from=%d&to=%d", API_NOTICE_LIST, 0, 100]];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?from=%d&to=%d", API_NOTICE_LIST, 0, 100] withData:nil andId:0];
 	}
 	
 	return self;
@@ -41,9 +41,9 @@
 #pragma mark -
 #pragma mark Loading
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		NSLog( @"Error!" );

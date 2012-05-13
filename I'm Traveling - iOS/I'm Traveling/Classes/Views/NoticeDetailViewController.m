@@ -30,7 +30,7 @@
 		_tableView.userInteractionEnabled = NO;
 		[self.view addSubview:_tableView];
 		
-		[self loadURL:[NSString stringWithFormat:@"%@?notice_id=%d", API_NOTICE_DETAIL, noticeId]];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?notice_id=%d", API_NOTICE_DETAIL, noticeId] withData:nil andId:0];
 	}
 	
 	return self;
@@ -40,9 +40,9 @@
 #pragma mark -
 #pragma mark Loading
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		NSLog( @"Error" );

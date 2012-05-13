@@ -85,7 +85,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	[self loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, [Utils userId]]];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, [Utils userId]] withData:nil andId:0];
 }
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
@@ -112,11 +112,11 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	[self clear];
 	
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	
 	// trip이 없을 경우
 	if( [self isError:json] )

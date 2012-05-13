@@ -106,7 +106,7 @@
 	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	if( _lastCellId != newCellId )
 	{
-		[self loadURL:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId]];
+		[self.loader loadURL:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId] withData:nil andId:0];
 		_lastCellId = newCellId;
 	}
 }
@@ -126,11 +126,9 @@
 #pragma mark ImTravelingViewController
 
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	[self clear];
-	
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	
 	// 장소가 없을 경우
 	if( [self isError:json] )

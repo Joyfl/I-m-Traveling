@@ -667,16 +667,16 @@ enum {
 	[data setObject:[Utils writeJSON:info] forKey:@"info"];
 	
 	NSLog( @"%@", data );
-	[self loadURLPOST:API_UPLOAD withData:data];
+	[self.loader loadURLPOST:API_UPLOAD withData:data andId:0];
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	[self stopBusy];
 	
-	NSLog( @"upload result : %@", result );
+	NSLog( @"upload result : %@", token.data );
 	
-	NSDictionary *json = [Utils parseJSON:result];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		

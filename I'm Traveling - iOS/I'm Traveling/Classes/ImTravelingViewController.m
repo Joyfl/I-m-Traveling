@@ -12,11 +12,15 @@
 
 @implementation ImTravelingViewController
 
+@synthesize loader;
+
 - (id)init
 {
 	if( self = [super init] )
 	{
-		responseData = [[NSMutableData alloc] init];
+//		responseData = [[NSMutableData alloc] init];
+		loader = [[ImTravelingLoader alloc] init];
+		loader.delegate = self;
 	}
 	
 	return self;
@@ -35,7 +39,7 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-	 
+
 	 
 #pragma mark -
 #pragma mark Reachability
@@ -73,129 +77,9 @@
 
 
 #pragma mark -
-#pragma mark NSURLConnection
+#pragma mark ImTravelingLoaderDelegate
 
-- (void)loadURL:(NSString *)url
-{
-	NSLog( @"%@", url );
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
-}
-
-- (void)loadURL:(NSString *)url withData:(NSDictionary *)data
-{
-	url = [url stringByAppendingFormat:@"?"];
-	
-	for( id key in data )
-		url = [url stringByAppendingFormat:@"%@=%@&", key, [data objectForKey:key]];
-	
-	url = [url substringToIndex:url.length - 1];
-	url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	
-	[self loadURL:url];
-}
-
-- (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data
-{
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
-	
-    NSMutableData *body = [NSMutableData data];
-	
-    NSString *boundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
-	
-	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	for( id key in data )
-	{
-		id object = [data objectForKey:key];
-		
-		[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-		
-		if( [object isKindOfClass:[NSString class]] )
-		{
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[object dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-		else if( [object isKindOfClass:[NSNumber class]] )
-		{
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];	
-			[body appendData:[[NSString stringWithFormat:@"%@", object] dataUsingEncoding:NSUTF8StringEncoding]];
-		}
-		else if( [object isKindOfClass:[UIImage class]] )
-		{
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"picture\"; filename=\"xoulzzang\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-			[body appendData:[NSData dataWithData:UIImageJPEGRepresentation( object, 1.0 )]];
-		}
-		else
-		{
-			NSLog( @"other class" );
-		}
-		
-		[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-	}
-	
-    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-    [request setHTTPBody:body];
-	
-	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
-}
-
-- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace
-{
-	return [protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust];
-}
-
-- (void)useCredential:(NSURLCredential *)credential forAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-	
-}
-
-- (void)continueWithoutCredentialForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-	
-}
-
-- (void)cancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-	
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
-{
-	[challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-	responseData.length = 0;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-	[responseData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-	NSString *result = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	[self loadingDidFinish:result];
-	[result release];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-	NSLog( @"Loading Error : %@", error );
-}
-
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	NSLog( @"loadingDidFinish : Overriding is needed." );
 }

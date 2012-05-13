@@ -35,7 +35,7 @@
 	 * 3 : Followers 로딩중
 	 * 4 : 완료
 	 */
-	NSInteger loadingProgress;
+//	NSInteger loadingProgress;
 	
 	BOOL activated;
 }

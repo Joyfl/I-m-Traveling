@@ -22,6 +22,7 @@
 		0309424C150584EF00533C4A /* share_review_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 0309424A150584EF00533C4A /* share_review_bg.png */; };
 		0309424D150584EF00533C4A /* share_review_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0309424B150584EF00533C4A /* share_review_bg@2x.png */; };
 		0309901A14CB31DD00715F5A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0309901914CB31DD00715F5A /* QuartzCore.framework */; };
+		030C1A15155F8CF400790B88 /* ImTravelingLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 030C1A14155F8CF300790B88 /* ImTravelingLoader.m */; };
 		0311F71814E43AAC0081B74E /* BlueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F6EC14E43AAC0081B74E /* BlueArrow.png */; };
 		0311F71914E43AAC0081B74E /* BlueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F6ED14E43AAC0081B74E /* BlueArrow@2x.png */; };
 		0311F71A14E43AAC0081B74E /* button_all.png in Resources */ = {isa = PBXBuildFile; fileRef = 0311F6EE14E43AAC0081B74E /* button_all.png */; };
@@ -213,6 +214,8 @@
 		0309424A150584EF00533C4A /* share_review_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_review_bg.png; sourceTree = "<group>"; };
 		0309424B150584EF00533C4A /* share_review_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_review_bg@2x.png"; sourceTree = "<group>"; };
 		0309901914CB31DD00715F5A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		030C1A13155F8CF300790B88 /* ImTravelingLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImTravelingLoader.h; sourceTree = "<group>"; };
+		030C1A14155F8CF300790B88 /* ImTravelingLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImTravelingLoader.m; sourceTree = "<group>"; };
 		0311F6EC14E43AAC0081B74E /* BlueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlueArrow.png; sourceTree = "<group>"; };
 		0311F6ED14E43AAC0081B74E /* BlueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueArrow@2x.png"; sourceTree = "<group>"; };
 		0311F6EE14E43AAC0081B74E /* button_all.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_all.png; sourceTree = "<group>"; };
@@ -465,6 +468,8 @@
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
 				0347F70915076B96006D9297 /* LoadingQueue.h */,
 				0347F70A15076B96006D9297 /* LoadingQueue.m */,
+				030C1A13155F8CF300790B88 /* ImTravelingLoader.h */,
+				030C1A14155F8CF300790B88 /* ImTravelingLoader.m */,
 				03339679155EB5DC004AB469 /* Reachability */,
 				0300E72014D23E6A00611039 /* Views */,
 				0300E71D14D23E6A00611039 /* Managers */,
@@ -1018,6 +1023,7 @@
 				03FB8EF71556855700E1C14C /* NoticeListViewController.m in Sources */,
 				03FB8EFA1556A7B300E1C14C /* NoticeDetailViewController.m in Sources */,
 				0333967C155EB5DC004AB469 /* Reachability.m in Sources */,
+				030C1A15155F8CF400790B88 /* ImTravelingLoader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

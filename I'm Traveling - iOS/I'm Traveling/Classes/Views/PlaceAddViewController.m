@@ -91,7 +91,7 @@
 	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.latitude] forKey:@"latitude"];
 	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
 	[data setObject:_categoryLabel.text forKey:@"category"];
-	[self loadURL:API_PLACE_ADD withData:data];
+	[self.loader loadURL:API_PLACE_ADD withData:data andId:0];
 	[data release];
 }
 
@@ -132,9 +132,9 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		NSLog( @"Error!" );

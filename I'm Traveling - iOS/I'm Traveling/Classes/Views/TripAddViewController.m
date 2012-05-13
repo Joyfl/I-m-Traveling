@@ -75,7 +75,7 @@
 	[data setObject:[Utils password] forKey:@"password"];
 	[data setObject:_titleInput.text forKey:@"trip_title"];
 	[data setObject:_summaryInput.text forKey:@"summary"];
-	[self loadURL:API_TRIP_ADD withData:data];
+	[self.loader loadURL:API_TRIP_ADD withData:data andId:0];
 	[data release];
 }
 
@@ -83,9 +83,9 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		NSLog( @"Error" );

@@ -103,12 +103,12 @@
 	[[SettingsManager manager] setSetting:email forKey:SETTING_KEY_EMAIL];
 	[[SettingsManager manager] setSetting:password forKey:SETTING_KEY_PASSWORD];
 	
-	[self loadURL:[NSString stringWithFormat:@"%@?email=%@&password=%@", API_LOGIN, email, password]];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?email=%@&password=%@", API_LOGIN, email, password] withData:nil andId:0];
 }
 
-- (void)loadingDidFinish:(NSString *)data
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSDictionary *json = [Utils parseJSON:data];
+	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
 		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"LOGIN_FAILED_MSG", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];

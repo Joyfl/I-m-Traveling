@@ -7,25 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ImTravelingLoader.h"
 
 @class Reachability;
 
-@interface ImTravelingViewController : UIViewController <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLAuthenticationChallengeSender>
+@interface ImTravelingViewController : UIViewController </*NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLAuthenticationChallengeSender,*/ ImTravelingLoaderDelegate>
 {
 	Reachability *internetReachability;
 	BOOL networkAvailable;
 	
-	NSMutableData *responseData;
+	ImTravelingLoader *loader;
+	
+//	NSMutableData *responseData;
 }
 
 - (void)networkAvailabilityDidChange:(BOOL)available;
-- (void)loadURL:(NSString *)url;
-- (void)loadURL:(NSString *)url withData:(NSDictionary *)data;
-- (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data;
-- (void)loadingDidFinish:(NSString *)data;
+//- (void)loadURL:(NSString *)url;
+//- (void)loadURL:(NSString *)url withData:(NSDictionary *)data;
+//- (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data;
+//- (void)loadingDidFinish:(NSString *)data;
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token;
 - (BOOL)isError:(NSDictionary *)json;
 
 - (void)startBusy;
 - (void)stopBusy;
+
+@property (nonatomic, retain) ImTravelingLoader *loader;
 
 @end

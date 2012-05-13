@@ -29,8 +29,8 @@
 #define API_UPLOAD				@"https://imtraveling.joyfl.kr/upload.php"
 #define API_PROFILE				@"https://imtraveling.joyfl.kr/profile.php"
 #define API_PROFILE_IMAGE		@"http://imtraveling.joyfl.kr/profile/"
-#define API_FOLLOWING_LIST		@""
-#define API_FOLLOWERS_LIST		@""
+#define API_FOLLOWING_LIST		@"https://imtraveling.joyfl.kr/follow.php"
+#define API_FOLLOWERS_LIST		@"https://imtraveling.joyfl.kr/follow.php"
 #define API_NOTICE_LIST			@"https://imtraveling.joyfl.kr/notice_list.php"
 #define API_NOTICE_DETAIL		@"https://imtraveling.joyfl.kr/notice_detail.php"
 
