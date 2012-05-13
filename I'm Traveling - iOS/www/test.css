@@ -46,7 +46,7 @@ ul, ol, li
 	width: 100%;
 }
 
-.extensor
+.expensor
 {
 	clear: both;
 	content: ".";
@@ -144,6 +144,11 @@ ul, ol, li
 	-o-box-shadow: 0px 0.1em 0.2em #333333 inset;
 }
 
+
+
+
+/* Common Style */
+
 .profileImage
 {
 	width: 3.5em;
@@ -153,6 +158,17 @@ ul, ol, li
 	border-radius: 4px;
 	float: left;
 }
+
+.upperWrap
+{
+	float: left;
+}
+
+.lowerWrap
+{
+	float: left;	
+}
+
 
 
 
@@ -180,13 +196,11 @@ ul, ol, li
 
 .header .upperWrap
 {
-	float: left;
 	margin-top: 0.6em;
 }
 
 .header .lowerWrap
 {
-	float: left;
 	margin-top: -0.2em;
 }
 
@@ -429,12 +443,12 @@ ul, ol, li
 
 /* People List */
 
-.person
+#peopleList li
 {
 	height: 5em;
 }
 
-.person .userName
+#peopleList .userName
 {
 	float: left;
 	font-size: 1.7em;
@@ -443,7 +457,7 @@ ul, ol, li
 	color: #302935;
 }
 
-.person .nation
+#peopleList .nation
 {
 	float: left;
 	font-size: 1.2em;
@@ -452,7 +466,7 @@ ul, ol, li
 	color: #87655B;
 }
 
-.person .arrow
+#peopleList .arrow
 {
 	height: 1.7em;
 	margin-top: 1.6em;
@@ -461,27 +475,97 @@ ul, ol, li
 
 
 
-/* Comment, SimpleFeed, SimpleTrip */
+/* Comment List */
 
-.commentWrap, .simpleFeed
+#commentList
+{
+	clear: both;
+}
+
+#commentList .profileImage
+{
+	width: 3em;
+	height: 3em;
+	margin: 0.8em;
+	margin-left: 1em;
+}
+
+#commentList .upperWrap
+{
+	margin-top: 0.7em;
+}
+
+#commentList .lowerWrap
+{
+	margin-bottom: 0.4em;
+	margin-top: -0.2em;
+}
+
+#commentList .userName
+{
+	font-size: 1.7em;
+	font-weight: bold;
+	color: #3D2C48;
+}
+
+#commentList .time
+{
+	font-size: 1.3em;
+	float: right;
+	color: #BFA288;
+}
+
+#commentList .comment
+{
+	font-size: 1.3em;
+}
+
+
+
+
+/* Place List */
+
+#placeList
+{
+	
+}
+
+#placeList li
+{
+	clear: both;
+	padding: 1em;
+	padding-bottom: 0.5em;
+	min-height: 4em;
+}
+
+#placeList .name
+{
+	font-size: 1.7em;
+	color: #302935;
+}
+
+#placeList .category
+{
+	font-size: 1.3em;
+	color: #9F8268;
+}
+
+
+
+
+/* Simple Feed */
+
+.simpleFeed
 {
 	clear: both;
 }
 
 .simpleFeed .profileImage
 {
-	width: 9em;
-	height: 9em;
+	width: 8em;
+	height: 8em;
 	margin: 1em;
-	border-radius: 1em;
-}
-
-.simpleTrip .profileImage
-{
-	width: 9em;
-	height: 9em;
-	margin: 1em;
-	border-radius: 1em;
+	border-radius: 10px;
 }
 
 .simpleFeed .upperWrap
@@ -489,9 +573,57 @@ ul, ol, li
 	margin-top: 1.5em;
 }
 
+.simpleFeed .lowerWrap
+{
+	margin-top: 0em;
+	margin-bottom: 0.5em;
+}
+
+.simpleFeed .place
+{
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #3D2C48;
+	width: 80%;
+	float: left;
+}
+
+.simpleFeed .time
+{
+	float: right;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #876D56;
+}
+
+.simpleFeed .review
+{
+	font-size: 1.4em;
+	color: #513D2B;
+}
+
+
+
+
+/* Simple Trip */
+
+.simpleTrip .profileImage
+{
+	width: 8em;
+	height: 8em;
+	margin: 1em;
+	border-radius: 10px;
+}
+
 .simpleTrip .upperWrap
 {
 	margin-top: 1.5em;
+}
+
+.simpleTrip .lowerWrap
+{
+	margin-top: 0.3em;
+	margin-bottom: 0.4em;
 }
 
 .simpleTrip .time
@@ -500,15 +632,15 @@ ul, ol, li
 	float: left;
 	text-align: left;
 	font-size: 1.2em;
+	font-weight: bold;
 	color: #876D56;
 }
 
-.simpleTrip .numText
+.simpleTrip .feeds
 {
 	float: right;
 	font-size: 1.2em;
 	text-align: right;
-	margin-top: 0.2em;
 	color: #9F8268;
 }
 
@@ -525,53 +657,6 @@ ul, ol, li
 {
 	font-size: 1.5em;
 	color: #513D2B;
-	margin-bottom: 0.4em;
-}
-
-.simpleTrip .lowerWrap
-{
-	margin-top: 0.3em;
-}
-
-
-.commentWrap .profileImage
-{
-	margin: 0.4em 0.8em 0.4em 0.8em;
-}
-
-.commentWrap .upperWrap
-{
-	margin-top: 0.4em;
-}
-
-.commentWrap .lowerWrap
-{
-	margin-bottom: 0.1em;
-}
-
-
-
-
-/* Place List */
-
-.placeList
-{
-	clear: both;
-	padding: 1em;
-	padding-bottom: 0.5em;
-	min-height: 4em;
-}
-
-.placeList .name
-{
-	font-size: 1.7em;
-	color: #302935;
-}
-
-.placeList .category
-{
-	font-size: 1.3em;
-	color: #9F8268;
 }
 
 
@@ -600,8 +685,8 @@ ul, ol, li
 	position: absolute;
 	left: 1.5em;
 	top: 2em;
-	border-top-left-radius: 1.1em;
-	border-top-right-radius: 1.1em;
+	border-top-left-radius: 11px;
+	border-top-right-radius: 11px;
 	background-color: #F3D9C1;
 }
 
@@ -634,7 +719,7 @@ ul, ol, li
 {
 	width: 6.8em;
 	height: 6.8em;
-	border-radius: 0.85em;
+	border-radius: 8.5px;
 	margin-top: 1.5em;
 	margin-left: 2.1em;
 }
@@ -657,7 +742,7 @@ ul, ol, li
 	float: left;
 	width: 2em;
 	height: 2em;
-	border-radius: 1em;
+	border-radius: 10px;
 	margin-right: 0.3em;
 }
 
@@ -806,14 +891,6 @@ ul, ol, li
 
 
 
-/* Etc */
-
-.peopleText
-{
-	margin-top: 1em;
-	float: left;
-}
-
 /*.nation
 {
 	float: left;
@@ -822,14 +899,3 @@ ul, ol, li
 	margin-top: 0.3em;
 	clear: both;
 }*/
-
-#loading {
-	position: absolute;
-	width: 1em;
-	height: 1em;
-	top: 50%;
-	margin-top: -0.5em;
-	font-size: 3em;
-	left: 50%;
-	margin-left: -0.5em;
-}
