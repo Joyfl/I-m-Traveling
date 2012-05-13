@@ -58,7 +58,7 @@ function init()
 	clear();
 	
 	//t_fl(); //*
-	//t_fd(); //*
+	t_fd(); //*
 	
 	//t_p();
 	
@@ -68,8 +68,8 @@ function init()
 	//t_st(); //*
 	
 	//t_pll(); //*
-	t_pl(); //*
-	//t_cl(); //*
+	//t_pl(); //*
+	t_cl(); //*
 }
 
 
@@ -80,14 +80,7 @@ function init()
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
 //"[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]"
-function t_cl()
-{
-	comments = dmyComments;
-	for(var i = 0; i < comments.length; i++)
-	{
-		addComment(comments[i].user_id, comments[i].profile_image_src, comments[i].name, comments[i].time, comments[i].content);
-	}
-}
+function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
