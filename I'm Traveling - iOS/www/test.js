@@ -83,7 +83,7 @@ function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComm
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
-function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 99, true); }
+function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 9, true); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
 function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
@@ -388,6 +388,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 			<background>
 				<gap />
 				<pseudoTopWrap />
+				<pseudoBottomWrap />
 				<profileImageWrapper />
 			</background>
 			<foreground>
@@ -429,6 +430,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 		<div id=\"background\">\
 			<div class=\"gap\" style=\"height: 5em;\"></div>\
 			<div id=\"pseudoTopWrap\" class=\"profileShadow\"></div>\
+			<div id=\"pseudoBottomWrap\"></div>\
 			<div id=\"profileImageWrapper\" class=\"profileShadow\"></div>\
 		</div>\
 		<div id=\"foreground\">\
@@ -436,10 +438,10 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 			<div id=\"topWrap\">\
 				<div class=\"cover profileImage\"></div>\
 				<img class=\"profileImage\" src=\"" + profile_image_url + "\" />\
-				<span id=\"userName\">" + name + "</span>\
+				<div id=\"userName\">" + name + "</div>\
 				<div id=\"travelingInfo\">\
 					<img id=\"onTrip\" />\
-					<span id=\"nation\">" + nation + "</span>\
+					<div id=\"nation\">" + nation + "</div>\
 				</div>\
 				<div id=\"noticeWrap\">\
 					<div id=\"noticeText\" ></div>\

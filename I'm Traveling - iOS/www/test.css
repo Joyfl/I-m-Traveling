@@ -703,8 +703,14 @@ ul, ol, li
 
 #profile #pseudoTopWrap
 {
-	height: 5em;
+	height: 5.2em;
 	width: 100%;
+}
+
+#profile #pseudoBottomWrap
+{
+	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
+	height: 7em;
 }
 
 #profile #profileImageWrapper
@@ -734,7 +740,7 @@ ul, ol, li
 
 #profile #topWrap
 {
-	height: 5em;
+	height: 5.2em;
 	width: 100%;
 	background-color: #F3D9C1;
 }
@@ -755,10 +761,10 @@ ul, ol, li
 
 #profile #userName
 {
+	padding-top: 0.1em;
 	color: #302935;
 	font-size: 2em;
-	margin-top: 0.5em;
-	margin-left: 0.1em;
+	font-weight: bold;
 }
 
 #profile #onTrip
@@ -767,18 +773,11 @@ ul, ol, li
 	width: 1.625em;
 	height: 1em;
 	margin-top: 0.2em;
-	margin-right: 0.2em;
+	margin-right: 0.5em;
 }
 
-#profile #nationWrap
+#profile #nation
 {
-	float: left;
-	height: 1.2em;
-}
-
-#profile #nationText
-{
-	float: left;
 	font-size: 1.2em;
 	color: #87645A;
 }
@@ -789,11 +788,14 @@ ul, ol, li
 	width: 4em;
 	height: 5.6em;
 	background-size: 100% 100%;
+	left: 100%;
+	margin-left: -6em;
+	margin-top: -6.5em;
 }
 
 #profile #noticeText
 {
-	margin-top: 0.5em;
+	margin-top: 0.4em;
 	text-align: center;
 	font-size: 2em;
 	width: 2em;
@@ -802,9 +804,8 @@ ul, ol, li
 
 #profile #bottomWrap
 {
-	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
+	height: 7em;
 	background-color: #F3D9C1;
-	margin-bottom: 4em;
 }
 
 #profile .infoBox
