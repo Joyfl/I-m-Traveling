@@ -172,7 +172,17 @@ ul, ol, li
 
 
 
-/* Section Header (Optimized for Feed List) */
+/* Feed List */
+
+#feedList li
+{
+	border-bottom: 1px solid #F7F2ED;
+}
+
+
+
+
+/* Section Header */
 
 .header
 {
@@ -243,7 +253,7 @@ ul, ol, li
 
 
 
-/* Section Content (Optimized for Feed List) */
+/* Section Content */
 
 .content
 {
@@ -303,7 +313,7 @@ ul, ol, li
 
 
 
-/* Detail Part */
+/* Feed Detail - Detail Part */
 
 #topMargin
 {
@@ -446,6 +456,7 @@ ul, ol, li
 #peopleList li
 {
 	height: 5em;
+	clear: both;
 }
 
 #peopleList .userName
@@ -477,7 +488,7 @@ ul, ol, li
 
 /* Comment List */
 
-#commentList
+#commentList li
 {
 	clear: both;
 }
@@ -525,11 +536,6 @@ ul, ol, li
 
 /* Place List */
 
-#placeList
-{
-	
-}
-
 #placeList li
 {
 	clear: both;
@@ -555,12 +561,12 @@ ul, ol, li
 
 /* Simple Feed */
 
-.simpleFeed
+#simpleFeedList li
 {
 	clear: both;
 }
 
-.simpleFeed .profileImage
+#simpleFeedList .profileImage
 {
 	width: 8em;
 	height: 8em;
@@ -568,18 +574,18 @@ ul, ol, li
 	border-radius: 10px;
 }
 
-.simpleFeed .upperWrap
+#simpleFeedList .upperWrap
 {
 	margin-top: 1.5em;
 }
 
-.simpleFeed .lowerWrap
+#simpleFeedList .lowerWrap
 {
 	margin-top: 0em;
 	margin-bottom: 0.5em;
 }
 
-.simpleFeed .place
+#simpleFeedList .place
 {
 	font-size: 1.6em;
 	font-weight: bold;
@@ -588,7 +594,7 @@ ul, ol, li
 	float: left;
 }
 
-.simpleFeed .time
+#simpleFeedList .time
 {
 	float: right;
 	font-size: 1.2em;
@@ -596,7 +602,7 @@ ul, ol, li
 	color: #876D56;
 }
 
-.simpleFeed .review
+#simpleFeedList .review
 {
 	font-size: 1.4em;
 	color: #513D2B;
@@ -607,7 +613,12 @@ ul, ol, li
 
 /* Simple Trip */
 
-.simpleTrip .profileImage
+#simpleTripList li
+{
+	clear: both;
+}
+
+#simpleTripList .profileImage
 {
 	width: 8em;
 	height: 8em;
@@ -615,18 +626,18 @@ ul, ol, li
 	border-radius: 10px;
 }
 
-.simpleTrip .upperWrap
+#simpleTripList .upperWrap
 {
 	margin-top: 1.5em;
 }
 
-.simpleTrip .lowerWrap
+#simpleTripList .lowerWrap
 {
 	margin-top: 0.3em;
 	margin-bottom: 0.4em;
 }
 
-.simpleTrip .time
+#simpleTripList .time
 {
 	clear: both;
 	float: left;
@@ -636,7 +647,7 @@ ul, ol, li
 	color: #876D56;
 }
 
-.simpleTrip .feeds
+#simpleTripList .feeds
 {
 	float: right;
 	font-size: 1.2em;
@@ -644,7 +655,7 @@ ul, ol, li
 	color: #9F8268;
 }
 
-.simpleTrip .title
+#simpleTripList .title
 {
 	clear: both;
 	font-size: 1.8em;
@@ -653,7 +664,7 @@ ul, ol, li
 	color: #3D2C48;
 }
 
-.simpleTrip .summary
+#simpleTripList .summary
 {
 	font-size: 1.5em;
 	color: #513D2B;
