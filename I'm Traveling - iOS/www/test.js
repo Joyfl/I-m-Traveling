@@ -4,7 +4,7 @@ srcLike = "resource/like.png";
 srcComment = "resource/comment.png";
 srcRightArrow = "resource/right_arrow.png";
 srcTopArrow = "resource/top_arrow.png";
-srcTraveling = "resource/traveling.png";
+srcOnTrip = "resource/on_trip.png";
 srcBulb = "resource/bulb.png";
 srcCoin = "resource/coin.png";
 
@@ -79,7 +79,6 @@ function init()
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
-//"[{\"item\":\"햄버거\", \"value\":\"1.0\", \"unit\":\"$\"}]"
 function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
 function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
@@ -219,6 +218,13 @@ function fillInfoList(infoList, info)
 
 function fillLikeBar(likeBar, trip_id, likes_text)
 {
+	/*
+		<likeBar>
+			<icon />
+			<text />
+		</likeBar>
+	*/
+	
 	_("img", "#likeIcon", likeBar).src = srcLike;
 	_("span", "", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
@@ -288,6 +294,23 @@ function fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review)
 
 function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date, _summary, feeds_text)
 {
+	
+	/*
+		<wrap>
+			<cover />
+			<thumbnail />
+			<upperWrap>
+				<time />
+				<feeds />
+				<title />
+			</upperWrap>
+			<lowerWrap>
+				<summary />
+			</lowerWrap>
+			<expensor />
+		</wrap>
+	*/
+	
 	var cover = _("div", ".cover .profileImage", wrap);
 	var thumbnail = _("img", ".profileImage", wrap);
 	
@@ -303,7 +326,7 @@ function fillSimpleTrip(wrap, trip_id, picture_url, _title, start_date, end_date
 	thumbnail.src = picture_url;
 	time.innerText = start_date + " ~ " + end_date;
 	time.disabled = true;
-	feeds.innerText = feeds_text; //num_feeds + " feeds";
+	feeds.innerText = feeds_text;
 	title.innerText = _title;
 	summary.innerText = _summary;
 	
@@ -360,107 +383,100 @@ function fillPlaceList(wrap, place_id, name, category)
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip)
 {
-	$("#page").style.marginTop = "6em";
-	$("#page").style.marginBottom = "6em";
+	/*
+		<wrap>
+			<background>
+				<gap />
+				<pseudoTopWrap />
+				<profileImageWrapper />
+			</background>
+			<foreground>
+				<topWrap>
+					<cover />
+					<profileImage />
+					<userName />
+					<travelingInfo>
+						<onTrip />
+						<nation />
+					</travelingInfo>
+					<noticeWrap>
+						<noticeNumber />
+					</noticeWrap>
+				</topWrap>
+				<bottomWrap>
+					<infoBox type="trips">
+						<number />
+						<text />
+					</infoBox>
+					<verticalSegment />
+					<infoBox type="following">
+						<number />
+						<text />
+					</infoBox>
+					<verticalSegment />
+					<infoBox type="followers">
+						<number />
+						<text />
+					</infoBox>
+				</bottomWrap>
+			</foreground>
+		</wrap>
+	*/
+	
+	//<div class=\"topWrap profileGradient\"></div>\
 	
 	wrap.innerHTML = "\
-		<div class=\"boing softShadow\"></div>\
-		<div class=\"topWrapPseudo softShadow\"></div>\
-		<div class=\"topWrap profileGradient\"></div>\
-		\
-		<div class=\"profileInfo\">\
-		\
-			<div class=\"cover profileImage\"></div>\
-			<img class=\"profileImage\" />\
-			<div class=\"badgeWrap\"></div>\
-			<div class=\"userName\"></div>\
-			<div class=\"nationWrap\">\
-				<img class=\"onTrip\" />\
-				<div class=\"nationText\"></div>\
-			</div>\
-			<div class=\"noticeWrap\">\
-				<img class=\"noticeImage noticeRight\" />\
-				<div class=\"noticeText noticeRight\"></div>\
-			</div>\
-			<div class=\"gap\" style=\"height: 0.5em\"></div>\
-			<div class=\"infoBox\">\
-				<div class=\"number\"></div>\
-				<div class=\"text\"></div>\
-			</div>\
-			<div class=\"verticalSegment\"></div>\
-			<div class=\"infoBox\">\
-				<div class=\"number\"></div>\
-				<div class=\"text\"></div>\
-			</div>\
-			<div class=\"verticalSegment\"></div>\
-			<div class=\"infoBox\">\
-				<div class=\"number\"></div>\
-				<div class=\"text\"></div>\
-			</div>\
-			\
+		<div id=\"background\">\
+			<div class=\"gap\" style=\"height: 5em;\"></div>\
+			<div id=\"pseudoTopWrap\" class=\"profileShadow\"></div>\
+			<div id=\"profileImageWrapper\" class=\"profileShadow\"></div>\
 		</div>\
-		\
-		<div class=\"bottomWrap\"></div>";
+		<div id=\"foreground\">\
+			<div class=\"gap\" style=\"height: 5em;\"></div>\
+			<div id=\"topWrap\">\
+				<div class=\"cover profileImage\"></div>\
+				<img class=\"profileImage\" src=\"" + profile_image_url + "\" />\
+				<span id=\"userName\">" + name + "</span>\
+				<div id=\"travelingInfo\">\
+					<img id=\"onTrip\" />\
+					<span id=\"nation\">" + nation + "</span>\
+				</div>\
+				<div id=\"noticeWrap\">\
+					<div id=\"noticeText\" ></div>\
+				</div>\
+			</div>\
+			<div id=\"bottomWrap\">\
+				<div class=\"infoBox\" call([\"profile_trips\"]);>\
+					<div class=\"infoNumber\">" + trips_num + "</div>\
+					<div class=\"infoText\">" + trips_text + "</div>\
+				</div>\
+				<div class=\"verticalSegment\"></div>\
+				<div class=\"infoBox\" call([\"profile_following\"]);>\
+					<div class=\"infoNumber\">" + following_num + "</div>\
+					<div class=\"infoText\">" + following_text + "</div>\
+				</div>\
+				<div class=\"verticalSegment\"></div>\
+				<div class=\"infoBox\" call([\"profile_followers\"]);>\
+					<div class=\"infoNumber\">" + followers_num + "</div>\
+					<div class=\"infoText\">" + followers_text + "</div>\
+				</div>\
+				<div class=\"expensor\"></div>\
+			</div>\
+		</div>\
+		";
 	
-	$(".profileImage")[1].src = profile_image_url;
-	var onTrip;
-	if(is_on_trip)
-	{	
-		onTrip = srcTraveling;
-		$(".onTrip")[0].src = onTrip;
-	}
-	
-	var badgeWrap = $(".badgeWrap")[0];
-	var userName = $(".userName")[0];
-	var nationWrap = $(".nationWrap")[0];
-	
-	//for(var i = 0; i < min(badges.length, 4); i++)
-	//	_("img", ".badge", badgeWrap).src = rep_badges[i];
-	
-	var wSize = intToPixel(getWidth() - emToPixel(11));
-	setWidth(badgeWrap, wSize);
-	setWidth(userName, wSize);
-	setWidth(nationWrap, wSize);
-	userName.innerText = name;
-	nationWrap.childNodes[3].innerText = nation;
+	if(is_on_trip) $("#onTrip").src = srcOnTrip;
+	else $("#onTrip").src = srcNotOnTrip;
 	
 	if(notice > 0)
 	{
-		$(".noticeImage")[0].src = srcBulb;
-		$(".noticeText")[0].innerHTML = "<div class=\"green\">" + notice + "</div>";
+		$("#noticeWrap").style.backgroundImage = "url('" + srcBulb + "')";
+		$("#noticeText").innerText = notice;
 	}
 	
-	var numbers = $(".number");
-	numbers[0].innerText = trips_num;
-	numbers[1].innerText = following_num;
-	numbers[2].innerText = followers_num;
-	
-	var texts = $(".text");
-	texts[0].innerText = trips_text;
-	texts[1].innerText = following_text;
-	texts[2].innerText = followers_text;
-	
-	var bottomWrap = $(".bottomWrap")[0];
-	_("div", ".border", bottomWrap);
-	
-	var infoBoxes = $(".infoBox");
-	infoBoxes[0].onclick = function() { call(["profile_trips"]); };
-	infoBoxes[1].onclick = function() { call(["profile_following"]); };
-	infoBoxes[2].onclick = function() { call(["profile_followers"]); };
-	
-	/*
-	var seeAllFeed = _("div", ".seeAllFeed seeAll", bottomWrap);
-	seeAllFeed.onclick = function() { call("all_feed:" + user_id); };
-	_("div", ".border", bottomWrap);
-	var seeAllTrip = _("div", ".seeAllTrip seeAll", bottomWrap);
-	seeAllTrip.onclick = function() { call("all_trip:" + user_id); };
-
-	_("div", ".darkblue", seeAllFeed).innerHTML = see_all_feed_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	_("div", ".darkgreen", seeAllTrip).innerHTML = see_all_trip_text + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	
-	//_("div", ".darkblue", seeAllFeed).innerHTML = "See all <span class=\"blue\">" + num_feeds + "</span> feeds" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	//_("div", ".darkgreen", seeAllTrip).innerHTML = "See all <span class=\"green\">" + num_trips + "</span> trips" + "<img src=\"resource/arrow.png\" class=\"arrow\" />";
-	*/
+	var wSize = intToPixel(getWidth() - emToPixel(11));
+	//setWidth(userName, wSize);
+	//setWidth(nationWrap, wSize);
 }
 
 

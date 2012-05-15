@@ -32,7 +32,8 @@ ul, ol, li
 
 #page
 {
-	background-color: #F6E2D1;
+	/*background-color: #F6E2D1;*/
+	background-color: transparent;
 }
 
 .component
@@ -169,6 +170,13 @@ ul, ol, li
 	float: left;	
 }
 
+.arrow
+{
+	float: right;
+	height: 2em;
+	margin-right: 1em;
+}
+
 
 
 
@@ -258,6 +266,7 @@ ul, ol, li
 .content
 {
 	padding: 1em 0em 1em 0em;
+	background-color: #F6E2D1;
 }
 
 .content .thumbnail
@@ -338,6 +347,11 @@ ul, ol, li
 	-webkit-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 	-moz-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
 	-o-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
+}
+
+#detail
+{
+	background-color: #F6E2D1;
 }
 
 #detail #infoList
@@ -455,7 +469,7 @@ ul, ol, li
 
 #peopleList li
 {
-	height: 5em;
+	height: 5.1em;
 	clear: both;
 }
 
@@ -675,21 +689,25 @@ ul, ol, li
 
 /* Profile */
 
-.profile
+#profile
 {
-	background-color: #F3D9C1
+	/*background-color: #F3D9C1*/
 }
 
-.softShadow
+#profile #background
 {
-	box-shadow: 0em 0em 2em rgba(68, 68, 68, 1);
-	-webkit-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
-	-ms-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
-	-moz-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
-	-o-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	position: absolute;
+	width: 100%;
+	z-index: -1;
 }
 
-.boing
+#profile #pseudoTopWrap
+{
+	height: 5em;
+	width: 100%;
+}
+
+#profile #profileImageWrapper
 {
 	width: 8em;
 	height: 4em;
@@ -701,63 +719,41 @@ ul, ol, li
 	background-color: #F3D9C1;
 }
 
-.topWrap
+#profile .profileShadow
 {
-	top: 5em;
-	height: 13em;
+	box-shadow: 0em 0em 2em rgba(68, 68, 68, 1);
+	-webkit-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	-moz-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+	-o-box-shadow: 0px 0em 2em rgba(68, 68, 68, 1);
+}
+
+#profile #foreground
+{
+	
+}
+
+#profile #topWrap
+{
+	height: 5em;
 	width: 100%;
-	position: absolute;
 	background-color: #F3D9C1;
 }
 
-.topWrapPseudo
-{
-	margin-top: -1em;
-	height: 3em;
-	background-color: #F3D9C1;
-}
-
-.profileInfo
-{
-	position: absolute;
-	width: 100%;
-	height: 17em;
-	top: 1em;
-	left: 0;
-}
-
-.profileInfo .profileImage
+#profile .profileImage
 {
 	width: 6.8em;
 	height: 6.8em;
 	border-radius: 8.5px;
-	margin-top: 1.5em;
+	margin-top: -2.4em;
 	margin-left: 2.1em;
 }
 
-.profileInfo .nation
+#profile #nation
 {
 	color: #875647;
 }
 
-.badgeWrap
-{
-	float: left;
-	height: 2em;
-	margin-top: 1.6em;
-	margin-left: 0.5em;
-}
-
-.badge
-{
-	float: left;
-	width: 2em;
-	height: 2em;
-	border-radius: 10px;
-	margin-right: 0.3em;
-}
-
-.profileInfo .userName
+#profile #userName
 {
 	color: #302935;
 	font-size: 2em;
@@ -765,13 +761,7 @@ ul, ol, li
 	margin-left: 0.1em;
 }
 
-.nationWrap
-{
-	float: left;
-	height: 1.2em;
-}
-
-.onTrip
+#profile #onTrip
 {
 	float: left;
 	width: 1.625em;
@@ -780,64 +770,51 @@ ul, ol, li
 	margin-right: 0.2em;
 }
 
-.nationText
+#profile #nationWrap
+{
+	float: left;
+	height: 1.2em;
+}
+
+#profile #nationText
 {
 	float: left;
 	font-size: 1.2em;
 	color: #87645A;
 }
 
-.noticeWrap
+#profile #noticeWrap
 {
 	position: absolute;
-	width: 100%;
-}
-
-.noticeRight
-{
 	width: 4em;
-	left: 100%;
-	margin-left: -6em;
-	margin-top: 1em;
-	position: absolute;
+	height: 5.6em;
+	background-size: 100% 100%;
 }
 
-.noticeText
+#profile #noticeText
 {
-	margin-top: 2em;
-}
-
-.noticeText .green
-{
+	margin-top: 0.5em;
 	text-align: center;
 	font-size: 2em;
+	width: 2em;
+	color: #6C8A40;
 }
 
-.infoBox
+#profile #bottomWrap
+{
+	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
+	background-color: #F3D9C1;
+	margin-bottom: 4em;
+}
+
+#profile .infoBox
 {
 	width: 33%;
-	height: 6em;
+	height: 7em;
 	float: left;
 }
 
-.verticalSegment
-{
-	width: 0.5%;
-	height: 2em;
-	margin-top: 1.75em;
-	background-color: #773333;
-	float: left;
-}
-
-.bottomWrap
-{
-	margin-top: 10em;
-	width: 100%;
-	clear: both;
-	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
-}
-
-.number
+#profile .infoNumber
 {
 	text-align: center;
 	font-size: 3.5em;
@@ -845,7 +822,7 @@ ul, ol, li
 	font-weight: bold;
 }
 
-.text
+#profile .infoText
 {
 	text-align: center;
 	font-size: 1.5em;
@@ -853,60 +830,11 @@ ul, ol, li
 	font-weight: bold;
 }
 
-.bottomWrap .seeAll
+#profile .verticalSegment
 {
-	height: 1.75em;
-	padding-top: 0.75em;
-}
-
-.arrow
-{
-	display: inline;
-	float: right;
-	height: 1.5em;
-	margin-top: 0em;
-	margin-right: 1em;
-}
-
-.seeAllFeed
-{
-	background: gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
-	background: -webkit-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
-	background: -ms-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
-	background: -moz-linear-gradient-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
-	background: -o-gradient(linear, left top, left bottom, from(#efd1b6), to(#efd0b4));
-}
-
-.seeAllTrip
-{
-	background: none;
-	background-color: #EFD0B4;
-}
-
-.border
-{
-	background-image: url('./resource/border.png');
-	background-size: 2px 100%;
-	height: 2px;
-}
-
-.profileGradient
-{
-	background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
-	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
-	background: -ms-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
-	background: -moz-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
-	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#efd1b6));
-}
-
-
-
-
-/*.nation
-{
+	width: 0.5%;
+	height: 2em;
+	margin-top: 1.75em;
+	background-color: #773333;
 	float: left;
-	font-size: 1.1em;
-	color: #876d56;
-	margin-top: 0.3em;
-	clear: both;
-}*/
+}
