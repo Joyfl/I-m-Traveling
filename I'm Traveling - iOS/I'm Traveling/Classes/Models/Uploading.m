@@ -10,6 +10,6 @@
 
 @implementation Uploading
 
-@synthesize image, tripId, placeId, time, latitude, longitude, nation, review, info, progress;
+@synthesize base64EncodedImage, tripId, placeId, time, latitude, longitude, nation, review, info, progress;
 
 @end
