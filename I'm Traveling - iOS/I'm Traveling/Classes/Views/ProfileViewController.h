@@ -16,6 +16,8 @@
 	UIScrollView *_scrollView;
 	UIImageView *_arrow;
 	
+	UIButton *_notificationButton;
+	
 	UserObject *user;
 	NSMutableArray *trips;
 	NSMutableArray *followings;

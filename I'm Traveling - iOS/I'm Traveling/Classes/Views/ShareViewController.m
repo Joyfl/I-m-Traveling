@@ -149,8 +149,11 @@ enum {
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if( buttonIndex == 1 )
+	if( ( [alertView.message isEqualToString:NSLocalizedString( @"ASK_CANCEL", @"" )] && buttonIndex == 1 )
+	   || [alertView.message isEqualToString:NSLocalizedString( @"NETWORK_CONNECTION_LOST_WHILE_UPLOADING", @"" )] )
+	{
 		[self dismissModalViewControllerAnimated:YES];
+	}
 }
 
 
@@ -533,11 +536,6 @@ enum {
 	{
 		[_currentFirstResponder resignFirstResponder];
 	}
-}
-
-- (void)saveToLocalSwitchValueChanged:(id)sender
-{
-	_saveToLocal = [(UISwitch *)sender isOn];
 }
 
 

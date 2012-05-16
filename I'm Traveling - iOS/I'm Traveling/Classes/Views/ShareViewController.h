@@ -34,8 +34,6 @@
 	
 	NSMutableArray *_info;
 	
-	BOOL _saveToLocal;
-	
 	id _currentFirstResponder;
 	UIButton *_keyboardHideButton;
 	

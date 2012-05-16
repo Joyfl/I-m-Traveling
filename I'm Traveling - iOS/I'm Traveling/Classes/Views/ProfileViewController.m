@@ -14,10 +14,19 @@
 #import "ImtravelingBarButtonItem.h"
 #import "SettingsViewController.h"
 #import "FeedDetailViewController.h"
+#import "NotificationViewController.h"
 
 @implementation ProfileViewController
 
 @synthesize activated;
+
+enum {
+	kTokenIdProfile = 0,
+	kTokenIdTrips = 1,
+	kTokenIdFollowing = 2,
+	kTokenIdFollowers = 3,
+	kTokenIdNotifications = 4
+};
 
 - (id)init
 {
@@ -48,6 +57,11 @@
 		self.webView.opaque = NO;
 		self.webView.scrollView.scrollEnabled = NO;
 		[_scrollView addSubview:self.webView];
+		
+		_notificationButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		_notificationButton.frame = CGRectMake( 230, 120, 60, 60 );
+		[_notificationButton addTarget:self action:@selector(notificationButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_notificationButton];
 		
 		_arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_arrow.png"]];
 		_arrow.frame = CGRectMake( 40, 168, 22, 14 );
@@ -239,10 +253,10 @@
 
 - (void)loadProfile
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] withData:nil andId:0];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] withData:nil andId:1];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] withData:nil andId:2];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] withData:nil andId:3];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] withData:nil andId:kTokenIdProfile];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] withData:nil andId:kTokenIdTrips];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] withData:nil andId:kTokenIdFollowing];
+	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] withData:nil andId:kTokenIdFollowers];
 }
 
 - (void)loadTrips
@@ -344,107 +358,6 @@
 			break;
 		}
 	}
-	
-	
-	/*
-	switch( loadingProgress++ )
-	{
-		case 0:
-		{
-			user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
-			user.name = [result objectForKey:@"name"];
-			user.nation = [result objectForKey:@"nation"];
-			user.numFeeds = [[result objectForKey:@"num_feeds"] integerValue];
-			user.numTrips = [[result objectForKey:@"num_trips"] integerValue];
-			user.numFollowers = [[result objectForKey:@"num_followers"] integerValue];
-			user.numFollowings = [[result objectForKey:@"num_followings"] integerValue];
-			user.complete = YES;
-			
-			[self createProfile];
-			[self loadTrips];
-			break;
-		}
-			
-		case 1:
-		{
-			for( NSDictionary *t in result )
-			{
-				TripObject *trip = [[TripObject alloc] init];
-				trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
-				trip.title = [t objectForKey:@"trip_title"];
-				trip.startDate = [t objectForKey:@"start_date"];
-				trip.endDate = [t objectForKey:@"end_date"];
-				trip.summary = [t objectForKey:@"summary"];
-				trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
-				[trips addObject:trip];
-				[trip release];
-			}
-			
-			if( currentTab == 0 )
-			{
-				[self prepareTrips];
-				[self stopBusy];
-			}
-
-			
-//			[self loadFollowings];
-#warning temp code
-			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"dest_id\":1, \"dest_name\":\"진재규\"}, {\"dest_id\":3, \"dest_name\":\"설진석\"}]}"];
-			break;
-		}
-			
-		case 2:
-		{
-			for( NSDictionary *u in result )
-			{
-				UserObject *following = [[UserObject alloc] init];
-				following.userId = [[u objectForKey:@"dest_id"] integerValue];
-				following.name = [u objectForKey:@"dest_name"];
-				following.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, following.userId];
-				[followings addObject:following];
-				[following release];
-			}
-			
-			if( currentTab == 1 )
-			{
-				[self prepareFollowings];
-				[self stopBusy];
-			}
-			
-#warning temp code
-			[self loadingDidFinish:@"{\"status\":1, \"result\":[{\"src_id\":4, \"src_name\":\"우철규\"}]}"];
-			break;
-		}
-			
-		case 3:
-		{
-			for( NSDictionary *u in result )
-			{
-				UserObject *follower = [[UserObject alloc] init];
-				follower.userId = [[u objectForKey:@"src_id"] integerValue];
-				follower.name = [u objectForKey:@"src_name"];
-				follower.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, follower.userId];
-				[followers addObject:follower];
-				[follower release];
-			}
-			
-			if( currentTab == 2 )
-			{
-				[self prepareFollowers];
-				[self stopBusy];
-			}
-			
-			[self.webView addSubview:_arrow];
-			break;
-		}
-			
-		case 4:
-		{
-			[self stopBusy];
-			break;
-		}
-	}
-	 */
 }
 
 
@@ -580,6 +493,12 @@
 - (void)backButtonDidTouchUpInside
 {
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)notificationButtonDidTouchUpInside
+{
+	NotificationViewController *notificationViewController = [[NotificationViewController alloc] init];
+	[self.navigationController pushViewController:notificationViewController animated:YES];
 }
 
 

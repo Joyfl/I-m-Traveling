@@ -9,6 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "SBJson.h"
 
+@interface NSData (Base64) 
+
++ (NSData *)dataWithBase64EncodedString:(NSString *)string;
+- (id)initWithBase64EncodedString:(NSString *)string;
+
+- (NSString *)base64Encoding;
+- (NSString *)base64EncodingWithLineLength:(unsigned int) lineLength;
+
+@end
+
+
 @interface Utils : NSObject
 
 + (BOOL)loggedIn;
@@ -31,4 +42,5 @@
 + (NSString *)dateStringForUpload:(NSDate *)date;
 + (NSString *)sha1:(NSString *)input;
 + (NSString *)decodeURI:(NSString *)input;
++ (NSString *)imageToBase64:(UIImage *)image;
 @end
