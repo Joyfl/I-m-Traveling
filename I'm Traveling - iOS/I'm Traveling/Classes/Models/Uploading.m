@@ -10,6 +10,20 @@
 
 @implementation Uploading
 
-@synthesize base64EncodedImage, tripId, placeId, time, latitude, longitude, nation, review, info, progress;
+@synthesize picture, tripId, placeId, time, latitude, longitude, nation, review, info, progress;
+
+- (NSDictionary *)dictionary
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			picture, @"picture",
+			[NSNumber numberWithInteger:tripId], @"trip_id",
+			[NSNumber numberWithInteger:placeId], @"place_id",
+			time, @"time",
+			[NSNumber numberWithDouble:latitude], @"latitude",
+			[NSNumber numberWithDouble:longitude], @"longitude",
+			nation, @"nation",
+			review, @"review",
+			info, @"info", nil];
+}
 
 @end

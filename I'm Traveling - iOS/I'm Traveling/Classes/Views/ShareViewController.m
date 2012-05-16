@@ -17,16 +17,7 @@
 #import "Utils.h"
 #import "Info.h"
 #import "InfoCell.h"
-
-@interface ShareViewController()
-
-- (void)scrollToKeyboardPosition:(id)object;
-- (void)updateRowOfInfoCell:(InfoCell *)cell row:(NSInteger)row;
-- (void)updateRowOfInfoCells;
-- (void)resizeLabelHeight:(UILabel *)label;
-- (void)upload;
-
-@end
+#import "UploadManager.h"
 
 
 @implementation ShareViewController
@@ -135,12 +126,29 @@ enum {
 	[[[[UIAlertView alloc] initWithTitle:@"Cancel" message:NSLocalizedString( @"ASK_CANCEL", @"Do you really want to cancel?" ) delegate:self cancelButtonTitle:NSLocalizedString( @"NO", @"No" ) otherButtonTitles:NSLocalizedString( @"YES", @"Yes" ), nil] autorelease] show];
 }
 
+// 업로드를 모두 UploadManager에서 관리하도록 한다.
+// 업로드 버튼을 누르면 UploadManager로 넘어가고, UploadManager에서 네트워크 연결이 끊어지는 등의 오류도 함께 관리한다.
 - (void)uploadButtonDidTouchUpInside
 {
-	[self startBusy];
+	NSMutableArray *info = [NSMutableArray array];
+	for( NSInteger i = 0; i < _info.count; i++ )
+		[info addObject:[[_info objectAtIndex:i] dictionary]];
 	
-	_uploading = YES;
-	[self upload];
+	NSDictionary *uploading = [NSDictionary dictionaryWithObjectsAndKeys:
+							   UIImagePNGRepresentation( _image ), @"picture",
+							   [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
+							   [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
+							   [Utils dateStringForUpload:selectedDate], @"time",
+							   [NSNumber numberWithDouble:selectedPlace.latitude], @"latitude",
+							   [NSNumber numberWithDouble:selectedPlace.longitude], @"longitude",
+#warning 임시 nation!!
+							   @"KOR", @"nation",
+							   _reviewInput.text, @"review",
+							   [Utils writeJSON:info], @"info", nil];
+	
+	[[UploadManager manager] addUploading:uploading];
+	
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -610,85 +618,9 @@ enum {
 
 
 #pragma mark -
-#pragma mark Upload
-
-- (void)upload
-{
-	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-	
-	// user id
-	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
-	
-	// email
-	[data setObject:[Utils email] forKey:@"email"];
-	
-	// password
-	[data setObject:[Utils password] forKey:@"password"];
-	
-	// picture
-	[data setObject:_image forKey:@"picture"];
-	
-	// trip id
-	[data setObject:[NSNumber numberWithInteger:selectedTrip.tripId] forKey:@"trip_id"];
-	
-	// place id
-	[data setObject:[NSNumber numberWithInteger:selectedPlace.placeId] forKey:@"place_id"];
-	
-	// time
-//	[data setObject:[_dateLabel.text stringByReplacingOccurrencesOfString:@"\n" withString:@" "] forKey:@"time"];
-	[data setObject:[Utils dateStringForUpload:selectedDate] forKey:@"time"];
-	
-	// latitude, longitude
-	if( selectedPlace != nil )
-	{
-		[data setObject:[NSNumber numberWithDouble:selectedPlace.latitude] forKey:@"latitude"];
-		[data setObject:[NSNumber numberWithDouble:selectedPlace.longitude] forKey:@"longitude"];
-	}
-	else
-	{
-		[data setObject:[NSNumber numberWithDouble:selectedPlace.latitude] forKey:@"latitude"];
-		[data setObject:[NSNumber numberWithDouble:selectedPlace.longitude] forKey:@"longitude"];
-	}
-	
-	// nation
-#warning nation 임시
-	[data setObject:@"KOR" forKey:@"nation"];
-	
-	// review
-	[data setObject:_reviewInput.text forKey:@"review"];
-	
-	// info
-	NSMutableArray *info = [[NSMutableArray alloc] init];
-	for( NSInteger i = 0; i < _info.count; i++ )
-		[info addObject:[[_info objectAtIndex:i] dictionary]];
-	
-	[data setObject:[Utils writeJSON:info] forKey:@"info"];
-	
-	NSLog( @"%@", data );
-	[self.loader loadURLPOST:API_UPLOAD withData:data andId:0];
-}
-
-- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
-{
-	[self stopBusy];
-	
-	NSLog( @"upload result : %@", token.data );
-	
-	NSDictionary *json = [Utils parseJSON:token.data];
-	if( [self isError:json] )
-	{
-		
-		return;
-	}
-	
-	[self dismissModalViewControllerAnimated:YES];
-}
-
-
-#pragma mark -
 #pragma mark Reachability
 
-- (void)networkAvailabilityDidChange:(BOOL)available
+/*- (void)networkAvailabilityDidChange:(BOOL)available
 {
 	NSLog( @"networkAvailabilityDidChange" );
 	
@@ -702,6 +634,6 @@ enum {
 		
 		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NETWORK_CONNECTION_LOST_WHILE_UPLOADING", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 	}
-}
+}*/
 
 @end

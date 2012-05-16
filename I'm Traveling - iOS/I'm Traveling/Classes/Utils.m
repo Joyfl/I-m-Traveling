@@ -177,6 +177,12 @@ static char encodingTable[64] = {
 	return [[[SettingsManager manager] getSettingForKey:key] integerValue];
 }
 
++ (NSNumber *)userIdNumber
+{
+	NSString *key = SETTING_KEY_USER_ID;
+	return [[SettingsManager manager] getSettingForKey:key];
+}
+
 + (NSString *)userName
 {
 	NSString *key = SETTING_KEY_USER_NAME;
@@ -307,7 +313,7 @@ static char encodingTable[64] = {
 	return [input stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-+ (NSString *)imageToBase64:(UIImage *)image
++ (NSString *)base64FromImage:(UIImage *)image
 {
 	return [UIImagePNGRepresentation( image ) base64Encoding];
 }

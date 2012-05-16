@@ -7,7 +7,7 @@
 //
 
 #import "NotificationManager.h"
-#import "Uploading.h"
+#import "UploadManager.h"
 #import "Notification.h"
 
 @implementation NotificationManager
@@ -28,16 +28,10 @@
 {
 	if( self = [super init] )
 	{
-		_uploadings = [[NSMutableArray alloc] init];
 		_notifications = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
-}
-
-- (void)addUploading:(Uploading *)uploading
-{
-	[_uploadings addObject:uploading];
 }
 
 - (void)addNotification:(Notification *)notification
@@ -45,11 +39,9 @@
 	[_notifications addObject:notification];
 }
 
-
-
 - (NSInteger)numNotifications
 {
-	return _uploadings.count + _notifications.count;
+	return _notifications.count + [UploadManager manager].numUploadings ? 1 : 0;
 }
 
 @end

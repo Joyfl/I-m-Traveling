@@ -13,7 +13,7 @@
 
 @interface Uploading : NSObject
 {
-	NSString *base64EncodedImage;
+	UIImage *picture;
 	NSInteger tripId;
 	NSInteger placeId;
 	NSString *time;
@@ -21,12 +21,12 @@
 	double longitude;
 	NSString *nation;
 	NSString *review;
-	NSArray *info;
+	NSString *info;
 	
 	NSInteger progress;
 }
 
-@property (nonatomic, retain) NSString *base64EncodedImage;
+@property (nonatomic, retain) UIImage *picture;
 @property (nonatomic, assign) NSInteger tripId;
 @property (nonatomic, assign) NSInteger placeId;
 @property (nonatomic, retain) NSString *time;
@@ -34,7 +34,9 @@
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, retain) NSString *nation;
 @property (nonatomic, retain) NSString *review;
-@property (nonatomic, retain) NSArray *info;
+@property (nonatomic, retain) NSString *info;
 @property (nonatomic, assign) NSInteger progress;
+
+- (NSDictionary *)dictionary;
 
 @end

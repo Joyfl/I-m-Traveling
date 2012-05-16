@@ -94,7 +94,7 @@
 		}
 		else
 		{
-			NSLog( @"other class" );
+			NSLog( @"other class : %@=%@", key, [object class] );
 		}
 		
 		[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -104,7 +104,7 @@
 	
     [request setHTTPBody:body];
 	
-	[self loadRequest:[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]] andTokenId:tokenId];
+	[self loadRequest:request andTokenId:tokenId];
 }
 
 - (void)loadRequest:(NSMutableURLRequest *)request andTokenId:(NSInteger)tokenId

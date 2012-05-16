@@ -46,7 +46,7 @@
 
  - (void)reachabilityDidChange
 {
-	NSLog( @"reachabilityDidChange : %@", self.class );
+//	NSLog( @"reachabilityDidChange : %@", self.class );
 	NetworkStatus internetStatus = [internetReachability currentReachabilityStatus];
 	
 	switch( internetStatus )
@@ -69,10 +69,10 @@
 
 - (void)networkAvailabilityDidChange:(BOOL)available
 {
-	if( available )
-		NSLog( @"network is available. : %@", self.class );
-	else
-		NSLog( @"network is not available. : %@", self.class );
+//	if( available )
+//		NSLog( @"network is available. : %@", self.class );
+//	else
+//		NSLog( @"network is not available. : %@", self.class );
 }
 
 

@@ -13,6 +13,7 @@
 #import "ProfileViewController.h"
 #import "LoginViewController.h"
 #import "Utils.h"
+#import "UploadManager.h"
 
 @implementation AppDelegate
 
@@ -64,6 +65,8 @@
 	
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+	
+	[UploadManager manager];
 	
     return YES;
 }

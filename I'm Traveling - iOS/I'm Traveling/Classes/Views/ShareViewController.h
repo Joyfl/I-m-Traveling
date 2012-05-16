@@ -36,8 +36,6 @@
 	
 	id _currentFirstResponder;
 	UIButton *_keyboardHideButton;
-	
-	BOOL _uploading;
 }
 
 - (id)initWithImage:(UIImage *)image;

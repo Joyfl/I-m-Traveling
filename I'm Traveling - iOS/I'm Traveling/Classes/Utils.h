@@ -24,6 +24,7 @@
 
 + (BOOL)loggedIn;
 + (NSInteger)userId;
++ (NSNumber *)userIdNumber;
 + (NSString *)userName;
 + (NSString *)email;
 + (NSString *)password;
@@ -42,5 +43,5 @@
 + (NSString *)dateStringForUpload:(NSDate *)date;
 + (NSString *)sha1:(NSString *)input;
 + (NSString *)decodeURI:(NSString *)input;
-+ (NSString *)imageToBase64:(UIImage *)image;
++ (NSString *)base64FromImage:(UIImage *)image;
 @end

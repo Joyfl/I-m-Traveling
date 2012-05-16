@@ -12,13 +12,11 @@
 
 @interface NotificationManager : NSObject
 {
-	NSMutableArray *_uploadings;
 	NSMutableArray *_notifications;
 }
 
 + (NotificationManager *)manager;
 
-- (void)addUploading:(Uploading *)uploading;
 - (void)addNotification:(Notification *)notification;
 
 @property (nonatomic, readonly) NSInteger numNotifications;
