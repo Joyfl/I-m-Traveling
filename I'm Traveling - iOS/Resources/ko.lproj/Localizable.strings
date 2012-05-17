@@ -73,7 +73,7 @@
 
 // Place List
 "TITLE_PLACE_LIST" = "장소를 선택해주세요";
-"ADD_PLACE" = "장소 추가";
+"ADD_PLACE" = "추가";
 "NO_PLACES_MSG" = "주위에 등록된 장소가 없습니다. '장소 추가' 버튼을 클릭해서 당신이 있는 위치를 추가해보세요.";
 
 // Place Add
@@ -98,8 +98,8 @@
 "USERS_COMMENT_FEED" = "%@님 외 %d명이 %@님의 피드에 댓글을 남겼습니다.";
 "USER_FOLLOW_USER" = "%@님이 %@님을 팔로우했습니다.";
 "USERS_FOLLOW_USER" = "%@님 외 %d명이 %@님을 팔로우했습니다.";
-"USER_START_TRIP" = "%@님이 새 여행을 시작했습니다."
-"USERS_START_TRIP" = "%@님 외 %d명이 새 여행을 시작했습니다."
+"USER_START_TRIP" = "%@님이 새 여행을 시작했습니다.";
+"USERS_START_TRIP" = "%@님 외 %d명이 새 여행을 시작했습니다.";
 "FEED_ID_UPLOADING" = "피드가 업로드중입니다.";
 "FEEDS_ARE_UPLOADING" = "%d개의 피드가 업로드중입니다.";
 
