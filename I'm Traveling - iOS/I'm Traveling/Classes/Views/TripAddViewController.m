@@ -12,6 +12,7 @@
 #import "TripListViewController.h"
 #import "Const.h"
 #import "ImTravelingBarButtonItem.h"
+#import "UploadManager.h"
 
 
 @implementation TripAddViewController
@@ -69,28 +70,17 @@
 
 - (void)doneButtonDidTouchUpInside
 {
-	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-	[data setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
-	[data setObject:[Utils email] forKey:@"email"];
-	[data setObject:[Utils password] forKey:@"password"];
-	[data setObject:_titleInput.text forKey:@"trip_title"];
-	[data setObject:_summaryInput.text forKey:@"summary"];
-	[self.loader loadURL:API_TRIP_ADD withData:data andId:0];
-	[data release];
-}
-
-
-#pragma mark -
-#pragma mark ImTravelingViewController
-
-- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
-{
-	NSDictionary *json = [Utils parseJSON:token.data];
-	if( [self isError:json] )
+	if( _titleInput.text.length == 0 || _summaryInput.text.length == 0 )
 	{
-		NSLog( @"Error" );
+		NSLog( @"제목이나 요약이 비었음!!" );
 		return;
 	}
+	
+	NSMutableDictionary *trip = [[NSMutableDictionary alloc] init];
+	[trip setObject:_titleInput.text forKey:@"trip_title"];
+	[trip setObject:_summaryInput.text forKey:@"summary"];
+	NSInteger localTripId = [[UploadManager manager] addTrip:trip];
+	[trip release];
 	
 	// ShareViewController - TripListViewController에서 여행 추가 버튼을 눌러 들어온 경우
 	// 여행을 추가하면 추가한 여행이 자동으로 선택되어지도록 한다.
@@ -98,7 +88,7 @@
 	{
 		// Upload할 때에는 trip id와 title밖에 필요가 없음.
 		TripObject *trip = [[TripObject alloc] init];
-		trip.tripId = [[json objectForKey:@"result"] integerValue];
+		trip.tripId = localTripId;
 		trip.title = _titleInput.text;
 		[tripListViewController selectTrip:trip];
 		[trip release];

@@ -9,16 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "ImTravelingLoader.h"
 
+#define kTripLoadingFinishNotification	@"kTripLoadingFinishNotification"
+
 @class Uploading;
 
 @interface UploadManager : NSObject <ImTravelingLoaderDelegate>
 {
-	NSMutableArray *_uploadings;
-	ImTravelingLoader *_loader;
+	NSMutableArray *_trips;
+	NSMutableArray *_feeds;
+	
+	ImTravelingLoader *_tripUploader;
+	ImTravelingLoader *_feedUploader;
 }
 
 + (UploadManager *)manager;
-- (void)addUploading:(NSDictionary *)uploading;
+- (NSInteger)addTrip:(NSMutableDictionary *)trip;
+- (void)addFeed:(NSDictionary *)feed;
 
 @property (nonatomic, readonly) NSInteger numUploadings;
 @property (nonatomic, readonly) NSDictionary *currentUploading;

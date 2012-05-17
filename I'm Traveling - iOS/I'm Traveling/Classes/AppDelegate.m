@@ -17,7 +17,7 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window, profileViewController;
+@synthesize window = _window, shareViewController, profileViewController;
 
 - (void)dealloc
 {
@@ -220,7 +220,8 @@
 {
 	[tabBarController dismissModalViewControllerAnimated:NO];
 	
-	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[ShareViewController alloc] initWithImage:image]];
+	shareViewController = [[ShareViewController alloc] initWithImage:image];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:shareViewController];
 	[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar.png"] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:NO];
 }

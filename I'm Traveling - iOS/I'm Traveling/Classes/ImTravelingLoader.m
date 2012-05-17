@@ -174,13 +174,36 @@
 	if( _queue.count > 0 )
 	{
 		ImTravelingLoaderToken *nextToken = [_queue objectAtIndex:0];
-		[[[NSURLConnection alloc] initWithRequest:nextToken.request delegate:self] autorelease];
+		if( [delegate shouldLoadWithToken:nextToken] )
+		{
+			[[[NSURLConnection alloc] initWithRequest:nextToken.request delegate:self] autorelease];
+		}
 	}
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 	NSLog( @"Loading Error : %@", error );
+}
+
+- (void)continueLoading
+{
+	if( _queue.count == 0 ) return;
+	
+	ImTravelingLoaderToken *token = [_queue objectAtIndex:0];
+	if( [delegate shouldLoadWithToken:token] )
+	{
+		[[[NSURLConnection alloc] initWithRequest:token.request delegate:self] autorelease];
+	}
+}
+
+
+#pragma mark -
+#pragma mark Getter
+
+- (NSInteger)queueLength
+{
+	return _queue.count;
 }
 
 @end

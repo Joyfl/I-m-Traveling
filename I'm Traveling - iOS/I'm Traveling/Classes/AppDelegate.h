@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class ProfileViewController;
+@class ShareViewController, ProfileViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
 	UITabBarController *tabBarController;
+	ShareViewController *shareViewController;
 	ProfileViewController *profileViewController;
 }
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic, retain) ShareViewController *shareViewController;
 @property (nonatomic, retain) ProfileViewController *profileViewController;
 
 - (void)presentLoginViewController;

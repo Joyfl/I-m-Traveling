@@ -74,9 +74,6 @@ enum {
 		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
 		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
 		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
 }
@@ -106,6 +103,29 @@ enum {
 }
 */
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	// presentModalViewController로 modalView 띄우고 다시 돌아오면 observer가 모두 제거되어있는 것 같음.
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+
+	// 이거 작동이 안됨... 왜그런지 모르겠음.. 슈ㅣ발 ㅠㅠ
+//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tripLoadingDidFinish:) name:kTripLoadingFinishNotification object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidBeginEditingNotification object:nil];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+	
+//	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTripLoadingFinishNotification object:nil];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -134,21 +154,29 @@ enum {
 	for( NSInteger i = 0; i < _info.count; i++ )
 		[info addObject:[[_info objectAtIndex:i] dictionary]];
 	
-	NSDictionary *uploading = [NSDictionary dictionaryWithObjectsAndKeys:
-							   UIImagePNGRepresentation( _image ), @"picture",
-							   [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
-							   [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
-							   [Utils dateStringForUpload:selectedDate], @"time",
-							   [NSNumber numberWithDouble:selectedPlace.latitude], @"latitude",
-							   [NSNumber numberWithDouble:selectedPlace.longitude], @"longitude",
+	NSDictionary *feed = [NSDictionary dictionaryWithObjectsAndKeys:
+						  UIImagePNGRepresentation( _image ), @"picture",
+						  [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
+						  [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
+						  [Utils dateStringForUpload:selectedDate], @"time",
+						  [NSNumber numberWithDouble:selectedPlace.latitude], @"latitude",
+						  [NSNumber numberWithDouble:selectedPlace.longitude], @"longitude",
 #warning 임시 nation!!
-							   @"KOR", @"nation",
-							   _reviewInput.text, @"review",
-							   [Utils writeJSON:info], @"info", nil];
+						  @"KOR", @"nation",
+						  _reviewInput.text, @"review",
+						  [Utils writeJSON:info], @"info", nil];
 	
-	[[UploadManager manager] addUploading:uploading];
+	[[UploadManager manager] addFeed:feed];
 	
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)tripLoadingDidFinishWithTripId:(NSInteger)tripId andLocalTripId:(NSInteger)localTripId
+{
+	NSLog( @"tripLoadingDidFinish (localTripId=%d, tripId=%d)", localTripId, tripId );
+	
+	if( selectedTrip.tripId == localTripId )
+		selectedTrip.tripId = tripId;
 }
 
 
@@ -338,7 +366,6 @@ enum {
 			_reviewInput.backgroundColor = [UIColor clearColor];
 			_reviewInput.editable = YES;
 			_reviewInput.textColor = [UIColor colorWithRed:0.317 green:0.239 blue:0.168 alpha:1.0];
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
 		}
 		[cell addSubview:_reviewInput];
 	}

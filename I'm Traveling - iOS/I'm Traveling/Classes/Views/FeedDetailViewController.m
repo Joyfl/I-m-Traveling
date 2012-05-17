@@ -843,6 +843,7 @@ enum {
 
 - (void)keyboardDidShow
 {
+	NSLog( @"keyboard show" );
 	[self.view addSubview:_keyboardHideButton];
 	
 	[UIView beginAnimations:nil context:nil];

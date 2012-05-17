@@ -79,6 +79,11 @@
 #pragma mark -
 #pragma mark ImTravelingLoaderDelegate
 
+- (BOOL)shouldLoadWithToken:(ImTravelingLoaderToken *)token
+{
+	return YES;
+}
+
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	NSLog( @"loadingDidFinish : Overriding is needed." );

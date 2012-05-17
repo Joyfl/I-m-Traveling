@@ -40,4 +40,5 @@
 #define SETTING_KEY_USER_ID					@"user_id"
 #define SETTING_KEY_USER_NAME				@"user_name"
 #define SETTING_KEY_REGION					@"region"
+#define SETTING_KEY_LOCAL_SAVED_TRIPS		@"local_saved_trips"
 #define SETTING_KEY_LOCAL_SAVED_FEEDS		@"local_saved_feeds"

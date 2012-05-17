@@ -43,6 +43,7 @@
 - (void)updatePlaceLabelText;
 - (void)updateDateLabelText;
 - (void)textDidBeginEditting:(id)sender;
+- (void)tripLoadingDidFinishWithTripId:(NSInteger)tripId andLocalTripId:(NSInteger)localTripId;
 
 @property (nonatomic, retain) TripObject *selectedTrip;
 @property (nonatomic, retain) Place *selectedPlace;
