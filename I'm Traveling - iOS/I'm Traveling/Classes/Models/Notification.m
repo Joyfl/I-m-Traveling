@@ -12,4 +12,13 @@
 
 @synthesize type, source, destination, imageURL, checked;
 
+- (NSString *)sentence
+{
+	NSString *str;
+	
+	
+	
+	return str;
+}
+
 @end

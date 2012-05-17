@@ -21,5 +21,6 @@
 - (void)addUploading:(NSDictionary *)uploading;
 
 @property (nonatomic, readonly) NSInteger numUploadings;
+@property (nonatomic, readonly) NSDictionary *currentUploading;
 
 @end

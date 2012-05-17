@@ -110,4 +110,9 @@
 	return _uploadings.count;
 }
 
+- (NSDictionary *)currentUploading
+{
+	return [_uploadings objectAtIndex:0];
+}
+
 @end

@@ -12,6 +12,7 @@
 #define NOTIFICATION_TYPE_COMMENT		1
 #define NOTIFICATION_TYPE_FOLLOW		2
 #define NOTIFICATION_TYPE_NEWTRIP		3
+#define NOTIFICATION_TYPE_UPLOADING		4
 
 @interface Notification : NSObject
 {
@@ -28,5 +29,6 @@
 @property (nonatomic, retain) NSObject *destination;
 @property (nonatomic, retain) NSString *imageURL;
 @property (nonatomic, assign) BOOL checked;
+@property (nonatomic, readonly) NSString *sentence;
 
 @end

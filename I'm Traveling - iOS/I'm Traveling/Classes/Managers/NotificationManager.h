@@ -12,6 +12,7 @@
 
 @interface NotificationManager : NSObject
 {
+	Notification *_uploadingNotification;
 	NSMutableArray *_notifications;
 }
 
@@ -19,6 +20,7 @@
 
 - (void)addNotification:(Notification *)notification;
 
+@property (nonatomic, readonly) Notification *uploadingNotification;
 @property (nonatomic, readonly) NSInteger numNotifications;
 
 @end

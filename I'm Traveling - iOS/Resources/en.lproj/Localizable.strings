@@ -91,6 +91,18 @@
 "TRIPS" = "Trips";
 "FOLLOWERS" = "Followers";
 
+// Notification
+"USER_LIKE_FEED" = "%@ liked %@'s feed.";
+"USERS_LIKE_FEED" = "%@, and %d others likd %@'s feed.";
+"USER_COMMENT_FEED" = "%@ commented on %@'s feed.";
+"USERS_COMMENT_FEED" = "%@, and %d others commented on %@'s feed.";
+"USER_FOLLOW_USER" = "%@ followed %@.";
+"USERS_FOLLOW_USER" = "%@, and %d others followed %@.";
+"USER_START_TRIP" = "%@ started a new trip."
+"USERS_START_TRIP" = "%@, and %d others started a new trip."
+"FEED_ID_UPLOADING" = "A feed is uploading.";
+"FEEDS_ARE_UPLOADING" = "%d feeds are uploading.";
+
 // Settings
 "NOTICE" = "Notice";
 "FEEDBACK" = "Feedback";

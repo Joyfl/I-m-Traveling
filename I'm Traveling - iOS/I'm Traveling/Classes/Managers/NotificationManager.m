@@ -9,6 +9,7 @@
 #import "NotificationManager.h"
 #import "UploadManager.h"
 #import "Notification.h"
+#import "Utils.h"
 
 @implementation NotificationManager
 
@@ -39,9 +40,22 @@
 	[_notifications addObject:notification];
 }
 
+- (Notification *)uploadingNotification
+{
+	NSInteger numUploadings = [UploadManager manager].numUploadings;
+	if( numUploadings == 0 ) return nil;
+	
+	Notification *notification = [[Notification alloc] init];
+	notification.type = NOTIFICATION_TYPE_UPLOADING;
+	notification.source = [NSString stringWithFormat:@"%d개의 피드"];
+	notification.imageURL = [Utils base64FromImage:[[UploadManager manager].currentUploading objectForKey:@"picture"]];
+	
+	return notification;
+}
+
 - (NSInteger)numNotifications
 {
-	return _notifications.count + [UploadManager manager].numUploadings ? 1 : 0;
+	return _notifications.count + ( self.uploadingNotification ? 1 : 0 );
 }
 
 @end
