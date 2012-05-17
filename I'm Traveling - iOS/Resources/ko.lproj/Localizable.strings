@@ -111,4 +111,5 @@
 "NOTIFICATIONS" = "알림";
 "LOGOUT" = "로그아웃";
 "WITHDRAWAL" = "회원 탈퇴";
+"REALLY_LOGOUT" = "정말 로그아웃하시겠습니까?";
 "LOGGED_OUT" = "로그아웃되었습니다.";

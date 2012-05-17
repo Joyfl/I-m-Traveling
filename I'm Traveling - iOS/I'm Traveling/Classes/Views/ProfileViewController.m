@@ -108,6 +108,23 @@ enum {
 	[self loadPage:HTML_INDEX];
 }
 
+- (void)deactivate
+{
+	activated = NO;
+	user.complete = NO;
+	
+	[trips removeAllObjects];
+	[followers removeAllObjects];
+	[followings removeAllObjects];
+	
+	[_arrow removeFromSuperview];
+	
+	[self.webView stringByEvaluatingJavaScriptFromString:@"clear()"];
+	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.title = nil;
+	self.navigationItem.rightBarButtonItem = nil;
+}
+
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -231,20 +248,17 @@ enum {
 
 - (void)prepareTrips
 {
-//	if( loadingProgress > 1 )
-		[self createTrips];	
+	[self createTrips];	
 }
 
 - (void)prepareFollowings
 {
-//	if( loadingProgress > 2 )
-		[self createFollowings];
+	[self createFollowings];
 }
 
 - (void)prepareFollowers
 {
-//	if( loadingProgress > 3 )
-		[self createFollowers];
+	[self createFollowers];
 }
 
 
@@ -276,14 +290,17 @@ enum {
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-//	NSLog( @"process : %d, tab : %d", loadingProgress, currentTab );
 	NSLog( @"tokenId : %d", token.tokenId );
 	
 	NSDictionary *json = [Utils parseJSON:token.data];
+	NSInteger errorCode = -1;
+	
 	if( [self isError:json] )
 	{
-		NSLog( @"Error" );
-		return;
+		errorCode = [self errorCode:json];
+		NSLog( @"Error : %d", errorCode );
+		
+		if( errorCode != 1 ) return;
 	}
 	
 	NSDictionary *result = [json objectForKey:@"result"];
@@ -302,23 +319,25 @@ enum {
 			user.complete = YES;
 			
 			[self createProfile];
-//			[self loadTrips];
 			break;
 		}
 			
 		case 1:
 		{
-			for( NSDictionary *t in result )
+			if( errorCode != 1 )
 			{
-				TripObject *trip = [[TripObject alloc] init];
-				trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
-				trip.title = [t objectForKey:@"trip_title"];
-				trip.startDate = [t objectForKey:@"start_date"];
-				trip.endDate = [t objectForKey:@"end_date"];
-				trip.summary = [t objectForKey:@"summary"];
-				trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
-				[trips addObject:trip];
-				[trip release];
+				for( NSDictionary *t in result )
+				{
+					TripObject *trip = [[TripObject alloc] init];
+					trip.tripId = [[t objectForKey:@"trip_id"] integerValue];
+					trip.title = [t objectForKey:@"trip_title"];
+					trip.startDate = [t objectForKey:@"start_date"];
+					trip.endDate = [t objectForKey:@"end_date"];
+					trip.summary = [t objectForKey:@"summary"];
+					trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
+					[trips addObject:trip];
+					[trip release];
+				}
 			}
 			
 			[self prepareTrips];
@@ -327,14 +346,17 @@ enum {
 			
 		case 2:
 		{
-			for( NSDictionary *u in result )
+			if( errorCode != 1 )
 			{
-				UserObject *following = [[UserObject alloc] init];
-				following.userId = [[u objectForKey:@"dest_id"] integerValue];
-				following.name = [u objectForKey:@"dest_name"];
-				following.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, following.userId];
-				[followings addObject:following];
-				[following release];
+				for( NSDictionary *u in result )
+				{
+					UserObject *following = [[UserObject alloc] init];
+					following.userId = [[u objectForKey:@"dest_id"] integerValue];
+					following.name = [u objectForKey:@"dest_name"];
+					following.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, following.userId];
+					[followings addObject:following];
+					[following release];
+				}
 			}
 			
 			break;
@@ -342,14 +364,17 @@ enum {
 			
 		case 3:
 		{
-			for( NSDictionary *u in result )
+			if( errorCode != 1 )
 			{
-				UserObject *follower = [[UserObject alloc] init];
-				follower.userId = [[u objectForKey:@"src_id"] integerValue];
-				follower.name = [u objectForKey:@"src_name"];
-				follower.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, follower.userId];
-				[followers addObject:follower];
-				[follower release];
+				for( NSDictionary *u in result )
+				{
+					UserObject *follower = [[UserObject alloc] init];
+					follower.userId = [[u objectForKey:@"src_id"] integerValue];
+					follower.name = [u objectForKey:@"src_name"];
+					follower.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, follower.userId];
+					[followers addObject:follower];
+					[follower release];
+				}
 			}
 			
 			[self stopBusy];

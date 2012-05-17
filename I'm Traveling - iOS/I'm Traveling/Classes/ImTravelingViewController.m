@@ -89,6 +89,11 @@
 	return [[json objectForKey:@"status"] integerValue] == 0;
 }
 
+- (NSInteger)errorCode:(NSDictionary *)json
+{
+	return [[json objectForKey:@"result"] integerValue];
+}
+
 #pragma mark -
 #pragma mark Utils
 

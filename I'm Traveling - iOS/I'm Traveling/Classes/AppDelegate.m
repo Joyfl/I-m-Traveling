@@ -17,7 +17,7 @@
 
 @implementation AppDelegate
 
-@synthesize window = _window;
+@synthesize window = _window, profileViewController;
 
 - (void)dealloc
 {
@@ -46,7 +46,7 @@
 	[uploadButton setImage:[UIImage imageNamed:NSLocalizedString( @"TAB_SHARE", @"" )] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
-	ProfileViewController *profileViewController = [[ProfileViewController alloc] init];
+	profileViewController = [[ProfileViewController alloc] init];
 	if( [Utils loggedIn] ) [profileViewController activateFromTabBarWithUserId:[Utils userId] userName:[Utils userName]];
 	ImTravelingNavigationController *profileNavigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:profileViewController];
 	profileNavigationController.title = NSLocalizedString( @"TAB_PROFILE", @"Profile" );
@@ -142,10 +142,8 @@
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
 	// ProfileView 선택시
-	if( [[[(UINavigationController *)viewController viewControllers] objectAtIndex:0] isKindOfClass:[ProfileViewController class]] )
+	if( [[(UINavigationController *)viewController viewControllers] objectAtIndex:0] == profileViewController )
 	{
-		ProfileViewController *profileViewController = [[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
-		
 		// 로그인이 되어있지 않으면 LoginView를 띄움
 		if( ![Utils loggedIn] )
 		{
@@ -154,6 +152,7 @@
 		}
 		else if( !profileViewController.activated )
 		{
+			NSLog( @"profile is not activated" );
 			[profileViewController activateFromTabBarWithUserId:[Utils userId] userName:[Utils userName]];
 			return YES;
 		}

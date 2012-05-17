@@ -10,6 +10,8 @@
 #import "ImTravelingBarButtonItem.h"
 #import "Utils.h"
 #import "NoticeListViewController.h"
+#import "AppDelegate.h"
+#import "ProfileViewController.h"
 
 @implementation SettingsViewController
 
@@ -152,8 +154,7 @@ enum {
 		case 2:
 			if( indexPath.row == 0 )
 			{
-				[Utils logout];
-				[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"LOGGED_OUT", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"OK", @"" ) otherButtonTitles:nil] autorelease] show];
+				[self presentLogoutActionSheet];
 			}
 			else if( indexPath.row == 1 )
 			{
@@ -161,6 +162,27 @@ enum {
 			}
 			
 			break;
+	}
+}
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)presentLogoutActionSheet
+{
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString( @"REALLY_LOGOUT", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"CANCEL", @"" ) destructiveButtonTitle:NSLocalizedString( @"LOGOUT", @"" ) otherButtonTitles:nil];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if( buttonIndex == 0 )
+	{
+		[Utils logout];
+		[[(AppDelegate *)[UIApplication sharedApplication].delegate profileViewController] deactivate];
+		
+		[[[[UIAlertView alloc] initWithTitle:@"" message:NSLocalizedString( @"LOGGED_OUT", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"OK", @"" ) otherButtonTitles:nil] autorelease] show];
 	}
 }
 

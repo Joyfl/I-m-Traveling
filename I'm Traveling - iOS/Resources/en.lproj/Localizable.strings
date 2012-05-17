@@ -111,4 +111,5 @@
 "NOTIFICATIONS" = "Notifications";
 "LOGOUT" = "Logout";
 "WITHDRAWAL" = "Membership Withdrawal";
+"REALLY_LOGOUT" = "Do you really want to logout?";
 "LOGGED_OUT" = "Logged Out.";
