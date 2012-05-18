@@ -27,6 +27,7 @@ simpleTripArray = [];
 placeArray = [];
 commentArray = [];
 peopleArray = [];
+notificationArray = [];
 
 
 
@@ -57,22 +58,23 @@ function init()
 	
 	clear();
 	
-	//t_fl(); //*
-	//t_fd(); //*
+	//t_fl();
+	//t_fd();
 	
-	t_p();
+	//t_p();
 	
-	//t_sf(); //*
-	//t_usf(); //*
-	//t_msf(); //*
+	//t_sf();
+	//t_usf();
+	//t_msf();
 	
-	//t_st(); //*
+	//t_st();
 	//t_ust();
 	//t_mst();
 	
-	//t_cl(); //*
-	//t_pl(); //*
-	//t_pll(); //*
+	//t_cl();
+	//t_pl();
+	//t_pll();
+	//t_nl();
 }
 
 
@@ -82,14 +84,23 @@ function init()
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
-function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
-function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
-function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(123, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
-function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
+
 function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 9, true); }
-function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
+
+function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
 function t_msf() { for(var i = 0; i < 6; i++) modifySimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용"); }
+
+function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(i, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
+function t_ust() { for(var i = 0; i < 6; i++) addUnloadedSimpleTrip(i); }
+function t_mst() { for(var i = 0; i < 6; i++) modifySimpleTrip(i, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
+
+
+function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
+function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
+function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
+//function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, " "); }
+
 
 
 
@@ -384,6 +395,11 @@ function fillPlaceList(wrap, place_id, name, category)
 	_("div", ".expensor", wrap);
 }
 
+function fillNotification(wrap)
+{
+	
+}
+
 function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip)
 {
 	/*
@@ -451,17 +467,17 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 				</div>\
 			</div>\
 			<div id=\"bottomWrap\">\
-				<div class=\"infoBox\" call([\"profile_trips\"]);>\
+				<div class=\"infoBox\" onclick=\"call([\'profile_trips\']);\">\
 					<div class=\"infoNumber\">" + trips_num + "</div>\
 					<div class=\"infoText\">" + trips_text + "</div>\
 				</div>\
 				<div class=\"verticalSegment\"></div>\
-				<div class=\"infoBox\" call([\"profile_following\"]);>\
+				<div class=\"infoBox\" onclick=\"call([\'profile_following\']);\">\
 					<div class=\"infoNumber\">" + following_num + "</div>\
 					<div class=\"infoText\">" + following_text + "</div>\
 				</div>\
 				<div class=\"verticalSegment\"></div>\
-				<div class=\"infoBox\" call([\"profile_followers\"]);>\
+				<div class=\"infoBox\" onclick=\"call([\'profile_followers\']);\">\
 					<div class=\"infoNumber\">" + followers_num + "</div>\
 					<div class=\"infoText\">" + followers_text + "</div>\
 				</div>\
@@ -659,7 +675,7 @@ function addUnloadedSimpleTrip(trip_id)
 
 function modifySimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, feeds_text)
 {
-	var wrap = $("#simpleTrip_" + feed_id);
+	var wrap = $("#simpleTrip_" + trip_id);
 	wrap.innerHTML = "";
 	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, feeds_text);
 }
@@ -689,6 +705,15 @@ function addComment(user_id, profile_image_url, name, _time, _content)
 		_("ul", "#commentList", $("#page"));
 	var wrap = _("li", coloring(commentArray.length, ""), $("#commentList"));
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
+}
+
+function addNotification()
+{
+	notificationArray.push(1);
+	if(!$("#notificationList"))
+		_("ul", "#notificationList", $("#page"));
+	var wrap = _("li", coloring(notificationArray.length, ""), $("#notificationList"));
+	fillNotification(wrap);
 }
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, see_all_feed_text, likes_text)
@@ -776,6 +801,7 @@ function clear() {
 	placeArray = [];
 	commentArray = [];
 	peopleArray = [];
+	notificationArray = [];
 }
 
 function clearCommentList()
