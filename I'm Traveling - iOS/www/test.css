@@ -689,9 +689,34 @@ ul, ol, li
 
 /* Notification */
 
-#notificationList
+#notificationList li
 {
 	
+}
+
+#notificationList .upperWrap
+{
+	margin-top: 0.7em;
+}
+
+#notificationList .lowerWrap
+{
+	margin-bottom: 0.4em;
+	margin-top: -0.2em;
+}
+
+#notificationList .text
+{
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #3D2C48;
+}
+
+#notificationList .time
+{
+	font-size: 1.3em;
+	float: left;
+	color: #BFA288;
 }
 
 

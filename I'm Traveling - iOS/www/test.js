@@ -74,7 +74,7 @@ function init()
 	//t_cl();
 	//t_pl();
 	//t_pll();
-	//t_nl();
+	t_nl();
 }
 
 
@@ -99,7 +99,7 @@ function t_mst() { for(var i = 0; i < 6; i++) modifySimpleTrip(i, dmyThumbnailWh
 function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
-//function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, " "); }
+function t_nl() { for(var i = 0; i < 6; i++) addNotification(dmyProfileImage, "얘가 댓글을 남겼대요", "6분 전"); }
 
 
 
@@ -395,9 +395,40 @@ function fillPlaceList(wrap, place_id, name, category)
 	_("div", ".expensor", wrap);
 }
 
-function fillNotification(wrap)
+function fillNotification(wrap, image_url, _text, _time)
 {
+	/*
+		<wrap>
+			<cover />
+			<image />
+			<upperWrap>
+				<text />
+			</upperWrap>
+			<lowerWrap>
+				<time />
+			</lowerWrap>
+			<expensor />
+		</wrap>
+	*/
+		
+	var cover = _("div", ".cover .profileImage", wrap);
+	var image = _("img", ".profileImage", wrap);
 	
+	var upperWrap = _("div", ".upperWrap", wrap);
+	var lowerWrap = _("div", ".lowerWrap", wrap);
+	
+	var text = _("span", ".text .shadow", upperWrap);
+	var time = _("span", ".time .shadow", lowerWrap);
+	var expensor = _("div", ".expensor", wrap);
+		
+	image.src = image_url;
+	text.innerText = _text;
+	time.innerText = _time;
+	
+	setHeight(cover, intToEm(pixelToEm(image.clientHeight)));
+	wrap.style.minHeight = intToEm(pixelToEm(cover.clientHeight + emToPixel(0.8)));
+	upperWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
+	lowerWrap.style.width = intToEm(pixelToEm(getWidth()) - 6);
 }
 
 function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, trips_text, following_num, following_text, followers_num, followers_text, notice, is_on_trip)
@@ -707,13 +738,13 @@ function addComment(user_id, profile_image_url, name, _time, _content)
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
 }
 
-function addNotification()
+function addNotification(image_url, text, time)
 {
 	notificationArray.push(1);
 	if(!$("#notificationList"))
 		_("ul", "#notificationList", $("#page"));
 	var wrap = _("li", coloring(notificationArray.length, ""), $("#notificationList"));
-	fillNotification(wrap);
+	fillNotification(wrap, image_url, text, time);
 }
 
 function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, review, info, see_all_feed_text, likes_text)
