@@ -902,16 +902,13 @@ enum {
 
 - (void)resizeContentHeight
 {
-	// 왜 공간이 생기는지 모르겠음.
-	NSInteger wtfSpace = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] numComments] ? WEBVIEW_Y : WEBVIEW_Y - 4;
-	
 	[_commentBar removeFromSuperview];
 	[_scrollView addSubview:_commentBar];
 	
 	CGRect frame = _commentBar.frame;
-	frame.origin.y = self.centerWebView.frame.size.height + wtfSpace;
+	frame.origin.y = self.centerWebView.frame.size.height + WEBVIEW_Y;
 	_commentBar.frame = frame;
-	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + wtfSpace + 44 );
+	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + WEBVIEW_Y + 42 );
 }
 
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webView
