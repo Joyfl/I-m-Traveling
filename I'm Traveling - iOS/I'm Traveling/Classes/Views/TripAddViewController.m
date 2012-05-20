@@ -49,7 +49,7 @@
 		[self.view addSubview:summaryInputBackground];
 		[summaryInputBackground release];
 		
-		_summaryInput = [[UITextView alloc] initWithFrame:CGRectMake( 10, 90, 300, 62 )];
+		_summaryInput = [[UITextView alloc] initWithFrame:CGRectMake( 10, 70, 300, 62 )];
 		_summaryInput.editable = YES;
 		_summaryInput.backgroundColor = [UIColor clearColor];
 		_summaryInput.font = [UIFont systemFontOfSize:14];
