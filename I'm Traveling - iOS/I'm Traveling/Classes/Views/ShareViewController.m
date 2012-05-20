@@ -154,17 +154,17 @@ enum {
 	for( NSInteger i = 0; i < _info.count; i++ )
 		[info addObject:[[_info objectAtIndex:i] dictionary]];
 	
-	NSDictionary *feed = [NSDictionary dictionaryWithObjectsAndKeys:
-						  UIImagePNGRepresentation( _image ), @"picture",
-						  [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
-						  [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
-						  [Utils dateStringForUpload:selectedDate], @"time",
-						  [NSNumber numberWithDouble:selectedPlace.latitude], @"latitude",
-						  [NSNumber numberWithDouble:selectedPlace.longitude], @"longitude",
+	NSMutableDictionary *feed = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								 UIImagePNGRepresentation( _image ), @"picture",
+								 [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
+								 [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
+								 [Utils dateStringForUpload:selectedDate], @"time",
+								 [NSNumber numberWithDouble:selectedPlace.latitude], @"latitude",
+								 [NSNumber numberWithDouble:selectedPlace.longitude], @"longitude",
 #warning 임시 nation!!
-						  @"KOR", @"nation",
-						  _reviewInput.text, @"review",
-						  [Utils writeJSON:info], @"info", nil];
+								 @"KOR", @"nation",
+								 _reviewInput.text, @"review",
+								 [Utils writeJSON:info], @"info", nil];
 	
 	[[UploadManager manager] addFeed:feed];
 	

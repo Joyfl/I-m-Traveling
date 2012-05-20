@@ -38,6 +38,7 @@
 - (void)loadURL:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId;
 - (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId;
 - (void)continueLoading;
+- (void)clearQueue;
 
 @property (retain, nonatomic) id<ImTravelingLoaderDelegate> delegate;
 @property (nonatomic, readonly) NSInteger queueLength;

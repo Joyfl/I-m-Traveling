@@ -109,14 +109,16 @@
 
 - (void)loadRequest:(NSMutableURLRequest *)request andTokenId:(NSInteger)tokenId
 {
-	if( _queue.count == 0 )
+	ImTravelingLoaderToken *token = [[ImTravelingLoaderToken alloc] initWithRequeust:request andTokenId:tokenId];
+	
+	if( _queue.count == 0 && [delegate shouldLoadWithToken:token] )
 	{
 		[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
 	}
 	
-	ImTravelingLoaderToken *token = [[ImTravelingLoaderToken alloc] initWithRequeust:request andTokenId:tokenId];
 	[_queue addObject:token];
 }
+
 
 #pragma mark -
 #pragma mark NSURLConnection
@@ -195,6 +197,11 @@
 	{
 		[[[NSURLConnection alloc] initWithRequest:token.request delegate:self] autorelease];
 	}
+}
+
+- (void)clearQueue
+{
+	[_queue removeAllObjects];
 }
 
 

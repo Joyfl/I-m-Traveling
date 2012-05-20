@@ -24,7 +24,7 @@
 
 + (UploadManager *)manager;
 - (NSInteger)addTrip:(NSMutableDictionary *)trip;
-- (void)addFeed:(NSDictionary *)feed;
+- (void)addFeed:(NSMutableDictionary *)feed;
 
 @property (nonatomic, readonly) NSInteger numUploadings;
 @property (nonatomic, readonly) NSDictionary *currentUploading;
