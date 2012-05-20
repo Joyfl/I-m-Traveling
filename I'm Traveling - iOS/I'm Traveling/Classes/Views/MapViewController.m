@@ -173,16 +173,18 @@ enum {
 	[self.loader loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]] withData:nil andId:0];
 }
 
-- (void)loadingDidFinish:(NSString *)result
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
+	NSDictionary *json = [Utils parseJSON:token.data];
+	
 	// Error
-	if( [result hasPrefix:@"{"] )
+	if( [self isError:json] )
 	{
-		NSLog( @"%@", result );
+		NSLog( @"%@", json );
 		return;
 	}
 	
-	NSArray *feeds = [Utils parseJSON:result];
+	NSArray *feeds = [json objectForKey:@"result"];
 	
 	for( NSDictionary *feed in feeds )
 	{
