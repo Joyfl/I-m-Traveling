@@ -15,6 +15,7 @@
 #import "SimpleFeedListViewController.h"
 #import "Comment.h"
 #import "ImTravelingBarButtonItem.h"
+#import "AppDelegate.h"
 
 #define MAP_HEIGHT	736
 #define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
@@ -200,6 +201,21 @@ enum {
 	if( webView == self.centerWebView )
 	{
 		[self preloadFeedDetail];
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	if( [Utils loggedIn] )
+	{
+		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
+		[_sendButton setTitle:NSLocalizedString( @"SEND", @"Send" ) forState:UIControlStateNormal];
+	}
+	else
+	{
+		_commentInput.placeholder = NSLocalizedString( @"NEED_LOGIN_TO_LEAVE_A_COMMENT", @"" );
+		_commentInput.enabled = NO;
+		[_sendButton setTitle:NSLocalizedString( @"LOGIN", @"" ) forState:UIControlStateNormal];
 	}
 }
 
@@ -824,17 +840,24 @@ enum {
 
 - (void)sendButtonDidTouchUpInside
 {
-	_commentInput.enabled = NO;
-	_sendButton.enabled = NO;
-	
-	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-	[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
-	[data setObject:[Utils email] forKey:@"email"];
-	[data setObject:[Utils password] forKey:@"password"];
-	[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
-	[data setObject:_commentInput.text forKey:@"comment"];
-	[data setObject:@"1" forKey:@"type"];
-	[self.loader loadURL:API_FEED_COMMENT withData:data andId:kTokenIdSendComment];
+	if( [Utils loggedIn] )
+	{
+		_commentInput.enabled = NO;
+		_sendButton.enabled = NO;
+		
+		NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+		[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
+		[data setObject:[Utils email] forKey:@"email"];
+		[data setObject:[Utils password] forKey:@"password"];
+		[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
+		[data setObject:_commentInput.text forKey:@"comment"];
+		[data setObject:@"1" forKey:@"type"];
+		[self.loader loadURL:API_FEED_COMMENT withData:data andId:kTokenIdSendComment];
+	}
+	else
+	{
+		[(AppDelegate *)[[UIApplication sharedApplication] delegate] presentLoginViewController];
+	}
 }
 
 

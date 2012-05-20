@@ -18,6 +18,7 @@
 "I_GOT_IT" = "알겠어요";
 
 // Login
+"LOGIN" = "로그인";
 "INVALID_EMAIL" = "잘못된 이메일주소입니다.";
 "INVALID_PASSWORD" = "잘못된 패스워드입니다.";
 "SIGN_UP" = "회원가입";
@@ -43,6 +44,7 @@
 "SEE_ALL_N_FEEDS" = "%d개의 피드 모두보기";
 "N_LIKES_THIS_FEED" = "%d명의 사람들이 이 피드를 좋아합니다.";
 "LEAVE_A_COMMENT" = "댓글 쓰기";
+"NEED_LOGIN_TO_LEAVE_A_COMMENT" = "댓글을 쓰려면 로그인하세요.";
 "SEND" = "전송";
 
 // Share
