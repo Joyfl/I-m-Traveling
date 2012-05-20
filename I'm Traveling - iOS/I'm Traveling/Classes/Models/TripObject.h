@@ -17,6 +17,7 @@
 	NSString *endDate;
 	NSString *summary;
 	NSInteger numFeeds;
+	NSInteger firstFeedId;
 }
 
 @property (nonatomic, assign) NSInteger tripId;
@@ -26,5 +27,6 @@
 @property (nonatomic, retain) NSString *endDate;
 @property (nonatomic, retain) NSString *summary;
 @property (nonatomic, assign) NSInteger numFeeds;
+@property (nonatomic, assign) NSInteger firstFeedId;
 
 @end

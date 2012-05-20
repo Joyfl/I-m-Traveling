@@ -136,6 +136,7 @@
 		trip.endDate = [t objectForKey:@"end_date"];
 		trip.summary = [t objectForKey:@"summary"];
 		trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
+		trip.firstFeedId = [[t objectForKey:@"firstfeed_id"] integerValue];
 		
 		[_trips setObject:trip forKey:[NSNumber numberWithInteger:trip.tripId]];
 		[self addSimpleTrip:trip];
@@ -149,8 +150,15 @@
 
 - (void)addSimpleTrip:(TripObject *)trip
 {
-#warning 2번째 인자 (piture url) 임시값
-	NSString *func = [NSString stringWithFormat:@"addSimpleTrip( %d, '%@', '%@', '%@', '%@', '%@', %d );", trip.tripId, @"http://imtraveling.joyfl.kr/feed/2_5.jpg", trip.title, trip.startDate, trip.endDate, trip.summary, trip.numFeeds];
+#warning picture url 등록된 여행이 없을 경우 이미지 필요
+	NSString *func = [NSString stringWithFormat:@"addSimpleTrip( %d, '%@', '%@', '%@', '%@', '%@', %d );",
+					  trip.tripId,
+					  [NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, [Utils userId], trip.firstFeedId],
+					  trip.title,
+					  trip.startDate,
+					  trip.endDate,
+					  trip.summary,
+					  trip.numFeeds];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 	NSLog( @"%@", func );
 }
