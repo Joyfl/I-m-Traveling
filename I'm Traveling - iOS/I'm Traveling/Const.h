@@ -42,3 +42,4 @@
 #define SETTING_KEY_REGION					@"region"
 #define SETTING_KEY_LOCAL_SAVED_TRIPS		@"local_saved_trips"
 #define SETTING_KEY_LOCAL_SAVED_FEEDS		@"local_saved_feeds"
+#define SETTING_KEY_LOCAL_TRIP_IDS			@"localTripIds"

@@ -108,7 +108,6 @@
 
 - (void)uploadFeed:(NSMutableDictionary *)feed
 {
-	NSLog( @"피드 업로드" );
 	// picture가 UIImagePNGRepresentation으로 직렬화되어 저장되었을 경우 UIImage로 풀어준다.
 	if( [[feed objectForKey:@"picture"] isKindOfClass:NSData.class] )
 	{
@@ -173,6 +172,7 @@
 		NSArray *feeds = [NSArray arrayWithArray:_feeds];
 		
 		// uploader의 큐에 있는 데이터는 tripId가 localTripId로 저장된 feed들이므로, 새로 받은 tripId로 치환 후 다시 큐에 넣어준다.
+		NSLog( @"큐 클리어" );
 		[_feedUploader clearQueue];
 		[_feeds removeAllObjects];
 		
@@ -189,15 +189,18 @@
 			}
 		}
 		
-		// localTripId가 서버에서 받은 tripId로 수정된 피드들을 로컬에 저장
-//		[[SettingsManager manager] setSetting:_feeds forKey:SETTING_KEY_LOCAL_SAVED_FEEDS];
-		
 		// 업로드가 완료된 여행은 제거
 		[_trips removeObjectAtIndex:0];
 		NSLog( @"업로드가 완료된 여행 제거 후 여행 개수 : %d", _trips.count );
 		
 		// 업로드가 완료된 여행이 제거된 배열을 로컬에 저장
 		[[SettingsManager manager] setSetting:_trips forKey:SETTING_KEY_LOCAL_SAVED_TRIPS];
+		
+		// 사용이 완료된 localTripId를 다시 큐에 저장
+		NSMutableArray *localTripIds = [[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_TRIP_IDS];
+		[localTripIds addObject:[NSNumber numberWithInteger:localTripId]];
+		[[SettingsManager manager] setSetting:localTripIds forKey:SETTING_KEY_LOCAL_TRIP_IDS];
+		
 		[[SettingsManager manager] flush];
 	}
 	
@@ -216,12 +219,26 @@
 
 
 #pragma mark -
-#pragma mark -
+#pragma mark 
 
 - (NSInteger)localTripId
 {
-//	static 
-	return -1;
+	NSMutableArray *localTripIds = [[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_TRIP_IDS];
+	if( localTripIds == nil )
+	{
+		for( NSInteger i = -1; i > -50; i-- )
+		{
+			[localTripIds addObject:[NSNumber numberWithInteger:i]];
+		}
+	}
+	
+	NSInteger localTripId = [[localTripIds objectAtIndex:0] integerValue];
+	[localTripIds removeObjectAtIndex:0];
+	
+	[[SettingsManager manager] setSetting:localTripIds forKey:SETTING_KEY_LOCAL_TRIP_IDS];
+	[[SettingsManager manager] flush];
+	
+	return localTripId;
 }
 
 
