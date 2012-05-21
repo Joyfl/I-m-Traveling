@@ -74,6 +74,9 @@ enum {
 		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
 		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
 		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
+		CGFloat imageHeight = _image.size.height * 320 / _image.size.width;
+		[_tableView setContentOffset:CGPointMake( 0, imageHeight - 240 ) animated:YES];
     }
     return self;
 }
