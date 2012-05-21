@@ -76,7 +76,8 @@ enum {
 		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
 		CGFloat imageHeight = _image.size.height * 320 / _image.size.width;
-		[_tableView setContentOffset:CGPointMake( 0, imageHeight - 240 ) animated:YES];
+		if( imageHeight > 240 )
+			[_tableView setContentOffset:CGPointMake( 0, imageHeight - 240 ) animated:YES];
     }
     return self;
 }
