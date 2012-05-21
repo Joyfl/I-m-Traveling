@@ -133,11 +133,11 @@ static NSDateFormatter *refreshFormatter;
     return;
   }
   
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [refreshFormatter stringFromDate:date]];
+	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString( @"LAST_UPDATED", @"" ), [refreshFormatter stringFromDate:date]];
 }
 
 - (void)setCurrentDate {
-	lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [refreshFormatter stringFromDate:[NSDate date]]];
+	lastUpdatedLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString( @"LAST_UPDATED", @"" ), [refreshFormatter stringFromDate:[NSDate date]]];
 //	[[NSUserDefaults standardUserDefaults] setObject:lastUpdatedLabel.text forKey:@"EGORefreshTableView_LastRefresh"];
 //	[[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -147,7 +147,7 @@ static NSDateFormatter *refreshFormatter;
 	switch (aState) {
 		case EGOOPullRefreshPulling:
 			
-			statusLabel.text = @"Release to refresh...";
+			statusLabel.text = NSLocalizedString( @"RELEASE_TO_UPDATE", @"" );
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:.18];
 			arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -163,7 +163,7 @@ static NSDateFormatter *refreshFormatter;
 				[CATransaction commit];
 			}
 			
-			statusLabel.text = @"Pull down to refresh...";
+			statusLabel.text = NSLocalizedString( @"PULL_DOWN_TO_UPDATE", @"" );
 			[activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 
@@ -174,7 +174,7 @@ static NSDateFormatter *refreshFormatter;
 			break;
 		case EGOOPullRefreshLoading:
 			
-			statusLabel.text = @"Loading...";
+			statusLabel.text = NSLocalizedString( @"LOADING", @"" );
 			[activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions]; 

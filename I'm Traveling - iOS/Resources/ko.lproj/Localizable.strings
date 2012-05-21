@@ -7,8 +7,6 @@
  */
 
 // Common
-"PULL_DOWN_TO_UPDATE" = "업데이트하시려면 아래로 당기세요.";
-"RELEASE_TO_UPDATE" = "업데이트하시려면 당겼다 놓으세요.";
 "BACK" = "뒤로";
 "LOADING" = "로딩중...";
 "CANCEL" = "취소";
@@ -16,6 +14,11 @@
 "OK" = "확인";
 "OOPS" = "어머나 세상에!";
 "I_GOT_IT" = "알겠어요";
+
+// Pull Down
+"PULL_DOWN_TO_UPDATE" = "업데이트하시려면 아래로 당기세요.";
+"RELEASE_TO_UPDATE" = "업데이트하시려면 당겼다 놓으세요.";
+"LAST_UPDATED" = "최근 업데이트";
 
 // Login
 "LOGIN" = "로그인";

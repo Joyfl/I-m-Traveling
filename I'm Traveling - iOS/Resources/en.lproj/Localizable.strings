@@ -7,8 +7,6 @@
  */
 
 // Common
-"PULL_DOWN_TO_UPDATE" = "Pull down to update.";
-"RELEASE_TO_UPDATE" = "Release to update.";
 "BACK" = "Back";
 "LOADING" = "Loading...";
 "CANCEL" = "Cancel";
@@ -16,6 +14,11 @@
 "OK" = "OK";
 "OOPS" = "Oops!";
 "I_GOT_IT" = "I got it";
+
+// Pull Down
+"PULL_DOWN_TO_REFRESH" = "Pull down to refresh.";
+"RELEASE_TO_REFRESH" = "Release to refresh.";
+"LAST_UPDATED" = "Last Updated";
 
 // Login
 "LOGIN" = "Login";
