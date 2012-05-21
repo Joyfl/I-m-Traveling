@@ -36,7 +36,8 @@ enum {
 	// Feed Detail : 0 ~ 999
 	// Feed Comment : 1000 ~ 1999
 	kTokenIdFirstFeedDetail = 10000,
-	kTokenIdSendComment = 10001
+	kTokenIdSendComment = 10001,
+	kTokenIdLike = 10002
 };
 
 - (id)initWithFeed:(FeedObject *)feed
@@ -352,6 +353,7 @@ enum {
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	NSDictionary *json = [Utils parseJSON:token.data];
+	NSLog( @"%@", token.data );
 	
 	if( [self isError:json] )
 	{
@@ -439,6 +441,23 @@ enum {
 		_commentInput.text = @"";
 		_commentInput.enabled = YES;
 		_sendButton.enabled = YES;
+	}
+	
+	// Like
+	else if( token.tokenId == kTokenIdLike )
+	{
+		NSLog( @"like result : %@", token.data );
+		NSString *result = [json objectForKey:@"result"];
+		if( [result isEqualToString:@"OK"] )
+		{
+			FeedObject *currentFeed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+			currentFeed.numLikes ++;
+			
+			NSString *str = [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), currentFeed.numLikes];
+			NSString *func = [NSString stringWithFormat:@"$('#likeBar').children[1].innerText = '%@'", str];
+			NSLog( @"%@", func );
+			[self.centerWebView stringByEvaluatingJavaScriptFromString:func];
+		}
 	}
 }
 
@@ -752,10 +771,17 @@ enum {
 #pragma mark -
 #pragma mark Touch Selectors
 
-#warning like 구현해야함
 - (void)likeButtonDidTouchUpInside
 {
-	
+	NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+						  [Utils userIdNumber], @"user_id",
+						  [Utils email], @"email",
+						  [Utils password], @"password",
+						  @"like", @"command",
+						  [NSNumber numberWithInteger:1], @"type",
+						  [Utils userIdNumber], @"src_id",
+						  [NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]], @"dest_id", nil];
+	[loader loadURL:API_LIKE withData:data andId:kTokenIdLike];
 }
 
 - (void)leftFeedButtonDidTouchUpInside

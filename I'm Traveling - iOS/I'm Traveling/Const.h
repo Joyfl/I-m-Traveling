@@ -20,6 +20,7 @@
 #define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"
 #define API_FEED_DETAIL			@"https://imtraveling.joyfl.kr/feed_detail.php"
 #define API_FEED_COMMENT		@"https://imtraveling.joyfl.kr/feed_comment.php"
+#define API_LIKE				@"https://imtraveling.joyfl.kr/like.php"
 #define API_FEED_MAP			@"https://imtraveling.joyfl.kr/feed_map.php"
 #define API_FEED_IMAGE			@"http://imtraveling.joyfl.kr/feed/"
 #define API_TRIP_LIST			@"https://imtraveling.joyfl.kr/trip_list.php"
