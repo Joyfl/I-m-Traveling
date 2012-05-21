@@ -10,15 +10,39 @@
 
 @implementation Notification
 
-@synthesize type, source, destination, imageURL, checked;
+@synthesize notificationId, type, time, numSources, source, destination, imageURL, checked;
 
 - (NSString *)sentence
 {
-	NSString *str;
+	NSString *sentence;
 	
+	switch( type )
+	{
+		case NOTIFICATION_TYPE_LIKE:
+			break;
+		
+		case NOTIFICATION_TYPE_COMMENT:
+			break;
+			
+		case NOTIFICATION_TYPE_FOLLOW:
+			break;
+			
+		case NOTIFICATION_TYPE_NEWTRIP:
+			break;
+			
+		case NOTIFICATION_TYPE_UPLOADING:
+			if( numSources == 1 )
+			{
+				sentence = NSLocalizedString( @"FEED_ID_UPLOADING", @"" );
+			}
+			else
+			{
+				sentence = [NSString stringWithFormat:NSLocalizedString( @"FEEDS_ARE_UPLOADING", @"" ), numSources];
+			}
+			break;
+	}
 	
-	
-	return str;
+	return sentence;
 }
 
 @end

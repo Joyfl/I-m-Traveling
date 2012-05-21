@@ -230,6 +230,8 @@
 	NSMutableArray *localTripIds = [[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_TRIP_IDS];
 	if( localTripIds == nil )
 	{
+		localTripIds = [[NSMutableArray alloc] init];
+		
 		for( NSInteger i = -1; i > -50; i-- )
 		{
 			[localTripIds addObject:[NSNumber numberWithInteger:i]];

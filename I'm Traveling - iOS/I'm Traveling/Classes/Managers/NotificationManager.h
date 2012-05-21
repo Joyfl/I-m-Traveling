@@ -19,6 +19,7 @@
 + (NotificationManager *)manager;
 
 - (void)addNotification:(Notification *)notification;
+- (Notification *)notificationAtIndex:(NSInteger)index;
 
 @property (nonatomic, readonly) Notification *uploadingNotification;
 @property (nonatomic, readonly) NSInteger numNotifications;

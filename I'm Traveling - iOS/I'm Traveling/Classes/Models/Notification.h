@@ -16,7 +16,10 @@
 
 @interface Notification : NSObject
 {
+	NSInteger notificationId;
 	NSInteger type;
+	NSDate *time;
+	NSInteger numSources;
 	NSObject *source;
 	NSObject *destination;
 	NSString *imageURL;
@@ -24,7 +27,10 @@
 	BOOL checked;
 }
 
+@property (nonatomic, assign) NSInteger notificationId;
 @property (nonatomic, assign) NSInteger type;
+@property (nonatomic, retain) NSDate *time;
+@property (nonatomic, assign) NSInteger numSources;
 @property (nonatomic, retain) NSObject *source;
 @property (nonatomic, retain) NSObject *destination;
 @property (nonatomic, retain) NSString *imageURL;

@@ -47,15 +47,21 @@
 	
 	Notification *notification = [[Notification alloc] init];
 	notification.type = NOTIFICATION_TYPE_UPLOADING;
-	notification.source = [NSString stringWithFormat:@"%d개의 피드"];
-	notification.imageURL = [Utils base64FromImage:[[UploadManager manager].currentUploading objectForKey:@"picture"]];
+	notification.numSources = numUploadings;
+	notification.source = [UploadManager manager].currentUploading;
+	notification.imageURL = [NSString stringWithFormat:@"data:image/png;base64,%@", [Utils base64FromImage:[[UploadManager manager].currentUploading objectForKey:@"picture"]]];
 	
 	return notification;
 }
 
+- (Notification *)notificationAtIndex:(NSInteger)index
+{
+	return [_notifications objectAtIndex:index];
+}
+
 - (NSInteger)numNotifications
 {
-	return _notifications.count + ( self.uploadingNotification ? 1 : 0 );
+	return _notifications.count + [UploadManager manager].numUploadings ? 1 : 0;
 }
 
 @end
