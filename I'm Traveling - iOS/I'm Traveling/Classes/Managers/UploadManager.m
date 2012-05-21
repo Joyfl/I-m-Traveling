@@ -44,7 +44,10 @@
 	
 	for( NSMutableDictionary *trip in _trips )
 	{
-		[self uploadTrip:trip];
+		if( [trip objectForKey:@"user_id"] == [Utils userIdNumber] )
+		{
+			[self uploadTrip:trip];
+		}
 	}
 	
 	
@@ -57,7 +60,10 @@
 	
 	for( NSMutableDictionary *feed in _feeds )
 	{
-		[self uploadFeed:feed];
+		if( [feed objectForKey:@"user_id"] == [Utils userIdNumber] )
+		{
+			[self uploadFeed:feed];
+		}
 	}
 	
 	return self;
@@ -67,6 +73,9 @@
 {
 	NSInteger localTripId = [self localTripId];
 	[trip setObject:[NSNumber numberWithInteger:localTripId] forKey:@"trip_id"];
+	[trip setObject:[Utils userIdNumber] forKey:@"user_id"];
+	[trip setObject:[Utils email] forKey:@"email"];
+	[trip setObject:[Utils password] forKey:@"password"];
 	[_trips addObject:trip];
 	
 	NSLog( @"새로운 여행(localTripId=%d) 추가 후 여행 개수 : %d", localTripId, _trips.count );
@@ -83,6 +92,9 @@
 // 새로운 피드 추가
 - (void)addFeed:(NSMutableDictionary *)feed
 {
+	[feed setObject:[Utils userIdNumber] forKey:@"user_id"];
+	[feed setObject:[Utils email] forKey:@"email"];
+	[feed setObject:[Utils password] forKey:@"password"];
 	[_feeds addObject:feed];
 	NSLog( @"새로운 피드 추가 후 피드 개수 : %d", _feeds.count );
 	
@@ -95,10 +107,6 @@
 
 - (void)uploadTrip:(NSMutableDictionary *)trip
 {
-	[trip setObject:[Utils userIdNumber] forKey:@"user_id"];
-	[trip setObject:[Utils email] forKey:@"email"];
-	[trip setObject:[Utils password] forKey:@"password"];
-	
 	NSInteger localTripId = [[trip objectForKey:@"trip_id"] integerValue];
 	
 	NSLog( @"업로드 할 여행 (localTripId=%d) : %@", localTripId, trip );
@@ -114,10 +122,6 @@
 		UIImage *picture = [UIImage imageWithData:[feed objectForKey:@"picture"]];
 		[feed setObject:picture forKey:@"picture"];
 	}
-	
-	[feed setObject:[Utils userIdNumber] forKey:@"user_id"];
-	[feed setObject:[Utils email] forKey:@"email"];
-	[feed setObject:[Utils password] forKey:@"password"];
 	
 	NSLog( @"업로드 할 피드 : %@", feed );
 	
