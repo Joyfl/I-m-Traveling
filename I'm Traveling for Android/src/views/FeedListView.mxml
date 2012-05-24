@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<imt:ImTravelingView xmlns:fx="http://ns.adobe.com/mxml/2009"
+					 xmlns:s="library://ns.adobe.com/flex/spark"
+					 xmlns:imt="*"
+					 title="Feed" destructionPolicy="never">
+	<fx:Script>
+		<![CDATA[
+			import events.ImTravelingLoadEvent;
+			import events.ImTravelingWebViewEvent;
+			
+			import loaders.ImTravelingLoader;
+			
+			import models.Feed;
+			
+			import spark.components.Image;
+			import spark.components.VGroup;
+			import spark.transitions.ViewTransitionBase;
+			import spark.transitions.ViewTransitionDirection;
+			
+			
+			private var _webView : ImTravelingWebView = new ImTravelingWebView();
+			private var _feeds : Array = [];
+			
+			override protected function onCreationComplete() : void
+			{
+				super.onCreationComplete();
+				
+				_webView.addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );
+				_webView.addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
+				_webView.loadHTML( "index" );
+			}
+			
+			override protected function onAddedToStage() : void
+			{
+				_webView.stage = stage;
+			}
+			
+			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
+			{
+				loader.load( "http://imtraveling.joyfl.kr/feed_list.php" );
+			}
+			
+			private function onReceiveMessage( e : ImTravelingWebViewEvent ) : void
+			{
+				trace( "message :", e.message );
+				trace( "args :", e.arguments );
+				
+				if( e.message == "feed_detail" )
+				{
+					var offset : int = e.arguments[1];
+					var feedHeight : int = e.arguments[2];
+					
+					trace( "offset :", offset );
+					trace( "feedHeight :", feedHeight );
+					
+					var topImage : BitmapData;
+					
+					if( offset > 0 )
+					{
+						var viewPort : Rectangle = _webView.stageWebView.viewPort;
+						var originalHeight : int = _webView.stageWebView.viewPort.height;
+						
+						viewPort.height = offset;
+						_webView.stageWebView.viewPort = viewPort;
+						
+						topImage = new BitmapData( _webView.stageWebView.viewPort.width, offset );
+						_webView.stageWebView.drawViewPortToBitmapData( topImage );
+						
+						viewPort.height = originalHeight;
+						_webView.stageWebView.viewPort = viewPort;
+					}
+					else
+					{
+						feedHeight = _webView.stageWebView.viewPort.height;
+					}
+					
+					var originalY : int = _webView.scrollY;
+					_webView.scrollY = _webView.scrollY + offset;
+					
+					setTimeout( makeBottomImageAfterScroll, 50, feedHeight, originalY, topImage, offset );
+				}
+			}
+			
+			private function makeBottomImageAfterScroll( feedHeight : int, originalY : int, topImage : BitmapData, offset : int ) : void
+			{
+				var originalHeight : int = _webView.stageWebView.viewPort.height;
+				var viewPort : Rectangle = _webView.stageWebView.viewPort;
+				viewPort.height = feedHeight;
+				
+				_webView.stageWebView.viewPort = viewPort;
+				
+				var bottomImage : BitmapData = new BitmapData( _webView.stageWebView.viewPort.width, feedHeight );
+				_webView.stageWebView.drawViewPortToBitmapData( bottomImage );
+				
+				_webView.scrollY = originalY;
+				viewPort.height = originalHeight;
+				_webView.stageWebView.viewPort = viewPort;
+				
+				var viewTransition : ViewTransitionBase = new ViewTransitionBase;
+				viewTransition.duration = 0;
+				
+				navigator.pushView( FeedDetailView, {topImage: topImage, bottomImage: bottomImage, offset: offset, webView:_webView}, null, viewTransition );
+			}
+			
+			override protected function onLoadComplete( e : ImTravelingLoadEvent ) : void
+			{
+				var json : Object = JSON.parse( e.token.data );
+				var errorCode : int = loader.getErrorCode( json );
+				
+				if( errorCode >= 0 )
+				{
+					trace( "error :", errorCode );
+					return;
+				}
+				
+				var feeds : Array = json.result;
+				for each( var f : Object in feeds )
+				{
+					var feed : Feed = new Feed();
+					feed.feedId = f.feed_id;
+					feed.userId = f.user_id;
+					feed.name = f.name;
+					feed.place = f.place;
+					feed.region = f.region;
+					feed.time = f.time;
+					feed.review = f.review;
+					feed.numLikes = f.num_likes;
+					feed.numComments = f.num_comments;
+					feed.latitude = f.latitude;
+					feed.longitude = f.longitude;
+					addFeed( feed );
+				}
+			}
+			
+			private function addFeed( feed : Feed ) : void
+			{
+				_feeds.push( feed );
+				_webView.callJavascript( "addFeed",
+					feed.feedId,
+					feed.userId,
+					"http://imtraveling.joyfl.kr/profile/" + feed.userId + ".jpg",
+					feed.name,
+					feed.time,
+					feed.place,
+					feed.region,
+					"http://imtraveling.joyfl.kr/feed_thumb/" + feed.userId + "_" + feed.feedId + ".jpg",
+					feed.review,
+					feed.numLikes,
+					feed.numComments );
+			}
+		]]>
+	</fx:Script>
+</imt:ImTravelingView>

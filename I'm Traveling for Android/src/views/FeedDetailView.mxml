@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<imt:ImTravelingView xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark"
+					 xmlns:imt="*">
+	<fx:Script>
+		<![CDATA[
+			import events.ImTravelingWebViewEvent;
+			
+			import mx.graphics.BitmapScaleMode;
+			
+			import spark.components.Button;
+			import spark.components.Image;
+			import spark.effects.Move;
+			
+			private var _topImage : Image;
+			private var _bottomImage : Image;
+			
+			override protected function onCreationComplete() : void
+			{
+				super.onCreationComplete();
+				
+				if( data.topImage )
+				{
+					_topImage = new Image();
+					_topImage.source = data.topImage;
+					_topImage.scaleMode = BitmapScaleMode.STRETCH;
+					_topImage.scaleX = _topImage.scaleY = 2/3;
+					addElement( _topImage );
+					
+					var topMoveEffect : Move = new Move( _topImage );
+					topMoveEffect.duration = 500;
+					topMoveEffect.yTo = -1 * data.topImage.height * 2/3;
+					topMoveEffect.play();
+				}
+				
+				_bottomImage = new Image();
+				_bottomImage.source = data.bottomImage;
+				_bottomImage.scaleMode = BitmapScaleMode.STRETCH;
+				_bottomImage.y = data.offset * 2/3;
+				_bottomImage.scaleX = _bottomImage.scaleY = 2/3;
+				addElement( _bottomImage );
+				
+				var bottomMoveEffect : Move = new Move( _bottomImage );
+				bottomMoveEffect.duration = 500;
+				bottomMoveEffect.yTo = 150;
+				bottomMoveEffect.play();
+				
+				data.webView.stageWebView.stage = null;
+				
+//				_webView = new ImTravelingWebView( stage );
+//				_webView.addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );
+//				_webView.addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
+			}
+			
+			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
+			{
+				
+			}
+			
+			private function onReceiveMessage( e : ImTravelingWebViewEvent ) : void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+</imt:ImTravelingView>
