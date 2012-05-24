@@ -64,8 +64,8 @@ function init()
 	
 	clear();
 	
-	t_fl();
-	//t_fd();
+	//t_fl();
+	t_fd();
 	
 	//t_p();
 	
@@ -90,7 +90,7 @@ function init()
 // Test Functions
 
 function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
-function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); }
+function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); createMoreComment("이전 댓글 보기"); t_cl(); }
 
 function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 0, true); }
 
@@ -108,7 +108,6 @@ function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComm
 function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, dmyProfileImage, "얘가 댓글을 남겼대요", "6분 전"); }
-
 
 
 
@@ -178,7 +177,7 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	*/
 	
 	var cover = _("div", ".cover .picture", thumbnail);
-	var preloadImage = _("img", ".preloadImage", thumbnail);
+	if(pictureRatio >= 0) preloadImage = _("img", ".preloadImage", thumbnail);
 	var picture = _("img", ".picture", thumbnail);
 	
 	if(isThumbnail)
@@ -270,7 +269,7 @@ function fillLikeBar(likeBar, trip_id, likes_text)
 	*/
 	
 	_("img", "#likeIcon", likeBar).src = srcLike;
-	_("span", "", likeBar).innerHTML = likes_text;
+	_("span", ".shadow", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
 }
 
@@ -607,7 +606,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 
 // Back-End Functions
 
-function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, picture_ratio, _review, num_likes, num_comments, isThumbnail)
+function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, picture_ratio, _review, num_likes, num_comments, isThumbnail, isDetail)
 {
 	/*
 		<wrap>
@@ -623,6 +622,7 @@ function fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, 
 	*/
 	
 	var header = _("div", ".header", wrap);
+	if(isDetail) header.style.borderTop = "0px solid #FFF";
 	fillHeader(header, user_id, profile_image_url, name, time, place, region);
 	
 	var content = _("div", ".content", wrap);
@@ -832,7 +832,7 @@ function createFeedDetail(trip_id, feed_id, user_id, profile_image_url, name, ti
 {
 	createArrow();
 	var wrap = _("div", "#feedDetail", $("#page"));
-	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, -1, review, 0, 0, false);
+	fillFeed(wrap, feed_id, user_id, profile_image_url, name, time, place, region, picture_url, -1, review, 0, 0, false, true);
 	fillFeedDetail(wrap, JSON.parse(info), trip_id, see_all_feed_text, likes_text);
 }
 
@@ -879,7 +879,7 @@ function giveAttribute(element, attribute)
 
 function _(type, attribute, parent, onTop)
 {
-	element = document.createElement(type);
+	var element = document.createElement(type);
 	giveAttribute(element, attribute);
 	if(onTop) parent.insertBefore(element, parent.firstChild);
 	else parent.appendChild(element);
@@ -917,6 +917,25 @@ function clear() {
 	notificationColor = 0;
 }
 
+function createMoreComment(more_comment_text)
+{
+	var moreComment;
+	if(!$("#commentList"))
+		moreComment = _("div", "#moreComment", $("#page"));
+	else
+	{
+		moreComment = document.createElement("div");
+		moreComment.id = "moreComment";
+		$("#page").insertBefore(moreComment, $("#commentList"));
+	}
+	_("img", "#commentIcon", moreComment).src = srcComment;
+	_("span", ".shadow", moreComment).innerText = more_comment_text;
+	moreComment.onclick = function(){ call(["more_comment"]); };
+}
+function clearMoreComment()
+{
+	if($("#moreComment")) $("#page").removeChild($("#moreComment"));
+}
 function clearCommentList()
 {
 	if($("#commentList")) $("#page").removeChild($("#commentList"));

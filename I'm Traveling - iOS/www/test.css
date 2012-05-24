@@ -107,7 +107,8 @@ ul, ol, li
 
 .shadow
 {
-	text-shadow: 0px 1px 0px #E8E8E8;
+	/*text-shadow: 0px 1px 0px #E8E8E8;*/
+	text-shadow: 0px 1px 0px #CCCCCC;
 }
 
 .even
@@ -132,6 +133,7 @@ ul, ol, li
 	background-size: 100% 100%;
 	border-top: 1px solid #F4E4D6;
 	/*border-bottom: 1px solid #F1DFCF;*/
+	border-bottom: 1px solid #D6BDA6;
 }
 
 .cover
@@ -335,7 +337,7 @@ ul, ol, li
 
 #topMargin
 {
-	height: 1.9em;
+	height: 2em;
 }
 
 #topArrow
@@ -450,7 +452,6 @@ ul, ol, li
 
 #detail #likeBar
 {
-	font-size: 1.3em;
 	background-image: url("./resource/gradient/like_bar.png");
 	/*background: gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -webkit-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
@@ -458,7 +459,7 @@ ul, ol, li
 	background: -moz-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
 	background: -o-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));*/
 	background-size: 100% 100%;
-	padding: 0.4em;
+	padding: 0.6em;
 	color: #3d2c48;
 	border-bottom: 1px solid #D9A981;
 }
@@ -466,9 +467,15 @@ ul, ol, li
 #detail #likeBar #likeIcon
 {
 	float: left;
-	height: 1em;
-	width: 1em;
+	height: 1.6em;
+	width: 1.6em;
 	margin-right: 0.5em;
+	margin-top: 0.1em;
+}
+
+#detail #likeBar span
+{
+	font-size: 1.5em;
 }
 
 
@@ -510,6 +517,32 @@ ul, ol, li
 
 
 /* Comment List */
+
+#moreComment
+{
+	background-image: url("./resource/gradient/more_comment.png");
+	background-size: 100% 100%;
+	border-top: 1px solid #F7EAE4;
+	border-bottom: 1px solid #A48D7B;
+	padding: 0.7em;
+	padding-left: 0.6em;
+	color: #3d2c48;
+}
+
+#moreComment #commentIcon
+{
+	float: left;
+	height: 1.6em;
+	width: 1.6em;
+	margin-right: 0.5em;
+	margin-top: 0.2em;
+}
+
+#moreComment span
+{
+	font-size: 1.7em;
+	font-weight: bold;
+}
 
 #commentList li
 {
