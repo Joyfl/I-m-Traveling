@@ -274,6 +274,15 @@ ul, ol, li
 	
 }
 
+.content .preloadImage
+{
+	width: 4em;
+	height: 4em;
+	left: -2em;
+	margin-left: 50%;
+	position: absolute;
+}
+
 .content .picture
 {
 	border: 0px solid #FFFFFF;
@@ -618,7 +627,59 @@ ul, ol, li
 
 #simpleFeedList .review
 {
-	font-size: 1.4em;
+	font-size: 1.3em;
+	color: #513D2B;
+}
+
+
+
+
+/* Uploading Feed */
+
+#uploadingFeedList li
+{
+	clear: both;
+}
+
+#uploadingFeedList .profileImage
+{
+	width: 8em;
+	height: 8em;
+	margin: 1em;
+	border-radius: 10px;
+}
+
+#uploadingFeedList .upperWrap
+{
+	margin-top: 1.5em;
+}
+
+#uploadingFeedList .lowerWrap
+{
+	margin-top: 0em;
+	margin-bottom: 0.5em;
+}
+
+#uploadingFeedList .place
+{
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #3D2C48;
+	width: 60%;
+	float: left;
+}
+
+#uploadingFeedList .message
+{
+	float: right;
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #876D56;
+}
+
+#uploadingFeedList .review
+{
+	font-size: 1.3em;
 	color: #513D2B;
 }
 
