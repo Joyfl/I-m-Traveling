@@ -14,6 +14,7 @@
 			
 			import spark.components.Image;
 			import spark.components.VGroup;
+			import spark.primitives.Rect;
 			import spark.transitions.ViewTransitionBase;
 			import spark.transitions.ViewTransitionDirection;
 			
@@ -50,10 +51,48 @@
 					var offset : int = e.arguments[1];
 					var feedHeight : int = e.arguments[2];
 					
+					var webViewWidth : int = _webView.stageWebView.viewPort.width;
+					var webViewHeight : int = _webView.stageWebView.viewPort.height;
+					
+					// webview의 스크롤 과정을 볼 수 없도록 비트맵으로 처리
+					var webViewBitmap : Bitmap = new Bitmap( new BitmapData( webViewWidth, webViewHeight ) );
+					webViewBitmap.y = _webView.stageWebView.viewPort.y;
+					_webView.stageWebView.drawViewPortToBitmapData( webViewBitmap.bitmapData );
+					stage.addChild( webViewBitmap );
+					_webView.stageWebView.stage = null;
+					
+					/*var totalHeight : int = Math.max( _webView.stageWebView.viewPort.height, _webView.scrollY + offset + feedHeight, 3000 );
+					
+					var viewPort : Rectangle = _webView.stageWebView.viewPort;
+					viewPort.height = totalHeight;
+					_webView.stageWebView.viewPort = viewPort;
+					
+					var totalBitmap : BitmapData = new BitmapData( webViewWidth, totalHeight );
+					_webView.stageWebView.drawViewPortToBitmapData( totalBitmap );
+					
+					var topBitmap : BitmapData;
+					var bottomBitmap : BitmapData;
+					
+					if( offset > 0 )
+					{
+						topBitmap = new BitmapData( webViewWidth, offset );
+						topBitmap.copyPixels( totalBitmap, new Rectangle( 0, 0, webViewWidth, offset ), new Point() );
+					}
+					
+//					var bottomBitmapHeight : int = Math.max( offset + feedHeight,  );
+					
+					bottomBitmap = new BitmapData( webViewWidth, feedHeight );
+					bottomBitmap.copyPixels( totalBitmap, new Rectangle( 0, offset, webViewWidth, feedHeight ), new Point() );
+					
+					var viewTransition : ViewTransitionBase = new ViewTransitionBase;
+					viewTransition.duration = 0;
+					
+//					navigator.pushView( FeedDetailView, {topBitmap: topBitmap, bottomBitmap: bottomBitmap, offset: offset, webView:_webView}, null, viewTransition );*/
+					
 					trace( "offset :", offset );
 					trace( "feedHeight :", feedHeight );
 					
-					var topImage : BitmapData;
+					var topBitmap : BitmapData;
 					
 					if( offset > 0 )
 					{
@@ -63,43 +102,43 @@
 						viewPort.height = offset;
 						_webView.stageWebView.viewPort = viewPort;
 						
-						topImage = new BitmapData( _webView.stageWebView.viewPort.width, offset );
-						_webView.stageWebView.drawViewPortToBitmapData( topImage );
+						topBitmap = new BitmapData( _webView.stageWebView.viewPort.width, offset );
+						_webView.stageWebView.drawViewPortToBitmapData( topBitmap );
 						
 						viewPort.height = originalHeight;
 						_webView.stageWebView.viewPort = viewPort;
-					}
-					else
-					{
-						feedHeight = _webView.stageWebView.viewPort.height;
 					}
 					
 					var originalY : int = _webView.scrollY;
 					_webView.scrollY = _webView.scrollY + offset;
 					
-					setTimeout( makeBottomImageAfterScroll, 50, feedHeight, originalY, topImage, offset );
+					setTimeout( function() : void
+					{
+						var originalHeight : int = _webView.stageWebView.viewPort.height;
+						var bottomBitmapHeight : int = feedHeight;
+						
+						if( offset + feedHeight < webViewHeight )
+						{
+							bottomBitmapHeight += webViewHeight;
+						}
+						
+						var viewPort : Rectangle = _webView.stageWebView.viewPort;
+						viewPort.height = bottomBitmapHeight;
+						_webView.stageWebView.viewPort = viewPort;
+						trace( viewPort );
+						
+						var bottomBitmap : BitmapData = new BitmapData( _webView.stageWebView.viewPort.width, bottomBitmapHeight );
+						_webView.stageWebView.drawViewPortToBitmapData( bottomBitmap );
+						
+						_webView.scrollY = originalY;
+						viewPort.height = originalHeight;
+						_webView.stageWebView.viewPort = viewPort;
+						
+						var viewTransition : ViewTransitionBase = new ViewTransitionBase;
+						viewTransition.duration = 0;
+						navigator.pushView( FeedDetailView, {topBitmap: topBitmap, bottomBitmap: bottomBitmap, offset: offset, webViewBitmap:webViewBitmap}, null, viewTransition );
+					}, 50 );
 				}
-			}
-			
-			private function makeBottomImageAfterScroll( feedHeight : int, originalY : int, topImage : BitmapData, offset : int ) : void
-			{
-				var originalHeight : int = _webView.stageWebView.viewPort.height;
-				var viewPort : Rectangle = _webView.stageWebView.viewPort;
-				viewPort.height = feedHeight;
-				
-				_webView.stageWebView.viewPort = viewPort;
-				
-				var bottomImage : BitmapData = new BitmapData( _webView.stageWebView.viewPort.width, feedHeight );
-				_webView.stageWebView.drawViewPortToBitmapData( bottomImage );
-				
-				_webView.scrollY = originalY;
-				viewPort.height = originalHeight;
-				_webView.stageWebView.viewPort = viewPort;
-				
-				var viewTransition : ViewTransitionBase = new ViewTransitionBase;
-				viewTransition.duration = 0;
-				
-				navigator.pushView( FeedDetailView, {topImage: topImage, bottomImage: bottomImage, offset: offset, webView:_webView}, null, viewTransition );
 			}
 			
 			override protected function onLoadComplete( e : ImTravelingLoadEvent ) : void

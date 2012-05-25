@@ -19,22 +19,22 @@
 			{
 				super.onCreationComplete();
 				
-				if( data.topImage )
+				if( data.topBitmap )
 				{
 					_topImage = new Image();
-					_topImage.source = data.topImage;
+					_topImage.source = data.topBitmap;
 					_topImage.scaleMode = BitmapScaleMode.STRETCH;
 					_topImage.scaleX = _topImage.scaleY = 2/3;
 					addElement( _topImage );
 					
 					var topMoveEffect : Move = new Move( _topImage );
 					topMoveEffect.duration = 500;
-					topMoveEffect.yTo = -1 * data.topImage.height * 2/3;
+					topMoveEffect.yTo = -1 * data.topBitmap.height * 2/3;
 					topMoveEffect.play();
 				}
 				
 				_bottomImage = new Image();
-				_bottomImage.source = data.bottomImage;
+				_bottomImage.source = data.bottomBitmap;
 				_bottomImage.scaleMode = BitmapScaleMode.STRETCH;
 				_bottomImage.y = data.offset * 2/3;
 				_bottomImage.scaleX = _bottomImage.scaleY = 2/3;
@@ -45,7 +45,8 @@
 				bottomMoveEffect.yTo = 150;
 				bottomMoveEffect.play();
 				
-				data.webView.stageWebView.stage = null;
+				stage.removeChild( data.webViewBitmap );
+				data.webViewBitmap.bitmapData.dispose();
 				
 //				_webView = new ImTravelingWebView( stage );
 //				_webView.addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );

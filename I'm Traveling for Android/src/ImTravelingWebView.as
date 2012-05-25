@@ -72,7 +72,6 @@ package
 				if( message == "scrollY" )
 				{
 					_scrollY = arguments[0];
-					trace( "scrollY :", _scrollY );
 					return;
 				}
 				
