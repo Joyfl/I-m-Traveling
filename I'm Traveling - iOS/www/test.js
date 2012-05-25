@@ -150,6 +150,7 @@ function fillHeader(header, user_id, _profileImageSrc, _name, _time, _place, _re
 	region.innerText = _region;
 	
 	var call_profile = function(){ call(["create_profile", user_id, _name]); };
+	cover.onclick = call_profile;
 	profileImage.onclick = call_profile;
 	name.onclick = call_profile;
 	
@@ -718,6 +719,7 @@ function fillComment(wrap, user_id, profile_image_url, name, _time, _comment)
 	lowerWrap.style.width = intToEm(pixelToEm(BODY_WIDTH) - 6);
 	
 	var profile = function(){ call(["create_profile", user_id, name]); };
+	cover.onclick = profile;
 	profileImage.onclick = profile;
 	userName.onclick = profile;
 }
