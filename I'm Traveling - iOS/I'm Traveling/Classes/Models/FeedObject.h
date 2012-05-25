@@ -20,6 +20,8 @@
 	NSString *region;
 	NSString *time;
 	NSString *pictureURL;
+	NSString *pictureThumbURL;
+	CGFloat pictureRatio;
 	NSString *review;
 	NSArray *info;
 	CLLocationDegrees latitude;
@@ -42,6 +44,8 @@
 @property (nonatomic, retain) NSString *region;
 @property (nonatomic, retain) NSString *time;
 @property (nonatomic, retain) NSString *pictureURL;
+@property (nonatomic, retain) NSString *pictureThumbURL;
+@property (nonatomic, assign) CGFloat pictureRatio;
 @property (nonatomic, retain) NSString *review;
 @property (nonatomic, retain) NSArray *info;
 @property (nonatomic, assign) CLLocationDegrees latitude;

@@ -10,7 +10,7 @@
 
 @implementation FeedObject
 
-@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, review, info, latitude, longitude, numAllFeeds, numLikes, numComments, comments, complete;
+@synthesize feedId, userId, tripId, name, profileImageURL, place, region, time, pictureURL, pictureThumbURL, pictureRatio, review, info, latitude, longitude, numAllFeeds, numLikes, numComments, comments, complete;
 
 - (NSString *)title
 {

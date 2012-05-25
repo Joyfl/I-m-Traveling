@@ -337,6 +337,8 @@ enum {
 	feedObj.region = [feed objectForKey:@"region"];
 	feedObj.time = [feed objectForKey:@"time"];
 	feedObj.pictureURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObj.userId, feedObj.feedId] retain];
+	feedObj.pictureThumbURL = [[NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE_THUMB, feedObj.userId, feedObj.feedId] retain];
+	feedObj.pictureRatio = [[feed objectForKey:@"height"] floatValue] / [[feed objectForKey:@"width"] floatValue];
 	feedObj.review = [feed objectForKey:@"review"];
 	feedObj.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
 	feedObj.numComments = [[feed objectForKey:@"num_comments"] integerValue];
@@ -424,7 +426,7 @@ enum {
 	[_feedListObjects setObject:feedObj forKey:key];
 	
 	NSString *functionName = top ? @"addFeedTop" : @"addFeed";
-	NSString *func = [NSString stringWithFormat:@"%@(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %d, %d)",
+	NSString *func = [NSString stringWithFormat:@"%@(%d, %d, '%@', '%@', '%@', '%@', '%@', '%@', %f, '%@', %d, %d)",
 					   functionName,
 					   feedObj.feedId,
 					   feedObj.userId,
@@ -433,7 +435,8 @@ enum {
 					   feedObj.time,
 					   feedObj.place,
 					   feedObj.region,
-					   feedObj.pictureURL,
+					   feedObj.pictureThumbURL,
+					   feedObj.pictureRatio,
 					   feedObj.review,
 					   feedObj.numLikes,
 					   feedObj.numComments];
