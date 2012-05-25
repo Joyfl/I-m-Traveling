@@ -42,7 +42,7 @@
 	ImTravelingNavigationController *shareNavigationController = [[ImTravelingNavigationController alloc] init];
 	shareNavigationController.title = NSLocalizedString( @"TAB_UPLOAD", @"Upload" );
 	
-	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -6.0, 108.0, 60.0 )];
+	UIButton *uploadButton = [[UIButton alloc] initWithFrame:CGRectMake( 108.0, -8.0, 108.0, 60.0 )];
 	[uploadButton setImage:[UIImage imageNamed:NSLocalizedString( @"TAB_SHARE", @"" )] forState:UIControlStateNormal];
 	[uploadButton addTarget:self action:@selector(onUploadButtonTouch) forControlEvents:UIControlEventTouchUpInside];
 	
