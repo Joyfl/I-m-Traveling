@@ -89,7 +89,7 @@ function init()
 
 // Test Functions
 
-function t_fl() { for(var i = 0; i < 2; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
+function t_fl() { for(var i = 0; i < 5; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); createMoreComment("이전 댓글 보기"); t_cl(); }
 
 function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 0, true); }
@@ -178,6 +178,7 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	*/
 	
 	var cover = _("div", ".cover .picture", thumbnail);
+	var preloadImage;
 	if(pictureRatio >= 0) preloadImage = _("img", ".preloadImage", thumbnail);
 	var picture = _("img", ".picture", thumbnail);
 	
@@ -198,6 +199,9 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		likeText.innerText = _likes;
 	}
 	
+	//setTimeout(function(){picture.src = pictureUrl;}, 1000);
+	picture.src = pictureUrl;
+	
 	if(pictureRatio >= 0)
 	{
 		preloadImage.src = srcPreloadImage;
@@ -211,9 +215,6 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		preloadImage.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
 		picture.onload = function(){ preloadImage.style.display = "none"; };
 	}
-	
-	//setTimeout(function(){picture.src = pictureUrl;}, 1000);
-	picture.src = pictureUrl;
 	
 	if(pictureRatio < 0)
 	{
