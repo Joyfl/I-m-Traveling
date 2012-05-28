@@ -64,7 +64,6 @@
 		0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70215076B96006D9297 /* FeedAnnotation.m */; };
 		0347F71315076B96006D9297 /* FeedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70615076B96006D9297 /* FeedObject.m */; };
 		0347F71415076B96006D9297 /* Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70815076B96006D9297 /* Info.m */; };
-		0347F71515076B96006D9297 /* LoadingQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70A15076B96006D9297 /* LoadingQueue.m */; };
 		0347F71615076B96006D9297 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70C15076B96006D9297 /* Place.m */; };
 		0347F71715076B96006D9297 /* TripObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F70E15076B96006D9297 /* TripObject.m */; };
 		0347F71815076B96006D9297 /* UserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0347F71015076B96006D9297 /* UserObject.m */; };
@@ -268,8 +267,6 @@
 		0347F70615076B96006D9297 /* FeedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedObject.m; sourceTree = "<group>"; };
 		0347F70715076B96006D9297 /* Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Info.h; sourceTree = "<group>"; };
 		0347F70815076B96006D9297 /* Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Info.m; sourceTree = "<group>"; };
-		0347F70915076B96006D9297 /* LoadingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingQueue.h; path = Models/LoadingQueue.h; sourceTree = "<group>"; };
-		0347F70A15076B96006D9297 /* LoadingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingQueue.m; path = Models/LoadingQueue.m; sourceTree = "<group>"; };
 		0347F70B15076B96006D9297 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
 		0347F70C15076B96006D9297 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
 		0347F70D15076B96006D9297 /* TripObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripObject.h; sourceTree = "<group>"; };
@@ -478,8 +475,6 @@
 				0300E6DB14D1A93100611039 /* EGORefreshTableHeaderView.m */,
 				03AD0FEB14DB3AEE00D9573D /* Utils.h */,
 				03AD0FEC14DB3AEE00D9573D /* Utils.m */,
-				0347F70915076B96006D9297 /* LoadingQueue.h */,
-				0347F70A15076B96006D9297 /* LoadingQueue.m */,
 				030C1A13155F8CF300790B88 /* ImTravelingLoader.h */,
 				030C1A14155F8CF300790B88 /* ImTravelingLoader.m */,
 				03339679155EB5DC004AB469 /* Reachability */,
@@ -1026,7 +1021,6 @@
 				0347F71115076B96006D9297 /* FeedAnnotation.m in Sources */,
 				0347F71315076B96006D9297 /* FeedObject.m in Sources */,
 				0347F71415076B96006D9297 /* Info.m in Sources */,
-				0347F71515076B96006D9297 /* LoadingQueue.m in Sources */,
 				0347F71615076B96006D9297 /* Place.m in Sources */,
 				0347F71715076B96006D9297 /* TripObject.m in Sources */,
 				0347F71815076B96006D9297 /* UserObject.m in Sources */,
