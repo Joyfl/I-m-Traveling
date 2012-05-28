@@ -9,7 +9,6 @@
 #import "UIWebViewController.h"
 #import "FeedDetailWebView.h"
 #import "FeedObject.h"
-#import "LoadingQueue.h"
 #import <MapKit/MapKit.h>
 
 @interface FeedDetailViewController : ImTravelingViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate>

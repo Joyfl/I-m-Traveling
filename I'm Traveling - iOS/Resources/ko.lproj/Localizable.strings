@@ -24,7 +24,9 @@
 "LOGIN" = "로그인";
 "INVALID_EMAIL" = "잘못된 이메일주소입니다.";
 "INVALID_PASSWORD" = "잘못된 패스워드입니다.";
-"SIGN_UP" = "회원가입";
+"EMAIL" = "이메일";
+"PASSWORD" = "비밀번호";
+"SIGN_UP" = "아직 회원이 아니신가요?";
 "LOGIN_FAILED_MSG" = "로그인에 실패했습니다. 이메일과 패스워드를 확인해주세요.";
 
 // Sign Up

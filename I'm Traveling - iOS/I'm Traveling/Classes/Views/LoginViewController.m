@@ -10,8 +10,9 @@
 #import "SettingsManager.h"
 #import "Const.h"
 #import "Utils.h"
-#import "PrivacyViewController.h"
+#import "SignUpViewController.h"
 #import "ImTravelingNavigationController.h"
+#import "QuartzCore/CALayer.h"
 
 @implementation LoginViewController
 
@@ -19,44 +20,88 @@
 {
 	if( self = [super init] )
 	{
-		self.view.backgroundColor = [UIColor whiteColor];
+		UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+		gestureRecognizer.cancelsTouchesInView = NO;
+		[self.view addGestureRecognizer:gestureRecognizer];
+		[gestureRecognizer release];
 		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonDidTouchUpInside)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
+		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imtraveling_bg.png"]];
+		[self.view addSubview:bg];
+		[bg release];
 		
-		_emailInput = [[UITextField alloc] initWithFrame:CGRectMake( 60, 30, 200, 31 )];
-		_emailInput.borderStyle = UITextBorderStyleRoundedRect;
-		_emailInput.placeholder = @"Email";
+		UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		cancelButton.frame = CGRectMake( 16, 32, 26, 26 );
+		[cancelButton setBackgroundImage:[UIImage imageNamed:@"button_close.png"] forState:UIControlStateNormal];
+		[cancelButton addTarget:self action:@selector(cancelButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:cancelButton];
+		
+		UIImageView *logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"imtraveling_logo.png"]];
+		logo.frame = CGRectMake( 104, 55, 115, 75 );
+		[self.view addSubview:logo];
+		[logo release];
+		
+		UIImageView *loginBox = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_box.png"]];
+		loginBox.frame = CGRectMake( 22, 148, 277, 90 );
+		[self.view addSubview:loginBox];
+		[loginBox release];
+		
+		_emailInput = [[UITextField alloc] initWithFrame:CGRectMake( 38, 162, 245, 31 )];
+		_emailInput.delegate = self;
+		_emailInput.placeholder = NSLocalizedString( @"EMAIL", @"" );
+		_emailInput.font = [UIFont boldSystemFontOfSize:15];
+		_emailInput.textColor = [UIColor colorWithRed:0.392 green:0.313 blue:0.250 alpha:1.0];
+		_emailInput.layer.shadowOffset = CGSizeMake( 0, 1 );
+		_emailInput.layer.shadowColor = [UIColor whiteColor].CGColor;
+		_emailInput.layer.shadowOpacity = 0.5;
+		_emailInput.layer.shadowRadius = 0;
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
-		_emailInput.clearButtonMode = UITextFieldViewModeWhileEditing;
+		_emailInput.returnKeyType = UIReturnKeyNext;
+		[_emailInput setValue:[UIColor colorWithRed:0.788 green:0.635 blue:0.517 alpha:1.0] forKeyPath:@"_placeholderLabel.textColor"];
+		[_emailInput addTarget:self action:@selector(inputEditChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self.view addSubview:_emailInput];
 		[_emailInput release];
 		
-		_passwordInput = [[UITextField alloc] initWithFrame:CGRectMake( 60, 70, 200, 31 )];
-		_passwordInput.borderStyle = UITextBorderStyleRoundedRect;
-		_passwordInput.placeholder = @"Password";
+		_passwordInput = [[UITextField alloc] initWithFrame:CGRectMake( 38, 203, 245, 31 )];
+		_passwordInput.delegate = self;
+		_passwordInput.placeholder = NSLocalizedString( @"PASSWORD", @"" );
+		_passwordInput.font = [UIFont boldSystemFontOfSize:15];
+		_passwordInput.textColor = [UIColor colorWithRed:0.392 green:0.313 blue:0.250 alpha:1.0];
+		_passwordInput.layer.shadowOffset = CGSizeMake( 0, 1 );
+		_passwordInput.layer.shadowColor = [UIColor whiteColor].CGColor;
+		_passwordInput.layer.shadowOpacity = 0.5;
+		_passwordInput.layer.shadowRadius = 0;
 		_passwordInput.secureTextEntry = YES;
-		_passwordInput.clearButtonMode = UITextFieldViewModeWhileEditing;
+		_passwordInput.returnKeyType = UIReturnKeyGo;
+		[_passwordInput setValue:[UIColor colorWithRed:0.788 green:0.635 blue:0.517 alpha:1.0] forKeyPath:@"_placeholderLabel.textColor"];
+		[_passwordInput addTarget:self action:@selector(inputEditChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self.view addSubview:_passwordInput];
 		[_passwordInput release];
 		
-		UIButton *loginButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		loginButton.frame = CGRectMake( 60, 110, 200, 37 );
-		[loginButton setTitle:@"Login" forState:UIControlStateNormal];
-		[loginButton addTarget:self action:@selector(loginButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:loginButton];
-		[loginButton release];
-		
-		UIButton *signUpButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		signUpButton.frame = CGRectMake( 60, 150, 200, 37 );
-		[signUpButton setTitle:@"Sign Up" forState:UIControlStateNormal];
+		UIButton *signUpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		signUpButton.frame = CGRectMake( 22, 235, 277, 37 );
+		signUpButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		signUpButton.titleLabel.shadowOffset = CGSizeMake( 0, 1 );
+		[signUpButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[signUpButton setTitleColor:[UIColor colorWithRed:0.811 green:0.658 blue:0.541 alpha:1.0] forState:UIControlStateNormal];
+		[signUpButton setTitle:NSLocalizedString( @"SIGN_UP", @"" ) forState:UIControlStateNormal];
 		[signUpButton addTarget:self action:@selector(signUpButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:signUpButton];
 		[signUpButton release];
 	}
 	
 	return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)dismissKeyboard
+{
+	NSLog( @"bg" );
+	[_emailInput resignFirstResponder];
+	[_passwordInput resignFirstResponder];
 }
 
 
@@ -70,32 +115,54 @@
 
 
 #pragma mark -
-#pragma mark Login
+#pragma mark UITextFieldDelegate
 
-- (void)loginButtonDidTouchUpInside
+- (void)inputEditChanged:(id)sender
 {
+	UITextField *input = (UITextField *)sender;
+	
+	if( input.text.length > 0 )
+		input.font = [UIFont systemFontOfSize:15];
+	else
+		input.font = [UIFont boldSystemFontOfSize:15];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	if( textField == _emailInput )
+	{
+		[_passwordInput becomeFirstResponder];
+		return NO;
+	}
+	
 	NSString *email = _emailInput.text;
 	if( email.length == 0 )
 	{
-		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"INVALID_EMAIL", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
-		return;
+		[_emailInput becomeFirstResponder];
+		return NO;
 	}
 	
 	NSString *password = _passwordInput.text;
 	if( password.length == 0 )
 	{
-		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"INVALID_PASSWORD", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
-		return;
+		[_passwordInput becomeFirstResponder];
+		return NO;
 	}
 	
 	[self loginWithEmail:email andPassword:[Utils sha1:password]];
+	[textField resignFirstResponder];
+	return NO;
 }
+
+
+#pragma mark -
+#pragma mark Login
 
 - (void)signUpButtonDidTouchUpInside
 {
-	PrivacyViewController *privacyViewController = [[PrivacyViewController alloc] init];	
-	[self.navigationController pushViewController:privacyViewController animated:YES];
-	[privacyViewController release];
+	SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
+	[self.navigationController pushViewController:signUpViewController animated:YES];
+	[signUpViewController release];
 }
 
 - (void)loginWithEmail:(NSString *)email andPassword:(NSString *)password

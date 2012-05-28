@@ -24,7 +24,9 @@
 "LOGIN" = "Login";
 "INVALID_EMAIL" = "Invalid email.";
 "INVALID_PASSWORD" = "Invalid password.";
-"SIGN_UP" = "Sign Up";
+"EMAIL" = "Email";
+"PASSWORD" = "Password";
+"SIGN_UP" = "Do not have an account?";
 "LOGIN_FAILED_MSG" = "Login failed. Check your email and password again.";
 
 // Sign Up

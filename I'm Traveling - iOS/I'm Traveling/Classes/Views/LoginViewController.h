@@ -8,7 +8,7 @@
 
 #import "ImTravelingViewController.h"
 
-@interface LoginViewController : ImTravelingViewController
+@interface LoginViewController : ImTravelingViewController <UITextFieldDelegate>
 {
 	UITextField *_emailInput;
 	UITextField *_passwordInput;

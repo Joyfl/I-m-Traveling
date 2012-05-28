@@ -130,9 +130,11 @@
 
 - (void)presentLoginViewController
 {
-	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
-	[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar.png"] forBarMetrics:UIBarMetricsDefault];
+	LoginViewController *loginViewController = [[LoginViewController alloc] init];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:loginViewController];
 	[tabBarController presentModalViewController:navigationController animated:YES];
+	[loginViewController release];
+	[navigationController release];
 }
 
 
