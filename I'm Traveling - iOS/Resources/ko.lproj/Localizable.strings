@@ -26,10 +26,18 @@
 "INVALID_PASSWORD" = "잘못된 패스워드입니다.";
 "EMAIL" = "이메일";
 "PASSWORD" = "비밀번호";
-"SIGN_UP" = "아직 회원이 아니신가요?";
+"DO_NOT_HAVE_AN_ACCOUNT" = "아직 회원이 아니신가요?";
 "LOGIN_FAILED_MSG" = "로그인에 실패했습니다. 이메일과 패스워드를 확인해주세요.";
 
 // Sign Up
+"SIGN_UP" = "회원가입";
+"ENTER_YOUR_NAME" = "이름을 입력해주세요";
+"SELECT_NATION" = "국가를 선택해주세요";
+"PASSWORD_VERIFY" = "확인";
+"BIRTHDAY" = "생년월일";
+"SEX" = "성별";
+"MALE" = "남자";
+"FEMALE" = "여자";
 "PRIVACY_FILE" = "privacy_ko";
 "PRIVACY_AGREE" = "약관에 동의합니다.";
 

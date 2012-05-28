@@ -7,6 +7,8 @@
 //
 
 #import "SignUpViewController.h"
+#import "ImTravelingBarButtonItem.h"
+#import "QuartzCore/CALayer.h"
 
 
 @implementation SignUpViewController
@@ -15,23 +17,172 @@
 {
 	if( self = [super init] )
 	{
-		_emailInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 10, 300, 31 )];
-		_emailInput.borderStyle = UITextBorderStyleRoundedRect;
-		_emailInput.placeholder = @"Email";
+		ImTravelingBarButtonItem *backButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeBack title:NSLocalizedString( @"BACK", @"" ) target:self action:@selector(backButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = backButton;
+		[backButton release];
+		
+		self.navigationItem.title = NSLocalizedString( @"SIGN_UP", @"" );
+		
+		UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+		gestureRecognizer.cancelsTouchesInView = NO;
+		[self.view addGestureRecognizer:gestureRecognizer];
+		[gestureRecognizer release];
+		
+		UIView *topBackgroundView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 100 )];
+		topBackgroundView.backgroundColor = [UIColor darkGrayColor];
+		[self.view addSubview:topBackgroundView];
+		[topBackgroundView release];
+		
+		_coverImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cover_temp.jpg"]];
+		_coverImageView.frame = CGRectMake( 0, -85, 320, 320 );
+		[self.view addSubview:_coverImageView];
+		[_coverImageView release];
+		
+		_imageTopBorder = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"share_image_top_border.png"]];
+		_imageTopBorder.hidden = YES;
+		[_coverImageView addSubview:_imageTopBorder];
+		
+		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 416 )];
+		_scrollView.delegate = self;
+		_scrollView.contentSize = CGSizeMake( 320, 507 );
+		[self.view addSubview:_scrollView];
+		[_scrollView release];
+		
+		_profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 25, 161, 66, 66 )];
+		_profileImageView.image = [UIImage imageNamed:@"temp_profile_image.png"];
+		[_scrollView addSubview:_profileImageView];
+		
+		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"signup_bg.png"]];
+		bg.frame = CGRectMake( 0, 142, 320, 365 );
+		[_scrollView addSubview:bg];
+		[bg release];
+		
+		UIView *bottomBg = [[UIView alloc] initWithFrame:CGRectMake( 0, 507, 320, 500 )];
+		bottomBg.backgroundColor = [UIColor colorWithRed:247/255.0 green:221/255.0 blue:199/255.0 alpha:1];
+		[_scrollView addSubview:bottomBg];
+		[bottomBg release];
+		
+		UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		addButton.frame = CGRectMake( 230, 135, 26, 27 );
+		[addButton setBackgroundImage:[UIImage imageNamed:@"button_add_cover.png"] forState:UIControlStateNormal];
+		[_scrollView addSubview:addButton];
+		
+		UIButton *refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		refreshButton.frame = CGRectMake( 276, 135, 26, 28 );
+		[refreshButton setBackgroundImage:[UIImage imageNamed:@"button_refresh_cover.png"] forState:UIControlStateNormal];
+		[_scrollView addSubview:refreshButton];
+		
+		
+		// name
+		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 101, 185, 300, 20 )];
+		_nameInput.text = NSLocalizedString( @"ENTER_YOUR_NAME", @"" );
+		_nameInput.font = [UIFont boldSystemFontOfSize:20];
+		_nameInput.textColor = [UIColor colorWithRed:48/255.0 green:41/255.0 blue:53/255.0 alpha:1];
+		_nameInput.layer.shadowColor = [UIColor whiteColor].CGColor;
+		_nameInput.layer.shadowOffset = CGSizeMake( 0, 1 );
+		_nameInput.layer.shadowOpacity = 0.5;
+		_nameInput.layer.shadowRadius = 0;
+		[_scrollView addSubview:_nameInput];
+		[_nameInput release];
+		
+		
+		// nation
+		_nationLabel = [[UILabel alloc] initWithFrame:CGRectMake( 102, 214, 300, 13 )];
+		_nationLabel.text = NSLocalizedString( @"SELECT_NATION", @"" );
+		_nationLabel.font = [UIFont systemFontOfSize:13];
+		_nationLabel.textColor = [UIColor colorWithRed:135/255.0 green:101/255.0 blue:91/255.0 alpha:1];
+		_nationLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
+		_nationLabel.shadowOffset = CGSizeMake( 0, 1 );
+		_nationLabel.backgroundColor = [UIColor clearColor];
+		[_scrollView addSubview:_nationLabel];
+		[_nationLabel release];
+		
+		
+		// email
+		UILabel *emailTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"EMAIL", @"" ) location:CGPointMake( 13, 272 )];
+		[_scrollView addSubview:emailTitleLabel];
+		[emailTitleLabel release];
+		
+		_emailInput = [self makeInputWithFrame:CGRectMake( 80, 270, 230, 15 ) placeholder:@"email@example.com"];
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
-		[self.view addSubview:_emailInput];
+		[_scrollView addSubview:_emailInput];
+		[_emailInput release];
 		
-		_passwordInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 50, 300, 31 )];
-		_passwordInput.borderStyle = UITextBorderStyleRoundedRect;
+		
+		// password
+		UILabel *passwordTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"PASSWORD", @"" ) location:CGPointMake( 13, 317 )];
+		[_scrollView addSubview:passwordTitleLabel];
+		[passwordTitleLabel release];
+		
+		_passwordInput = [self makeInputWithFrame:CGRectMake( 80, 315, 90, 15 ) placeholder:@"****"];
 		_passwordInput.secureTextEntry = YES;
-		_passwordInput.placeholder = @"Password";
-		[self.view addSubview:_passwordInput];
+		[_scrollView addSubview:_passwordInput];
+		[_passwordInput release];
 		
-		_passwordCheckInput = [[UITextField alloc] initWithFrame:CGRectMake( 10, 90, 300, 31 )];
-		_passwordCheckInput.borderStyle = UITextBorderStyleRoundedRect;
-		_passwordCheckInput.secureTextEntry = YES;
-		_passwordCheckInput.placeholder = @"Verify Password";
-		[self.view addSubview:_passwordCheckInput];
+		
+		// password verify
+		UILabel *passwordVerifyTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"PASSWORD_VERIFY", @"" ) location:CGPointMake( 182, 317 )];
+		[_scrollView addSubview:passwordVerifyTitleLabel];
+		[passwordVerifyTitleLabel release];
+		
+		_passwordVerifyInput = [self makeInputWithFrame:CGRectMake( 215, 315, 90, 15 ) placeholder:@"****"];
+		_passwordVerifyInput.secureTextEntry = YES;
+		[_scrollView addSubview:_passwordVerifyInput];
+		[_passwordVerifyInput release];
+		
+		
+		// birthday
+		UILabel *birthdayTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"BIRTHDAY", @"" ) location:CGPointMake( 13, 362 )];
+		[_scrollView addSubview:birthdayTitleLabel];
+		[birthdayTitleLabel release];
+		
+		_birthdayLabel = [[UILabel alloc] initWithFrame:CGRectMake( 80, 362, 90, 15 )];
+		_birthdayLabel.backgroundColor = [UIColor clearColor];
+		_birthdayLabel.text = @"1995. 01. 14.";
+		_birthdayLabel.font = [UIFont systemFontOfSize:14];
+		_birthdayLabel.textColor = [UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1];
+		[_scrollView addSubview:_birthdayLabel];
+		[_birthdayLabel release];
+		
+		
+		// sex
+		UILabel *sexTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"SEX", @"" ) location:CGPointMake( 182, 362 )];
+		[_scrollView addSubview:sexTitleLabel];
+		[sexTitleLabel release];
+		
+		_maleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_maleButton.frame = CGRectMake( 215, 362, 35, 15 );
+		_maleButton.titleLabel.font = [UIFont systemFontOfSize:14];
+		[_maleButton setTitle:NSLocalizedString( @"MALE", @"" ) forState:UIControlStateNormal];
+		[_maleButton addTarget:self action:@selector(sexButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_maleButton];
+		
+		_femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_femaleButton.frame = CGRectMake( 260, 362, 35, 15 );
+		_femaleButton.titleLabel.font = [UIFont systemFontOfSize:14];
+		[_femaleButton setTitle:NSLocalizedString( @"FEMALE", @"" ) forState:UIControlStateNormal];
+		[_femaleButton addTarget:self action:@selector(sexButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_femaleButton];
+		
+		[_maleButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+		
+		
+		// privacy
+		
+		
+		// sign up
+		UIButton *signUpButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		signUpButton.frame = CGRectMake( 47, 455, 226, 31 );
+		signUpButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+		signUpButton.titleLabel.shadowOffset = CGSizeMake( 0, 1 );
+		[signUpButton setBackgroundImage:[UIImage imageNamed:@"button_signup.png"] forState:UIControlStateNormal];
+		[signUpButton setTitle:NSLocalizedString( @"SIGN_UP", @"" ) forState:UIControlStateNormal];
+		[signUpButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] forState:UIControlStateNormal];
+		[_scrollView addSubview:signUpButton];
+		
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 	}
 	
 	return self;
@@ -40,6 +191,142 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark Navigation bar selectors
+
+- (void)backButtonDidTouchUpInside
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark 
+
+- (UILabel *)makeTitleLabelWithTitle:(NSString *)title location:(CGPoint)location
+{
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake( location.x, location.y, 80, 15 )];
+	label.backgroundColor = [UIColor clearColor];
+	label.text = title;
+	label.font = [UIFont boldSystemFontOfSize:15];
+	label.textColor = [UIColor colorWithRed:0.188 green:0.160 blue:0.207 alpha:1];
+	label.shadowOffset = CGSizeMake( 0, 1 );
+	label.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
+	label.userInteractionEnabled = NO;
+	return label;
+}
+
+- (UITextField *)makeInputWithFrame:(CGRect)frame placeholder:(NSString *)placeholder
+{
+	UITextField *input = [[UITextField alloc] initWithFrame:frame];
+	input.delegate = self;
+	input.placeholder = placeholder;
+	input.font = [UIFont systemFontOfSize:14];
+	input.textColor = [UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1];
+	[input setValue:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
+	return input;
+}
+
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	_currentFirstResponder = textField;
+}
+
+
+#pragma mark -
+#pragma mark Keyboard
+
+- (void)keyboardWillShow
+{
+	CGRect frame = _scrollView.frame;
+	frame.size.height = 200;
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.25];
+	_scrollView.frame = frame;
+	[UIView commitAnimations];
+	
+	[_scrollView setContentOffset:CGPointMake( 0, _currentFirstResponder.frame.origin.y - 20 ) animated:YES];	
+}
+
+- (void)keyboardWillHide
+{
+	_scrollView.contentOffset = CGPointMake( 0, _scrollView.contentOffset.y - 108 );
+	
+	CGRect frame = _scrollView.frame;
+	frame.size.height = 416;
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.3];
+	_scrollView.frame = frame;
+	[UIView commitAnimations];
+}
+
+- (void)dismissKeyboard
+{
+	[_currentFirstResponder resignFirstResponder];
+}
+
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+	CGRect frame = _coverImageView.frame;
+	
+	if( _scrollView.contentOffset.y > 0 )
+	{
+		frame.origin.y = -85 - _scrollView.contentOffset.y;
+	}
+	else
+	{
+		if( _scrollView.contentOffset.y > -122 )
+			frame.origin.y = -85 - _scrollView.contentOffset.y / 2;
+		else
+			frame.origin.y = -146 - _scrollView.contentOffset.y;
+	}
+	
+	_coverImageView.frame = frame;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = NO;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+	_imageTopBorder.hidden = YES;
+}
+
+
+#pragma mark -
+#pragma mark Selectors
+
+- (void)sexButtonDidTouchUpInside:(UIButton *)sender
+{
+	if( sender == _maleButton )
+	{
+		selectedSex = 1;
+		[_maleButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
+		[_femaleButton setTitleColor:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forState:UIControlStateNormal];
+	}
+	else
+	{
+		selectedSex = 2;
+		[_femaleButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
+		[_maleButton setTitleColor:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forState:UIControlStateNormal];
+	}
 }
 
 @end

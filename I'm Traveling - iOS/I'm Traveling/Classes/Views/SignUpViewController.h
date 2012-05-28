@@ -8,13 +8,24 @@
 
 #import "ImTravelingViewController.h"
 
-@interface SignUpViewController : ImTravelingViewController
+@interface SignUpViewController : ImTravelingViewController <UIScrollViewDelegate, UITextFieldDelegate>
 {
+	UIImageView *_imageTopBorder;
+	UIImageView *_coverImageView;
+	UIScrollView *_scrollView;
+	UIImageView *_profileImageView;
+	
+	UITextField *_nameInput;
+	UILabel *_nationLabel;
 	UITextField *_emailInput;
 	UITextField *_passwordInput;
-	UITextField *_passwordCheckInput;
-	UITextField *_nameInput;
+	UITextField *_passwordVerifyInput;
+	UILabel *_birthdayLabel;
+	UIButton *_maleButton;
+	UIButton *_femaleButton;
+	NSInteger selectedSex;
 	
+	UIView *_currentFirstResponder;
 }
 
 @end

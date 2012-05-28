@@ -26,10 +26,18 @@
 "INVALID_PASSWORD" = "Invalid password.";
 "EMAIL" = "Email";
 "PASSWORD" = "Password";
-"SIGN_UP" = "Do not have an account?";
+"DO_NOT_HAVE_AN_ACCOUNT" = "Do not have an account?";
 "LOGIN_FAILED_MSG" = "Login failed. Check your email and password again.";
 
 // Sign Up
+"SIGN_UP" = "Sign Up";
+"ENTER_YOUR_NAME" = "Enter you name";
+"SELECT_NATION" = "Select nation";
+"PASSWORD_VERIFY" = "Verify";
+"BIRTHDAY" = "Birthday";
+"SEX" = "Sex";
+"MALE" = "Male";
+"FEMALE" = "Female";
 "PRIVACY_FILE" = "privacy_en";
 "PRIVACY_AGREE" = "Agree to privacy.";
 

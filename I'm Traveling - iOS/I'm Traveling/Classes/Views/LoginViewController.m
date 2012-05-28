@@ -81,9 +81,9 @@
 		signUpButton.frame = CGRectMake( 22, 235, 277, 37 );
 		signUpButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
 		signUpButton.titleLabel.shadowOffset = CGSizeMake( 0, 1 );
-		[signUpButton setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		[signUpButton setTitleShadowColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateNormal];
 		[signUpButton setTitleColor:[UIColor colorWithRed:0.811 green:0.658 blue:0.541 alpha:1.0] forState:UIControlStateNormal];
-		[signUpButton setTitle:NSLocalizedString( @"SIGN_UP", @"" ) forState:UIControlStateNormal];
+		[signUpButton setTitle:NSLocalizedString( @"DO_NOT_HAVE_AN_ACCOUNT", @"" ) forState:UIControlStateNormal];
 		[signUpButton addTarget:self action:@selector(signUpButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:signUpButton];
 		[signUpButton release];
