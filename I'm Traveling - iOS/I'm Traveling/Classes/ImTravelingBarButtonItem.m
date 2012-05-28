@@ -14,6 +14,8 @@
 {
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 	button.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+	button.titleLabel.shadowColor = [UIColor colorWithWhite:0 alpha:0.3];
+	button.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 	[button setTitle:title forState:UIControlStateNormal];
 	
 	UIImage *bg;
