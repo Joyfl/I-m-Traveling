@@ -93,7 +93,7 @@
 					   feedObj.time,
 					   feedObj.place,
 					   feedObj.region,
-					   feedObj.pictureURL,
+					   feedObj.pictureThumbURL,
 					   feedObj.review,
 					   [Utils writeJSON:feedObj.info],
 					   [NSString stringWithFormat:NSLocalizedString( @"SEE_ALL_N_FEEDS", @"" ), feedObj.numAllFeeds],

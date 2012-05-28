@@ -477,6 +477,7 @@ enum {
 	if( !feedObject.numLikes ) feedObject.numLikes = [[feed objectForKey:@"num_likes"] integerValue];
 	if( !feedObject.numComments ) feedObject.numComments = [[feed objectForKey:@"num_comments"] integerValue];
 	if( !feedObject.pictureURL ) feedObject.pictureURL = [NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE, feedObject.userId, feedObject.feedId];
+	if( !feedObject.pictureThumbURL ) feedObject.pictureThumbURL = [NSString stringWithFormat:@"%@%d_%d.jpg", API_FEED_IMAGE_THUMB, feedObject.userId, feedObject.feedId];
 	if( !feedObject.profileImageURL ) feedObject.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, feedObject.userId];
 	
 	// ref가 2일 경우에만 해당
