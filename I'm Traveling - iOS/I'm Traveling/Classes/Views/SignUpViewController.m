@@ -23,11 +23,6 @@
 		
 		self.navigationItem.title = NSLocalizedString( @"SIGN_UP", @"" );
 		
-		UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-		gestureRecognizer.cancelsTouchesInView = NO;
-		[self.view addGestureRecognizer:gestureRecognizer];
-		[gestureRecognizer release];
-		
 		UIView *topBackgroundView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 100 )];
 		topBackgroundView.backgroundColor = [UIColor darkGrayColor];
 		[self.view addSubview:topBackgroundView];
@@ -74,28 +69,37 @@
 		
 		
 		// name
-		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 101, 185, 300, 20 )];
-		_nameInput.text = NSLocalizedString( @"ENTER_YOUR_NAME", @"" );
+		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 101, 185, 300, 24 )];
+		_nameInput.delegate = self;
+		_nameInput.placeholder = NSLocalizedString( @"ENTER_YOUR_NAME", @"" );
 		_nameInput.font = [UIFont boldSystemFontOfSize:20];
 		_nameInput.textColor = [UIColor colorWithRed:48/255.0 green:41/255.0 blue:53/255.0 alpha:1];
 		_nameInput.layer.shadowColor = [UIColor whiteColor].CGColor;
 		_nameInput.layer.shadowOffset = CGSizeMake( 0, 1 );
 		_nameInput.layer.shadowOpacity = 0.5;
 		_nameInput.layer.shadowRadius = 0;
+		[_nameInput setValue:[UIColor colorWithRed:191/255.0 green:150/255.0 blue:119/255.0 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
 		[_scrollView addSubview:_nameInput];
 		[_nameInput release];
 		
 		
 		// nation
-		_nationLabel = [[UILabel alloc] initWithFrame:CGRectMake( 102, 214, 300, 13 )];
-		_nationLabel.text = NSLocalizedString( @"SELECT_NATION", @"" );
-		_nationLabel.font = [UIFont systemFontOfSize:13];
-		_nationLabel.textColor = [UIColor colorWithRed:135/255.0 green:101/255.0 blue:91/255.0 alpha:1];
-		_nationLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
-		_nationLabel.shadowOffset = CGSizeMake( 0, 1 );
-		_nationLabel.backgroundColor = [UIColor clearColor];
-		[_scrollView addSubview:_nationLabel];
-		[_nationLabel release];
+		_nationButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_nationButton.frame = CGRectMake( 104, 214, 200, 13 );
+		_nationButton.titleLabel.font = [UIFont systemFontOfSize:13];
+		_nationButton.titleLabel.shadowOffset = CGSizeMake( 0, 1 );
+		_nationButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+		[_nationButton setTitle:NSLocalizedString( @"SELECT_NATION", @"" ) forState:UIControlStateNormal];
+		[_nationButton setTitleColor:[UIColor colorWithRed:203/255.0 green:166/255.0 blue:137/255.0 alpha:1] forState:UIControlStateNormal];
+		[_nationButton setTitleShadowColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateNormal];
+		[_nationButton addTarget:self action:@selector(nationButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_nationButton];
+		
+		_nationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake( 0, 416, 320, 218 )];
+		_nationPicker.delegate = self;
+		_nationPicker.dataSource = self;
+		[self.view addSubview:_nationPicker];
+		[_nationPicker release];
 		
 		
 		// email
@@ -103,7 +107,7 @@
 		[_scrollView addSubview:emailTitleLabel];
 		[emailTitleLabel release];
 		
-		_emailInput = [self makeInputWithFrame:CGRectMake( 80, 270, 230, 15 ) placeholder:@"email@example.com"];
+		_emailInput = [self makeInputWithFrame:CGRectMake( 80, 270, 230, 18 ) placeholder:@"email@example.com"];
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
 		[_scrollView addSubview:_emailInput];
 		[_emailInput release];
@@ -114,7 +118,7 @@
 		[_scrollView addSubview:passwordTitleLabel];
 		[passwordTitleLabel release];
 		
-		_passwordInput = [self makeInputWithFrame:CGRectMake( 80, 315, 90, 15 ) placeholder:@"****"];
+		_passwordInput = [self makeInputWithFrame:CGRectMake( 80, 315, 90, 18 ) placeholder:@"****"];
 		_passwordInput.secureTextEntry = YES;
 		[_scrollView addSubview:_passwordInput];
 		[_passwordInput release];
@@ -125,7 +129,7 @@
 		[_scrollView addSubview:passwordVerifyTitleLabel];
 		[passwordVerifyTitleLabel release];
 		
-		_passwordVerifyInput = [self makeInputWithFrame:CGRectMake( 215, 315, 90, 15 ) placeholder:@"****"];
+		_passwordVerifyInput = [self makeInputWithFrame:CGRectMake( 220, 315, 90, 18 ) placeholder:@"****"];
 		_passwordVerifyInput.secureTextEntry = YES;
 		[_scrollView addSubview:_passwordVerifyInput];
 		[_passwordVerifyInput release];
@@ -136,13 +140,20 @@
 		[_scrollView addSubview:birthdayTitleLabel];
 		[birthdayTitleLabel release];
 		
-		_birthdayLabel = [[UILabel alloc] initWithFrame:CGRectMake( 80, 362, 90, 15 )];
-		_birthdayLabel.backgroundColor = [UIColor clearColor];
-		_birthdayLabel.text = @"1995. 01. 14.";
-		_birthdayLabel.font = [UIFont systemFontOfSize:14];
-		_birthdayLabel.textColor = [UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1];
-		[_scrollView addSubview:_birthdayLabel];
-		[_birthdayLabel release];
+		_birthdayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_birthdayButton.frame = CGRectMake( 80, 360, 90, 18 );
+		_birthdayButton.titleLabel.font = [UIFont systemFontOfSize:14];
+		_birthdayButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+		[_birthdayButton setTitle:@"1995. 01. 14." forState:UIControlStateNormal];
+		[_birthdayButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
+		[_birthdayButton addTarget:self action:@selector(birthdayButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_birthdayButton];
+		
+		_birthdayPicker = [[UIDatePicker alloc] initWithFrame:CGRectMake( 0, 416, 320, 218 )];
+		_birthdayPicker.datePickerMode = UIDatePickerModeDate;
+		[_birthdayPicker addTarget:self action:@selector(birthdayPickerValueChanged) forControlEvents:UIControlEventValueChanged];
+		[self.view addSubview:_birthdayPicker];
+		[_birthdayPicker release];
 		
 		
 		// sex
@@ -151,14 +162,14 @@
 		[sexTitleLabel release];
 		
 		_maleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_maleButton.frame = CGRectMake( 215, 362, 35, 15 );
+		_maleButton.frame = CGRectMake( 220, 362, 35, 15 );
 		_maleButton.titleLabel.font = [UIFont systemFontOfSize:14];
 		[_maleButton setTitle:NSLocalizedString( @"MALE", @"" ) forState:UIControlStateNormal];
 		[_maleButton addTarget:self action:@selector(sexButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:_maleButton];
 		
 		_femaleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_femaleButton.frame = CGRectMake( 260, 362, 35, 15 );
+		_femaleButton.frame = CGRectMake( 265, 362, 35, 15 );
 		_femaleButton.titleLabel.font = [UIFont systemFontOfSize:14];
 		[_femaleButton setTitle:NSLocalizedString( @"FEMALE", @"" ) forState:UIControlStateNormal];
 		[_femaleButton addTarget:self action:@selector(sexButtonDidTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
@@ -181,7 +192,14 @@
 		[_scrollView addSubview:signUpButton];
 		
 		
+		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
+		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
+		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_keyboardHideButton];
+		_keyboardHideButton.hidden = YES;
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 	}
 	
@@ -245,6 +263,10 @@
 
 - (void)keyboardWillShow
 {
+	_originalOffset = _scrollView.contentOffset.y;
+	
+	[_scrollView setContentOffset:CGPointMake( 0, _currentFirstResponder.frame.origin.y - 20 ) animated:YES];
+	
 	CGRect frame = _scrollView.frame;
 	frame.size.height = 200;
 	
@@ -253,27 +275,23 @@
 	[UIView setAnimationDuration:0.25];
 	_scrollView.frame = frame;
 	[UIView commitAnimations];
-	
-	[_scrollView setContentOffset:CGPointMake( 0, _currentFirstResponder.frame.origin.y - 20 ) animated:YES];	
+}
+
+- (void)keyboardDidShow
+{
+	_keyboardHideButton.hidden = NO;
 }
 
 - (void)keyboardWillHide
 {
-	_scrollView.contentOffset = CGPointMake( 0, _scrollView.contentOffset.y - 108 );
-	
 	CGRect frame = _scrollView.frame;
 	frame.size.height = 416;
 	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.3];
+	[UIView setAnimationDuration:0.25];
 	_scrollView.frame = frame;
 	[UIView commitAnimations];
-}
-
-- (void)dismissKeyboard
-{
-	[_currentFirstResponder resignFirstResponder];
 }
 
 
@@ -313,6 +331,22 @@
 #pragma mark -
 #pragma mark Selectors
 
+- (void)nationButtonDidTouchUpInside
+{
+	[_currentFirstResponder resignFirstResponder];
+	[self hidePicker:_birthdayPicker];
+	_currentFirstResponder = _nationButton;
+	[self showPicker:_nationPicker];
+}
+
+- (void)birthdayButtonDidTouchUpInside
+{
+	[_currentFirstResponder resignFirstResponder];
+	[self hidePicker:_nationButton];
+	_currentFirstResponder = _birthdayButton;
+	[self showPicker:_birthdayPicker];
+}
+
 - (void)sexButtonDidTouchUpInside:(UIButton *)sender
 {
 	if( sender == _maleButton )
@@ -327,6 +361,78 @@
 		[_femaleButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
 		[_maleButton setTitleColor:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forState:UIControlStateNormal];
 	}
+}
+
+- (void)birthdayPickerValueChanged
+{
+	NSLog( @"birthday : %@", _birthdayPicker.date );
+}
+
+- (void)keyboardHideButtonDidTouchUpInside
+{
+	_keyboardHideButton.hidden = YES;
+	[_currentFirstResponder resignFirstResponder];
+	[self hidePicker:_nationPicker];
+	[self hidePicker:_birthdayPicker];
+}
+
+
+#pragma mark -
+#pragma mark UIPicker
+
+- (void)showPicker:(UIView *)picker
+{
+	if( [picker isKindOfClass:[UIPickerView class]] || [picker isKindOfClass:[UIDatePicker class]] )
+	{
+		CGRect frame = picker.frame;
+		frame.origin.y = 200;
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.25];
+		picker.frame = frame;
+		[UIView commitAnimations];
+		
+		[self keyboardWillShow];
+		[self performSelector:@selector(keyboardDidShow) withObject:nil afterDelay:0.25];
+	}
+}
+
+- (void)hidePicker:(UIView *)picker
+{
+	if( [picker isKindOfClass:[UIPickerView class]] || [picker isKindOfClass:[UIDatePicker class]] )
+	{
+		CGRect frame = picker.frame;
+		frame.origin.y = 416;
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.25];
+		picker.frame = frame;
+		[UIView commitAnimations];
+		
+		[self keyboardWillHide];
+	}
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+	return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+	return 5;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+	return @"KOR";
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+	NSLog( @"selected : %d", row );
 }
 
 @end

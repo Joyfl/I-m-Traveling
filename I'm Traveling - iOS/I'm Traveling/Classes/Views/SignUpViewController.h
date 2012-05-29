@@ -8,7 +8,7 @@
 
 #import "ImTravelingViewController.h"
 
-@interface SignUpViewController : ImTravelingViewController <UIScrollViewDelegate, UITextFieldDelegate>
+@interface SignUpViewController : ImTravelingViewController <UIScrollViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 {
 	UIImageView *_imageTopBorder;
 	UIImageView *_coverImageView;
@@ -16,16 +16,21 @@
 	UIImageView *_profileImageView;
 	
 	UITextField *_nameInput;
-	UILabel *_nationLabel;
+	UIButton *_nationButton;
 	UITextField *_emailInput;
 	UITextField *_passwordInput;
 	UITextField *_passwordVerifyInput;
-	UILabel *_birthdayLabel;
+	UIButton *_birthdayButton;
 	UIButton *_maleButton;
 	UIButton *_femaleButton;
 	NSInteger selectedSex;
 	
 	UIView *_currentFirstResponder;
+	NSInteger _originalOffset;
+	
+	UIButton *_keyboardHideButton;
+	UIPickerView *_nationPicker;
+	UIDatePicker *_birthdayPicker;
 }
 
 @end
