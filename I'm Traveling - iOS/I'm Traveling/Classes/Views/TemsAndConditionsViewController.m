@@ -6,40 +6,35 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#import "PrivacyViewController.h"
-#import "SignUpViewController.h"
+#import "TemsAndConditionsViewController.h"
+#import "ImTravelingBarButtonItem.h"
 
-@implementation PrivacyViewController
+@implementation TemsAndConditionsViewController
 
 - (id)init
 {
 	if( self = [super init] )
 	{
-		UITextView *privacyView = [[UITextView alloc] initWithFrame:CGRectMake( 10, 10, 300, 300 )];
-		NSString *path = [[NSBundle mainBundle] pathForResource:NSLocalizedString( @"PRIVACY_FILE", @"" ) ofType:@"txt"];
-		privacyView.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-		privacyView.editable = NO;
-		[self.view addSubview:privacyView];
-		[privacyView release];
+		self.view.backgroundColor = [UIColor whiteColor];
 		
-		UIButton *checkBox = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-		checkBox.frame = CGRectMake( 10, 320, 20, 20 );
-		[checkBox addTarget:self action:@selector(checkBoxDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:checkBox];
+		ImTravelingBarButtonItem *closeButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"CLOSE", @"" ) target:self action:@selector(closeButtonDidTouchUpInside)];
+		self.navigationItem.leftBarButtonItem = closeButton;
+		self.navigationItem.title = NSLocalizedString( @"TERMS_AND_CONDITIONS", @"" );
 		
-		UILabel *agreeLabel = [[UILabel alloc] initWithFrame:CGRectMake( 40, 320, 280, 20 )];
-		agreeLabel.text = NSLocalizedString( @"PRIVACY_AGREE", @"" );
-		[self.view addSubview:agreeLabel];
-		[agreeLabel release];
+		UITextView *termsAndConditionsView = [[UITextView alloc] initWithFrame:CGRectMake( 10, 10, 300, 300 )];
+		NSString *path = [[NSBundle mainBundle] pathForResource:NSLocalizedString( @"TERMS_AND_CONDITIONS_FILE", @"" ) ofType:@"txt"];
+		termsAndConditionsView.text = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+		termsAndConditionsView.editable = NO;
+		[self.view addSubview:termsAndConditionsView];
+		[termsAndConditionsView release];
 	}
 	
 	return self;
 }
 
-- (void)checkBoxDidTouchUpInside
+- (void)closeButtonDidTouchUpInside
 {
-	SignUpViewController *signUpViewController = [[SignUpViewController alloc] init];
-	[self.navigationController pushViewController:signUpViewController animated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

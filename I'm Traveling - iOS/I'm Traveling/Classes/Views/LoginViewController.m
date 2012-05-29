@@ -167,6 +167,8 @@
 
 - (void)loginWithEmail:(NSString *)email andPassword:(NSString *)password
 {
+	[self startBusy];
+	
 	[[SettingsManager manager] setSetting:email forKey:SETTING_KEY_EMAIL];
 	[[SettingsManager manager] setSetting:password forKey:SETTING_KEY_PASSWORD];
 	
@@ -175,6 +177,8 @@
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
+	[self stopBusy];
+	
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{

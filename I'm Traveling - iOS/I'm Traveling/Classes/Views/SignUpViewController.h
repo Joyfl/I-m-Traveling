@@ -8,22 +8,26 @@
 
 #import "ImTravelingViewController.h"
 
-@interface SignUpViewController : ImTravelingViewController <UIScrollViewDelegate, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface SignUpViewController : ImTravelingViewController <UIScrollViewDelegate, UITextFieldDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIAlertViewDelegate>
 {
 	UIImageView *_imageTopBorder;
 	UIImageView *_coverImageView;
 	UIScrollView *_scrollView;
-	UIImageView *_profileImageView;
+	UIButton *_profileImageButton;
 	
 	UITextField *_nameInput;
+	NSArray *_nations;
 	UIButton *_nationButton;
 	UITextField *_emailInput;
 	UITextField *_passwordInput;
 	UITextField *_passwordVerifyInput;
 	UIButton *_birthdayButton;
+	NSDate *_selectedBirthday;
 	UIButton *_maleButton;
 	UIButton *_femaleButton;
-	NSInteger selectedSex;
+	NSInteger _selectedSex;
+	UIButton *_agreeButton;
+	BOOL _agreed;
 	
 	UIView *_currentFirstResponder;
 	NSInteger _originalOffset;
@@ -31,6 +35,13 @@
 	UIButton *_keyboardHideButton;
 	UIPickerView *_nationPicker;
 	UIDatePicker *_birthdayPicker;
+	
+	// 0 : Cover Image
+	// 1 : Profile Image
+	NSInteger _actionSheetType;
+	
+	// [가입하기]를 눌러 올바르지 않은 필드일 경우 해당 위치로 포커스 이동
+	UIView *_invalidField;
 }
 
 @end

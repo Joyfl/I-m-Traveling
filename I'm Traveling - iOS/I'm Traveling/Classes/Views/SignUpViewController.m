@@ -9,6 +9,11 @@
 #import "SignUpViewController.h"
 #import "ImTravelingBarButtonItem.h"
 #import "QuartzCore/CALayer.h"
+#import "ImTravelingNavigationController.h"
+#import "TemsAndConditionsViewController.h"
+#import "Const.h"
+#import "Utils.h"
+#import "SettingsManager.h"
 
 
 @implementation SignUpViewController
@@ -43,9 +48,11 @@
 		[self.view addSubview:_scrollView];
 		[_scrollView release];
 		
-		_profileImageView = [[UIImageView alloc] initWithFrame:CGRectMake( 25, 161, 66, 66 )];
-		_profileImageView.image = [UIImage imageNamed:@"temp_profile_image.png"];
-		[_scrollView addSubview:_profileImageView];
+		_profileImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_profileImageButton.frame = CGRectMake( 25, 163, 66, 66 );
+		[_profileImageButton setBackgroundImage:[UIImage imageNamed:@"temp_profile_image.png"] forState:UIControlStateNormal];
+		[_profileImageButton addTarget:self action:@selector(profileImageButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_profileImageButton];
 		
 		UIImageView *bg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"signup_bg.png"]];
 		bg.frame = CGRectMake( 0, 142, 320, 365 );
@@ -60,11 +67,13 @@
 		UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		addButton.frame = CGRectMake( 230, 135, 26, 27 );
 		[addButton setBackgroundImage:[UIImage imageNamed:@"button_add_cover.png"] forState:UIControlStateNormal];
+		[addButton addTarget:self action:@selector(addCoverImageButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:addButton];
 		
 		UIButton *refreshButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		refreshButton.frame = CGRectMake( 276, 135, 26, 28 );
 		[refreshButton setBackgroundImage:[UIImage imageNamed:@"button_refresh_cover.png"] forState:UIControlStateNormal];
+		[refreshButton addTarget:self action:@selector(refreshCoverImageButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:refreshButton];
 		
 		
@@ -84,6 +93,8 @@
 		
 		
 		// nation
+		_nations = [[Utils parseJSON:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"nations" ofType:@"json"] encoding:NSUTF8StringEncoding error:nil]] retain];
+		
 		_nationButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_nationButton.frame = CGRectMake( 104, 214, 200, 13 );
 		_nationButton.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -98,6 +109,7 @@
 		_nationPicker = [[UIPickerView alloc] initWithFrame:CGRectMake( 0, 416, 320, 218 )];
 		_nationPicker.delegate = self;
 		_nationPicker.dataSource = self;
+		_nationPicker.showsSelectionIndicator = YES;
 		[self.view addSubview:_nationPicker];
 		[_nationPicker release];
 		
@@ -136,6 +148,8 @@
 		
 		
 		// birthday
+		_selectedBirthday = [[NSDate alloc] init];
+		
 		UILabel *birthdayTitleLabel = [self makeTitleLabelWithTitle:NSLocalizedString( @"BIRTHDAY", @"" ) location:CGPointMake( 13, 362 )];
 		[_scrollView addSubview:birthdayTitleLabel];
 		[birthdayTitleLabel release];
@@ -144,7 +158,7 @@
 		_birthdayButton.frame = CGRectMake( 80, 360, 90, 18 );
 		_birthdayButton.titleLabel.font = [UIFont systemFontOfSize:14];
 		_birthdayButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-		[_birthdayButton setTitle:@"1995. 01. 14." forState:UIControlStateNormal];
+		[_birthdayButton setTitle:[Utils dateWithDate:_selectedBirthday] forState:UIControlStateNormal];
 		[_birthdayButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
 		[_birthdayButton addTarget:self action:@selector(birthdayButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:_birthdayButton];
@@ -178,7 +192,23 @@
 		[_maleButton sendActionsForControlEvents:UIControlEventTouchUpInside];
 		
 		
-		// privacy
+		// terms and conditions
+		UIButton *termsAndConditionsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		termsAndConditionsButton.frame = CGRectMake( 13, 407, 204, 15 );
+		termsAndConditionsButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+		termsAndConditionsButton.titleLabel.shadowOffset = CGSizeMake( 0, 1 );
+		termsAndConditionsButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+		[termsAndConditionsButton setTitle:NSLocalizedString( @"READ_AND_ACCEPT_TERMS_AND_CONDITIONS", @"" ) forState:UIControlStateNormal];
+		[termsAndConditionsButton setTitleColor:[UIColor colorWithRed:0.188 green:0.160 blue:0.207 alpha:1] forState:UIControlStateNormal];
+		[termsAndConditionsButton setTitleShadowColor:[UIColor colorWithWhite:1 alpha:0.5] forState:UIControlStateNormal];
+		[termsAndConditionsButton addTarget:self action:@selector(termsAndConditionsButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:termsAndConditionsButton];
+		
+		_agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_agreeButton.frame = CGRectMake( 274, 407, 20, 16 );
+		[_agreeButton setBackgroundImage:[UIImage imageNamed:@"button_check.png"] forState:UIControlStateNormal];
+		[_agreeButton addTarget:self action:@selector(agreeButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_scrollView addSubview:_agreeButton];
 		
 		
 		// sign up
@@ -189,6 +219,7 @@
 		[signUpButton setBackgroundImage:[UIImage imageNamed:@"button_signup.png"] forState:UIControlStateNormal];
 		[signUpButton setTitle:NSLocalizedString( @"SIGN_UP", @"" ) forState:UIControlStateNormal];
 		[signUpButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] forState:UIControlStateNormal];
+		[signUpButton addTarget:self action:@selector(signUpButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:signUpButton];
 		
 		
@@ -331,6 +362,23 @@
 #pragma mark -
 #pragma mark Selectors
 
+- (void)addCoverImageButtonDidTouchUpInside
+{
+	_actionSheetType = 0;
+	[self presentActionSheet];
+}
+
+- (void)refreshCoverImageButtonDidTouchUpInside
+{
+	
+}
+
+- (void)profileImageButtonDidTouchUpInside
+{
+	_actionSheetType = 1;
+	[self presentActionSheet];
+}
+
 - (void)nationButtonDidTouchUpInside
 {
 	[_currentFirstResponder resignFirstResponder];
@@ -351,21 +399,96 @@
 {
 	if( sender == _maleButton )
 	{
-		selectedSex = 1;
+		_selectedSex = 1;
 		[_maleButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
 		[_femaleButton setTitleColor:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forState:UIControlStateNormal];
 	}
 	else
 	{
-		selectedSex = 2;
+		_selectedSex = 2;
 		[_femaleButton setTitleColor:[UIColor colorWithRed:123/255.0 green:89/255.0 blue:56/255.0 alpha:1] forState:UIControlStateNormal];
 		[_maleButton setTitleColor:[UIColor colorWithRed:201/255.0 green:162/255.0 blue:132/255.0 alpha:1] forState:UIControlStateNormal];
 	}
 }
 
-- (void)birthdayPickerValueChanged
+- (void)termsAndConditionsButtonDidTouchUpInside
 {
-	NSLog( @"birthday : %@", _birthdayPicker.date );
+	TemsAndConditionsViewController *termsAndConditionsViewController = [[TemsAndConditionsViewController alloc] init];
+	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:termsAndConditionsViewController];
+	[self presentModalViewController:navigationController animated:YES];
+}
+
+- (void)agreeButtonDidTouchUpInside
+{
+	if( _agreed )
+	{
+		[_agreeButton setBackgroundImage:[UIImage imageNamed:@"button_check.png"] forState:UIControlStateNormal];
+		_agreed = NO;
+	}
+	else
+	{
+		[_agreeButton setBackgroundImage:[UIImage imageNamed:@"button_check_checked.png"] forState:UIControlStateNormal];
+		_agreed = YES;
+	}
+}
+
+- (void)signUpButtonDidTouchUpInside
+{
+	_invalidField = nil;
+	
+	if( !_nameInput.text.length )
+	{
+		[self showAlertWithMessage:@"ENTER_YOUR_NAME"];
+		_invalidField = _nameInput;
+		return;
+	}
+	
+	if( [_nationButton.titleLabel.text isEqualToString:NSLocalizedString( @"SELECT_NATION", @"" )] )
+	{
+		[self showAlertWithMessage:@"SELECT_NATION"];
+		_invalidField = _nationButton;
+		return;
+	}
+	
+	if( !_emailInput.text )
+	{
+		[self showAlertWithMessage:@"ENTER_EMAIL"];
+		_invalidField = _emailInput;
+		return;
+	}
+	
+	if( _passwordInput.text.length < 4 )
+	{
+		[self showAlertWithMessage:@"SHORT_PASSWORD"];
+		_invalidField = _passwordInput;
+		return;
+	}
+	
+	if( ![_passwordInput.text isEqualToString:_passwordVerifyInput.text] )
+	{
+		[self showAlertWithMessage:@"PASSWORD_NOT_MATCH"];
+		_invalidField = _passwordVerifyInput;
+		return;
+	}
+	
+	if( !_agreed )
+	{
+		[self showAlertWithMessage:@"PLEASE_READ_AND_ACCEPT_TERMS_AND_CONDITIONS"];
+		return;
+	}
+	
+	NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+						  _emailInput.text, @"email",
+						  [Utils sha1:_passwordInput.text], @"password",
+						  _nameInput.text, @"name",
+						  [NSNumber numberWithInteger:_selectedSex], @"sex",
+						  [Utils dateStringForUpload:_selectedBirthday], @"birthday",
+						  _nationButton.titleLabel.text, @"nation",
+						  nil];
+	NSLog( @"data : %@", data );
+	[self.loader loadURLPOST:API_SIGN_UP withData:data andId:0];
+	
+	[self startBusy];
 }
 
 - (void)keyboardHideButtonDidTouchUpInside
@@ -374,6 +497,99 @@
 	[_currentFirstResponder resignFirstResponder];
 	[self hidePicker:_nationPicker];
 	[self hidePicker:_birthdayPicker];
+}
+
+
+#pragma mark -
+#pragma mark Loader
+
+- (void)loadingDidFinish:(ImTravelingLoaderToken *)token
+{
+	[self stopBusy];
+	
+	NSDictionary *json = [Utils parseJSON:token.data];
+	if( [self isError:json] )
+	{
+#warning temp code
+		[self showAlertWithMessage:@"Error"];
+		return;
+	}
+	
+	NSDictionary *result = [json objectForKey:@"result"];
+	
+	[[SettingsManager manager] setSetting:[result objectForKey:@"ID"] forKey:SETTING_KEY_USER_ID];
+	[[SettingsManager manager] setSetting:_emailInput.text forKey:SETTING_KEY_EMAIL];
+	[[SettingsManager manager] setSetting:_nameInput.text forKey:SETTING_KEY_USER_NAME];
+	[[SettingsManager manager] setSetting:_passwordInput.text forKey:SETTING_KEY_PASSWORD];
+	[[SettingsManager manager] flush];
+
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)presentActionSheet
+{
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString( @"CANCEL", @"" ) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString( @"TAKE_A_PICTURE", @"Camera" ), NSLocalizedString( @"FROM_LIBRARY", @"Album" ), nil];
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	UIImagePickerController *pickerController = [[UIImagePickerController alloc] init];
+	
+	if( buttonIndex == 0 ) // Camera
+	{
+		@try
+		{
+			pickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+		}
+		@catch (NSException *exception)
+		{
+			[self showAlertWithMessage:@"NO_SUPPORT_CAMERA"];
+			return;
+		}
+		
+		pickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModePhoto;
+	}
+	else if( buttonIndex == 1 ) // Album
+	{
+		pickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	}
+	else
+	{
+		return;
+	}
+	
+	pickerController.delegate = self;
+	[self presentModalViewController:pickerController animated:YES];
+}
+
+
+#pragma mark -
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+	UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+	
+	// 카메라로 찍은 경우 앨범에 저장
+	if( picker.sourceType == UIImagePickerControllerSourceTypeCamera )
+		UIImageWriteToSavedPhotosAlbum( image, nil, nil, nil );
+	
+	if( _actionSheetType == 0 )
+	{
+		_coverImageView.image = image;
+	}
+	else if( _actionSheetType == 1 )
+	{
+		[_profileImageButton setBackgroundImage:image forState:UIControlStateNormal];
+	}
+	
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 
@@ -422,17 +638,51 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-	return 5;
+	return _nations.count;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-	return @"KOR";
+	return [[_nations objectAtIndex:row] objectForKey:@"name"];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	NSLog( @"selected : %d", row );
+	[_nationButton setTitle:[[_nations objectAtIndex:row] objectForKey:@"code"] forState:UIControlStateNormal];
+}
+
+- (void)birthdayPickerValueChanged
+{
+	_selectedBirthday = _birthdayPicker.date;
+	[_birthdayButton setTitle:[Utils dateWithDate:_selectedBirthday] forState:UIControlStateNormal];
+}
+
+
+#pragma mark -
+#pragma mark Utils
+
+- (void)showAlertWithMessage:(NSString *)message
+{
+	[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( message, @"") delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
+}
+
+
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	if( !_invalidField ) return;
+	if( [_invalidField isKindOfClass:[UITextField class]] )
+	{
+		[_invalidField becomeFirstResponder];
+	}
+	else if( [_invalidField isKindOfClass:[UIButton class]] )
+	{
+		[((UIButton *)_invalidField) sendActionsForControlEvents:UIControlEventTouchUpInside];
+	}
+	
+	_currentFirstResponder = _invalidField;
 }
 
 @end

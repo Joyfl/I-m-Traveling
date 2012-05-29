@@ -8,6 +8,6 @@
 
 #import "ImTravelingViewController.h"
 
-@interface PrivacyViewController : ImTravelingViewController
+@interface TemsAndConditionsViewController : ImTravelingViewController
 
 @end

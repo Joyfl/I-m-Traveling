@@ -14,6 +14,7 @@
 "OK" = "OK";
 "OOPS" = "Oops!";
 "I_GOT_IT" = "I got it";
+"CLOSE" = "Close";
 
 // Pull Down
 "PULL_DOWN_TO_REFRESH" = "Pull down to refresh.";
@@ -38,8 +39,15 @@
 "SEX" = "Sex";
 "MALE" = "Male";
 "FEMALE" = "Female";
-"PRIVACY_FILE" = "privacy_en";
-"PRIVACY_AGREE" = "Agree to privacy.";
+"READ_AND_ACCEPT_TERMS_AND_CONDITIONS" = "Read and accept the Terms and Conditions";
+"ENTER_EMAIL" = "Enter email.";
+"SHORT_PASSWORD" = "Password must be at least 4 characters.";
+"PASSWORD_NOT_MATCH" = "Password does not match.";
+"PLEASE_READ_AND_ACCEPT_TERMS_AND_CONDITIONS" = "Place read and accept the Terms and Conditions.";
+
+// Terms And Conditions
+"TERMS_AND_CONDITIONS" = "Terms and Conditions";
+"TERMS_AND_CONDITIONS_FILE" = "terms_and_conditions_en";
 
 // Tab Bar
 "TAB_FEED" = "Feed";

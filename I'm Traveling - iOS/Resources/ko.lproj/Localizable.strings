@@ -14,6 +14,7 @@
 "OK" = "확인";
 "OOPS" = "어머나 세상에!";
 "I_GOT_IT" = "알겠어요";
+"CLOSE" = "닫기";
 
 // Pull Down
 "PULL_DOWN_TO_UPDATE" = "업데이트하시려면 아래로 당기세요.";
@@ -38,8 +39,15 @@
 "SEX" = "성별";
 "MALE" = "남자";
 "FEMALE" = "여자";
-"PRIVACY_FILE" = "privacy_ko";
-"PRIVACY_AGREE" = "약관에 동의합니다.";
+"READ_AND_ACCEPT_TERMS_AND_CONDITIONS" = "이용 약관 보기 및 동의";
+"ENTER_EMAIL" = "이메일을 입력해주세요.";
+"SHORT_PASSWORD" = "4자리 이상의 비밀번호를 입력해주세요.";
+"PASSWORD_NOT_MATCH" = "비밀번호가 맞지 않습니다.";
+"PLEASE_READ_AND_ACCEPT_TERMS_AND_CONDITIONS" = "이용 약관을 읽고 동의해주세요.";
+
+// Terms And Conditions
+"TERMS_AND_CONDITIONS" = "이용 약관";
+"TERMS_AND_CONDITIONS_FILE" = "terms_and_conditions_ko";
 
 // Tab Bar
 "TAB_FEED" = "피드";
