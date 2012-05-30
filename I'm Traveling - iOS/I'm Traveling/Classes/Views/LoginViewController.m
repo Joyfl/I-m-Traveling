@@ -56,6 +56,8 @@
 		_emailInput.layer.shadowRadius = 0;
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
 		_emailInput.returnKeyType = UIReturnKeyNext;
+		_emailInput.autocorrectionType = UITextAutocorrectionTypeNo;
+		_emailInput.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		[_emailInput setValue:[UIColor colorWithRed:0.788 green:0.635 blue:0.517 alpha:1.0] forKeyPath:@"_placeholderLabel.textColor"];
 		[_emailInput addTarget:self action:@selector(inputEditChanged:) forControlEvents:UIControlEventEditingChanged];
 		[self.view addSubview:_emailInput];
