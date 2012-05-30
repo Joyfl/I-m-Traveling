@@ -49,7 +49,7 @@
 		[_scrollView release];
 		
 		_profileImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_profileImageButton.frame = CGRectMake( 25, 163, 66, 66 );
+		_profileImageButton.frame = CGRectMake( 25, 162, 67, 67 );
 		[_profileImageButton setBackgroundImage:[UIImage imageNamed:@"temp_profile_image.png"] forState:UIControlStateNormal];
 		[_profileImageButton addTarget:self action:@selector(profileImageButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:_profileImageButton];
