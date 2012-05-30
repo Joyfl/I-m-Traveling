@@ -62,8 +62,10 @@ enum {
 		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 76, 31 )];
 		newButton.tag = kTagNewButton;
 		newButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		newButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		newButton.titleEdgeInsets = UIEdgeInsetsMake( 0, 4, 0, 0 );
 		[newButton setTitle:NSLocalizedString( @"NEW", @"" ) forState:UIControlStateNormal];
+		[newButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left.png"] forState:UIControlStateNormal];
 		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateHighlighted];
 		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateDisabled];
@@ -76,7 +78,9 @@ enum {
 		UIButton *popularButton = [[UIButton alloc] initWithFrame:CGRectMake( 76, 0, 76, 31 )];
 		popularButton.tag = kTagPopularButton;
 		popularButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		popularButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		[popularButton setTitle:NSLocalizedString( @"POPULAR", @"" ) forState:UIControlStateNormal];
+		[popularButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center.png"] forState:UIControlStateNormal];
 		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center_selected.png"] forState:UIControlStateHighlighted];
 		[popularButton setBackgroundImage:[UIImage imageNamed:@"button_bar_center_selected.png"] forState:UIControlStateDisabled];
@@ -87,8 +91,10 @@ enum {
 		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 149, 0, 76, 31 )];
 		followingButton.tag = kTagFollowingButton;
 		followingButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		followingButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		followingButton.titleEdgeInsets = UIEdgeInsetsMake( 0, -4, 0, 0 );
 		[followingButton setTitle:NSLocalizedString( @"FOLLOWING", @"" ) forState:UIControlStateNormal];
+		[followingButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right.png"] forState:UIControlStateNormal];
 		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateHighlighted];
 		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateDisabled];

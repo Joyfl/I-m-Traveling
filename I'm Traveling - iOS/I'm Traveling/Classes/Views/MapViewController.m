@@ -50,30 +50,34 @@ enum {
 		
 		
 		// title		
-		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 150, 31 )];
+		UIView *alignButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 226, 31 )];
 		
-		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 76, 31 )];
+		UIButton *newButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 114, 31 )];
 		newButton.tag = kTagAllButton;
 		newButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		newButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		newButton.titleEdgeInsets = UIEdgeInsetsMake( 0, 4, 0, 0 );
 		[newButton setTitle:NSLocalizedString( @"NEW", @"" ) forState:UIControlStateNormal];
-		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left.png"] forState:UIControlStateNormal];
-		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateHighlighted];
-		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateDisabled];
+		[newButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_left.png"] forState:UIControlStateNormal];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_left_selected.png"] forState:UIControlStateHighlighted];
+		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_left_selected.png"] forState:UIControlStateDisabled];
 		[newButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		[alignButtons addSubview:newButton];
 		newButton.highlighted = YES;
 		newButton.enabled = NO;
 		[newButton release];
 		
-		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 74, 0, 76, 31 )];
+		UIButton *followingButton = [[UIButton alloc] initWithFrame:CGRectMake( 114, 0, 112, 31 )];
 		followingButton.tag = kTagFollowingButton;
 		followingButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		followingButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		followingButton.titleEdgeInsets = UIEdgeInsetsMake( 0, -4, 0, 0 );
 		[followingButton setTitle:NSLocalizedString( @"FOLLOWING", @"" ) forState:UIControlStateNormal];
-		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right.png"] forState:UIControlStateNormal];
-		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateHighlighted];
-		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateDisabled];
+		[followingButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_right.png"] forState:UIControlStateNormal];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_right_selected.png"] forState:UIControlStateHighlighted];
+		[followingButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_right_selected.png"] forState:UIControlStateDisabled];
 		[followingButton addTarget:self action:@selector(onAlignButtonTouch:) forControlEvents:UIControlEventTouchDown];
 		[alignButtons addSubview:followingButton];
 		[followingButton release];
