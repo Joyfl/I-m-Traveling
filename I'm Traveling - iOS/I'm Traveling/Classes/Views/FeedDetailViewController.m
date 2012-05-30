@@ -384,6 +384,8 @@ enum {
 		
 		[self loadFeedDetailWithIndex:_currentFeedIndex - 1];
 		[self loadFeedDetailWithIndex:_currentFeedIndex + 1];
+		
+		[self updateLeftRightFeedButtonEnabled];
 	}
 	
 	// Feed Detail
@@ -791,6 +793,7 @@ enum {
 		[self startBusy];
 		
 		_currentFeedIndex --;
+		[self updateLeftRightFeedButtonEnabled];
 		
 		[self performSelector:@selector(feedChangeAnimationDidFinish) withObject:nil afterDelay:0.5];
 		
@@ -825,6 +828,7 @@ enum {
 		[self startBusy];
 		
 		_currentFeedIndex ++;
+		[self updateLeftRightFeedButtonEnabled];
 		
 		[self performSelector:@selector(feedChangeAnimationDidFinish) withObject:nil afterDelay:0.5];
 		
@@ -850,6 +854,12 @@ enum {
 		// 오른쪽 피드 로드
 		[self prepareFeedDetailWithIndex:_currentFeedIndex + 1];
 	}
+}
+
+- (void)updateLeftRightFeedButtonEnabled
+{
+	_leftFeedButton.enabled = !( _currentFeedIndex == 0 );
+	_rightFeedButton.enabled = !( _currentFeedIndex == _feedDetailObjects.count - 1 );
 }
 
 - (void)backButtonDidTouchUpInside
