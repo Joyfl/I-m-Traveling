@@ -934,7 +934,7 @@ enum {
 	CGRect frame = _commentBar.frame;
 	frame.origin.y = self.centerWebView.frame.size.height + WEBVIEW_Y;
 	_commentBar.frame = frame;
-	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + WEBVIEW_Y + 42 );
+	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + WEBVIEW_Y + 41 );
 }
 
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webView
