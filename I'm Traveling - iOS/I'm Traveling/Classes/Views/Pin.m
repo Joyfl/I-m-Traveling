@@ -14,8 +14,9 @@
 {
     if( self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier] )
 	{
+		self.frame = CGRectMake( 0, 0, 21, 50 );
 		UIImageView *pin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin.png"]];
-		pin.frame = CGRectMake( -10, -27, 21, 32 );
+		pin.frame = CGRectMake( 0, -2, 21, 32 );
 		[self addSubview:pin];
 		[pin release];
     }
