@@ -25,6 +25,7 @@
 	MKMapView *_mapView;
 	NSMutableArray *_webViews;
 	ImTravelingBarButtonItem *_likeButton;
+	UIButton *_titleButton;
 	
 	NSMutableArray *_feedDetailObjects;
 	NSInteger _currentFeedIndex;

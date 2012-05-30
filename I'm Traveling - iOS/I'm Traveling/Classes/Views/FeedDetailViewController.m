@@ -16,9 +16,10 @@
 #import "Comment.h"
 #import "AppDelegate.h"
 
-#define MAP_HEIGHT	736
-#define MAP_Y		-0.5 * ( MAP_HEIGHT - 100 )
-#define WEBVIEW_Y	70
+#define MAP_HEIGHT				316
+#define MAP_Y					-0.5 * ( MAP_HEIGHT - 100 )
+#define WEBVIEW_Y				70
+#define LEFT_RIGHT_BUTTON_Y		_mapView.frame.origin.y + 131
 
 @interface FeedDetailViewController (Private)
 
@@ -63,23 +64,31 @@ enum {
 		[self.view addSubview:_mapView];
 		
 		UIImageView *googleLogo = [self googleLogo];
-		googleLogo.frame = CGRectMake( 6, 325, googleLogo.frame.size.width, googleLogo.frame.size.height );
+		[googleLogo removeFromSuperview];
+		googleLogo.frame = CGRectMake( 6, 5, googleLogo.frame.size.width, googleLogo.frame.size.height );
+		[self.view addSubview:googleLogo];
+		
+		UIButton *mapViewButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		mapViewButton.frame = CGRectMake( 40, 0, 240, 90 );
+		[mapViewButton addTarget:self action:@selector(mapViewButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		
 		
 		// Scroll View
 		_scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_scrollView.delegate = self;
 		[self.view addSubview:_scrollView];		
 		
-		_leftFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 28, 44, 44 )];
+		_leftFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, LEFT_RIGHT_BUTTON_Y, 44, 44 )];
 		_leftFeedButton.alpha = 0.7;
 		[_leftFeedButton setImage:[UIImage imageNamed:@"button_left.png"] forState:UIControlStateNormal];
 		[_leftFeedButton addTarget:self action:@selector(leftFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
-		_rightFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 276, 28, 44, 44 )];
+		_rightFeedButton = [[UIButton alloc] initWithFrame:CGRectMake( 276, LEFT_RIGHT_BUTTON_Y, 44, 44 )];
 		_rightFeedButton.alpha = 0.7;
 		[_rightFeedButton setImage:[UIImage imageNamed:@"button_right.png"] forState:UIControlStateNormal];
 		[_rightFeedButton addTarget:self action:@selector(rightFeedButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
+		[_scrollView addSubview:mapViewButton];
 		[self.view addSubview:_leftFeedButton];
 		[self.view addSubview:_rightFeedButton];
 		
@@ -94,6 +103,13 @@ enum {
 			[_webViews addObject:detailWebView];
 			[detailWebView release];
 		}
+		
+		_titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_titleButton.frame = CGRectMake( 0, 315, 320, 52 );
+		[_titleButton addTarget:self action:@selector(titleButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_titleButton];
+		_titleButton.hidden = YES;
+		
 		
 		_feedDetailObjects = [[NSMutableArray alloc] init];
 		
@@ -579,7 +595,7 @@ enum {
 	_mapView.frame = frame;
 	
 	// Left, Right Button
-	float buttonY = frame.origin.y + 346;
+	float buttonY = LEFT_RIGHT_BUTTON_Y;
 	
 	frame = _leftFeedButton.frame;
 	frame.origin.y = buttonY;
@@ -784,6 +800,40 @@ enum {
 						  [Utils userIdNumber], @"src_id",
 						  [NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]], @"dest_id", nil];
 	[loader loadURL:API_LIKE withData:data andId:kTokenIdLike];
+}
+
+- (void)mapViewButtonDidTouchUpInside
+{
+	_mapView.scrollEnabled = YES;
+	_mapView.zoomEnabled = YES;
+	_scrollView.userInteractionEnabled = NO;
+	_titleButton.hidden = NO;
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.5];
+	_mapView.frame = CGRectMake( 0, 0, 320, _mapView.frame.size.height );
+	_scrollView.frame = CGRectMake( 0, 225, 320, _scrollView.frame.size.height );
+	_leftFeedButton.frame = CGRectMake( 0, 135, 44, 44 );
+	_rightFeedButton.frame = CGRectMake( 276, 135, 44, 44 );
+	[UIView commitAnimations];
+}
+
+- (void)titleButtonDidTouchUpInside
+{
+	_mapView.scrollEnabled = NO;
+	_mapView.zoomEnabled = NO;
+	_scrollView.userInteractionEnabled = YES;
+	_titleButton.hidden = YES;
+	
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDelay:0];
+	[UIView setAnimationDuration:0.5];
+	_mapView.frame = CGRectMake( 0, MAP_Y, 320, _mapView.frame.size.height );
+	_scrollView.frame = CGRectMake( 0, 0, 320, _scrollView.frame.size.height );
+	_leftFeedButton.frame = CGRectMake( 0, LEFT_RIGHT_BUTTON_Y, 44, 44 );
+	_rightFeedButton.frame = CGRectMake( 276, LEFT_RIGHT_BUTTON_Y, 44, 44 );
+	[UIView commitAnimations];
 }
 
 - (void)leftFeedButtonDidTouchUpInside
