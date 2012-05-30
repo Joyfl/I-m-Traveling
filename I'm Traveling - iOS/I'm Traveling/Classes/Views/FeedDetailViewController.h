@@ -10,6 +10,7 @@
 #import "FeedDetailWebView.h"
 #import "FeedObject.h"
 #import <MapKit/MapKit.h>
+#import "ImTravelingBarButtonItem.h"
 
 @interface FeedDetailViewController : ImTravelingViewController <UIScrollViewDelegate, MKMapViewDelegate, CLLocationManagerDelegate, UITextFieldDelegate>
 {
@@ -23,12 +24,10 @@
 	UIScrollView *_scrollView;
 	MKMapView *_mapView;
 	NSMutableArray *_webViews;
+	ImTravelingBarButtonItem *_likeButton;
 	
 	NSMutableArray *_feedDetailObjects;
 	NSInteger _currentFeedIndex;
-	
-//	LoadingQueue *_feedLoadingQueue;
-//	LoadingQueue *_commentLoadingQueue;
 	
 	NSInteger _numAllFeeds;
 	

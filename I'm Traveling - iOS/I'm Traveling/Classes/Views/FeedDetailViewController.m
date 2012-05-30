@@ -14,7 +14,6 @@
 #import "Pin.h"
 #import "SimpleFeedListViewController.h"
 #import "Comment.h"
-#import "ImTravelingBarButtonItem.h"
 #import "AppDelegate.h"
 
 #define MAP_HEIGHT	736
@@ -52,9 +51,7 @@ enum {
 		self.navigationItem.leftBarButtonItems = [[NSArray alloc] initWithObjects:leftSpacer, backButton, nil];
 		[backButton release];
 		
-		ImTravelingBarButtonItem *likeButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"LIKE", @"" ) target:self action:@selector(likeButtonDidTouchUpInside)];
-		self.navigationItem.rightBarButtonItem = likeButton;
-		[likeButton release];
+		_likeButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"LIKE", @"" ) target:self action:@selector(likeButtonDidTouchUpInside)];
 		
 		self.view.backgroundColor = [UIColor darkGrayColor];
 		
@@ -211,12 +208,14 @@ enum {
 	{
 		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
 		[_sendButton setTitle:NSLocalizedString( @"SEND", @"Send" ) forState:UIControlStateNormal];
+		self.navigationItem.rightBarButtonItem = _likeButton;
 	}
 	else
 	{
 		_commentInput.placeholder = NSLocalizedString( @"NEED_LOGIN_TO_LEAVE_A_COMMENT", @"" );
 		_commentInput.enabled = NO;
 		[_sendButton setTitle:NSLocalizedString( @"LOGIN", @"" ) forState:UIControlStateNormal];
+		self.navigationItem.rightBarButtonItem = nil;
 	}
 }
 
