@@ -136,6 +136,8 @@ enum {
 		
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		_sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+		_sendButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
+		[_sendButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[_sendButton setTitle:NSLocalizedString( @"SEND", @"Send" ) forState:UIControlStateNormal];
 		[_sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
 		[_sendButton addTarget:self action:@selector(sendButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
@@ -932,6 +934,9 @@ enum {
 {
 	if( [Utils loggedIn] )
 	{
+		if( _commentInput.text.length == 0 )
+			return;
+		
 		_commentInput.enabled = NO;
 		_sendButton.enabled = NO;
 		
