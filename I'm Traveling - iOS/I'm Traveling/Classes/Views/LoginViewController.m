@@ -174,7 +174,8 @@
 	[[SettingsManager manager] setSetting:email forKey:SETTING_KEY_EMAIL];
 	[[SettingsManager manager] setSetting:password forKey:SETTING_KEY_PASSWORD];
 	
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?email=%@&password=%@", API_LOGIN, email, password] withData:nil andId:0];
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?email=%@&password=%@", API_LOGIN, email, password] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token

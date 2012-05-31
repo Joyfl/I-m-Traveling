@@ -190,7 +190,8 @@ enum {
 	
 	loading = YES;
 	
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to] withData:nil andId:0];
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?order_type=%d&from=%d&to=%d", API_FEED_LIST, _orderType, from, to] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 
@@ -308,7 +309,7 @@ enum {
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
-		NSLog( @"Error" );
+		NSLog( @"[FeedListViewController] %@", token.data );
 		return;
 	}
 	
@@ -448,7 +449,7 @@ enum {
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
-	NSLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 - (void)addFeed:(FeedObject *)feedObj

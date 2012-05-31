@@ -106,7 +106,8 @@
 	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	if( _lastCellId != newCellId )
 	{
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId] withData:nil andId:0];
+		[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId] method:ImTravelingLoaderMethodGET params:nil];
+		[self.loader startLoading];
 		_lastCellId = newCellId;
 	}
 }

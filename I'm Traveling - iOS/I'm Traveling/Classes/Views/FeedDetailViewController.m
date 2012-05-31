@@ -273,7 +273,8 @@ enum {
 
 - (void)preloadFeedDetail
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] withData:nil andId:kTokenIdFirstFeedDetail];
+	[self.loader addTokenWithTokenId:kTokenIdFirstFeedDetail url:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)prepareFeedDetailWithIndex:(NSInteger)index
@@ -313,7 +314,8 @@ enum {
 {
 	if( 0 <= feedIndex && feedIndex < _numAllFeeds )
 	{
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] withData:nil andId:feedIndex];
+		[self.loader addTokenWithTokenId:feedIndex url:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] method:ImTravelingLoaderMethodGET params:nil];
+		[self.loader startLoading];
 	}
 }
 
@@ -362,7 +364,8 @@ enum {
 
 - (void)loadCommentWithFeedIndex:(NSInteger)feedIndex
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] withData:nil andId:1000 + feedIndex];
+	[self.loader addTokenWithTokenId:1000 + feedIndex url:[NSString stringWithFormat:@"%@?feed_id=%d&type=0", API_FEED_COMMENT, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
@@ -791,15 +794,16 @@ enum {
 
 - (void)likeButtonDidTouchUpInside
 {
-	NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-						  [Utils userIdNumber], @"user_id",
-						  [Utils email], @"email",
-						  [Utils password], @"password",
-						  @"like", @"command",
-						  [NSNumber numberWithInteger:1], @"type",
-						  [Utils userIdNumber], @"src_id",
-						  [NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]], @"dest_id", nil];
-	[loader loadURL:API_LIKE withData:data andId:kTokenIdLike];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								  [Utils userIdNumber], @"user_id",
+								  [Utils email], @"email",
+								  [Utils password], @"password",
+								  @"like", @"command",
+								  [NSNumber numberWithInteger:1], @"type",
+								  [Utils userIdNumber], @"src_id",
+								  [NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]], @"dest_id", nil];
+	[self.loader addTokenWithTokenId:kTokenIdLike url:API_LIKE method:ImTravelingLoaderMethodGET params:params];
+	[self.loader startLoading];
 }
 
 - (void)mapViewButtonDidTouchUpInside
@@ -931,14 +935,15 @@ enum {
 		_commentInput.enabled = NO;
 		_sendButton.enabled = NO;
 		
-		NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-		[data setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
-		[data setObject:[Utils email] forKey:@"email"];
-		[data setObject:[Utils password] forKey:@"password"];
-		[data setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
-		[data setObject:_commentInput.text forKey:@"comment"];
-		[data setObject:@"1" forKey:@"type"];
-		[self.loader loadURL:API_FEED_COMMENT withData:data andId:kTokenIdSendComment];
+		NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+		[params setObject:[NSNumber numberWithInteger:[Utils userId]] forKey:@"user_id"];
+		[params setObject:[Utils email] forKey:@"email"];
+		[params setObject:[Utils password] forKey:@"password"];
+		[params setObject:[NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]] forKey:@"feed_id"];
+		[params setObject:_commentInput.text forKey:@"comment"];
+		[params setObject:@"1" forKey:@"type"];
+		[self.loader addTokenWithTokenId:kTokenIdSendComment url:API_FEED_COMMENT method:ImTravelingLoaderMethodGET params:params];
+		[self.loader startLoading];
 	}
 	else
 	{

@@ -30,7 +30,8 @@
 		_tableView.userInteractionEnabled = NO;
 		[self.view addSubview:_tableView];
 		
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?notice_id=%d", API_NOTICE_DETAIL, noticeId] withData:nil andId:0];
+		[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?notice_id=%d", API_NOTICE_DETAIL, noticeId] method:ImTravelingLoaderMethodGET params:nil];
+		[self.loader startLoading];
 	}
 	
 	return self;

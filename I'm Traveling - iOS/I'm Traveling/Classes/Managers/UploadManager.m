@@ -111,7 +111,8 @@
 	
 	NSLog( @"업로드 할 여행 (localTripId=%d) : %@", localTripId, trip );
 	
-	[_tripUploader loadURL:API_TRIP_ADD withData:trip andId:localTripId];
+	[_tripUploader addTokenWithTokenId:localTripId url:API_TRIP_ADD method:ImTravelingLoaderMethodGET params:trip];
+	[_tripUploader startLoading];
 }
 
 - (void)uploadFeed:(NSMutableDictionary *)feed
@@ -125,7 +126,8 @@
 	
 	NSLog( @"업로드 할 피드 : %@", feed );
 	
-	[_feedUploader loadURLPOST:API_UPLOAD withData:feed andId:0];
+	[_feedUploader addTokenWithTokenId:0 url:API_UPLOAD method:ImTravelingLoaderMethodPOST params:feed];
+	[_feedUploader startLoading];
 }
 
 
@@ -169,33 +171,28 @@
 		
 		NSLog( @"서버에서 받아온 여행 id : %d", tripId );
 		
-		// 피드 작성중 여행 업로드가 완료될 경우 작성중인 피드의 trip_id를 서버에서 로드한 trip_id로 바꿔줌
+		// 피드 작성중 여행 업로드가 완료될 경우 ShareView에서 작성중인 피드의 trip_id를 서버에서 로드한 trip_id로 바꿔줌
 		[[(AppDelegate *)[UIApplication sharedApplication].delegate shareViewController] tripLoadingDidFinishWithTripId:tripId andLocalTripId:localTripId];
 		
-		// _feeds는 클리어할 것이므로 사본을 만들어둠
-		NSArray *feeds = [NSArray arrayWithArray:_feeds];
-		
-		// uploader의 큐에 있는 데이터는 tripId가 localTripId로 저장된 feed들이므로, 새로 받은 tripId로 치환 후 다시 큐에 넣어준다.
-		NSLog( @"큐 클리어" );
-		[_feedUploader clearQueue];
-		[_feeds removeAllObjects];
-		
-		// localTripId를 서버에서 받은 tripId로 수정
-		for( NSMutableDictionary *feed in feeds )
+		for( NSInteger i = 0; i < _feedUploader.queueLength; i++ )
 		{
-			NSLog( @"_feeds 루프돌리는 중, trip_id : %d", [[feed objectForKey:@"trip_id"] integerValue] );
-			if( [[feed objectForKey:@"trip_id"] integerValue] == localTripId )
+			NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;
+			
+			NSLog( @"_feeds 루프돌리는 중, trip_id : %d", [[params objectForKey:@"trip_id"] integerValue] );
+			
+			if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
 			{
 				NSLog( @"trip id가 %d인 피드 발견!! %d로 바꿈!", localTripId, tripId );
-				[feed setObject:[NSNumber numberWithInteger:tripId] forKey:@"trip_id"];
-				
-				[self addFeed:feed];
+				[params setObject:[NSNumber numberWithInteger:tripId] forKey:@"trip_id"];
 			}
 		}
 		
 		// 업로드가 완료된 여행은 제거
 		[_trips removeObjectAtIndex:0];
 		NSLog( @"업로드가 완료된 여행 제거 후 여행 개수 : %d", _trips.count );
+		
+		// 피드 업로드 계속 진행
+		[_feedUploader startLoading];
 		
 		// 업로드가 완료된 여행이 제거된 배열을 로컬에 저장
 		[[SettingsManager manager] setSetting:_trips forKey:SETTING_KEY_LOCAL_SAVED_TRIPS];

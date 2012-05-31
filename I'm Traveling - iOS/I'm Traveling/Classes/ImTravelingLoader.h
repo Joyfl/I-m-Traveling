@@ -8,17 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+enum {
+	ImTravelingLoaderMethodGET = 0,
+	ImTravelingLoaderMethodPOST = 1
+};
+
 @interface ImTravelingLoaderToken : NSObject
-{
-	NSMutableURLRequest *_request;
+{	
 	NSInteger _tokenId;
+	NSString *_url;
+	NSInteger _method;
+	NSMutableDictionary *_params;
 	NSString *_data;
 }
 
-- (id)initWithRequeust:(NSMutableURLRequest *)request andTokenId:(NSInteger)tokenId;
+- (id)initWithTokenId:(NSInteger)tokenId url:(NSString *)url method:(NSInteger)method params:(NSMutableDictionary *)params;
 
-@property (nonatomic, retain) NSMutableURLRequest *request;
 @property (nonatomic, assign) NSInteger tokenId;
+@property (nonatomic, retain) NSString *url;
+@property (nonatomic, assign) NSInteger method;
+@property (nonatomic, retain) NSMutableDictionary *params;
 @property (nonatomic, retain) NSString *data;
 
 @end
@@ -33,15 +42,17 @@
 	NSMutableArray *_queue;
 	
 	id<ImTravelingLoaderDelegate> delegate;
+	BOOL loading;
 }
 
-- (void)loadURL:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId;
-- (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId;
-- (void)continueLoading;
-- (void)clearQueue;
+- (void)addTokenWithTokenId:(NSInteger)tokenId url:(NSString *)url method:(NSInteger)method params:(NSMutableDictionary *)params;
+- (void)addToken:(ImTravelingLoaderToken *)token;
+- (void)startLoading;
+- (ImTravelingLoaderToken *)tokenAtIndex:(NSInteger)index;
 
 @property (retain, nonatomic) id<ImTravelingLoaderDelegate> delegate;
 @property (nonatomic, readonly) NSInteger queueLength;
+@property (nonatomic, readonly) BOOL loading;
 
 @end
 

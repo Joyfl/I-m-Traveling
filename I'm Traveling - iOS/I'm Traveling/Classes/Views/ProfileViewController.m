@@ -267,30 +267,16 @@ enum {
 
 - (void)loadProfile
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] withData:nil andId:kTokenIdProfile];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] withData:nil andId:kTokenIdTrips];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] withData:nil andId:kTokenIdFollowing];
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] withData:nil andId:kTokenIdFollowers];
-}
-
-- (void)loadTrips
-{
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] withData:nil andId:1];
-}
-
-- (void)loadFollowings
-{
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] withData:nil andId:2];
-}
-
-- (void)loadFollowers
-{
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] withData:nil andId:3];
+	[self.loader addTokenWithTokenId:kTokenIdProfile url:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader addTokenWithTokenId:kTokenIdTrips url:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader addTokenWithTokenId:kTokenIdFollowing url:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader addTokenWithTokenId:kTokenIdFollowers url:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSLog( @"tokenId : %d", token.tokenId );
+//	NSLog( @"tokenId : %d", token.tokenId );
 	
 	NSDictionary *json = [Utils parseJSON:token.data];
 	NSInteger errorCode = -1;

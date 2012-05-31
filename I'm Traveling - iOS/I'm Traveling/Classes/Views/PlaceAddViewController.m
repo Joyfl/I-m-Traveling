@@ -83,16 +83,17 @@
 
 - (void)doneButtonDidTouchUpInside
 {
-	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-	[data setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
-	[data setObject:[Utils email] forKey:@"email"];
-	[data setObject:[Utils password] forKey:@"password"];
-	[data setObject:_nameInput.text forKey:@"place_name"];
-	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.latitude] forKey:@"latitude"];
-	[data setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
-	[data setObject:_categoryLabel.text forKey:@"category"];
-	[self.loader loadURL:API_PLACE_ADD withData:data andId:0];
-	[data release];
+	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+	[params setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
+	[params setObject:[Utils email] forKey:@"email"];
+	[params setObject:[Utils password] forKey:@"password"];
+	[params setObject:_nameInput.text forKey:@"place_name"];
+	[params setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.latitude] forKey:@"latitude"];
+	[params setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
+	[params setObject:_categoryLabel.text forKey:@"category"];
+	[self.loader addTokenWithTokenId:0 url:API_PLACE_ADD method:ImTravelingLoaderMethodGET params:params];
+	[self.loader startLoading];
+	[params release];
 }
 
 

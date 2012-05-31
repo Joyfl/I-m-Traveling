@@ -477,16 +477,17 @@
 		return;
 	}
 	
-	NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-						  _emailInput.text, @"email",
-						  [Utils sha1:_passwordInput.text], @"password",
-						  _nameInput.text, @"name",
-						  [NSNumber numberWithInteger:_selectedSex], @"sex",
-						  [Utils dateStringForUpload:_selectedBirthday], @"birthday",
-						  _nationButton.titleLabel.text, @"nation",
-						  nil];
-	NSLog( @"data : %@", data );
-	[self.loader loadURLPOST:API_SIGN_UP withData:data andId:0];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								   _emailInput.text, @"email",
+								   [Utils sha1:_passwordInput.text], @"password",
+								   _nameInput.text, @"name",
+								   [NSNumber numberWithInteger:_selectedSex], @"sex",
+								   [Utils dateStringForUpload:_selectedBirthday], @"birthday",
+								   _nationButton.titleLabel.text, @"nation",
+								   nil];
+	NSLog( @"data : %@", params );
+	[self.loader addTokenWithTokenId:0 url:API_SIGN_UP method:ImTravelingLoaderMethodPOST params:params];
+	[self.loader startLoading];
 	
 	[self startBusy];
 }

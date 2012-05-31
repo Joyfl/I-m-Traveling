@@ -174,7 +174,8 @@ enum {
 
 - (void)loadFeeds
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]] withData:nil andId:0];
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token

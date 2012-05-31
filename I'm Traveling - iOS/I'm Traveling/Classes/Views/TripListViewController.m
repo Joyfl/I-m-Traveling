@@ -85,7 +85,8 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	[self.loader loadURL:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, [Utils userId]] withData:nil andId:0];
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, [Utils userId]] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
 }
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments

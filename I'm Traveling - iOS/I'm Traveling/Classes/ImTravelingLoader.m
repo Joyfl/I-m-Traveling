@@ -10,12 +10,18 @@
 
 @implementation ImTravelingLoaderToken
 
-@synthesize request=_request, tokenId=_tokenId, data=_data;
+@synthesize tokenId=_tokenId, url=_url, method=_method, params=_params, data=_data;
 
-- (id)initWithRequeust:(NSMutableURLRequest *)request andTokenId:(NSInteger)tokenId
+
+#pragma mark -
+#pragma mark Public methods
+
+- (id)initWithTokenId:(NSInteger)tokenId url:(NSString *)url method:(NSInteger)method params:(NSMutableDictionary *)params
 {
-	self.request = request;
 	self.tokenId = tokenId;
+	self.url = url;
+	self.method = method;
+	self.params = params;
 	
 	return self;
 }
@@ -26,7 +32,7 @@
 
 @implementation ImTravelingLoader
 
-@synthesize delegate;
+@synthesize delegate, loading;
 
 - (id)init
 {
@@ -36,43 +42,91 @@
 	return self;
 }
 
-- (void)loadURL:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId
+- (void)addTokenWithTokenId:(NSInteger)tokenId url:(NSString *)url method:(NSInteger)method params:(NSMutableDictionary *)params
 {
-	if( data )
+	ImTravelingLoaderToken *token = [[ImTravelingLoaderToken alloc] initWithTokenId:tokenId url:url method:method params:params];
+	[self addToken:token];
+	[token release];
+}
+
+- (void)addToken:(ImTravelingLoaderToken *)token
+{
+	[token retain];
+	[_queue addObject:token];
+}
+
+- (void)startLoading
+{
+	if( loading ) return;
+	if( _queue.count > 0 )
 	{
-		url = [url stringByAppendingFormat:@"?"];
+		ImTravelingLoaderToken *token = [_queue objectAtIndex:0];
+		if( [delegate shouldLoadWithToken:token] )
+		{
+			[self loadToken:token];
+			loading = YES;
+		}
+	}
+}
+
+
+#pragma mark -
+#pragma mark Private methods
+
+- (void)loadToken:(ImTravelingLoaderToken *)token
+{
+	NSMutableURLRequest *request;
+	
+	if( token.method == ImTravelingLoaderMethodGET )
+	{
+		request = [self GETRequest:token];
+	}
+	else
+	{
+		request = [self POSTRequest:token];
+	}
+	
+	[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
+	[request release];
+}
+
+- (NSMutableURLRequest *)GETRequest:(ImTravelingLoaderToken *)token
+{
+	NSString *url = token.url;
+	
+	if( token.params )
+	{
+		url = [token.url stringByAppendingFormat:@"?"];
 		
-		for( id key in data )
-			url = [url stringByAppendingFormat:@"%@=%@&", key, [data objectForKey:key]];
+		for( id key in token.params )
+			url = [url stringByAppendingFormat:@"%@=%@&", key, [token.params objectForKey:key]];
 		
 		url = [url substringToIndex:url.length - 1];
 		url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	}
 	
-	NSLog( @"%@", url );
-	
-	[self loadRequest:[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]] andTokenId:tokenId];
+	return [[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]] retain];
 }
 
-- (void)loadURLPOST:(NSString *)url withData:(NSDictionary *)data andId:(NSInteger)tokenId
+- (NSMutableURLRequest *)POSTRequest:(ImTravelingLoaderToken *)token
 {
-    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
-    [request setURL:[NSURL URLWithString:url]];
-    [request setHTTPMethod:@"POST"];
+	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+	[request setURL:[NSURL URLWithString:token.url]];
+	[request setHTTPMethod:@"POST"];
 	
-    NSMutableData *body = [NSMutableData data];
+	NSMutableData *body = [NSMutableData data];
 	
-    NSString *boundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request addValue:contentType forHTTPHeaderField:@"Content-Type"];
+	NSString *boundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
+	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+	[request addValue:contentType forHTTPHeaderField:@"Content-Type"];
 	
 	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	[body appendData:[[NSString stringWithString:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 	
-	for( id key in data )
+	for( id key in token.params )
 	{
-		id object = [data objectForKey:key];
+		id object = [token.params objectForKey:key];
 		
 		[body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
 		
@@ -104,19 +158,7 @@
 	
     [request setHTTPBody:body];
 	
-	[self loadRequest:request andTokenId:tokenId];
-}
-
-- (void)loadRequest:(NSMutableURLRequest *)request andTokenId:(NSInteger)tokenId
-{
-	ImTravelingLoaderToken *token = [[ImTravelingLoaderToken alloc] initWithRequeust:request andTokenId:tokenId];
-	
-	if( _queue.count == 0 && [delegate shouldLoadWithToken:token] )
-	{
-		[[[NSURLConnection alloc] initWithRequest:request delegate:self] autorelease];
-	}
-	
-	[_queue addObject:token];
+	return request;
 }
 
 
@@ -166,6 +208,8 @@
 		return;
 	}
 	
+	loading = NO;
+	
 	ImTravelingLoaderToken *token = [[_queue objectAtIndex:0] retain];
 	[_queue removeObjectAtIndex:0];
 	
@@ -173,44 +217,28 @@
 	[self.delegate loadingDidFinish:token];
 	[token release];
 	
-	if( _queue.count > 0 )
-	{
-		ImTravelingLoaderToken *nextToken = [_queue objectAtIndex:0];
-		if( [delegate shouldLoadWithToken:nextToken] )
-		{
-			[[[NSURLConnection alloc] initWithRequest:nextToken.request delegate:self] autorelease];
-		}
-	}
+	[self startLoading];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
 	NSLog( @"Loading Error : %@", error );
-}
-
-- (void)continueLoading
-{
-	if( _queue.count == 0 ) return;
-	
-	ImTravelingLoaderToken *token = [_queue objectAtIndex:0];
-	if( [delegate shouldLoadWithToken:token] )
-	{
-		[[[NSURLConnection alloc] initWithRequest:token.request delegate:self] autorelease];
-	}
-}
-
-- (void)clearQueue
-{
-	[_queue removeAllObjects];
+	loading = NO;
 }
 
 
 #pragma mark -
-#pragma mark Getter
+#pragma mark Getters
+
+- (ImTravelingLoaderToken *)tokenAtIndex:(NSInteger)index
+{
+	return [_queue objectAtIndex:index];
+}
 
 - (NSInteger)queueLength
 {
 	return _queue.count;
 }
+
 
 @end

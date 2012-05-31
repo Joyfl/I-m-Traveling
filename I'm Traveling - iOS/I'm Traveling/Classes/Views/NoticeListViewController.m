@@ -31,7 +31,8 @@
 		_tableView.dataSource = self;
 		[self.view addSubview:_tableView];
 		
-		[self.loader loadURL:[NSString stringWithFormat:@"%@?from=%d&to=%d", API_NOTICE_LIST, 0, 100] withData:nil andId:0];
+		[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?from=%d&to=%d", API_NOTICE_LIST, 0, 100] method:ImTravelingLoaderMethodGET params:nil];
+		[self.loader startLoading];
 	}
 	
 	return self;
