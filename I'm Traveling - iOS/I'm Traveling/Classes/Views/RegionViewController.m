@@ -140,7 +140,7 @@
 	
 	_lastCell = cell;
 	
-//	NSLog( @"%@", selectedRegions );
+//	DLog( @"%@", selectedRegions );
 }
 
 @end

@@ -93,7 +93,7 @@
 {
 	if( [message isEqualToString:@"select_trip"] )
 	{
-		NSLog( @"trip_id : %@", [arguments objectAtIndex:0] );
+		DLog( @"trip_id : %@", [arguments objectAtIndex:0] );
 		
 		[self selectTrip:[_trips objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 	}
@@ -161,7 +161,7 @@
 					  trip.summary,
 					  trip.numFeeds];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
-	NSLog( @"%@", func );
+	DLog( @"%@", func );
 }
 
 @end

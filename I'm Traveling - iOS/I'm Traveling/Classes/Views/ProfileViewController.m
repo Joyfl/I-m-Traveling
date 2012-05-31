@@ -276,7 +276,7 @@ enum {
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-//	NSLog( @"tokenId : %d", token.tokenId );
+//	DLog( @"tokenId : %d", token.tokenId );
 	
 	NSDictionary *json = [Utils parseJSON:token.data];
 	NSInteger errorCode = -1;
@@ -284,7 +284,7 @@ enum {
 	if( [self isError:json] )
 	{
 		errorCode = [self errorCode:json];
-		NSLog( @"Error : %d", errorCode );
+		DLog( @"Error : %d", errorCode );
 		
 		if( errorCode != 1 ) return;
 	}

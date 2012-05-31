@@ -112,7 +112,7 @@ enum {
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
 		
-//		NSLog( @"cellId : %d", [self getCellIdWithLatitude:37.5655 longitude:126.938] );
+//		DLog( @"cellId : %d", [self getCellIdWithLatitude:37.5655 longitude:126.938] );
     }
     return self;
 }
@@ -185,7 +185,7 @@ enum {
 	// Error
 	if( [self isError:json] )
 	{
-		NSLog( @"%@", json );
+		DLog( @"%@", json );
 		return;
 	}
 	
@@ -227,7 +227,7 @@ enum {
 
 - (void)mapView:(MKMapView *)mapView didChangeUserTrackingMode:(MKUserTrackingMode)mode animated:(BOOL)animated
 {
-	NSLog( @"mode changed : %d", mode );
+	DLog( @"mode changed : %d", mode );
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
@@ -271,11 +271,11 @@ enum {
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-	NSLog( @"update" );
+	DLog( @"update" );
 	
 	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
-	NSLog( @"currentCellId : %d", _currentCellId );
-	NSLog( @"newCellId     : %d", newCellId );
+	DLog( @"currentCellId : %d", _currentCellId );
+	DLog( @"newCellId     : %d", newCellId );
 	if( _currentCellId != newCellId && _feedMapView.userLocation.coordinate.latitude != 0.0 && _feedMapView.userLocation.coordinate.longitude != 0.0 )
 	{
 		[self loadFeeds];

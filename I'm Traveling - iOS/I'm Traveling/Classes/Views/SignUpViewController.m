@@ -485,7 +485,7 @@
 								   [Utils dateStringForUpload:_selectedBirthday], @"birthday",
 								   _nationButton.titleLabel.text, @"nation",
 								   nil];
-	NSLog( @"data : %@", params );
+	DLog( @"data : %@", params );
 	[self.loader addTokenWithTokenId:0 url:API_SIGN_UP method:ImTravelingLoaderMethodPOST params:params];
 	[self.loader startLoading];
 	

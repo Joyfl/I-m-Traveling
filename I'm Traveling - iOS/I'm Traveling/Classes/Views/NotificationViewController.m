@@ -35,14 +35,14 @@
 
 - (void)reloadWebView
 {
-	NSLog( @"NotificationViewController viewDidAppear" );
+	DLog( @"NotificationViewController viewDidAppear" );
 	
 	[self clear];
 	
 	Notification *uploadingNotification = [[NotificationManager manager] uploadingNotification];
 	if( uploadingNotification )
 	{
-		NSLog( @"업로드중인 새로운 피드가 있음!!" );
+		DLog( @"업로드중인 새로운 피드가 있음!!" );
 		[self addNotification:uploadingNotification];
 	}
 	
