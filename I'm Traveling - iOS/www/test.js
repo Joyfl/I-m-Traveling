@@ -57,10 +57,10 @@ function init()
 	
 	clear();
 	
-	t_fl();
+	//t_fl();
 	//t_fd();
 	
-	//t_p();
+	t_p();
 	
 	//t_sf();
 	//t_usf();
@@ -118,7 +118,7 @@ function t_mst() { for(var i = 0; i < 6; i++) modifySimpleTrip(i, dmyThumbnailWh
 
 
 function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
-function t_pl() { for(var i = 0; i < 6; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
+function t_pl() { for(var i = 0; i < 5; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, dmyProfileImage, "얘가 댓글을 남겼대요", "6분 전"); }
 
@@ -614,6 +614,11 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 	var wSize = intToPixel(BODY_WIDTH - emToPixel(11));
 	//setWidth(userName, wSize);
 	//setWidth(nationWrap, wSize);
+}
+
+function setNumNotification(n)
+{
+	if($("#noticeText")) $("#noticeText").innerText = n;
 }
 
 
