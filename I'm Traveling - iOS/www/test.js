@@ -1,13 +1,6 @@
-// Resources
-
-srcLike = "resource/like.png";
-srcComment = "resource/comment.png";
-srcRightArrow = "resource/right_arrow.png";
-srcTopArrow = "resource/top_arrow.png";
-srcOnTrip = "resource/on_trip.png";
-srcBulb = "resource/bulb.png";
-srcCoin = "resource/coin.png";
-srcPreloadImage = "resource/dummy/profile_image.jpg";
+// Preload resources
+src = [];
+window.addEventListener('load', preloader, false);
 
 
 
@@ -62,9 +55,9 @@ function init()
 	BODY_HEIGHT = getHeight();
 	SCROLLER_WIDTH = pixelToEm(getScrollerWidth());
 	
-	//clear();
+	clear();
 	
-	//t_fl();
+	t_fl();
 	//t_fd();
 	
 	//t_p();
@@ -82,6 +75,26 @@ function init()
 	//t_pl();
 	//t_pll();
 	//t_nl();
+	
+	console.log("body loaded");
+}
+
+function preloader()
+{
+
+	src["like"] = "resource/like.png";
+	src["comment"] = "resource/comment.png";
+	src["rightArrow"] = "resource/right_arrow.png";
+	src["topArrow"] = "resource/top_arrow.png";
+	src["onTrip"] = "resource/on_trip.png";
+	src["bulb"] = "resource/bulb.png";
+	src["coin"] = "resource/coin.png";
+	src["preloadImage"] = "resource/dummy/profile_image.jpg";
+	
+	var loader = new Image();
+	for(var s in src) loader.src = src[s];
+	
+	console.log("preload success");
 }
 
 
@@ -189,13 +202,13 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		var commentWrap = _("span", ".iconWrap", feedback);
 		var commentIcon = _("img", ".icon", commentWrap);
 		var commentText = _("span", ".iconText .blue", commentWrap);
-		commentIcon.src = srcComment;
+		commentIcon.src = src["comment"];
 		commentText.innerText = _comments;
 		
 		var likeWrap = _("span", ".iconWrap", feedback);
 		var likeIcon = _("img", ".icon", likeWrap);
 		var likeText = _("span", ".iconText .green", likeWrap);
-		likeIcon.src = srcLike;
+		likeIcon.src = src["like"];
 		likeText.innerText = _likes;
 	}
 	
@@ -204,7 +217,7 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	
 	if(pictureRatio >= 0)
 	{
-		preloadImage.src = srcPreloadImage;
+		preloadImage.src = src["preloadImage"];
 		var pictureWidthPixel = intToPixel(BODY_WIDTH * 0.9);
 		var pictureHeightPixel = intToPixel(BODY_WIDTH * 0.9 * pictureRatio);
 		setWidth(picture, pictureWidthPixel);
@@ -248,7 +261,7 @@ function fillInfoList(infoList, info)
 		var leftWrap = _("div", ".leftWrap", component);
 		var rightWrap = _("div", ".rightWrap", component);
 		
-		_("img", ".coin", leftWrap).src = srcCoin;
+		_("img", ".coin", leftWrap).src = src["coin"];
 		_("span", "", leftWrap).innerText = " " + info[i].item;
 		
 		// Case for [unit + value] (Consider float: right!)
@@ -270,7 +283,7 @@ function fillLikeBar(likeBar, trip_id, likes_text)
 		</likeBar>
 	*/
 	
-	_("img", "#likeIcon", likeBar).src = srcLike;
+	_("img", "#likeIcon", likeBar).src = src["like"];
 	_("span", ".shadow", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
 }
@@ -291,7 +304,7 @@ function createArrow()
 	var topMargin = _("div", "#topMargin", document.body, true);
 	
 	var topArrow = _("img", "#topArrow", topMargin);
-	topArrow.src = srcTopArrow;
+	topArrow.src = src["topArrow"];
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 }
 
@@ -444,7 +457,7 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	nation.innerText = _nation;
-	arrow.src = srcRightArrow;
+	arrow.src = src["rightArrow"];
 	
 	wrap.onclick = function() { call(["create_profile", user_id, _userName]); };
 }
@@ -589,12 +602,12 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 		</div>\
 		";
 	
-	if(is_on_trip) $("#onTrip").src = srcOnTrip;
+	if(is_on_trip) $("#onTrip").src = src["onTrip"];
 	else $("#onTrip").src = srcNotOnTrip;
 	
 	if(notice >= 0)
 	{
-		$("#noticeWrap").style.backgroundImage = "url('" + srcBulb + "')";
+		$("#noticeWrap").style.backgroundImage = "url('" + src["bulb"] + "')";
 		$("#noticeText").innerText = notice;
 	}
 	
@@ -669,7 +682,7 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 	
 	var button = _("div", "#seeAll", detail);
 	_("span", ".shadow", button).innerText = see_all_feed_text;
-	_("img", ".arrow", button).src = srcRightArrow;
+	_("img", ".arrow", button).src = src["rightArrow"];
 	
 	var likeBar = _("div", "#likeBar", detail);
 	fillLikeBar(likeBar, trip_id, likes_text);
@@ -931,7 +944,7 @@ function createMoreComment(more_comment_text)
 		moreComment.id = "moreComment";
 		$("#page").insertBefore(moreComment, $("#commentList"));
 	}
-	_("img", "#commentIcon", moreComment).src = srcComment;
+	_("img", "#commentIcon", moreComment).src = src["comment"];
 	_("span", ".shadow", moreComment).innerText = more_comment_text;
 	moreComment.onclick = function(){ call(["more_comment"]); };
 }

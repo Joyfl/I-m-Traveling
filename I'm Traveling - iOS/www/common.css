@@ -30,6 +30,16 @@ ul, ol, li
 	list-style-type: none;
 }
 
+#preload
+{
+	position: absolute;
+	overflow: hidden;
+	left: -9999px; 
+	top: -9999px;
+	height: 1px;
+	width: 1px;
+}
+
 #page
 {
 	/*background-color: #F6E2D1;*/
