@@ -924,6 +924,9 @@ function clear() {
 	if($("#topMargin")) document.body.removeChild($("#topMargin"));
 	if($("#topShadow")) document.body.removeChild($("#topShadow"));
 	
+	reset();
+}
+function reset() {
 	simpleFeedColor = 0;
 	uploadingFeedColor = 0;
 	simpleTripColor = 0;
@@ -932,6 +935,7 @@ function clear() {
 	peopleColor = 0;
 	notificationColor = 0;
 }
+
 
 function createMoreComment(more_comment_text)
 {
@@ -962,6 +966,7 @@ function clearProfileTabContents()
 	var children = page.childNodes;
 	for(var i = children.length - 1; i > 0; i--)
 		page.removeChild(children[i]);
+	reset();
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
