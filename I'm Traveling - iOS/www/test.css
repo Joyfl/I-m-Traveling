@@ -286,21 +286,22 @@ ul, ol, li
 	
 }
 
-.content .preloadImage
+.content .preloadIcon
 {
 	width: 4em;
 	height: 4em;
 	left: -2em;
 	margin-left: 50%;
 	position: absolute;
+	background-image: url("./resource/preload_icon.png");
+	background-size: 100% 100%;
 }
 
 .content .picture
 {
 	border: 0px solid #FFFFFF;
 	border-radius: 7px;
-	background-image: url("./resource/gradient/preload.png");
-	background-size: 100% 100%;
+	width: 100%;
 }
 
 .content .feedback
