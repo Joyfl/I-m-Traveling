@@ -57,10 +57,10 @@ function init()
 	
 	clear();
 	
-	//t_fl();
+	t_fl();
 	//t_fd();
 	
-	t_p();
+	//t_p();
 	
 	//t_sf();
 	//t_usf();
@@ -89,7 +89,7 @@ function preloader()
 	src["onTrip"] = "resource/on_trip.png";
 	src["bulb"] = "resource/bulb.png";
 	src["coin"] = "resource/coin.png";
-	src["preloadImage"] = "resource/dummy/profile_image.jpg";
+	src["preloadImage"] = "resource/preload_icon.png";
 	
 	var loader = new Image();
 	for(var s in src) loader.src = src[s];
@@ -212,8 +212,8 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		likeText.innerText = _likes;
 	}
 	
-	//setTimeout(function(){picture.src = pictureUrl;}, 1000);
-	picture.src = pictureUrl;
+	setTimeout(function(){picture.src = pictureUrl;}, 5000);
+	//picture.src = pictureUrl;
 	
 	if(pictureRatio >= 0)
 	{
