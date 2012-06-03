@@ -67,11 +67,6 @@
 		_picker.dataSource = self;
 		_picker.showsSelectionIndicator = YES;
 		[self.view addSubview:_picker];
-		
-		UIImageView *googleLogo = [self googleLogo];
-		[googleLogo removeFromSuperview];
-		googleLogo.frame = CGRectMake( 6, 5, googleLogo.frame.size.width, googleLogo.frame.size.height );
-		[self.view addSubview:googleLogo];
 	}
 	
 	return self;
@@ -156,22 +151,5 @@
 	[place release];
 	[self dismissModalViewControllerAnimated:YES];
 }
-
-
-#pragma mark -
-#pragma mark MapView
-
-- (UIImageView *)googleLogo
-{
-	for( UIView *subview in _mapView.subviews )
-	{
-		if( [subview isMemberOfClass:[UIImageView class]] )
-			return (UIImageView *)subview;
-	}
-	
-	return nil;
-}
-
-
 
 @end
