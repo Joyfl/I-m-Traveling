@@ -70,11 +70,10 @@
 
 // Share
 "TITLE_SHARE" = "Share a trip";
-"TAKE_A_PICTURE" = "Take a picture";
-"FROM_LIBRARY" = "From Library";
+"TAKE_A_PICTURE" = "Take picture";
+"FROM_LIBRARY" = "From library";
 "NO_SUPPORT_CAMERA" = "This device doesn't support camera.";
 "UPLOAD" = "Upload";
-"NETWORK_CONNECTION_LOST_WHILE_UPLOADING" = "Network connection was lost while uploading. Feed will be saved in local, and uploaded automatically when network is available. You can see uploading progress at Profile > Notifications.";
 "SELECT_A_TRIP" = "Select a trip";
 "SELECT_A_PLACE" = "Select a place";
 "SAVE_TO_LOCAL" = "Save to local";
@@ -97,10 +96,11 @@
 // Place List
 "TITLE_PLACE_LIST" = "Select a place";
 "ADD_PLACE" = "Add";
-"NO_PLACES_MSG" = "There is no places registered around. Press 'Add' button to add a place where you are.";
+"NO_PLACES_MSG" = "There is no places registered around. Press 'Add' button to add a place.";
 
 // Place Add
 "TITLE_PLACE_ADD" = "Add a place";
+"ADD" = "Add";
 "PLACE_NAME" = "Place name";
 
 // Time Select
@@ -135,4 +135,4 @@
 "LOGOUT" = "Logout";
 "WITHDRAWAL" = "Membership Withdrawal";
 "REALLY_LOGOUT" = "Do you really want to logout?";
-"LOGGED_OUT" = "Logged Out.";
+"LOGGED_OUT" = "Logged out.";
