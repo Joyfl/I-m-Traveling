@@ -84,20 +84,22 @@
 		return;
 	}
 	
-	NSString *func = [NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",
-					   feedObj.tripId,
-					   feedObj.feedId,
-					   feedObj.userId,
-					   feedObj.profileImageURL,
-					   feedObj.name,
-					   feedObj.time,
-					   feedObj.place,
-					   feedObj.region,
-					   feedObj.pictureThumbURL,
-					   feedObj.review,
-					   [Utils writeJSON:feedObj.info],
-					   [NSString stringWithFormat:NSLocalizedString( @"SEE_ALL_N_FEEDS", @"" ), feedObj.numAllFeeds],
-					   [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), feedObj.numLikes]];
+	NSString *func = [NSString stringWithFormat:@"createFeedDetail(%d, %d, %d, '%@', '%@', '%@', '%@', '%@', '%@', '%@', %f, '%@', '%@', '%@', '%@')",
+					  feedObj.tripId,
+					  feedObj.feedId,
+					  feedObj.userId,
+					  feedObj.profileImageURL,
+					  feedObj.name,
+					  feedObj.time,
+					  feedObj.place,
+					  feedObj.region,
+					  feedObj.pictureThumbURL,
+					  feedObj.pictureURL,
+					  feedObj.pictureRatio,
+					  feedObj.review,
+					  [Utils writeJSON:feedObj.info],
+					  [NSString stringWithFormat:NSLocalizedString( @"SEE_ALL_N_FEEDS", @"" ), feedObj.numAllFeeds],
+					  [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), feedObj.numLikes]];
 	
 	[self stringByEvaluatingJavaScriptFromString:func];
 	[_detailViewController performSelector:@selector(feedDetailDidFinishCreating:) withObject:self afterDelay:0.5];	

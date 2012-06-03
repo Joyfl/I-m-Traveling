@@ -491,6 +491,7 @@ enum {
 	feedObject.numAllFeeds = [[feed objectForKey:@"all_feeds"] count];
 	feedObject.info = [feed objectForKey:@"info"];
 	feedObject.comments = [[NSMutableArray alloc] init];
+	feedObject.pictureRatio = [[feed objectForKey:@"height"] floatValue] / [[feed objectForKey:@"width"] floatValue];
 	
 	// ref가이 1, 2일 경우에 공통적으로 해당
 	if( !feedObject.userId ) feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
