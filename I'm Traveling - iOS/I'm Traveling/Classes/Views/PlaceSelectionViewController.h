@@ -18,6 +18,8 @@
 	CLLocationManager *_locationManager;
 	NSInteger _lastCellId;
 	NSMutableDictionary *_places;
+	UISearchBar *_searchBar;
+	UIButton *_keyboardHideButton;
 	
 	BOOL _placeSelected;
 }

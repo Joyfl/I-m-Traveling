@@ -40,27 +40,34 @@
 		self.navigationItem.rightBarButtonItem = addButton;
 		[addButton release];
 		
+		for( NSInteger i = 9; i > 5; i-- )
+			[[self.webView.scrollView.subviews objectAtIndex:i] setHidden:YES];
 		
-		self.webView.frame = CGRectMake( 0, 44, 320, 372 );
-		self.view.backgroundColor = [UIColor whiteColor];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+		self.webView.frame = CGRectMake( 0, 44, 320, 367 );
+		self.webView.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
+		self.view.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
 		
 		_shareViewController = shareViewController;
 		
 		_locationManager = [[CLLocationManager alloc] init];
 		_locationManager.delegate = self;
-		[_locationManager startUpdatingLocation];
 		
 		_places = [[NSMutableDictionary alloc] init];
 		
-		UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake( 0, 0, 320, 44 )];
-		searchBar.delegate = self;
-		searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
-		[self.view addSubview:searchBar];
+		_searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake( 0, 0, 320, 44 )];
+		_searchBar.delegate = self;
+		_searchBar.placeholder = NSLocalizedString( @"PLACE_SEARCH", @"" );
+		_searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
+		[self.view addSubview:_searchBar];
+		
+		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
+		_keyboardHideButton.hidden = YES;
+		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
+		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_keyboardHideButton];
 		
 		[self loadPage:HTML_INDEX];
+		[self startBusy];
 	}
 	
 	return self;
@@ -72,6 +79,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+	
 	if( _placeSelected )
 		[self dismissModalViewControllerAnimated:YES];
 }
@@ -126,7 +136,6 @@
 #pragma mark -
 #pragma mark ImTravelingViewController
 
-
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	NSDictionary *json = [Utils parseJSON:token.data];
@@ -153,11 +162,18 @@
 		
 		[place release];
 	}
+	
+	[self stopBusy];
 }
 
 
 #pragma mark -
 #pragma mark WebView
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[_locationManager startUpdatingLocation];
+}
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
 {
@@ -224,16 +240,19 @@
 
 - (void)keyboardDidShow
 {
+	_keyboardHideButton.hidden = NO;
+	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
 	[UIView setAnimationDuration:0.25];
 	[webView setFrame:CGRectMake( 0, 44, 320, 156 )];
 	[UIView commitAnimations];
-	//	[_tableView setContentOffset:CGPointMake( 0, y ) animated:YES];
 }
 
 - (void)keyboardWillHide
 {
+	_keyboardHideButton.hidden = YES;
+	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
 	[UIView setAnimationDuration:0.25];
@@ -241,6 +260,11 @@
 	[UIView commitAnimations];
 }
 
+- (void)keyboardHideButtonDidTouchUpInside
+{
+	[_searchBar resignFirstResponder];
+	[self keyboardWillHide];
+}
 
 #pragma mark -
 #pragma mark Javascript Functions
@@ -249,7 +273,7 @@
 {
 	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', %d );", place.placeId, place.name, place.category];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
-	DLog( @"%@", func );
+//	DLog( @"%@", func );
 }
 
 @end

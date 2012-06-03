@@ -96,6 +96,7 @@
 // Place List
 "TITLE_PLACE_LIST" = "Select a place";
 "ADD_PLACE" = "Add";
+"PLACE_SEARCH" = "Search place";
 "NO_PLACES_MSG" = "There is no places registered around. Press 'Add' button to add a place.";
 
 // Place Add

@@ -101,6 +101,7 @@
 // Place Add
 "TITLE_PLACE_ADD" = "장소 추가하기";
 "ADD" = "추가";
+"PLACE_SEARCH" = "장소 검색";
 "PLACE_NAME" = "장소 이름";
 
 // Time Select
