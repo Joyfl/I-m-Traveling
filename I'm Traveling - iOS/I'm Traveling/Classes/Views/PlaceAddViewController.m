@@ -14,6 +14,12 @@
 #import "PlaceSelectionViewController.h"
 #import "ImTravelingBarButtonItem.h"
 
+#define	MAPVIEW_Y				-158
+#define UPDOWN_BUTTON_Y_MIN		62
+#define UPDOWN_BUTTON_Y_MAX		378
+#define PIN_Y_MIN				24
+#define PIN_Y_MAX				182
+
 
 @implementation PlaceAddViewController
 
@@ -33,27 +39,46 @@
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
 		
-		
-		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 100 )];
-		_mapView.layer.cornerRadius = 8;
-		_mapView.userTrackingMode = MKUserTrackingModeFollow;
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAPVIEW_Y, 320, WEBVIEW_HEIGHT_NO_TABBAR )];
+		[_mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 		[self.view addSubview:_mapView];
 		
+		UIImageView *googleLogo = [self googleLogo];
+		[googleLogo removeFromSuperview];
+		googleLogo.frame = CGRectMake( 6, 5, googleLogo.frame.size.width, googleLogo.frame.size.height );
+		[self.view addSubview:googleLogo];
+		
+		_pin = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pin.png"]];
+		_pin.frame = CGRectMake( 150, PIN_Y_MIN, 21, 32 );
+		[self.view addSubview:_pin];
+		[_pin release];
+		
+		_upDownButton = [[UIButton buttonWithType:UIButtonTypeContactAdd] retain];
+		_upDownButton.frame = CGRectMake( 0, UPDOWN_BUTTON_Y_MIN, 40, 40 );
+		[_upDownButton addTarget:self action:@selector(upDownButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[self.view addSubview:_upDownButton];
+		
+		
+		
+		_container = [[UIView alloc] initWithFrame:CGRectMake( 0, 100, 320, 71 )];
+		[self.view addSubview:_container];
+		
 		UIImageView *nameInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"place_add_name_bg.png"]];
-		nameInputBackground.frame = CGRectMake( 0, 100, 320, 50 );
-		[self.view addSubview:nameInputBackground];
+		nameInputBackground.frame = CGRectMake( 0, 0, 320, 50 );
+		[_container addSubview:nameInputBackground];
 		[nameInputBackground release];
 		
-		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 112, 282, 31 )];
+		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 12, 282, 31 )];
 		_nameInput.placeholder = NSLocalizedString( @"PLACE_NAME", @"" );
 		_nameInput.font = [UIFont boldSystemFontOfSize:15];
+		[_nameInput addTarget:self action:@selector(nameInputEditingDidBegin) forControlEvents:UIControlEventEditingDidBegin];
 		[_nameInput becomeFirstResponder];
-		[self.view addSubview:_nameInput];
+		[_container addSubview:_nameInput];
 		
-		UIButton *categoryButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 150, 320, 50 )];
+		UIButton *categoryButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 50, 320, 50 )];
 		[categoryButton setBackgroundImage:[UIImage imageNamed:@"place_add_category_bg.png"] forState:UIControlStateNormal];
 		[categoryButton addTarget:self action:@selector(categoryButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:categoryButton];
+		[_container addSubview:categoryButton];
 		
 		_categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 10, 282, 31 )];
 		_categoryLabel.backgroundColor = [UIColor clearColor];
@@ -88,8 +113,8 @@
 	[params setObject:[Utils email] forKey:@"email"];
 	[params setObject:[Utils password] forKey:@"password"];
 	[params setObject:_nameInput.text forKey:@"place_name"];
-	[params setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.latitude] forKey:@"latitude"];
-	[params setObject:[NSNumber numberWithFloat:_mapView.userLocation.coordinate.longitude] forKey:@"longitude"];
+	[params setObject:[NSNumber numberWithFloat:_mapView.region.center.latitude] forKey:@"latitude"];
+	[params setObject:[NSNumber numberWithFloat:_mapView.region.center.longitude] forKey:@"longitude"];
 	[params setObject:_categoryLabel.text forKey:@"category"];
 	[self.loader addTokenWithTokenId:0 url:API_PLACE_ADD method:ImTravelingLoaderMethodGET params:params];
 	[self.loader startLoading];
@@ -100,9 +125,80 @@
 #pragma mark -
 #pragma mark Selectors
 
+- (void)upDownButtonDidTouchUpInside
+{
+	if( _mapView.frame.origin.y == MAPVIEW_Y )
+	{
+		[_nameInput resignFirstResponder];
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.25];
+		
+		CGRect frame = _mapView.frame;
+		frame.origin.y = 0;
+		_mapView.frame = frame;
+		
+		frame = _pin.frame;
+		frame.origin.y = PIN_Y_MAX;
+		_pin.frame = frame;
+		
+		frame = _upDownButton.frame;
+		frame.origin.y = UPDOWN_BUTTON_Y_MAX;
+		_upDownButton.frame = frame;
+		
+		frame = _container.frame;
+		frame.origin.y = WEBVIEW_HEIGHT_NO_TABBAR;
+		_container.frame = frame;
+		
+		frame = _picker.frame;
+		frame.origin.y = WEBVIEW_HEIGHT_NO_TABBAR;
+		_picker.frame = frame;
+		
+		[UIView commitAnimations];
+	}
+	else
+	{
+		if( _wasEditingName )
+			[_nameInput becomeFirstResponder];
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:0.25];
+		
+		CGRect frame = _mapView.frame;
+		frame.origin.y = MAPVIEW_Y;
+		_mapView.frame = frame;
+		
+		frame = _pin.frame;
+		frame.origin.y = PIN_Y_MIN;
+		_pin.frame = frame;
+		
+		frame = _upDownButton.frame;
+		frame.origin.y = UPDOWN_BUTTON_Y_MIN;
+		_upDownButton.frame = frame;
+		
+		frame = _container.frame;
+		frame.origin.y = 100;
+		_container.frame = frame;
+		
+		frame = _picker.frame;
+		frame.origin.y = 200;
+		_picker.frame = frame;
+		
+		[UIView commitAnimations];
+	}
+}
+
+- (void)nameInputEditingDidBegin
+{
+	_wasEditingName = YES;
+}
+
 - (void)categoryButtonDidTouchUpInside
 {
 	[_nameInput resignFirstResponder];
+	_wasEditingName = NO;
 }
 
 
@@ -150,6 +246,21 @@
 	[placeSelectionViewController selectPlace:place];
 	[place release];
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark -
+#pragma mark Utils
+
+- (UIImageView *)googleLogo
+{
+	for( UIView *subview in _mapView.subviews )
+	{
+		if( [subview isMemberOfClass:[UIImageView class]] )
+			return (UIImageView *)subview;
+	}
+	
+	return nil;
 }
 
 @end

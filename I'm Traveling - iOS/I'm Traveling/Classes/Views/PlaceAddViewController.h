@@ -11,14 +11,20 @@
 
 @class PlaceSelectionViewController;
 
-@interface PlaceAddViewController : ImTravelingViewController <MKMapViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface PlaceAddViewController : ImTravelingViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
 	PlaceSelectionViewController *placeSelectionViewController;
 	
 	MKMapView *_mapView;
+	UIImageView *_pin;
+	UIButton *_upDownButton;
+	
+	UIView *_container;
 	UITextField *_nameInput;
 	UILabel *_categoryLabel;
 	UIPickerView *_picker;
+	
+	BOOL _wasEditingName;
 }
 
 @property (nonatomic, retain) PlaceSelectionViewController *placeSelectionViewController;

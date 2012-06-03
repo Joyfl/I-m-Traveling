@@ -25,6 +25,9 @@
 	#define HTML_INDEX			@"http://jshs.woobi.co.kr/traveling/index.html"
 #endif
 
+#define WEBVIEW_HEIGHT				367
+#define WEBVIEW_HEIGHT_NO_TABBAR	416
+
 #define API_LOGIN				@"https://imtraveling.joyfl.kr/login.php"
 #define API_SIGN_UP				@"https://imtraveling.joyfl.kr/register.php"
 #define API_FEED_LIST			@"https://imtraveling.joyfl.kr/feed_list.php"
