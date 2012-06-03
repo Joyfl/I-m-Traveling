@@ -57,8 +57,8 @@ function init()
 	
 	clear();
 	
-	t_fl();
-	//t_fd();
+	//t_fl();
+	t_fd();
 	
 	//t_p();
 	
@@ -191,23 +191,15 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		</thumbnail>
 	*/
 	
+	var preloadIcon = _("div", ".preloadIcon", thumbnail);
 	var cover = _("div", ".cover .picture", thumbnail);
-	var preloadIcon;
-	var loader = new Image();
+	loaderLow = new Image();
+	loaderHigh = new Image();
 	var picture = _("img", ".picture", thumbnail);
 	
-	// Preload
-	if(pictureHighUrl)
-	{
-		loader.src = pictureHighUrl;
-		picture.src = pictureUrl;
-	}
-	else
-	{
-		loader.src = pictureUrl;
-		picture.src = src["preloadBG"];
-		preloadIcon = _("img", ".preloadIcon", thumbnail);
-	}
+	picture.src = src["preloadBG"];
+	loaderLow.src = pictureUrl;
+	if(pictureHighUrl) loaderHigh.src = pictureHighUrl;
 	
 	if(isThumbnail)
 	{
@@ -232,11 +224,12 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	setHeight(cover, pictureHeightPixel);
 	setHeight(picture, pictureHeightPixel);
 	setHeight(thumbnail, pictureHeightPixel);
-	if(!pictureHighUrl) preloadIcon.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
+	preloadIcon.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
 	
-	loader.onload = function(){
-		picture.src = loader.src;
-		if(!pictureHighUrl) preloadIcon.style.display = "none";
+	loaderLow.onload = function(){
+		preloadIcon.style.display = "none";
+		picture.src = loaderLow.src;
+		if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
 	};
 	
 }
