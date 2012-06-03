@@ -193,8 +193,8 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	
 	var preloadIcon = _("div", ".preloadIcon", thumbnail);
 	var cover = _("div", ".cover .picture", thumbnail);
-	loaderLow = new Image();
-	loaderHigh = new Image();
+	var loaderLow = new Image();
+	var loaderHigh = new Image();
 	var picture = _("img", ".picture", thumbnail);
 	
 	picture.src = src["preloadBG"];
