@@ -17,7 +17,7 @@
 
 
 // 정의되어있으면 loadPage에서 local파일을 로드한다.
-#define LOCAL
+//#define LOCAL
 
 #ifdef LOCAL
 	#define HTML_INDEX			@"index"
