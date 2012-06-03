@@ -58,7 +58,7 @@
 		[_upDownButton addTarget:self action:@selector(upDownButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:_upDownButton];
 		
-		_container = [[UIView alloc] initWithFrame:CGRectMake( 0, 100, 320, 71 )];
+		_container = [[UIView alloc] initWithFrame:CGRectMake( 0, 100, 320, 100 )];
 		_container.layer.shadowOffset = CGSizeMake( 0, -2 );
 		_container.layer.shadowColor = [UIColor colorWithWhite:0 alpha:1].CGColor;
 		_container.layer.shadowOpacity = 0.5;
