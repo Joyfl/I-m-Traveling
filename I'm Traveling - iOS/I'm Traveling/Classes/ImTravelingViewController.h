@@ -28,6 +28,7 @@
 
 - (void)startBusy;
 - (void)stopBusy;
+- (void)showOopsAlertWithMessage:(NSString *)message;
 
 @property (nonatomic, retain) ImTravelingLoader *loader;
 

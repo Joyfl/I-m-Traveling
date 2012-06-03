@@ -86,6 +86,7 @@
 		[categoryButton setBackgroundImage:[UIImage imageNamed:@"place_add_category_bg.png"] forState:UIControlStateNormal];
 		[categoryButton addTarget:self action:@selector(categoryButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_container addSubview:categoryButton];
+		[categoryButton release];
 		
 		_categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 10, 282, 31 )];
 		_categoryLabel.backgroundColor = [UIColor clearColor];
@@ -95,7 +96,8 @@
 		_categoryLabel.shadowOffset = CGSizeMake( 0, 1 );
 		_categoryLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
 		[categoryButton addSubview:_categoryLabel];
-		[categoryButton release];
+		
+		_selectedCategory = -1;
 		
 		_picker = [[UIPickerView alloc] initWithFrame:CGRectMake( 0, 200, 320, 250 )];
 		_picker.delegate = self;
@@ -117,7 +119,19 @@
 }
 
 - (void)doneButtonDidTouchUpInside
-{	
+{
+	if( _nameInput.text.length == 0 )
+	{
+		[self showOopsAlertWithMessage:NSLocalizedString( @"ENTER_PLACE_NAME", @"" )];
+		return;
+	}
+	
+	if( _selectedCategory == -1 )
+	{
+		[self showOopsAlertWithMessage:NSLocalizedString( @"PLEASE_SELECT_CATEGORY", @"" )];
+		return;
+	}
+	
 	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	[params setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
 	[params setObject:[Utils email] forKey:@"email"];
@@ -232,6 +246,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+	_selectedCategory = row;
 	_categoryLabel.textColor = [UIColor blackColor];
 	_categoryLabel.text = [NSString stringWithFormat:@"%d", row];
 }

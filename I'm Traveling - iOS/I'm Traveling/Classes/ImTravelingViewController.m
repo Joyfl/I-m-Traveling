@@ -18,7 +18,6 @@
 {
 	if( self = [super init] )
 	{
-//		responseData = [[NSMutableData alloc] init];
 		loader = [[ImTravelingLoader alloc] init];
 		loader.delegate = self;
 	}
@@ -117,6 +116,11 @@
 - (void)stopBusy
 {
 	[DejalBezelActivityView removeView];
+}
+
+- (void)showOopsAlertWithMessage:(NSString *)message
+{
+	[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:message delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 }
 
 @end

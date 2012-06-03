@@ -104,6 +104,8 @@
 "PLACE_SEARCH" = "장소 검색";
 "PLACE_NAME" = "장소 이름";
 "SELECT_CATEGORY" = "카테고리 선택";
+"ENTER_PLACE_NAME" = "장소 이름을 입력해주세요.";
+"PLEASE_SELECT_CATEGORY" = "카테고리를 선택해주세요.";
 
 // Time Select
 "TITLE_TIME_SELECT" = "시간을 선택해주세요";

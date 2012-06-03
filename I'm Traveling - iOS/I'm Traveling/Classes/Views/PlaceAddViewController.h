@@ -25,6 +25,7 @@
 	UIPickerView *_picker;
 	
 	BOOL _wasEditingName;
+	NSInteger _selectedCategory;
 }
 
 @property (nonatomic, retain) PlaceSelectionViewController *placeSelectionViewController;

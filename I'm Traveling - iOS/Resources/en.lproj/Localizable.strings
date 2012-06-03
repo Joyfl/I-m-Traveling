@@ -104,6 +104,8 @@
 "ADD" = "Add";
 "PLACE_NAME" = "Place name";
 "SELECT_CATEGORY" = "Select category";
+"ENTER_PLACE_NAME" = "Enter place name.";
+"PLEASE_SELECT_CATEGORY" = "Select category.";
 
 // Time Select
 "TITLE_TIME_SELECT" = "Select a time";
