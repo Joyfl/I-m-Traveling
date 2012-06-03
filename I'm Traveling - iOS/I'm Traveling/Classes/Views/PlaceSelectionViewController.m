@@ -43,7 +43,8 @@
 		for( NSInteger i = 9; i > 5; i-- )
 			[[self.webView.scrollView.subviews objectAtIndex:i] setHidden:YES];
 		
-		self.webView.frame = CGRectMake( 0, 44, 320, 416 );
+		// search bar 때문에 높이 416에서 44를 추가로 뺌.
+		self.webView.frame = CGRectMake( 0, 44, 320, 372 );
 		self.webView.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
 		self.view.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
 		
