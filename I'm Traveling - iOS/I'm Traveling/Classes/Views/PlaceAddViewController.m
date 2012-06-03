@@ -58,9 +58,11 @@
 		[_upDownButton addTarget:self action:@selector(upDownButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:_upDownButton];
 		
-		
-		
 		_container = [[UIView alloc] initWithFrame:CGRectMake( 0, 100, 320, 71 )];
+		_container.layer.shadowOffset = CGSizeMake( 0, -2 );
+		_container.layer.shadowColor = [UIColor colorWithWhite:0 alpha:1].CGColor;
+		_container.layer.shadowOpacity = 0.5;
+		_container.layer.shadowRadius = 2;
 		[self.view addSubview:_container];
 		
 		UIImageView *nameInputBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"place_add_name_bg.png"]];
@@ -71,6 +73,11 @@
 		_nameInput = [[UITextField alloc] initWithFrame:CGRectMake( 20, 12, 282, 31 )];
 		_nameInput.placeholder = NSLocalizedString( @"PLACE_NAME", @"" );
 		_nameInput.font = [UIFont boldSystemFontOfSize:15];
+		_nameInput.layer.shadowOffset = CGSizeMake( 0, 1 );
+		_nameInput.layer.shadowColor = [UIColor whiteColor].CGColor;
+		_nameInput.layer.shadowOpacity = 0.5;
+		_nameInput.layer.shadowRadius = 0;
+		[_nameInput setValue:[UIColor colorWithRed:217/255.0 green:183/255.0 blue:155/255.0 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
 		[_nameInput addTarget:self action:@selector(nameInputEditingDidBegin) forControlEvents:UIControlEventEditingDidBegin];
 		[_nameInput becomeFirstResponder];
 		[_container addSubview:_nameInput];
@@ -83,7 +90,10 @@
 		_categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake( 20, 10, 282, 31 )];
 		_categoryLabel.backgroundColor = [UIColor clearColor];
 		_categoryLabel.font = [UIFont boldSystemFontOfSize:15];
-		_categoryLabel.text = @"0";
+		_categoryLabel.textColor = [UIColor colorWithRed:207/255.0 green:173/255.0 blue:145/255.0 alpha:1];
+		_categoryLabel.text = NSLocalizedString( @"SELECT_CATEGORY", @"" );
+		_categoryLabel.shadowOffset = CGSizeMake( 0, 1 );
+		_categoryLabel.shadowColor = [UIColor colorWithWhite:1 alpha:0.5];
 		[categoryButton addSubview:_categoryLabel];
 		[categoryButton release];
 		
@@ -107,7 +117,7 @@
 }
 
 - (void)doneButtonDidTouchUpInside
-{
+{	
 	NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
 	[params setObject:[NSNumber numberWithInt:[Utils userId]] forKey:@"user_id"];
 	[params setObject:[Utils email] forKey:@"email"];
@@ -222,6 +232,7 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+	_categoryLabel.textColor = [UIColor blackColor];
 	_categoryLabel.text = [NSString stringWithFormat:@"%d", row];
 }
 

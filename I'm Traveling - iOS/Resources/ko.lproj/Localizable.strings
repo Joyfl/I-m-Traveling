@@ -103,6 +103,7 @@
 "ADD" = "추가";
 "PLACE_SEARCH" = "장소 검색";
 "PLACE_NAME" = "장소 이름";
+"SELECT_CATEGORY" = "카테고리 선택";
 
 // Time Select
 "TITLE_TIME_SELECT" = "시간을 선택해주세요";

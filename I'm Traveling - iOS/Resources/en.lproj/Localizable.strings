@@ -103,6 +103,7 @@
 "TITLE_PLACE_ADD" = "Add a place";
 "ADD" = "Add";
 "PLACE_NAME" = "Place name";
+"SELECT_CATEGORY" = "Select category";
 
 // Time Select
 "TITLE_TIME_SELECT" = "Select a time";
