@@ -131,7 +131,7 @@ enum {
 		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentBar addSubview:_commentInput];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 		
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
@@ -606,6 +606,11 @@ enum {
 	_rightFeedButton.frame = frame;
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+	[_commentInput resignFirstResponder];
+}
+
 #pragma mark -
 #pragma mark MKMapViewDelegate, CLLocationManagerDelegate
 
@@ -952,14 +957,9 @@ enum {
 #pragma mark -
 #pragma mark Keyboard
 
-- (void)keyboardWillShow
+- (void)keyboardDidShow
 {
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDelay:0.065];
-	[UIView setAnimationDuration:0.18];
 	_scrollView.frame = CGRectMake( 0, 0, 320, 201 );
-	[UIView commitAnimations];
-	
 	[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - 216 + 14 ) animated:YES];
 }
 
