@@ -280,6 +280,28 @@
 	_currentFirstResponder = textField;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	if( textField == _nameInput )
+	{
+		[_nationButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+	}
+	else if( textField == _emailInput )
+	{
+		[_passwordInput becomeFirstResponder];
+	}
+	else if( textField == _passwordInput )
+	{
+		[_passwordVerifyInput becomeFirstResponder];
+	}
+	else if( textField == _passwordVerifyInput )
+	{
+		[_birthdayButton sendActionsForControlEvents:UIControlEventTouchUpInside];
+	}
+	
+	return YES;
+}
+
 
 #pragma mark -
 #pragma mark Keyboard
