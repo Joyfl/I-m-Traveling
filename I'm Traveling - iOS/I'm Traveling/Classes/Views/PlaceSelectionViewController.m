@@ -61,12 +61,6 @@
 		_searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
 		[self.view addSubview:_searchBar];
 		
-		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
-		_keyboardHideButton.hidden = YES;
-		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
-		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:_keyboardHideButton];
-		
 		[self loadPage:HTML_INDEX];
 		[self startBusy];
 	}
@@ -241,31 +235,14 @@
 
 - (void)keyboardDidShow
 {
-	_keyboardHideButton.hidden = NO;
-	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.25];
-	[webView setFrame:CGRectMake( 0, 44, 320, 156 )];
-	[UIView commitAnimations];
+	webView.frame = CGRectMake( 0, 44, 320, 156 );
 }
 
 - (void)keyboardWillHide
 {
-	_keyboardHideButton.hidden = YES;
-	
-	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.25];
-	[webView setFrame:CGRectMake( 0, 44, 320, 372 )];
-	[UIView commitAnimations];
+	webView.frame = CGRectMake( 0, 44, 320, 372 );
 }
 
-- (void)keyboardHideButtonDidTouchUpInside
-{
-	[_searchBar resignFirstResponder];
-	[self keyboardWillHide];
-}
 
 #pragma mark -
 #pragma mark Javascript Functions
