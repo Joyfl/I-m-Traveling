@@ -221,13 +221,6 @@
 		[signUpButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:0.3] forState:UIControlStateNormal];
 		[signUpButton addTarget:self action:@selector(signUpButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_scrollView addSubview:signUpButton];
-		
-		
-		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
-		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
-		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:_keyboardHideButton];
-		_keyboardHideButton.hidden = YES;
 	}
 	
 	return self;
@@ -238,7 +231,6 @@
 	[self.navigationController setNavigationBarHidden:NO animated:YES];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 }
 
@@ -308,11 +300,6 @@
 	[UIView commitAnimations];
 }
 
-- (void)keyboardDidShow
-{
-	_keyboardHideButton.hidden = NO;
-}
-
 - (void)keyboardWillHide
 {
 	CGRect frame = _scrollView.frame;
@@ -351,6 +338,10 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
 	_imageTopBorder.hidden = NO;
+	if( _currentFirstResponder )
+		[_currentFirstResponder resignFirstResponder];
+	[self hidePicker:_nationPicker];
+	[self hidePicker:_birthdayPicker];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -492,14 +483,6 @@
 	[self startBusy];
 }
 
-- (void)keyboardHideButtonDidTouchUpInside
-{
-	_keyboardHideButton.hidden = YES;
-	[_currentFirstResponder resignFirstResponder];
-	[self hidePicker:_nationPicker];
-	[self hidePicker:_birthdayPicker];
-}
-
 
 #pragma mark -
 #pragma mark Loader
@@ -612,7 +595,6 @@
 		[UIView commitAnimations];
 		
 		[self keyboardWillShow];
-		[self performSelector:@selector(keyboardDidShow) withObject:nil afterDelay:0.25];
 	}
 }
 

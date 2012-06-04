@@ -32,7 +32,6 @@
 	UIView *_currentFirstResponder;
 	NSInteger _originalOffset;
 	
-	UIButton *_keyboardHideButton;
 	UIPickerView *_nationPicker;
 	UIDatePicker *_birthdayPicker;
 	
