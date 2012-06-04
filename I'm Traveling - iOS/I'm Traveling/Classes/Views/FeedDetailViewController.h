@@ -47,7 +47,6 @@
 	UIView *_commentBar;
 	UITextField *_commentInput;
 	UIButton *_sendButton;
-	UIButton *_keyboardHideButton;
 }
 
 - (id)initFromListWithFeed:(FeedObject *)feed upperImage:(UIImage *)upperImage lowerImage:(UIImage *)lowerImage lowerImageViewOffset:(CGFloat)offset;

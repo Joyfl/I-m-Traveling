@@ -131,7 +131,7 @@ enum {
 		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentBar addSubview:_commentInput];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow) name:UIKeyboardWillShowNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 		
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
@@ -142,10 +142,6 @@ enum {
 		[_sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
 		[_sendButton addTarget:self action:@selector(sendButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		[_commentBar addSubview:_sendButton];
-		
-		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
-		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
-		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
 		
 		self.navigationItem.title = _feedObjectFromPrevView.place;
 		
@@ -260,7 +256,6 @@ enum {
 	[_commentBar release];
 	[_commentInput release];
 	[_sendButton release];
-	[_keyboardHideButton release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -920,14 +915,9 @@ enum {
 
 - (void)backButtonDidTouchUpInside
 {
-	[self animateDisappearance];
-	
-	[_mapView removeOverlays:_mapView.overlays];
-}
-
-- (void)keyboardHideButtonDidTouchUpInside
-{
 	[_commentInput resignFirstResponder];
+	[self animateDisappearance];
+	[_mapView removeOverlays:_mapView.overlays];
 }
 
 - (void)sendButtonDidTouchUpInside
@@ -960,28 +950,26 @@ enum {
 #pragma mark -
 #pragma mark Keyboard
 
-- (void)keyboardDidShow
+- (void)keyboardWillShow
 {
-	NSLog( @"keyboard show" );
-	[self.view addSubview:_keyboardHideButton];
-	
 	[UIView beginAnimations:nil context:nil];
-	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.25];
-	_scrollView.frame = CGRectMake( 0, 0, 320, 200 );
+	[UIView setAnimationDelay:0.065];
+	[UIView setAnimationDuration:0.18];
+	_scrollView.frame = CGRectMake( 0, 0, 320, 201 );
 	[UIView commitAnimations];
 	
-	[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - 216 + 10 ) animated:YES];
+	[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - 216 + 14 ) animated:YES];
 }
 
 - (void)keyboardWillHide
 {
-	[_keyboardHideButton removeFromSuperview];
+	_scrollView.frame = CGRectMake( 0, 0, 320, 367 );
+	_scrollView.contentOffset = CGPointMake( 0, _scrollView.contentSize.height - 216 + 14 );
 	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
-	[UIView setAnimationDuration:0.25];
-	_scrollView.frame = CGRectMake( 0, 0, 320, 367 );
+	[UIView setAnimationDuration:0.2];
+	_scrollView.contentOffset = CGPointMake( 0, _scrollView.contentSize.height - WEBVIEW_HEIGHT );
 	[UIView commitAnimations];
 }
 
