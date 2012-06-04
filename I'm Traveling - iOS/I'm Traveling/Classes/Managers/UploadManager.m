@@ -40,7 +40,7 @@
 	
 	// 로컬에 저장되어있는 여행 불러와서 업로드 큐에 저장
 	_trips = [[NSMutableArray alloc] initWithArray:[[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_SAVED_TRIPS]];
-	NSLog( @"로컬에 저장된 여행 개수 : %d개", _trips.count );
+	NSLog( @"Local saved trips : %d", _trips.count );
 	
 	for( NSMutableDictionary *trip in _trips )
 	{
@@ -56,7 +56,7 @@
 	
 	// 로컬에 저장되어있는 피드 불러와서 업로드 큐에 저장
 	_feeds = [[NSMutableArray alloc] initWithArray:[[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_SAVED_FEEDS]];
-	NSLog( @"로컬에 저장된 피드 개수 : %d개", _feeds.count );
+	NSLog( @"Local saved feeds : %d", _feeds.count );
 	
 	for( NSMutableDictionary *feed in _feeds )
 	{
@@ -78,7 +78,7 @@
 	[trip setObject:[Utils password] forKey:@"password"];
 	[_trips addObject:trip];
 	
-	NSLog( @"새로운 여행(localTripId=%d) 추가 후 여행 개수 : %d", localTripId, _trips.count );
+	NSLog( @"_trips.count after adding new trip(localTripId=%d) : %d", localTripId, _trips.count );
 	
 	// 새로운 여행이 추가된 배열을 로컬에 저장
 	[[SettingsManager manager] setSetting:_trips forKey:SETTING_KEY_LOCAL_SAVED_TRIPS];
@@ -96,7 +96,7 @@
 	[feed setObject:[Utils email] forKey:@"email"];
 	[feed setObject:[Utils password] forKey:@"password"];
 	[_feeds addObject:feed];
-	NSLog( @"새로운 피드 추가 후 피드 개수 : %d", _feeds.count );
+	NSLog( @"_feeds after adding new feed : %d", _feeds.count );
 	
 	// 새로운 피드가 추가된 배열을 로컬에 저장
 	[[SettingsManager manager] setSetting:_feeds forKey:SETTING_KEY_LOCAL_SAVED_FEEDS];
@@ -109,7 +109,7 @@
 {
 	NSInteger localTripId = [[trip objectForKey:@"trip_id"] integerValue];
 	
-	NSLog( @"업로드 할 여행 (localTripId=%d) : %@", localTripId, trip );
+	NSLog( @"upload trip (localTripId=%d) : %@", localTripId, trip );
 	
 	[_tripUploader addTokenWithTokenId:localTripId url:API_TRIP_ADD method:ImTravelingLoaderMethodGET params:trip];
 	[_tripUploader startLoading];
@@ -124,7 +124,7 @@
 		[feed setObject:picture forKey:@"picture"];
 	}
 	
-	NSLog( @"업로드 할 피드 : %@", feed );
+	NSLog( @"upload feed : %@", feed );
 	
 	[_feedUploader addTokenWithTokenId:0 url:API_UPLOAD method:ImTravelingLoaderMethodPOST params:feed];
 	[_feedUploader startLoading];
@@ -140,17 +140,17 @@
 	// 업로드할 것인지 물어본 토큰이 속한 로더가 피드 업로드이고, 여행이 업로드중이면 피드 업로드 중단.
 	if( token.tokenId == 0 && _tripUploader.queueLength > 0 )
 	{
-		NSLog( @"여행이 업로드중임!! 피드 업로드 중단!" );
+		NSLog( @"Trip is uploading. Stop feed uploading." );
 		return NO;
 	}
 	
 	if( token.tokenId == 0 )
 	{
-		NSLog( @"여행이 업로드중이지 않음!! 피드 업로드!!" );
+		NSLog( @"No trip is uploading. Start uploading feed." );
 	}
 	else
 	{
-		NSLog( @"여행 업로드!!" );
+		NSLog( @"Upload trip." );
 	}
 	
 	return YES;
@@ -158,12 +158,12 @@
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
-	NSLog( @"업로드 결과(id=%d) : %@", token.tokenId, token.data );
+	NSLog( @"result(id=%d) : %@", token.tokenId, token.data );
 	
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [[json objectForKey:@"status"] integerValue] == 0 )
 	{
-		NSLog( @"업로드 에러" );
+		NSLog( @"Error" );
 		return;
 	}
 	
@@ -173,7 +173,7 @@
 		NSInteger tripId = [[json objectForKey:@"result"] integerValue];
 		NSInteger localTripId = token.tokenId;
 		
-		NSLog( @"서버에서 받아온 여행 id : %d", tripId );
+		NSLog( @"tripId from server : %d", tripId );
 		
 		// 피드 작성중 여행 업로드가 완료될 경우 ShareView에서 작성중인 피드의 trip_id를 서버에서 로드한 trip_id로 바꿔줌
 		[[(AppDelegate *)[UIApplication sharedApplication].delegate shareViewController] tripLoadingDidFinishWithTripId:tripId andLocalTripId:localTripId];
@@ -182,18 +182,18 @@
 		{
 			NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;
 			
-			NSLog( @"_feeds 루프돌리는 중, trip_id : %d", [[params objectForKey:@"trip_id"] integerValue] );
+			NSLog( @"_feeds looping, trip_id : %d", [[params objectForKey:@"trip_id"] integerValue] );
 			
 			if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
 			{
-				NSLog( @"trip id가 %d인 피드 발견!! %d로 바꿈!", localTripId, tripId );
+				NSLog( @"Find out the feed which trip id is %d. Change to %d", localTripId, tripId );
 				[params setObject:[NSNumber numberWithInteger:tripId] forKey:@"trip_id"];
 			}
 		}
 		
 		// 업로드가 완료된 여행은 제거
 		[_trips removeObjectAtIndex:0];
-		NSLog( @"업로드가 완료된 여행 제거 후 여행 개수 : %d", _trips.count );
+		NSLog( @"_trips.count after removing uploading finished trip : %d", _trips.count );
 		
 		// 피드 업로드 계속 진행
 		[_feedUploader startLoading];
@@ -214,7 +214,7 @@
 	{
 		// 업로드가 완료된 피드는 제거
 		[_feeds removeObjectAtIndex:0];
-		NSLog( @"업로드가 완료된 피드 제거 후 피드 개수 : %d", _feeds.count );
+		NSLog( @"_feeds.count after removing uploading finished feed : %d", _feeds.count );
 		
 		// 업로드가 완료된 피드가 제거된 배열을 로컬에 저장
 		[[SettingsManager manager] setSetting:_feeds forKey:SETTING_KEY_LOCAL_SAVED_FEEDS];
