@@ -49,7 +49,13 @@
 	notification.type = NOTIFICATION_TYPE_UPLOADING;
 	notification.numSources = numUploadings;
 	notification.source = [UploadManager manager].currentUploading;
-	notification.imageURL = [NSString stringWithFormat:@"data:image/png;base64,%@", [Utils base64FromImage:[[UploadManager manager].currentUploading objectForKey:@"picture"]]];
+	
+	UIImage *picture = [[UploadManager manager].currentUploading objectForKey:@"picture"];
+	UIGraphicsBeginImageContext( CGSizeMake( 50, 50 ) );
+	[picture drawInRect:CGRectMake( 0, 0, 50, 50 )];
+	UIImage *scaledPicture = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	notification.imageURL = [NSString stringWithFormat:@"data:image/png;base64,%@", [Utils base64FromImage:scaledPicture]];
 	
 	return notification;
 }
