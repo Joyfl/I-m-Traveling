@@ -180,7 +180,7 @@
 {
 	if( [message isEqualToString:@"select_place"] )
 	{
-		DLog( @"place_id : %@", [arguments objectAtIndex:0] );
+		NSLog( @"place_id : %@", [arguments objectAtIndex:0] );
 		[self selectPlace:[_places objectForKey:[NSNumber numberWithInteger:[[arguments objectAtIndex:0] integerValue]]]];
 	}
 }
@@ -274,7 +274,7 @@
 {
 	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', %d );", place.placeId, place.name, place.category];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
-//	DLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 @end

@@ -485,7 +485,7 @@
 								   [Utils dateStringForUpload:_selectedBirthday], @"birthday",
 								   _nationButton.titleLabel.text, @"nation",
 								   nil];
-	DLog( @"data : %@", params );
+	NSLog( @"data : %@", params );
 	[self.loader addTokenWithTokenId:0 url:API_SIGN_UP method:ImTravelingLoaderMethodPOST params:params];
 	[self.loader startLoading];
 	
@@ -511,7 +511,7 @@
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
-		ALog( @"%@", json );
+		NSLog( @"%@", json );
 #warning temp code
 		[self showAlertWithMessage:@"Error"];
 		return;

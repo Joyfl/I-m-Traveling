@@ -6,15 +6,6 @@
 //  Copyright (c) 2012년 Joyfl. All rights reserved.
 //
 
-#ifdef DEBUG
-#   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-#else
-#   define DLog(...)
-#endif
-
-// ALog always displays output regardless of the DEBUG setting
-#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
-
 
 // 정의되어있으면 loadPage에서 local파일을 로드한다.
 //#define LOCAL

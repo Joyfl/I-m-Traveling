@@ -72,7 +72,7 @@
 {
 	if( _titleInput.text.length == 0 || _summaryInput.text.length == 0 )
 	{
-		DLog( @"제목이나 요약이 비었음!!" );
+		NSLog( @"제목이나 요약이 비었음!!" );
 		return;
 	}
 	

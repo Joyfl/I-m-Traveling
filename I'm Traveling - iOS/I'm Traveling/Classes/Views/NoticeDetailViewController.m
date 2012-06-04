@@ -46,7 +46,7 @@
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
-		DLog( @"Error" );
+		NSLog( @"Error" );
 		return;
 	}
 	

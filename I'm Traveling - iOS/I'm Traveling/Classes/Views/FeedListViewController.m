@@ -186,7 +186,7 @@ enum {
 
 - (void)loadFeedsFrom:(NSInteger)from to:(NSInteger)to
 {
-	DLog( @"load %d ~ %d", _feedListObjects.count, _feedListObjects.count + 10 );
+	NSLog( @"load %d ~ %d", _feedListObjects.count, _feedListObjects.count + 10 );
 	
 	loading = YES;
 	
@@ -212,7 +212,7 @@ enum {
 {
 	if( [message isEqualToString:@"feed_detail"] )
 	{
-		DLog( @"detail" );
+		NSLog( @"detail" );
 		NSDate *date = [NSDate date];
 		
 		[self startBusy];
@@ -285,7 +285,7 @@ enum {
 		[self.navigationController pushViewController:detailViewController animated:NO];
 		[detailViewController release];
 		
-		DLog( @"interval : %f", [[NSDate date] timeIntervalSinceDate:date] );
+		NSLog( @"interval : %f", [[NSDate date] timeIntervalSinceDate:date] );
 	}
 	else if( [message isEqualToString:@"create_profile"] )
 	{
@@ -309,7 +309,7 @@ enum {
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
-		DLog( @"[FeedListViewController] %@", token.data );
+		NSLog( @"[FeedListViewController] %@", token.data );
 		return;
 	}
 	
@@ -449,7 +449,7 @@ enum {
 	
 	[webView stringByEvaluatingJavaScriptFromString:func];
 	
-//	DLog( @"%@", func );
+//	NSLog( @"%@", func );
 }
 
 - (void)addFeed:(FeedObject *)feedObj

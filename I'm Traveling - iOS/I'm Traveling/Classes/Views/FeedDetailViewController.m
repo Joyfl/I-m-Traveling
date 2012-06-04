@@ -373,11 +373,10 @@ enum {
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
 	NSDictionary *json = [Utils parseJSON:token.data];
-	DLog( @"%@", token.data );
 	
 	if( [self isError:json] )
 	{
-		DLog( @"Error : %@", [json objectForKey:@"error"] );
+		NSLog( @"Error : %@", [json objectForKey:@"error"] );
 		return;
 	}
 	
@@ -468,7 +467,7 @@ enum {
 	// Like
 	else if( token.tokenId == kTokenIdLike )
 	{
-		DLog( @"like result : %@", token.data );
+		NSLog( @"like result : %@", token.data );
 		NSString *result = [json objectForKey:@"result"];
 		if( [result isEqualToString:@"OK"] )
 		{
@@ -477,7 +476,7 @@ enum {
 			
 			NSString *str = [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), currentFeed.numLikes];
 			NSString *func = [NSString stringWithFormat:@"$('#likeBar').children[1].innerText = '%@'", str];
-			DLog( @"%@", func );
+			NSLog( @"%@", func );
 			[self.centerWebView stringByEvaluatingJavaScriptFromString:func];
 		}
 	}
@@ -963,7 +962,7 @@ enum {
 
 - (void)keyboardDidShow
 {
-	DLog( @"keyboard show" );
+	NSLog( @"keyboard show" );
 	[self.view addSubview:_keyboardHideButton];
 	
 	[UIView beginAnimations:nil context:nil];

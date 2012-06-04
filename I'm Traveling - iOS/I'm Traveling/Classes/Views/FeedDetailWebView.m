@@ -107,7 +107,7 @@
 
 - (void)clearComments
 {
-	DLog( @"clear comments" );
+	NSLog( @"clear comments" );
 	[self stringByEvaluatingJavaScriptFromString:@"clearCommentList();"];
 }
 
