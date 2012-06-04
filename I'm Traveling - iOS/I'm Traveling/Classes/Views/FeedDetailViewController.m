@@ -107,6 +107,7 @@ enum {
 		_titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_titleButton.frame = CGRectMake( 0, 315, 320, 52 );
 		[_titleButton addTarget:self action:@selector(titleButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[_titleButton addTarget:self action:@selector(titleButtonDidTouchUpInside) forControlEvents:UIControlEventTouchDragOutside];
 		[self.view addSubview:_titleButton];
 		_titleButton.hidden = YES;
 		
@@ -584,6 +585,8 @@ enum {
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+	if( _mapView.scrollEnabled ) return;
+	
 	// Map
 	CGRect frame = _mapView.frame;
 	
@@ -609,7 +612,37 @@ enum {
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
 	[_commentInput resignFirstResponder];
+	
+	_dragBeginY = scrollView.contentOffset.y;
+	_dragBeginTime = [[NSDate alloc] init];
 }
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{	
+	CGFloat distance = scrollView.contentOffset.y - _dragBeginY;
+	NSTimeInterval interval = [_dragBeginTime timeIntervalSinceNow];
+	CGFloat velocity = distance / interval;
+	[_dragBeginTime release];
+	
+	if( scrollView.contentOffset.y < -90 || ( velocity > 600 && _dragBeginY < 100 ) )
+	{
+		_mapView.scrollEnabled = YES;
+		_mapView.zoomEnabled = YES;
+		_scrollView.userInteractionEnabled = NO;
+		_scrollView.bounces = NO;
+		_titleButton.hidden = NO;
+		
+		[UIView beginAnimations:nil context:nil];
+		[UIView setAnimationDelay:0];
+		[UIView setAnimationDuration:velocity > 600 ? 0.3 : 0.5];
+		_mapView.frame = CGRectMake( 0, 0, 320, _mapView.frame.size.height );
+		_scrollView.frame = CGRectMake( 0, 225, 320, _scrollView.frame.size.height );
+		_leftFeedButton.frame = CGRectMake( 0, 135, 44, 44 );
+		_rightFeedButton.frame = CGRectMake( 276, 135, 44, 44 );
+		[UIView commitAnimations];
+	}
+}
+
 
 #pragma mark -
 #pragma mark MKMapViewDelegate, CLLocationManagerDelegate
@@ -830,6 +863,7 @@ enum {
 	_mapView.scrollEnabled = NO;
 	_mapView.zoomEnabled = NO;
 	_scrollView.userInteractionEnabled = YES;
+	_scrollView.bounces = YES;
 	_titleButton.hidden = YES;
 	
 	[UIView beginAnimations:nil context:nil];

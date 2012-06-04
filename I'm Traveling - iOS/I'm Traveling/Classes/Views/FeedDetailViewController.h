@@ -26,6 +26,8 @@
 	NSMutableArray *_webViews;
 	ImTravelingBarButtonItem *_likeButton;
 	UIButton *_titleButton;
+	CGFloat _dragBeginY;
+	NSDate *_dragBeginTime;
 	
 	NSMutableArray *_feedDetailObjects;
 	NSInteger _currentFeedIndex;
