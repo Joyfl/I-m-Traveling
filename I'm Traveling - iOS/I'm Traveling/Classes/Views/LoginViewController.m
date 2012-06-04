@@ -101,7 +101,7 @@
 
 - (void)dismissKeyboard
 {
-	DLog( @"bg" );
+	NSLog( @"bg" );
 	[_emailInput resignFirstResponder];
 	[_passwordInput resignFirstResponder];
 }

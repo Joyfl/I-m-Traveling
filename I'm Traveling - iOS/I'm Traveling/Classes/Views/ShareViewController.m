@@ -177,7 +177,7 @@ enum {
 
 - (void)tripLoadingDidFinishWithTripId:(NSInteger)tripId andLocalTripId:(NSInteger)localTripId
 {
-	DLog( @"tripLoadingDidFinish (localTripId=%d, tripId=%d)", localTripId, tripId );
+	NSLog( @"tripLoadingDidFinish (localTripId=%d, tripId=%d)", localTripId, tripId );
 	
 	if( selectedTrip.tripId == localTripId )
 		selectedTrip.tripId = tripId;
@@ -492,7 +492,7 @@ enum {
 - (void)minusButtonDidTouchUpInside:(id)sender
 {
 	NSInteger row = [sender tag];
-	DLog( @"minus button (row : %d)", row );
+	NSLog( @"minus button (row : %d)", row );
 	
 	[_info removeObjectAtIndex:row];
 	
@@ -550,7 +550,7 @@ enum {
 
 - (void)unitButtonDidTouchUpInside
 {
-	DLog( @"unit" );
+	NSLog( @"unit" );
 }
 
 - (void)keyboardDidShow
@@ -653,10 +653,10 @@ enum {
 
 /*- (void)networkAvailabilityDidChange:(BOOL)available
 {
-	DLog( @"networkAvailabilityDidChange" );
+	NSLog( @"networkAvailabilityDidChange" );
 	
-	if( _uploading ) DLog( @"uploading" );
-	if( available ) DLog( @"available" );
+	if( _uploading ) NSLog( @"uploading" );
+	if( available ) NSLog( @"available" );
 	
 	if( _uploading && !available )
 	{
