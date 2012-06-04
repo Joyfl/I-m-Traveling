@@ -154,6 +154,15 @@ enum {
 // 업로드 버튼을 누르면 UploadManager로 넘어가고, UploadManager에서 네트워크 연결이 끊어지는 등의 오류도 함께 관리한다.
 - (void)uploadButtonDidTouchUpInside
 {
+	[self startBusy];
+	
+	NSThread *uploadThread = [[NSThread alloc] initWithTarget:self selector:@selector(addFeedToUploadManager:) object:nil];
+	[uploadThread start];
+	[uploadThread release];
+}
+
+- (void)addFeedToUploadManager:(NSThread *)thread
+{
 	NSMutableArray *info = [NSMutableArray array];
 	for( NSInteger i = 0; i < _info.count; i++ )
 		[info addObject:[[_info objectAtIndex:i] dictionary]];
@@ -172,6 +181,7 @@ enum {
 	
 	[[UploadManager manager] addFeed:feed];
 	
+	[self stopBusy];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
