@@ -35,7 +35,6 @@
 	NSMutableArray *_info;
 	
 	id _currentFirstResponder;
-	UIButton *_keyboardHideButton;
 }
 
 - (id)initWithImage:(UIImage *)image;

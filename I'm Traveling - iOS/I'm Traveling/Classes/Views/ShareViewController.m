@@ -71,10 +71,6 @@ enum {
 		selectedDate = [[NSDate alloc] init];
 		selectedTime = [[NSDate alloc] init];
 		
-		_keyboardHideButton = [[UIButton alloc] initWithFrame:CGRectMake( 250, 171, 60, 29 )];
-		[_keyboardHideButton setBackgroundImage:[UIImage imageNamed:@"button_hide_keyboard.png"] forState:UIControlStateNormal];
-		[_keyboardHideButton addTarget:self action:@selector(keyboardHideButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		
 		CGFloat imageHeight = _image.size.height * 320 / _image.size.width;
 		if( imageHeight > 240 )
 			[_tableView setContentOffset:CGPointMake( 0, imageHeight - 240 ) animated:YES];
@@ -112,8 +108,6 @@ enum {
 	// presentModalViewController로 modalView 띄우고 다시 돌아오면 observer가 모두 제거되어있는 것 같음.
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditting:) name:UITextViewTextDidBeginEditingNotification object:nil];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 
 	// 이거 작동이 안됨... 왜그런지 모르겠음.. 슈ㅣ발 ㅠㅠ
@@ -123,8 +117,6 @@ enum {
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidBeginEditingNotification object:nil];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 	
 //	[[NSNotificationCenter defaultCenter] removeObserver:self name:kTripLoadingFinishNotification object:nil];
@@ -442,6 +434,8 @@ enum {
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
 	_imageTopBorder.hidden = NO;
+	if( _currentFirstResponder )
+		[_currentFirstResponder resignFirstResponder];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -563,28 +557,13 @@ enum {
 	NSLog( @"unit" );
 }
 
-- (void)keyboardDidShow
-{
-	[self.view addSubview:_keyboardHideButton];
-}
-
 - (void)keyboardWillHide
 {
-	[_keyboardHideButton removeFromSuperview];
-	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
 	[UIView setAnimationDuration:0.25];
 	[_tableView setFrame:CGRectMake( 0, 0, 320, 416 )];
 	[UIView commitAnimations];
-}
-
-- (void)keyboardHideButtonDidTouchUpInside
-{
-	if( _currentFirstResponder != nil )
-	{
-		[_currentFirstResponder resignFirstResponder];
-	}
 }
 
 
