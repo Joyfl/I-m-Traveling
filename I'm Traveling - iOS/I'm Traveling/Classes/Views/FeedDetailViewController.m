@@ -451,12 +451,12 @@ enum {
 		comment.profileImgUrl = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, comment.userId];
 		comment.name = [Utils userName];
 		comment.time = [Utils dateStringForUpload:[NSDate date]];
-		comment.comment = _commentInput.text;
+		comment.comment = [token.params objectForKey:@"comment"];
 		[self.centerWebView addComment:comment];
 		
-		_commentInput.text = @"";
-		_commentInput.enabled = YES;
 		_sendButton.enabled = YES;
+		[_commentInput becomeFirstResponder];
+		[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - _scrollView.frame.size.height ) animated:YES];
 	}
 	
 	// Like
@@ -927,7 +927,6 @@ enum {
 		if( _commentInput.text.length == 0 )
 			return;
 		
-		_commentInput.enabled = NO;
 		_sendButton.enabled = NO;
 		
 		NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
@@ -939,6 +938,9 @@ enum {
 		[params setObject:@"1" forKey:@"type"];
 		[self.loader addTokenWithTokenId:kTokenIdSendComment url:API_FEED_COMMENT method:ImTravelingLoaderMethodGET params:params];
 		[self.loader startLoading];
+		
+		_commentInput.text = @"";
+		[_commentInput becomeFirstResponder];
 	}
 	else
 	{
