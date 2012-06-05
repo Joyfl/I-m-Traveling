@@ -130,6 +130,7 @@ enum {
 		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
 		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		_commentInput.returnKeyType = UIReturnKeySend;
+		[_commentInput addTarget:self action:@selector(commentInputEditingChanged) forControlEvents:UIControlEventEditingChanged];
 		[_commentBar addSubview:_commentInput];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
@@ -138,6 +139,7 @@ enum {
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		_sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
 		_sendButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
+		_sendButton.enabled = NO;
 		[_sendButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[_sendButton setTitle:NSLocalizedString( @"SEND", @"Send" ) forState:UIControlStateNormal];
 		[_sendButton setBackgroundImage:[UIImage imageNamed:@"button.png"] forState:UIControlStateNormal];
@@ -1088,6 +1090,11 @@ enum {
 
 #pragma mark -
 #pragma mark UITextFieldDelegate
+
+- (void)commentInputEditingChanged
+{
+	_sendButton.enabled = _commentInput.text.length > 0;
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
