@@ -16,10 +16,9 @@
 #import "Comment.h"
 #import "AppDelegate.h"
 
-#define MAP_HEIGHT				316
-#define MAP_Y					-0.5 * ( MAP_HEIGHT - 100 )
+#define MAP_Y					-0.5 * ( WEBVIEW_HEIGHT - 100 )
 #define WEBVIEW_Y				70
-#define LEFT_RIGHT_BUTTON_Y		_mapView.frame.origin.y + 131
+#define LEFT_RIGHT_BUTTON_Y		_mapView.frame.origin.y + 157
 
 @interface FeedDetailViewController (Private)
 
@@ -57,7 +56,7 @@ enum {
 		self.view.backgroundColor = [UIColor darkGrayColor];
 		
 		// Map View
-		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, MAP_HEIGHT )];
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, MAP_Y, 320, WEBVIEW_HEIGHT )];
 		_mapView.delegate = self;
 		_mapView.scrollEnabled = NO;
 		_mapView.zoomEnabled = NO;
