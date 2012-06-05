@@ -130,7 +130,6 @@ enum {
 		_commentInput = [[UITextField alloc] initWithFrame:CGRectMake( 17, 9, 220, 23 )];
 		_commentInput.delegate = self;
 		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
-		_commentInput.clearButtonMode = UITextFieldViewModeWhileEditing;
 		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentInput addTarget:self action:@selector(commentInputEditingChanged) forControlEvents:UIControlEventEditingChanged];
 		[_commentBar addSubview:_commentInput];
