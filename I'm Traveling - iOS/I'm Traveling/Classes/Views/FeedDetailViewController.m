@@ -115,6 +115,8 @@ enum {
 		_feedDetailObjects = [[NSMutableArray alloc] init];
 		
 		_commentBar = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 40 )];
+		[_scrollView addSubview:_commentBar];
+		[_commentBar release];
 		
 		UIImageView *commentBarBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"comment_bar.png"]];
 		[_commentBar addSubview:commentBarBackground];
@@ -132,9 +134,6 @@ enum {
 		_commentInput.returnKeyType = UIReturnKeySend;
 		[_commentInput addTarget:self action:@selector(commentInputEditingChanged) forControlEvents:UIControlEventEditingChanged];
 		[_commentBar addSubview:_commentInput];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
 		
 		_sendButton = [[UIButton alloc] initWithFrame:CGRectMake( 253, 5, 60, 31 )];
 		_sendButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -221,6 +220,9 @@ enum {
 
 - (void)viewDidAppear:(BOOL)animated
 {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+	
 	if( [Utils loggedIn] )
 	{
 		_commentInput.placeholder = NSLocalizedString( @"LEAVE_A_COMMENT", @"Leave a comment" );
@@ -981,7 +983,6 @@ enum {
 		[self.loader startLoading];
 		
 		_commentInput.text = @"";
-		[_commentInput becomeFirstResponder];
 	}
 	else
 	{
@@ -995,14 +996,25 @@ enum {
 
 - (void)keyboardDidShow
 {
-	_scrollView.frame = CGRectMake( 0, 0, 320, 201 );
+	[self performSelector:@selector(keyboardShowAnimationDidFinish) withObject:nil afterDelay:0.5];
 	[_scrollView setContentOffset:CGPointMake( 0, _scrollView.contentSize.height - 216 + 14 ) animated:YES];
+}
+
+- (void)keyboardShowAnimationDidFinish
+{
+	[self.view addSubview:_commentBar];
+	_commentBar.frame = CGRectMake( 0, 161, 320, 40 );
+	_scrollView.frame = CGRectMake( 0, 0, 320, 161 );
 }
 
 - (void)keyboardWillHide
 {
+	[_scrollView addSubview:_commentBar];
+	_commentBar.frame = CGRectMake( 0, self.centerWebView.frame.size.height + WEBVIEW_Y, 320, 40 );
+	
 	_scrollView.frame = CGRectMake( 0, 0, 320, 367 );
 	_scrollView.contentOffset = CGPointMake( 0, _scrollView.contentSize.height - 216 + 14 );
+	[self resizeContentHeight];
 	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDelay:0];
@@ -1024,13 +1036,14 @@ enum {
 
 - (void)resizeContentHeight
 {
-	[_commentBar removeFromSuperview];
-	[_scrollView addSubview:_commentBar];
+	if( _commentBar.superview == _scrollView )
+	{
+		CGRect frame = _commentBar.frame;
+		frame.origin.y = self.centerWebView.frame.size.height + WEBVIEW_Y;
+		_commentBar.frame = frame;
+	}
 	
-	CGRect frame = _commentBar.frame;
-	frame.origin.y = self.centerWebView.frame.size.height + WEBVIEW_Y;
-	_commentBar.frame = frame;
-	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + WEBVIEW_Y + 41 );
+	_scrollView.contentSize = CGSizeMake( 320, self.centerWebView.frame.size.height + WEBVIEW_Y + ( _commentBar.superview == _scrollView ? 41 : 0 ) );
 }
 
 - (void)feedDetailDidFinishCreating:(FeedDetailWebView *)webView
