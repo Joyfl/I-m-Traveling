@@ -113,7 +113,7 @@ enum {
 		
 		_feedDetailObjects = [[NSMutableArray alloc] init];
 		
-		_commentBar = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, 320, 40 )];
+		_commentBar = [[UIView alloc] initWithFrame:CGRectMake( 0, WEBVIEW_HEIGHT, 320, 40 )];
 		[_scrollView addSubview:_commentBar];
 		[_commentBar release];
 		
@@ -179,8 +179,8 @@ enum {
 	{
 		ref = 1;
 		
+		_mapView.frame = CGRectMake( 0, 0, 320, WEBVIEW_HEIGHT );
 		_mapView.region = _originalRegion = originalRegion;
-		[self setMapViewRegionLatitude:feed.latitude longitude:feed.longitude animated:YES];
 	}
 	
 	return self;
@@ -395,8 +395,6 @@ enum {
 		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
 		
 		[self changeNavigationBarTitle];
-		
-		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
 		
 		[self animateAppearance];
 		
@@ -705,6 +703,10 @@ enum {
 		[UIView setAnimationDuration:0.5];
 		self.centerWebView.frame = CGRectMake( 0, WEBVIEW_Y, 320, 367 );
 		[UIView commitAnimations];
+		
+		[self performSelector:@selector(titleButtonDidTouchUpInside) withObject:nil afterDelay:0.1];
+		[self setMapViewRegionLatitude:_feedObjectFromPrevView.latitude longitude:_feedObjectFromPrevView.longitude animated:YES];
+		_feedObjectFromPrevView = nil; // 첫 로딩이라는 것을 알려주는 지표 제거
 	}
 	else
 	{
@@ -740,6 +742,7 @@ enum {
 		[UIView beginAnimations:nil context:NULL];
 		[UIView setAnimationDelay:0];
 		[UIView setAnimationDuration:0.5];
+		_mapView.frame = CGRectMake( 0, 0, 320, WEBVIEW_HEIGHT );
 		self.centerWebView.frame = CGRectMake( 0, 367, 320, self.centerWebView.frame.size.height );
 		[UIView commitAnimations];
 	}
