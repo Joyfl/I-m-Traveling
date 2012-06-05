@@ -259,10 +259,7 @@ enum {
 	[self startBusy];
 	
 	FeedObject *feedObj = (FeedObject *)view.annotation;
-	CGRect rect = [_feedMapView convertRegion:_feedMapView.region toRectToView:self.view];
-	rect.origin.y -= ( _feedMapView.frame.size.height - 100 ) * 0.5;
-	
-	FeedDetailViewController *detailViewController = [[FeedDetailViewController alloc] initFromMapWithFeed:feedObj originalRegion:[_feedMapView convertRect:rect toRegionFromView:self.view]];
+	FeedDetailViewController *detailViewController = [[FeedDetailViewController alloc] initFromMapWithFeed:feedObj originalRegion:_feedMapView.region];
 	
 	[self.navigationController pushViewController:detailViewController animated:NO];
 }
