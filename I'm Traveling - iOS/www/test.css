@@ -101,29 +101,20 @@ ul, ol, li
 	text-shadow: 0px 1px 0px #EEEEEE;
 }
 
-.even
+li:nth-child(odd)
+{
+	background-image: url("./resource/gradient/odd.png");
+	background-size: 100% 100%;
+	border-top: 1px solid #F4E4D6;
+	border-bottom: 1px solid #D6BDA6;
+}
+
+li:nth-child(even)
 {
 	background-image: url("./resource/gradient/even.png");
-	/*background: gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -webkit-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -moz-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));
-	background: -o-gradient(linear, left top, left bottom, from(#f3ddc9), to(#ebd2bb));*/
 	background-size: 100% 100%;
 	border-top: 1px solid #F1DFCF;
 	border-bottom: 1px solid #E0BFA0;
-}
-
-.odd
-{
-	background-image: url("./resource/gradient/odd.png");
-	/*background: gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
-	background: -webkit-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
-	background: -moz-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));
-	background: -o-gradient(linear, left top, left bottom, from(#ebcdb3), to(#e9c9ad));*/
-	background-size: 100% 100%;
-	border-top: 1px solid #F4E4D6;
-	/*border-bottom: 1px solid #F1DFCF;*/
-	border-bottom: 1px solid #D6BDA6;
 }
 
 .cover

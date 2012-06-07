@@ -9,26 +9,13 @@ BODY_HEIGHT = 0;
 
 
 
-// Variables
-
-simpleFeedColor = 0;
-uploadingFeedColor = 0;
-simpleTripColor = 0;
-placeColor = 0;
-commentColor = 0;
-peopleColor = 0;
-notificationColor = 0;
-
-
-
-
 // Dummy Data
 
 dmyProfileImage = "resource/dummy/profile_image.jpg";
 dmyThumbnailBlack = "resource/dummy/thumbnail_black.jpg";
 dmyThumbnailWhite = "resource/dummy/thumbnail_white.jpg";
 
-dmyComments = [{"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"댓글댓글"}, {"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"}];
+dmyComments = [{"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"댓글댓글"}, {"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"aseeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUeeviwevieweviweeviweviewevieweviewviewevieweviewevieSKUHFUHUEHKJSDHFKUEKJSHDIUHFQUIEHKDJFHUEHJSDHKewdf"},{"user_id":"123", "profile_image_src":dmyProfileImage, "name":"바나나", "time":"2012.01.18", "content":"댓글댓글"}];
 dmyLikes = [{"name":"바나나", "user_id":"123"}, {"name":"진서연", "user_id":"321"}];
 dmyInfo = [{"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}, {"item":"햄버거", "value":"1.0", "unit":"$"}];
 dmyReviewShort = "QUIEHKDJFHUEHJSDHKFJDHKvieweviweviwf3eevie";
@@ -91,8 +78,8 @@ function t_st() { for(var i = 0; i < 6; i++) addSimpleTrip(i, dmyThumbnailWhite,
 function t_ust() { for(var i = 0; i < 6; i++) addUnloadedSimpleTrip(i); }
 function t_mst() { for(var i = 0; i < 6; i++) modifySimpleTrip(i, dmyThumbnailWhite, "Title", "29 FEB", "01 MAR", "기차 여행 간단한 요약", "7 feeds"); }
 
-
 function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content); }
+function t_cl2() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content, true); }
 function t_pl() { for(var i = 0; i < 5; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
 function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, dmyProfileImage, "얘가 댓글을 남겼대요", "6분 전"); }
@@ -782,10 +769,9 @@ function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, regi
 
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
-	simpleFeedColor++;
 	if(!$("#simpleFeedList"))
 		_("ul", "#simpleFeedList", $("#page"));
-	var wrap = _("li", coloring(simpleFeedColor, "#simpleFeed_" + feed_id), $("#simpleFeedList"));
+	var wrap = _("li", "#simpleFeed_" + feed_id, $("#simpleFeedList"));
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
 }
 
@@ -803,19 +789,17 @@ function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
 
 function addUploadingFeed(feed_id, picture_url, _place, _message, _review)
 {
-	uploadingFeedColor++;
 	if(!$("#uploadingFeedList"))
 		_("ul", "#uploadingFeedList", $("#page"));
-	var wrap = _("li", coloring(uploadingFeedColor, ""), $("#uploadingFeedList"));
+	var wrap = _("li", "", $("#uploadingFeedList"));
 	fillUploadingFeed(wrap, feed_id, picture_url, _place, _message, _review);
 }
 
 function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, feeds_text)
 {
-	simpleTripColor++;
 	if(!$("#simpleTripList"))
 		_("ul", "#simpleTripList", $("#page"));
-	var wrap = _("li", coloring(simpleTripColor, "#simpleTrip_" + trip_id), $("#simpleTripList"));
+	var wrap = _("li", "#simpleTrip_" + trip_id, $("#simpleTripList"));
 	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, feeds_text);
 }
 
@@ -833,34 +817,30 @@ function modifySimpleTrip(trip_id, picture_url, title, start_date, end_date, sum
 
 function addPerson(user_id, profile_image_url, name, nation, isFollowing)
 {
-	peopleColor++;
 	if(!$("#peopleList"))
 		_("ul", "#peopleList", $("#page"));
-	var wrap = _("li", coloring(peopleColor, ""), $("#peopleList"));
+	var wrap = _("li", "", $("#peopleList"));
 	fillPerson(wrap, user_id, profile_image_url, name, nation, isFollowing);
 }
 
 function addPlace(place_id, name, category)
 {
-	placeColor++;
 	if(!$("#placeList"))
 		_("ul", "#placeList", $("#page"));
-	var wrap = _("li", coloring(placeColor, ""), $("#placeList"));
+	var wrap = _("li", "", $("#placeList"));
 	fillPlaceList(wrap, place_id, name, category);
 }
 
-function addComment(user_id, profile_image_url, name, _time, _content)
+function addComment(user_id, profile_image_url, name, _time, _content, is_top)
 {
-	commentColor++;
 	if(!$("#commentList"))
 		_("ul", "#commentList", $("#page"));
-	var wrap = _("li", coloring(commentColor, ""), $("#commentList"));
+	var wrap = _("li", "", $("#commentList"), is_top);
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
 }
 
 function addNotification(notification_id, image_url, text, time)
 {
-	notificationColor++;
 	if(!$("#notificationList"))
 		_("ul", "#notificationList", $("#page"));
 	var wrap = _("li", coloring(notificationColor, ""), $("#notificationList"));
@@ -925,13 +905,6 @@ function _(type, attribute, parent, onTop)
 	return element;
 }
 
-function coloring(index, name)
-{
-	if(index % 2 == 0) name += " .even";
-	else name += " .odd";
-	return name;
-}
-
 function createGap(parent, height, clear, color) {
 	var gap = _("div", ".gap", parent);
 	gap.style.height = intToEm(height);
@@ -946,17 +919,6 @@ function clear() {
 	
 	if($("#topMargin")) document.body.removeChild($("#topMargin"));
 	if($("#topShadow")) document.body.removeChild($("#topShadow"));
-	
-	reset();
-}
-function reset() {
-	simpleFeedColor = 0;
-	uploadingFeedColor = 0;
-	simpleTripColor = 0;
-	placeColor = 0;
-	commentColor = 0;
-	peopleColor = 0;
-	notificationColor = 0;
 }
 
 
@@ -989,7 +951,6 @@ function clearProfileTabContents()
 	var children = page.childNodes;
 	for(var i = children.length - 1; i > 0; i--)
 		page.removeChild(children[i]);
-	reset();
 }
 
 function pixelToInt(value) { return Number(value.slice(0, value.length - 2)); }
