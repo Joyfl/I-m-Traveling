@@ -1,10 +1,3 @@
-// Preload resources
-src = [];
-window.addEventListener('load', preloader, false);
-
-
-
-
 // Constants
 
 SERVER = "http://imtraveling.joyfl.kr";
@@ -79,24 +72,6 @@ function init()
 	console.log("body loaded");
 }
 
-function preloader()
-{
-
-	src["like"] = "resource/like.png";
-	src["comment"] = "resource/comment.png";
-	src["rightArrow"] = "resource/right_arrow.png";
-	src["topArrow"] = "resource/top_arrow.png";
-	src["onTrip"] = "resource/on_trip.png";
-	src["bulb"] = "resource/bulb.png";
-	src["coin"] = "resource/coin.png";
-	src["preloadBG"] = "resource/preload_bg.png";
-	
-	var loader = new Image();
-	for(var s in src) loader.src = src[s];
-	
-	console.log("preload success");
-}
-
 
 
 
@@ -105,7 +80,7 @@ function preloader()
 function t_fl() { for(var i = 0; i < 5; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, dmyThumbnailBlack, 0.5, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); createMoreComment("이전 댓글 보기"); t_cl(); }
 
-function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", 0, true); }
+function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", -1, true); }
 
 function t_sf() { for(var i = 0; i < 6; i++) addSimpleFeed(i, dmyThumbnailWhite, "여행/피드 제목", "날짜", "리뷰/설명 등의 내용" + dmyReviewShort); }
 function t_usf() { for(var i = 0; i < 6; i++) addUnloadedSimpleFeed(i); }
@@ -175,9 +150,10 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 {
 	/*
 		<thumbnail>
-			<preloadIcon>
-			<cover />
+			<preloadBG />
+			<preloadIcon />
 			<picture />
+			<cover />
 			<feedback>
 				<commentWrap>
 					<commentIcon />
@@ -191,7 +167,62 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		</thumbnail>
 	*/
 	
+	var loaderLow = new Image();
+	var loaderHigh = new Image();
+	var preloadBG = _("div", ".preloadBG .picture", thumbnail);
+	var cover = _("div", ".cover .picture", thumbnail);
 	var preloadIcon = _("div", ".preloadIcon", thumbnail);
+	var picture = _("img", ".picture", thumbnail);
+	
+	loaderLow.src = pictureUrl;
+	if(pictureHighUrl) loaderHigh.src = pictureHighUrl;
+	
+	if(isThumbnail)
+	{
+		var feedback = _("div", ".feedback", thumbnail);
+	
+		var commentWrap = _("span", ".iconWrap", feedback);
+		var commentIcon = _("div", ".icon .iconComment", commentWrap);
+		var commentText = _("span", ".iconText .blue", commentWrap);
+		commentText.innerText = _comments;
+		
+		var likeWrap = _("span", ".iconWrap", feedback);
+		var likeIcon = _("div", ".icon .iconLike", likeWrap);
+		var likeText = _("span", ".iconText .green", likeWrap);
+		likeText.innerText = _likes;
+	}
+	
+	var pictureWidthPixel = intToPixel(BODY_WIDTH * 0.9);
+	var pictureHeightPixel = intToPixel(BODY_WIDTH * 0.9 * pictureRatio);
+	setWidth(cover, pictureWidthPixel);
+	setHeight(cover, pictureHeightPixel);
+	setWidth(preloadBG, pictureWidthPixel);
+	setHeight(preloadBG, pictureHeightPixel);
+	setHeight(picture, pictureHeightPixel);
+	setHeight(thumbnail, pictureHeightPixel);
+	preloadIcon.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
+	
+	loaderLow.onload = function(){
+		preloadIcon.style.display = "none";
+		preloadBG.style.display = "none";
+		picture.src = loaderLow.src;
+		if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
+	};
+	
+	/*loaderLow.onload = function(){
+		setTimeout(function(){
+		preloadIcon.style.display = "none";
+		preloadBG.style.display = "none";
+		picture.src = loaderLow.src;}, 2000);
+		//if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
+	};*/
+	
+	
+	
+	/*
+	
+	var preloadIcon = _("div", ".preloadIcon", thumbnail);
+	var preloadBG = _("div", ".preloadBG .picture", thumbnail);
 	var cover = _("div", ".cover .picture", thumbnail);
 	var loaderLow = new Image();
 	var loaderHigh = new Image();
@@ -206,15 +237,13 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		var feedback = _("div", ".feedback", thumbnail);
 	
 		var commentWrap = _("span", ".iconWrap", feedback);
-		var commentIcon = _("img", ".icon", commentWrap);
+		var commentIcon = _("div", ".icon .iconComment", commentWrap);
 		var commentText = _("span", ".iconText .blue", commentWrap);
-		commentIcon.src = src["comment"];
 		commentText.innerText = _comments;
 		
 		var likeWrap = _("span", ".iconWrap", feedback);
-		var likeIcon = _("img", ".icon", likeWrap);
+		var likeIcon = _("div", ".icon .iconLike", likeWrap);
 		var likeText = _("span", ".iconText .green", likeWrap);
-		likeIcon.src = src["like"];
 		likeText.innerText = _likes;
 	}
 	
@@ -231,6 +260,7 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		picture.src = loaderLow.src;
 		if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
 	};
+	*/
 	
 }
 
@@ -252,7 +282,7 @@ function fillInfoList(infoList, info)
 		var leftWrap = _("div", ".leftWrap", component);
 		var rightWrap = _("div", ".rightWrap", component);
 		
-		_("img", ".coin", leftWrap).src = src["coin"];
+		_("div", ".coin", leftWrap);
 		_("span", "", leftWrap).innerText = " " + info[i].item;
 		
 		// Case for [unit + value] (Consider float: right!)
@@ -274,7 +304,7 @@ function fillLikeBar(likeBar, trip_id, likes_text)
 		</likeBar>
 	*/
 	
-	_("img", "#likeIcon", likeBar).src = src["like"];
+	_("div", "#likeIcon .iconLike", likeBar);
 	_("span", ".shadow", likeBar).innerHTML = likes_text;
 	likeBar.onclick = function() { call(["people_list", "trip", trip_id]); };
 }
@@ -294,8 +324,7 @@ function createArrow()
 	var topShadow = _("div", "#topShadow", document.body, true);
 	var topMargin = _("div", "#topMargin", document.body, true);
 	
-	var topArrow = _("img", "#topArrow", topMargin);
-	topArrow.src = src["topArrow"];
+	var topArrow = _("div", "#topArrow", topMargin);
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 }
 
@@ -443,12 +472,11 @@ function fillPerson(wrap, user_id, _profileImageSrc, _userName, _nation, isFollo
 	
 	var userName = _("span", ".userName .shadow", wrap);
 	var nation = _("span", ".nation", wrap);
-	var arrow = _("img", ".arrow", wrap);
+	var arrow = _("div", ".arrow", wrap);
 	
 	profileImage.src = _profileImageSrc;
 	userName.innerText = _userName;
 	nation.innerText = _nation;
-	arrow.src = src["rightArrow"];
 	
 	wrap.onclick = function() { call(["create_profile", user_id, _userName]); };
 }
@@ -523,7 +551,6 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 					<profileImage />
 					<userName />
 					<travelingInfo>
-						<onTrip />
 						<nation />
 					</travelingInfo>
 					<noticeWrap>
@@ -566,7 +593,6 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 				<img class=\"profileImage\" src=\"" + profile_image_url + "\" />\
 				<div id=\"userName\">" + name + "</div>\
 				<div id=\"travelingInfo\">\
-					<img id=\"onTrip\" />\
 					<div id=\"nation\">" + nation + "</div>\
 				</div>\
 				<div id=\"noticeWrap\">\
@@ -593,13 +619,14 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 		</div>\
 		";
 	
-	if(is_on_trip) $("#onTrip").src = src["onTrip"];
-	else $("#onTrip").src = srcNotOnTrip;
-	
 	if(notice >= 0)
 	{
-		$("#noticeWrap").style.backgroundImage = "url('" + src["bulb"] + "')";
 		$("#noticeText").innerText = notice;
+	}
+	
+	if(notice < 0)
+	{
+		$("#noticeWrap").style.display = "none";
 	}
 	
 	var wSize = intToPixel(BODY_WIDTH - emToPixel(11));
@@ -678,7 +705,7 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 	
 	var button = _("div", "#seeAll", detail);
 	_("span", ".shadow", button).innerText = see_all_feed_text;
-	_("img", ".arrow", button).src = src["rightArrow"];
+	_("div", ".arrow", button);
 	
 	var likeBar = _("div", "#likeBar", detail);
 	fillLikeBar(likeBar, trip_id, likes_text);
@@ -944,7 +971,7 @@ function createMoreComment(more_comment_text)
 		moreComment.id = "moreComment";
 		$("#page").insertBefore(moreComment, $("#commentList"));
 	}
-	_("img", "#commentIcon", moreComment).src = src["comment"];
+	_("div", "#commentIcon", moreComment);
 	_("span", ".shadow", moreComment).innerText = more_comment_text;
 	moreComment.onclick = function(){ call(["more_comment"]); };
 }

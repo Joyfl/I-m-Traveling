@@ -71,29 +71,9 @@ ul, ol, li
 	color: #3A7A87 !important;
 }
 
-.darkblue
-{
-	color: #20434A !important;
-}
-
 .green
 {
 	color: #6C8A40 !important;
-}
-
-.darkgreen
-{
-	color: #3A4A22 !important;
-}
-
-.right
-{
-	float: right;
-}
-
-.left
-{
-	float: left;
 }
 
 .paragraph
@@ -157,6 +137,13 @@ ul, ol, li
 	-o-box-shadow: 0px 0.1em 0.2em #333333 inset;
 }
 
+.preloadBG
+{
+	position: absolute;
+	background-image: url("resource/preload_bg.png");
+	background-size: 100% 100%;
+}
+
 
 
 
@@ -186,7 +173,10 @@ ul, ol, li
 {
 	float: right;
 	height: 2em;
+	width: 1.2em;
 	margin-right: 1em;
+	background-image: url("./resource/right_arrow.png");
+	background-size: 100% 100%;
 }
 
 
@@ -207,11 +197,6 @@ ul, ol, li
 .header
 {
 	background-image: url("./resource/gradient/section_header.png");
-	/*background: gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
-	background: -webkit-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
-	background: -ms-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
-	background: -moz-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));
-	background: -o-gradient(linear, left top, left bottom, from(#f3d9c1), to(#e9cdb3));*/
 	background-size: 100% 100%;
 	border-top: 1px solid #D6BDA6;
 	border-bottom: 1px solid #F8F1EA;
@@ -327,6 +312,18 @@ ul, ol, li
 	height: 1.3em;
 }
 
+.content .iconLike
+{
+	background-image: url("./resource/like.png");
+	background-size: 100% 100%;
+}
+
+.content .iconComment
+{
+	background-image: url("./resource/comment.png");
+	background-size: 100% 100%;
+}
+
 .content .iconText
 {
 	text-align: right;
@@ -356,6 +353,10 @@ ul, ol, li
 #topArrow
 {
 	height: 2em;
+	width: 3.3em;
+	background-image: url("resource/top_arrow.png");
+	background-size: 100% 100%;
+	margin: 0 auto;
 }
 
 #topShadow
@@ -400,7 +401,12 @@ ul, ol, li
 #detail #infoList .coin
 {
 	width: 1.3em;
+	height: 1.3em;
 	vertical-align: text-bottom;
+	background-image: url("resource/coin.png");
+	background-size: 100% 100%;
+	float: left;
+	margin-right: 0.3em;
 }
 
 #detail #infoList .moneyUnit
@@ -437,16 +443,10 @@ ul, ol, li
 
 #detail #seeAll
 {
-	/*font-size: 1.75em;*/
 	height: 3em;
 	padding-top: 0.7em;
 	padding-left: 1em;
 	background-image: url("./resource/gradient/see_all.png");
-	/*background: gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
-	background: -webkit-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
-	background: -ms-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
-	background: -moz-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));
-	background: -o-gradient(linear, left top, left bottom, from(#f7ddc7), to(#f7e3d2));*/
 	background-size: 100% 100%;
 	border-top: 1px solid #F7EEE7;
 }
@@ -484,6 +484,8 @@ ul, ol, li
 	width: 1.6em;
 	margin-right: 0.5em;
 	margin-top: 0.1em;
+	background-image: url("./resource/like.png");
+	background-size: 100% 100%;
 }
 
 #detail #likeBar span
@@ -549,6 +551,8 @@ ul, ol, li
 	width: 1.6em;
 	margin-right: 0.5em;
 	margin-top: 0.2em;
+	background-image: url("./resource/comment.png");
+	background-size: 100% 100%;
 }
 
 #moreComment span
@@ -852,7 +856,7 @@ ul, ol, li
 #profile #pseudoBottomWrap
 {
 	box-shadow: 0em 0em 3.5em rgba(68, 68, 68, 1);
-	height: 7em;
+	height: 8em;
 }
 
 #profile #profileImageWrapper
@@ -929,6 +933,7 @@ ul, ol, li
 	position: absolute;
 	width: 4em;
 	height: 5.6em;
+	background-image: url("resource/bulb.png");
 	background-size: 100% 100%;
 	left: 100%;
 	margin-left: -6em;
@@ -946,7 +951,7 @@ ul, ol, li
 
 #profile #bottomWrap
 {
-	height: 7em;
+	height: 8em;
 	background-color: #F3D9C1;
 }
 
