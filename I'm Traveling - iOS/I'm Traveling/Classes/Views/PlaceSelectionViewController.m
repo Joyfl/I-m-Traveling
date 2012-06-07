@@ -111,10 +111,24 @@
 	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
 	if( _lastCellId != newCellId )
 	{
-		[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, newCellId] method:ImTravelingLoaderMethodGET params:nil];
+		[self loadCellId:newCellId]; // 가운데
+		[self loadCellId:newCellId - 1 + 36000]; // 왼쪽 위
+		[self loadCellId:newCellId + 36000]; // 위
+		[self loadCellId:newCellId + 1 + 36000]; // 오른쪽 위
+		[self loadCellId:newCellId + 1]; // 오른쪽
+		[self loadCellId:newCellId + 1 - 36000]; // 오른쪽 아래
+		[self loadCellId:newCellId - 36000]; // 아래
+		[self loadCellId:newCellId - 1 - 36000]; // 왼쪽 아래
+		[self loadCellId:newCellId - 1]; // 왼쪽
+		
 		[self.loader startLoading];
 		_lastCellId = newCellId;
 	}
+}
+
+- (void)loadCellId:(NSInteger)cellId
+{
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, cellId] method:ImTravelingLoaderMethodGET params:nil];
 }
 
 

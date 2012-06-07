@@ -174,8 +174,23 @@ enum {
 
 - (void)loadFeeds
 {
-	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude]] method:ImTravelingLoaderMethodGET params:nil];
+	NSInteger cellId = [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude];
+	[self loadCellId:cellId]; // 가운데
+	[self loadCellId:cellId - 1 + 36000]; // 왼쪽 위
+	[self loadCellId:cellId + 36000]; // 위
+	[self loadCellId:cellId + 1 + 36000]; // 오른쪽 위
+	[self loadCellId:cellId + 1]; // 오른쪽
+	[self loadCellId:cellId + 1 - 36000]; // 오른쪽 아래
+	[self loadCellId:cellId - 36000]; // 아래
+	[self loadCellId:cellId - 1 - 36000]; // 왼쪽 아래
+	[self loadCellId:cellId - 1]; // 왼쪽
+	
 	[self.loader startLoading];
+}
+
+- (void)loadCellId:(NSInteger)cellId
+{
+	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?order_type=%d&cell_id=%d", API_FEED_MAP, _orderType, cellId] method:ImTravelingLoaderMethodGET params:nil];
 }
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
