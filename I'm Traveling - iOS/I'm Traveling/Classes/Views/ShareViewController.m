@@ -159,8 +159,27 @@ enum {
 	for( NSInteger i = 0; i < _info.count; i++ )
 		[info addObject:[[_info objectAtIndex:i] dictionary]];
 	
+	NSInteger width = _image.size.width;
+	NSInteger height = _image.size.height;	
+	if( width > 1024 )
+	{
+		height = height * 1024 / width;
+		width = 1024;
+	}
+	
+	if( height > 1024 )
+	{
+		width = width * 1024 / height;
+		height = 1024;
+	}
+	
+	UIGraphicsBeginImageContext( CGSizeMake( width, height ) );
+	[_image drawInRect:CGRectMake( 0, 0, width, height )];
+	UIImage *picture = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
 	NSMutableDictionary *feed = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-								 UIImagePNGRepresentation( _image ), @"picture",
+								 UIImagePNGRepresentation( picture ), @"picture",
 								 [NSNumber numberWithInteger:selectedTrip.tripId], @"trip_id",
 								 [NSNumber numberWithInteger:selectedPlace.placeId], @"place_id",
 								 [Utils dateStringForUpload:selectedDate], @"time",
