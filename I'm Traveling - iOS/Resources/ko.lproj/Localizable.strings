@@ -140,3 +140,18 @@
 "WITHDRAWAL" = "회원 탈퇴";
 "REALLY_LOGOUT" = "정말 로그아웃하시겠습니까?";
 "LOGGED_OUT" = "로그아웃되었습니다.";
+
+// Category
+"LANDMARK" = "관광";
+"FOOD" = "음식점";
+"ACCOMMODATION" = "숙박";
+"BAR_CLUB_CASINO" = "주점/클럽/카지노";
+"SHOPPING" = "쇼핑";
+"CULTURE" = "문화";
+"CAFE" = "카페";
+"CONVENIENCE" = "편의시설";
+"CONFERENCE_WORK" = "컨퍼런스/업무";
+"BANK" = "은행";
+"HOSPITAL_MEDICAL" = "병원/의료";
+"PUBLIC_OFFICE" = "관공서";
+"ETC" = "기타";

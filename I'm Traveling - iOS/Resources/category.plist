@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>LANDMARK</string>
+	<string>FOOD</string>
+	<string>ACCOMMODATION</string>
+	<string>BAR_CLUB_CASINO</string>
+	<string>SHOPPING</string>
+	<string>CULTURE</string>
+	<string>CAFE</string>
+	<string>CONVENIENCE</string>
+	<string>CONFERENCE_WORK</string>
+	<string>BANK</string>
+	<string>HOSPITAL_MEDICAL</string>
+	<string>PUBLIC_OFFICE</string>
+	<string>ETC</string>
+</array>
+</plist>

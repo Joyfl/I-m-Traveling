@@ -21,9 +21,14 @@
 	UISearchBar *_searchBar;
 	
 	BOOL _placeSelected;
+	
+	NSArray *category;
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
 - (void)selectPlace:(Place *)place;
+- (NSString *)categoryForNumber:(NSInteger)no;
+
+@property (nonatomic, readonly) NSArray *category;
 
 @end

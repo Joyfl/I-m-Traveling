@@ -223,6 +223,11 @@
 {
 	[_nameInput resignFirstResponder];
 	_wasEditingName = NO;
+	
+	if( _selectedCategory == -1 )
+	{
+		[self pickerView:_picker didSelectRow:0 inComponent:0];
+	}
 }
 
 
@@ -236,19 +241,19 @@
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-	return 5;
+	return 13;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-	return [NSString stringWithFormat:@"%d", row];
+	return [placeSelectionViewController categoryForNumber:row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
 	_selectedCategory = row;
 	_categoryLabel.textColor = [UIColor blackColor];
-	_categoryLabel.text = [NSString stringWithFormat:@"%d", row];
+	_categoryLabel.text = [placeSelectionViewController categoryForNumber:row];
 }
 
 

@@ -140,3 +140,18 @@
 "WITHDRAWAL" = "Membership Withdrawal";
 "REALLY_LOGOUT" = "Do you really want to logout?";
 "LOGGED_OUT" = "Logged out.";
+
+// Category
+"LANDMARK" = "Landmark";
+"FOOD" = "Food";
+"ACCOMMODATION" = "Accommodation";
+"BAR_CLUB_CASINO" = "Bar/Club/Casino";
+"SHOPPING" = "Shopping";
+"CULTURE" = "Culture";
+"CAFE" = "Cafe";
+"CONVENIENCE" = "Convenience";
+"CONFERENCE_WORK" = "Conference/Work";
+"BANK" = "Bank";
+"HOSPITAL_MEDICAL" = "Hospital/Medical";
+"PUBLIC_OFFICE" = "Public office";
+"ETC" = "Etc";

@@ -15,16 +15,10 @@
 #import "ImTravelingBarButtonItem.h"
 #import "PlaceAddViewController.h"
 
-@interface PlaceSelectionViewController()
-
-- (void)search:(NSString *)keyword;
-
-- (void)addPlace:(Place *)place;
-
-@end
-
 
 @implementation PlaceSelectionViewController
+
+@synthesize category;
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController
 {
@@ -60,6 +54,8 @@
 		_searchBar.placeholder = NSLocalizedString( @"PLACE_SEARCH", @"" );
 		_searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
 		[self.view addSubview:_searchBar];
+		
+		category = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"category" ofType:@"plist"]];
 		
 		[self loadPage:HTML_INDEX];
 		[self startBusy];
@@ -152,7 +148,7 @@
 	// 장소가 없을 경우
 	if( [self isError:json] )
 	{
-		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NO_PLACES_MSG", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
+//		[[[[UIAlertView alloc] initWithTitle:NSLocalizedString( @"OOPS", @"" ) message:NSLocalizedString( @"NO_PLACES_MSG", @"" ) delegate:self cancelButtonTitle:NSLocalizedString( @"I_GOT_IT", @"" ) otherButtonTitles:nil] autorelease] show];
 		return;
 	}
 	
@@ -263,9 +259,18 @@
 
 - (void)addPlace:(Place *)place
 {
-	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', %d );", place.placeId, place.name, place.category];
+	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', '%@' );", place.placeId, place.name, [self categoryForNumber:place.category]];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 //	NSLog( @"%@", func );
+}
+
+
+#pragma mark -
+#pragma mark Getters
+
+- (NSString *)categoryForNumber:(NSInteger)no
+{
+	return NSLocalizedString( [category objectAtIndex:no], @"" );
 }
 
 @end
