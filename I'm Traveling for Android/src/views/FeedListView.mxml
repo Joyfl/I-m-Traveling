@@ -38,7 +38,8 @@
 			
 			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
 			{
-				loader.load( "http://imtraveling.joyfl.kr/feed_list.php" );
+				loader.add( "http://imtraveling.joyfl.kr/feed_list.php" );
+				loader.startLoading();
 			}
 			
 			private function onReceiveMessage( e : ImTravelingWebViewEvent ) : void
