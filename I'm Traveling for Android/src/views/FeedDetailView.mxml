@@ -51,7 +51,7 @@
 //				_webView = new ImTravelingWebView( stage );
 //				_webView.addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );
 //				_webView.addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
-			}
+			} 
 			
 			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
 			{
