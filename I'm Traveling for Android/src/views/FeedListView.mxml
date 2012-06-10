@@ -160,9 +160,13 @@
 					feed.feedId = f.feed_id;
 					feed.userId = f.user_id;
 					feed.name = f.name;
+					feed.profileImageURL = "http://imtraveling.joyfl.kr/profile/" + f.user_id + ".jpg";
 					feed.place = f.place;
 					feed.region = f.region;
 					feed.time = f.time;
+					feed.pictureURL = "http://imtraveling.joyfl.kr/feed/" + f.user_id + "_" + f.feed_dd + ".jpg";
+					feed.pictureThumbURL = "http://imtraveling.joyfl.kr/feed_thumb/" + f.user_id + "_" + f.feed_id + ".jpg";
+					feed.pictureRatio = f.height / f.width;
 					feed.review = f.review;
 					feed.numLikes = f.num_likes;
 					feed.numComments = f.num_comments;
@@ -178,12 +182,13 @@
 				_webView.callJavascript( "addFeed",
 					feed.feedId,
 					feed.userId,
-					"http://imtraveling.joyfl.kr/profile/" + feed.userId + ".jpg",
+					feed.profileImageURL,
 					feed.name,
 					feed.time,
 					feed.place,
 					feed.region,
-					"http://imtraveling.joyfl.kr/feed_thumb/" + feed.userId + "_" + feed.feedId + ".jpg",
+					feed.pictureThumbURL,
+					feed.pictureRatio,
 					feed.review,
 					feed.numLikes,
 					feed.numComments );
