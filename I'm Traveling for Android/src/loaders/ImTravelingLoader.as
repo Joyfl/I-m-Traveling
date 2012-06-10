@@ -47,9 +47,15 @@ package loaders
 		
 		private function loadToken( token : ImTravelingLoaderToken ) : void
 		{
+			var data : URLVariables = new URLVariables();
+			for( var name : String in token.params )
+			{
+				data[name] = token.params[name];
+			}
+			
 			var request : URLRequest = new URLRequest( token.url );
 			request.method = token.method;
-			request.data = token.data;
+			request.data = data;
 			_loader.load( request );
 		}
 		

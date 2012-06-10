@@ -2,7 +2,7 @@
 <imt:ImTravelingView xmlns:fx="http://ns.adobe.com/mxml/2009"
 					 xmlns:s="library://ns.adobe.com/flex/spark"
 					 xmlns:imt="*"
-					 title="Feed" destructionPolicy="never">	
+					 title="Feed" destructionPolicy="never">
 	<fx:Script>
 		<![CDATA[
 			import events.ImTravelingLoadEvent;
@@ -18,9 +18,8 @@
 			import spark.transitions.ViewTransitionBase;
 			import spark.transitions.ViewTransitionDirection;
 			
-			
 			private var _webView : ImTravelingWebView = new ImTravelingWebView();
-			private var _feeds : Array = [];
+			private var _feeds : Object = {};
 			
 			override protected function onCreationComplete() : void
 			{
@@ -35,10 +34,9 @@
 			{
 				_webView.stage = stage;
 			}
-			
 			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
 			{
-				loader.add( "http://imtraveling.joyfl.kr/feed_list.php" );
+				loader.add( Const.API_FEED_LIST );
 				loader.startLoading();
 			}
 			
@@ -90,6 +88,7 @@
 					
 //					navigator.pushView( FeedDetailView, {topBitmap: topBitmap, bottomBitmap: bottomBitmap, offset: offset, webView:_webView}, null, viewTransition );*/
 					
+					trace( "id :", e.arguments[0] );
 					trace( "offset :", offset );
 					trace( "feedHeight :", feedHeight );
 					
@@ -137,7 +136,13 @@
 						
 						var viewTransition : ViewTransitionBase = new ViewTransitionBase;
 						viewTransition.duration = 0;
-						navigator.pushView( FeedDetailView, {topBitmap: topBitmap, bottomBitmap: bottomBitmap, offset: offset, webViewBitmap:webViewBitmap}, null, viewTransition );
+						var data : Object = {};
+						data.topBitmap = topBitmap;
+						data.bottomBitmap = bottomBitmap;
+						data.offset = offset;
+						data.webViewBitmap = webViewBitmap;
+						data.feed = _feeds[e.arguments[0]];
+						navigator.pushView( FeedDetailView, data, null, viewTransition );
 					}, 50 );
 				}
 			}
@@ -160,12 +165,12 @@
 					feed.feedId = f.feed_id;
 					feed.userId = f.user_id;
 					feed.name = f.name;
-					feed.profileImageURL = "http://imtraveling.joyfl.kr/profile/" + f.user_id + ".jpg";
+					feed.profileImageURL = Const.API_PROFILE_IMAGE + f.user_id + ".jpg";
 					feed.place = f.place;
 					feed.region = f.region;
 					feed.time = f.time;
-					feed.pictureURL = "http://imtraveling.joyfl.kr/feed/" + f.user_id + "_" + f.feed_dd + ".jpg";
-					feed.pictureThumbURL = "http://imtraveling.joyfl.kr/feed_thumb/" + f.user_id + "_" + f.feed_id + ".jpg";
+					feed.pictureURL = Const.API_FEED_IMAGE + f.user_id + "_" + f.feed_id + ".jpg";
+					feed.pictureThumbURL = Const.API_FEED_IMAGE_THUMB + f.user_id + "_" + f.feed_id + ".jpg";
 					feed.pictureRatio = f.height / f.width;
 					feed.review = f.review;
 					feed.numLikes = f.num_likes;
@@ -178,7 +183,7 @@
 			
 			private function addFeed( feed : Feed ) : void
 			{
-				_feeds.push( feed );
+				_feeds[feed.feedId] = feed;
 				_webView.callJavascript( "addFeed",
 					feed.feedId,
 					feed.userId,
@@ -195,4 +200,5 @@
 			}
 		]]>
 	</fx:Script>
+	<s:SpriteVisualElement id="spr" width="100%" height="100%" />
 </imt:ImTravelingView>

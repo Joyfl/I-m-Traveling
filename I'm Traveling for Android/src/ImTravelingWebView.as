@@ -19,6 +19,9 @@ package
 		public function get scrollY() : int { return _scrollY; }
 		public function set scrollY( y : int ) : void { callJavascript( "scrollTo", 0, _scrollY = y ); }
 		
+		private var _contentHeight : int;
+		public function get contentHeight() : int { return _contentHeight; }
+		
 		public function set stage( stage : Stage ) : void
 		{
 			stageWebView.stage = stage;
@@ -53,6 +56,7 @@ package
 			trace( "webview load complete" );
 			
 			stageWebView.loadURL( 'javascript:window.onscroll = function() { call( ["scrollY", scrollY] ); }' );
+			stageWebView.loadURL( 'javascript:getHeight = function() { call( ["contentHeight", document.body.clientHeight] ); return document.body.clientHeight; }' );
 			
 			var event : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.LOAD_COMPLETE );
 			event.webView = this;
@@ -69,10 +73,15 @@ package
 				arguments.shift();
 				
 				var message : String = arguments.shift();
-				if( message == "scrollY" )
+				switch( message )
 				{
-					_scrollY = arguments[0];
-					return;
+					case "scrollY":
+						_scrollY = arguments[0];
+						return;
+						
+					case "contentHeight":
+						_contentHeight = arguments[0];
+						return;
 				}
 				
 				var event : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.RECEIVE_MESSAGE );
@@ -91,15 +100,16 @@ package
 				if( args[i] is Number )
 					url += args[i];
 				else
-					url += "\"" + args[i] + "\"";
+					url += "'" + args[i] + "'";
 				
 				if( i < args.length - 1 )
 					url += ",";
 			}
 			
-			url += ");";
+			url += ");getHeight();";
 			
 			stageWebView.loadURL( url );
+			trace( url );
 		}
 	}
 }
