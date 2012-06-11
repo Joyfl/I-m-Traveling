@@ -58,7 +58,7 @@
 "NEW" = "최신순";
 "POPULAR" = "인기순";
 "FOLLOWING" = "팔로잉";
-"All" = "모두보기";
+"ALL" = "모두보기";
 
 // Feed Detail
 "LIKE" = "좋아요";

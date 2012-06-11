@@ -57,7 +57,7 @@ enum {
 		newButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
 		newButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
 		newButton.titleEdgeInsets = UIEdgeInsetsMake( 0, 4, 0, 0 );
-		[newButton setTitle:NSLocalizedString( @"NEW", @"" ) forState:UIControlStateNormal];
+		[newButton setTitle:NSLocalizedString( @"ALL", @"" ) forState:UIControlStateNormal];
 		[newButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
 		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_left.png"] forState:UIControlStateNormal];
 		[newButton setBackgroundImage:[UIImage imageNamed:@"button_bar_long_left_selected.png"] forState:UIControlStateHighlighted];
