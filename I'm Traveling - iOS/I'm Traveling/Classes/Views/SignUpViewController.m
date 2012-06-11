@@ -121,6 +121,8 @@
 		
 		_emailInput = [self makeInputWithFrame:CGRectMake( 80, 270, 230, 18 ) placeholder:@"email@example.com"];
 		_emailInput.keyboardType = UIKeyboardTypeEmailAddress;
+		_emailInput.autocorrectionType = UITextAutocorrectionTypeNo;
+		_emailInput.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		[_scrollView addSubview:_emailInput];
 		[_emailInput release];
 		
