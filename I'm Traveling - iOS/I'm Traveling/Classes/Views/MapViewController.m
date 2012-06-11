@@ -107,10 +107,8 @@ enum {
 		
 		_feedMapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, 367 )];
 		_feedMapView.delegate = self;
+		[_feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 		[self.view addSubview:_feedMapView];
-		
-		_locationManager = [[CLLocationManager alloc] init];
-		_locationManager.delegate = self;
 		
 //		NSLog( @"cellId : %d", [self getCellIdWithLatitude:37.5655 longitude:126.938] );
     }
@@ -141,19 +139,9 @@ enum {
     [super viewDidLoad];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
-	[_locationManager startUpdatingLocation];
-	[_feedMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-}
-
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-	
-	[_locationManager stopUpdatingLocation];
 	[_feedMapView setUserTrackingMode:MKUserTrackingModeNone];
 }
 
@@ -174,7 +162,7 @@ enum {
 
 - (void)loadFeeds
 {
-	NSInteger cellId = [Utils getCellIdWithLatitude:_feedMapView.userLocation.coordinate.latitude longitude:_feedMapView.userLocation.coordinate.longitude];
+	NSInteger cellId = [Utils getCellIdWithLatitude:_feedMapView.region.center.latitude longitude:_feedMapView.region.center.longitude];
 	[self loadCellId:cellId]; // 가운데
 	[self loadCellId:cellId - 1 + 36000]; // 왼쪽 위
 	[self loadCellId:cellId + 36000]; // 위
@@ -200,7 +188,6 @@ enum {
 	// Error
 	if( [self isError:json] )
 	{
-		NSLog( @"%@", json );
 		return;
 	}
 	
@@ -279,21 +266,19 @@ enum {
 	[self.navigationController pushViewController:detailViewController animated:NO];
 }
 
-#pragma mark - CLLocationManagerDelegate
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-	NSLog( @"update" );
-	
-	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	NSInteger newCellId = [Utils getCellIdWithLatitude:mapView.region.center.latitude longitude:mapView.region.center.longitude];
 	NSLog( @"currentCellId : %d", _currentCellId );
 	NSLog( @"newCellId     : %d", newCellId );
-	if( _currentCellId != newCellId && _feedMapView.userLocation.coordinate.latitude != 0.0 && _feedMapView.userLocation.coordinate.longitude != 0.0 )
+	if( _currentCellId != newCellId && mapView.region.center.latitude != 0.0 && mapView.region.center.longitude != 0.0 )
 	{
+		[_feedMapView removeAnnotations:_feedMapView.annotations];
 		[self loadFeeds];
 		_currentCellId = newCellId;
 	}
 }
+
 
 #pragma mark - selectors
 

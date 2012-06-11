@@ -13,7 +13,6 @@
 @interface MapViewController : ImTravelingViewController <MKMapViewDelegate, CLLocationManagerDelegate>
 {
 	MKMapView *_feedMapView;
-	CLLocationManager *_locationManager;
 	
 	NSMutableDictionary *_feedMapObjects;
 	
