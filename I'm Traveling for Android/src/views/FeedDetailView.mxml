@@ -9,6 +9,8 @@
 			
 			import models.Feed;
 			
+			import mx.effects.Parallel;
+			import mx.effects.Tween;
 			import mx.graphics.BitmapScaleMode;
 			
 			import spark.components.Button;
@@ -28,7 +30,10 @@
 			private var _ref : int;
 			private var _feedFromPreviousView : Feed;
 			
-			private var _webViews : Array = [];
+			private var _feeds : Vector.<Feed> = new Vector.<Feed>();
+			private var _currentFeedIndex : int;
+			
+			private var _webViews : Vector.<ImTravelingWebView> = new Vector.<ImTravelingWebView>();
 			private function get _leftWebView() : ImTravelingWebView { return _webViews[0]; }
 			private function get _centerWebView() : ImTravelingWebView { return _webViews[1]; }
 			private function get _rightWebView() : ImTravelingWebView { return _webViews[2]; }
@@ -61,7 +66,12 @@
 					_webViews[i].addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
 					_webViews[i].loadHTML( "index" );
 				}
-			} 
+			}
+			
+			override protected function onAddedToStage() : void
+			{
+//				rightFeedButton.x = stage.stageWidth - 44;
+			}
 			
 			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
 			{
@@ -83,6 +93,8 @@
 			override protected function onLoadComplete( e : ImTravelingLoadEvent ) : void
 			{
 				var json : Object = JSON.parse( e.token.data );
+				var result : Object;
+				
 				if( loader.getErrorCode( json ) >= 0 )
 				{
 					trace( "Error!" );
@@ -91,10 +103,51 @@
 				
 				if( e.token.id == TOKEN_ID_FIRST_FEED_DETAIL )
 				{
-					var result : Object = json.result;
+					result = json.result;
 					fillFeed( _feedFromPreviousView, result );
-					createFeedDetail( _centerWebView, _feedFromPreviousView );
+					handleAllFeeds( result.all_feeds, _feedFromPreviousView.feedId );
+					createFeedDetail( _feedFromPreviousView, _currentFeedIndex );
 					animateAppearance();
+					
+					loadFeedDetail( _currentFeedIndex - 1 );
+					loadFeedDetail( _currentFeedIndex + 1 );
+				}
+				
+				// Feed Detail
+				else if( e.token.id / 1000 < 1 )
+				{
+					trace( "feed detail" );
+					
+					result = json.result;
+					var feedIndex : int = e.token.id;
+					
+					var feed : Feed = _feeds[feedIndex];
+					fillFeed( feed, result );
+					
+					_feeds[feedIndex] = feed;
+					
+					createFeedDetail( feed, feedIndex );
+				}
+			}
+			
+			private function handleAllFeeds( allFeeds : Array, currentFeedId : int ) : void
+			{
+				for( var i : int = 0; i < allFeeds.length; i++ )
+				{
+					var f : Object = allFeeds[i];
+					
+					var feed : Feed = new Feed();
+					feed.feedId = f.feed_id;
+					feed.latitude = f.latitude;
+					feed.longitude = f.longitude;
+					
+					// 현재 피드일 경우
+					if( feed.feedId == currentFeedId )
+					{
+						_currentFeedIndex = i;
+					}
+					
+					_feeds.push( feed );
 				}
 			}
 			
@@ -103,7 +156,7 @@
 				// ref가 0, 1, 2일 경우에 공통적으로 해당
 				feed.tripId = data.trip_id;
 				feed.review = data.review;
-				feed.numAllFeeds = data.all_feeds.length;
+//				feed.numAllFeeds = data.all_feeds.length;
 				feed.info = data.info;
 				feed.comments = [];
 				
@@ -125,8 +178,32 @@
 				feed.complete = true;
 			}
 			
-			private function createFeedDetail( webView : ImTravelingWebView, feed : Feed ) : void
+			private function loadFeedDetail( index : int ) : void
 			{
+				if( 0 <= index && index < _feeds.length )
+				{
+					loader.add( Const.API_FEED_DETAIL, {feed_id: _feeds[index].feedId, ref: 2}, index );
+					loader.startLoading();
+				}
+			}
+			
+			private function createFeedDetail( feed : Feed, index : int ) : void
+			{
+				var webView : ImTravelingWebView;
+				
+				if( index < _currentFeedIndex )
+				{
+					webView = _leftWebView;
+				}
+				else if( _currentFeedIndex < index )
+				{
+					webView = _rightWebView;
+				}
+				else
+				{
+					webView = _centerWebView;
+				}
+				
 				webView.callJavascript( "createFeedDetail",
 					feed.tripId,
 					feed.feedId,
@@ -143,6 +220,62 @@
 					JSON.stringify( feed.info ),
 					"N개의 피드 전체보기",
 					"N명이 좋아합니다." );
+			}
+			
+			private function onLeftFeedButtonClick( e : MouseEvent ) : void
+			{
+				if( 0 < _currentFeedIndex )
+				{
+					_currentFeedIndex --;
+					
+					updateLeftRightFeedButtonEnabled();
+					
+					setTimeout( feedChangeAnimationDidFinish, 500 );
+					
+					var webViewoveEffect : Move = new Move( );
+					webViewoveEffect.targets = [_leftWebView, _centerWebView];
+					webViewoveEffect.duration = 500;
+					webViewoveEffect.xBy = stage.stageWidth;
+					webViewoveEffect.play();
+					
+					_rightWebView.x = -1 * stage.stageWidth;
+					
+					var webView : ImTravelingWebView = _webViews[2];
+					_webViews[2] = _webViews[1];
+					_webViews[1] = _webViews[0];
+					_webViews[0] = webView;
+					
+					// 왼쪽 피드 로드
+//					prepareFeedDetail( _currentFeedIndex - 1 );
+				}
+			}
+			
+			private function onRightFeedButtonClick( e : MouseEvent ) : void
+			{
+				_currentFeedIndex ++;
+				
+				updateLeftRightFeedButtonEnabled();
+				
+				setTimeout( feedChangeAnimationDidFinish, 500 );
+				
+				var webViewoveEffect : Move = new Move( );
+				webViewoveEffect.targets = [_centerWebView, _rightWebView];
+				webViewoveEffect.duration = 500;
+				webViewoveEffect.xBy = -stage.stageWidth;
+				webViewoveEffect.play();
+				
+				_leftWebView.x = stage.stageWidth;
+				
+				var webView : ImTravelingWebView = _webViews[0];
+				_webViews[0] = _webViews[1];
+				_webViews[1] = _webViews[2];
+				_webViews[2] = webView;
+			}
+			
+			private function updateLeftRightFeedButtonEnabled() : void
+			{
+				leftFeedButton.enabled = !( _currentFeedIndex == 0 );
+				rightFeedButton.enabled = !( _currentFeedIndex == _feeds.length - 1 );
 			}
 			
 			private function animateAppearance() : void
@@ -169,8 +302,11 @@
 				{
 					if( _ref == 0 )
 					{
-						_centerWebView.stageWebView.viewPort = new Rectangle( 0, 230, stage.stageWidth, _centerWebView.contentHeight );
-						_centerWebView.stage = stage;
+						for( var i : int = 0; i < _webViews.length; i++ )
+						{
+							_webViews[i].stageWebView.viewPort = new Rectangle( stage.stageWidth * ( i - 1 ), 230, stage.stageWidth, _centerWebView.contentHeight );
+							_webViews[i].stage = stage;
+						}
 						
 						if( _topImage )
 						{
@@ -183,6 +319,14 @@
 					}
 				}, 500 );
 			}
+			
+			private function feedChangeAnimationDidFinish() : void
+			{
+				
+			}
 		]]>
 	</fx:Script>
+	
+	<s:Button id="leftFeedButton" y="50" width="44" height="44" click="onLeftFeedButtonClick( event )" />
+	<s:Button id="rightFeedButton" x="300" y="50" width="44" height="44" click="onRightFeedButtonClick( event )" />
 </imt:ImTravelingView>

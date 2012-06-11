@@ -2,6 +2,7 @@ package
 {
 	import events.ImTravelingWebViewEvent;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -9,9 +10,10 @@ package
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.media.StageWebView;
-	import flash.utils.flash_proxy;
+	
+	import mx.core.UIComponent
 
-	public class ImTravelingWebView extends EventDispatcher
+	public class ImTravelingWebView extends UIComponent
 	{
 		public var stageWebView : StageWebView = new StageWebView();
 		
@@ -21,6 +23,33 @@ package
 		
 		private var _contentHeight : int;
 		public function get contentHeight() : int { return _contentHeight; }
+		
+		override public function get x() : Number
+		{
+			if( stageWebView.viewPort ) return 0;
+			return stageWebView.viewPort.x;
+		}
+		override public function set x( x : Number ) : void
+		{
+			if( !stageWebView.viewPort ) return;
+			var rect : Rectangle = stageWebView.viewPort;
+			rect.x = x;
+			stageWebView.viewPort = rect;
+		}
+		
+		override public function get y() : Number
+		{
+			if( !stageWebView.viewPort ) return 0;
+			return stageWebView.viewPort.y;
+		}
+		
+		override public function set y( y : Number ) : void
+		{
+			if( !stageWebView.viewPort ) return;
+			var rect : Rectangle = stageWebView.viewPort;
+			rect.y = y;
+			stageWebView.viewPort = rect;
+		}
 		
 		public function set stage( stage : Stage ) : void
 		{
@@ -77,6 +106,8 @@ package
 				{
 					case "scrollY":
 						_scrollY = arguments[0];
+						var scrollEvent : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.SCROLL );
+						dispatchEvent( scrollEvent );
 						return;
 						
 					case "contentHeight":
