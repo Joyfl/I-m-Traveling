@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "ImTravelingViewController.h"
 
-@interface MapViewController : ImTravelingViewController <MKMapViewDelegate, CLLocationManagerDelegate>
+@interface MapViewController : ImTravelingViewController <MKMapViewDelegate>
 {
 	MKMapView *_feedMapView;
 	
