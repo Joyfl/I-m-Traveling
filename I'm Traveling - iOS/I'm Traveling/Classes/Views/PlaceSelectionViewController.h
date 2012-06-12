@@ -12,10 +12,10 @@
 
 @class ShareViewController;
 
-@interface PlaceSelectionViewController : UIPullDownWebViewController <CLLocationManagerDelegate, UISearchBarDelegate>
+@interface PlaceSelectionViewController : UIPullDownWebViewController <MKMapViewDelegate, UISearchBarDelegate>
 {
 	ShareViewController *_shareViewController;
-	CLLocationManager *_locationManager;
+	MKMapView *_mapView;
 	NSInteger _lastCellId;
 	NSMutableDictionary *_places;
 	UISearchBar *_searchBar;
@@ -26,6 +26,7 @@
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
+- (void)regionDidChangeToLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
 - (void)selectPlace:(Place *)place;
 - (NSString *)categoryForNumber:(NSInteger)no;
 

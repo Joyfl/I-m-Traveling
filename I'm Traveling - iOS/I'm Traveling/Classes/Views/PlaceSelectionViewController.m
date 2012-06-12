@@ -30,6 +30,42 @@
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
+		// title		
+		UIView *titleButtons = [[UIView alloc] initWithFrame:CGRectMake( 0, -1, 152, 31 )];
+		
+		UIButton *listButton = [[UIButton alloc] initWithFrame:CGRectMake( 0, 0, 76, 31 )];
+		listButton.tag = 0;
+		listButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		listButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
+		listButton.titleEdgeInsets = UIEdgeInsetsMake( 0, 4, 0, 0 );
+		[listButton setTitle:NSLocalizedString( @"LIST", @"" ) forState:UIControlStateNormal];
+		[listButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
+		[listButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left.png"] forState:UIControlStateNormal];
+		[listButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateHighlighted];
+		[listButton setBackgroundImage:[UIImage imageNamed:@"button_bar_left_selected.png"] forState:UIControlStateDisabled];
+		[listButton addTarget:self action:@selector(titleButtonsDidTouchDown:) forControlEvents:UIControlEventTouchDown];
+		[titleButtons addSubview:listButton];
+		listButton.highlighted = YES;
+		listButton.enabled = NO;
+		[listButton release];
+		
+		UIButton *mapButton = [[UIButton alloc] initWithFrame:CGRectMake( 75, 0, 76, 31 )];
+		mapButton.tag = 1;
+		mapButton.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+		mapButton.titleLabel.shadowOffset = CGSizeMake( 0, -1 );
+		mapButton.titleEdgeInsets = UIEdgeInsetsMake( 0, -4, 0, 0 );
+		[mapButton setTitle:NSLocalizedString( @"MAP", @"" ) forState:UIControlStateNormal];
+		[mapButton setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.3] forState:UIControlStateNormal];
+		[mapButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right.png"] forState:UIControlStateNormal];
+		[mapButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateHighlighted];
+		[mapButton setBackgroundImage:[UIImage imageNamed:@"button_bar_right_selected.png"] forState:UIControlStateDisabled];
+		[mapButton addTarget:self action:@selector(titleButtonsDidTouchDown:) forControlEvents:UIControlEventTouchDown];
+		[titleButtons addSubview:mapButton];
+		[mapButton release];
+		
+		self.navigationItem.titleView = titleButtons;
+		[titleButtons release];
+		
 		ImTravelingBarButtonItem *addButton = [[ImTravelingBarButtonItem alloc] initWithType:ImTravelingBarButtonItemTypeNormal title:NSLocalizedString( @"ADD_PLACE", @"" ) target:self action:@selector(addButtonDidTouchUpInside)];
 		self.navigationItem.rightBarButtonItem = addButton;
 		[addButton release];
@@ -42,10 +78,12 @@
 		self.webView.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
 		self.view.backgroundColor = [UIColor colorWithRed:0.960 green:0.89 blue:0.82 alpha:1.0];
 		
-		_shareViewController = shareViewController;
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake( 0, 0, 320, WEBVIEW_HEIGHT_NO_TABBAR )];
+		_mapView.delegate = self;
+		_mapView.hidden = YES;
+		[self.view addSubview:_mapView];
 		
-		_locationManager = [[CLLocationManager alloc] init];
-		_locationManager.delegate = self;
+		_shareViewController = shareViewController;
 		
 		_places = [[NSMutableDictionary alloc] init];
 		
@@ -86,6 +124,48 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+- (void)titleButtonsDidTouchDown:(id)sender
+{
+	for( int i = 0; i < 2; i++ )
+	{
+		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).highlighted = NO;
+		((UIButton *)[self.navigationItem.titleView.subviews objectAtIndex:i]).enabled = YES;
+	}
+	
+	UIButton *button = (UIButton *)sender;
+	button.highlighted = YES;
+	button.enabled = NO;
+	
+	switch( button.tag )
+	{
+		// map
+		case 0:
+			webView.hidden = NO;
+			_mapView.hidden = YES;
+			
+			[UIView animateWithDuration:0.3 animations:^{
+				CGRect frame = _searchBar.frame;
+				frame.origin.y = 0;
+				_searchBar.frame = frame;
+			}];
+			break;
+			
+		// list
+		case 1:
+			webView.hidden = YES;
+			_mapView.hidden = NO;
+			
+			[UIView animateWithDuration:0.3 animations:^{
+				CGRect frame = _searchBar.frame;
+				frame.origin.y = -43;
+				_searchBar.frame = frame;
+			}];
+			break;
+	}
+	
+	[self reloadWebView];
+}
+
 - (void)addButtonDidTouchUpInside
 {
 	PlaceAddViewController *placeAddViewController = [[PlaceAddViewController alloc] init];
@@ -98,15 +178,31 @@
 
 
 #pragma mark -
-#pragma mark CLLocationManagerDelegate
+#pragma mark MKMapViewDelegate
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
-	[_locationManager stopUpdatingLocation];
+	[self regionDidChangeToLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+	if( _mapView.userTrackingMode == MKUserTrackingModeNone )
+	{
+		[self regionDidChangeToLatitude:_mapView.region.center.latitude longitude:_mapView.region.center.longitude];
+	}
 	
-	NSInteger newCellId = [Utils getCellIdWithLatitude:newLocation.coordinate.latitude longitude:newLocation.coordinate.longitude];
+	_mapView.userTrackingMode = MKUserTrackingModeNone;
+}
+
+- (void)regionDidChangeToLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude
+{
+	NSInteger newCellId = [Utils getCellIdWithLatitude:latitude longitude:longitude];
+	NSLog( @"newCellId : %d", newCellId );
 	if( _lastCellId != newCellId )
 	{
+		[self clear];
+		
 		[self loadCellId:newCellId]; // 가운데
 		[self loadCellId:newCellId - 1 + 36000]; // 왼쪽 위
 		[self loadCellId:newCellId + 36000]; // 위
@@ -133,7 +229,6 @@
 
 - (void)reloadWebView
 {
-	[_locationManager startUpdatingLocation];
 	[self webViewDidFinishReloading];
 }
 
@@ -177,7 +272,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-	[_locationManager startUpdatingLocation];
+	[_mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
