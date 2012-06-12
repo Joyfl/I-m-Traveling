@@ -44,4 +44,5 @@
 + (NSString *)sha1:(NSString *)input;
 + (NSString *)decodeURI:(NSString *)input;
 + (NSString *)base64FromImage:(UIImage *)image;
++ (NSString *)categoryForNumber:(NSInteger)no;
 @end

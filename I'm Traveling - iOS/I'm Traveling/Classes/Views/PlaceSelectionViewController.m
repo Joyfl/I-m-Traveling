@@ -14,6 +14,7 @@
 #import "ImTravelingNavigationController.h"
 #import "ImTravelingBarButtonItem.h"
 #import "PlaceAddViewController.h"
+#import "Pin.h"
 
 
 @implementation PlaceSelectionViewController
@@ -93,8 +94,6 @@
 		_searchBar.backgroundImage = [UIImage imageNamed:@"search_bar.png"];
 		[self.view addSubview:_searchBar];
 		
-		category = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"category" ofType:@"plist"]];
-		
 		[self loadPage:HTML_INDEX];
 		[self startBusy];
 	}
@@ -143,7 +142,7 @@
 			webView.hidden = NO;
 			_mapView.hidden = YES;
 			
-			[UIView animateWithDuration:0.3 animations:^{
+			[UIView animateWithDuration:0.25 animations:^{
 				CGRect frame = _searchBar.frame;
 				frame.origin.y = 0;
 				_searchBar.frame = frame;
@@ -155,7 +154,7 @@
 			webView.hidden = YES;
 			_mapView.hidden = NO;
 			
-			[UIView animateWithDuration:0.3 animations:^{
+			[UIView animateWithDuration:0.25 animations:^{
 				CGRect frame = _searchBar.frame;
 				frame.origin.y = -43;
 				_searchBar.frame = frame;
@@ -223,6 +222,34 @@
 	[self.loader addTokenWithTokenId:0 url:[NSString stringWithFormat:@"%@?cell_id=%d", API_PLACE_LIST, cellId] method:ImTravelingLoaderMethodGET params:nil];
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+	if( annotation == _mapView.userLocation )
+	{
+		return nil;
+	}
+	
+	static NSString *pinId = @"pinId";
+	Pin *pin = (Pin *)[mapView dequeueReusableAnnotationViewWithIdentifier:pinId];
+	if( pin == nil )
+	{
+		pin = [[[Pin alloc] initWithAnnotation:annotation reuseIdentifier:pinId] autorelease];
+	}
+	
+	pin.userInteractionEnabled = YES;
+	pin.canShowCallout = YES;
+	
+	UIButton *selectButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	pin.rightCalloutAccessoryView = selectButton;
+	
+	return pin;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+	[self selectPlace:(Place *)view.annotation];
+}
+
 
 #pragma mark -
 #pragma mark UIPullDownWebViewController
@@ -254,7 +281,7 @@
 		place.placeId = [[p objectForKey:@"place_id"] integerValue];
 		place.name = [p objectForKey:@"place_name"];
 		place.latitude = [[p objectForKey:@"latitude"] doubleValue];
-		place.longitude = [[p objectForKey:@"latitude"] doubleValue];
+		place.longitude = [[p objectForKey:@"longitude"] doubleValue];
 		place.category = [[p objectForKey:@"category"] integerValue];
 		
 		[_places setObject:place forKey:[NSNumber numberWithInteger:place.placeId]];
@@ -354,18 +381,10 @@
 
 - (void)addPlace:(Place *)place
 {
-	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', '%@' );", place.placeId, place.name, [self categoryForNumber:place.category]];
+	[_mapView addAnnotation:place];
+	NSString *func = [NSString stringWithFormat:@"addPlace( %d, '%@', '%@' );", place.placeId, place.name, [Utils categoryForNumber:place.category]];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 //	NSLog( @"%@", func );
-}
-
-
-#pragma mark -
-#pragma mark Getters
-
-- (NSString *)categoryForNumber:(NSInteger)no
-{
-	return NSLocalizedString( [category objectAtIndex:no], @"" );
 }
 
 @end

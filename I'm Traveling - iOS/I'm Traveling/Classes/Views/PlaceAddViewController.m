@@ -246,14 +246,14 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-	return [placeSelectionViewController categoryForNumber:row];
+	return [Utils categoryForNumber:row];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
 	_selectedCategory = row;
 	_categoryLabel.textColor = [UIColor blackColor];
-	_categoryLabel.text = [placeSelectionViewController categoryForNumber:row];
+	_categoryLabel.text = [Utils categoryForNumber:row];
 }
 
 

@@ -7,9 +7,25 @@
 //
 
 #import "Place.h"
+#import "Utils.h"
 
 @implementation Place
 
 @synthesize placeId, name, latitude, longitude, category;
+
+- (NSString *)title
+{
+	return name;
+}
+
+- (NSString *)subtitle
+{
+	return [Utils categoryForNumber:category];
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+	return CLLocationCoordinate2DMake( latitude, longitude );
+}
 
 @end

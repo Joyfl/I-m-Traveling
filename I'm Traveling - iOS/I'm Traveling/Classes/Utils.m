@@ -318,4 +318,14 @@ static char encodingTable[64] = {
 	return [UIImagePNGRepresentation( image ) base64Encoding];
 }
 
++ (NSString *)categoryForNumber:(NSInteger)no
+{
+	static NSArray *category;
+	if( category == nil )
+	{
+		category = [[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"category" ofType:@"plist"]];
+	}
+	return NSLocalizedString( [category objectAtIndex:no], @"" );
+}
+
 @end

@@ -21,14 +21,11 @@
 	UISearchBar *_searchBar;
 	
 	BOOL _placeSelected;
-	
-	NSArray *category;
 }
 
 - (id)initWithShareViewController:(ShareViewController *)shareViewController;
 - (void)regionDidChangeToLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
 - (void)selectPlace:(Place *)place;
-- (NSString *)categoryForNumber:(NSInteger)no;
 
 @property (nonatomic, readonly) NSArray *category;
 
