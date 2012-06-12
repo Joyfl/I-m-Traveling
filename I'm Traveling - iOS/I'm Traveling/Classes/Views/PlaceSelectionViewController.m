@@ -179,6 +179,11 @@
 #pragma mark -
 #pragma mark MKMapViewDelegate
 
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+	[self regionDidChangeToLatitude:_mapView.region.center.latitude longitude:_mapView.region.center.longitude];
+}
+
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
 	[self regionDidChangeToLatitude:_mapView.region.center.latitude longitude:_mapView.region.center.longitude];
