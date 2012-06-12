@@ -179,19 +179,9 @@
 #pragma mark -
 #pragma mark MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-	[self regionDidChangeToLatitude:userLocation.coordinate.latitude longitude:userLocation.coordinate.longitude];
-}
-
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-	if( _mapView.userTrackingMode == MKUserTrackingModeNone )
-	{
-		[self regionDidChangeToLatitude:_mapView.region.center.latitude longitude:_mapView.region.center.longitude];
-	}
-	
-	_mapView.userTrackingMode = MKUserTrackingModeNone;
+	[self regionDidChangeToLatitude:_mapView.region.center.latitude longitude:_mapView.region.center.longitude];
 }
 
 - (void)regionDidChangeToLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude
@@ -201,6 +191,7 @@
 	if( _lastCellId != newCellId )
 	{
 		[self clear];
+		[_mapView removeAnnotations:_mapView.annotations];
 		
 		[self loadCellId:newCellId]; // 가운데
 		[self loadCellId:newCellId - 1 + 36000]; // 왼쪽 위
