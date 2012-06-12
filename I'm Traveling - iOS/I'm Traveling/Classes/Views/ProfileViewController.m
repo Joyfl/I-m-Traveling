@@ -15,6 +15,7 @@
 #import "SettingsViewController.h"
 #import "FeedDetailViewController.h"
 #import "NotificationViewController.h"
+#import "Notification.h"
 
 @implementation ProfileViewController
 
@@ -24,8 +25,7 @@ enum {
 	kTokenIdProfile = 0,
 	kTokenIdTrips = 1,
 	kTokenIdFollowing = 2,
-	kTokenIdFollowers = 3,
-	kTokenIdNotifications = 4
+	kTokenIdFollowers = 3
 };
 
 - (id)init
@@ -61,7 +61,7 @@ enum {
 		_notificationButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		_notificationButton.frame = CGRectMake( 230, 120, 60, 60 );
 		[_notificationButton addTarget:self action:@selector(notificationButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[_scrollView addSubview:_notificationButton];
+//		[_scrollView addSubview:_notificationButton];
 		
 		_arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_arrow.png"]];
 		_arrow.frame = CGRectMake( 40, 168, 22, 14 );
@@ -135,39 +135,10 @@ enum {
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
- */
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-/*
 - (void)viewDidAppear:(BOOL)animated
 {
-	
-}
-*/
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	if( !activated || !user.complete ) return;
+	[self loadProfile];
 }
 
 
@@ -177,7 +148,7 @@ enum {
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	[self clear];
-	[self prepareProfile];
+	[self loadAll];
 }
 
 - (void)messageFromWebView:(NSString *)message arguements:(NSMutableArray *)arguments
@@ -187,21 +158,21 @@ enum {
 		currentTab = 0;
 		[self animateArrow];
 		[self clearTabContents];
-		[self prepareTrips];
+		[self createTrips];
 	}
 	else if( [message isEqualToString:@"profile_following"] )
 	{
 		currentTab = 1;
 		[self animateArrow];
 		[self clearTabContents];
-		[self prepareFollowings];
+		[self createFollowings];
 	}
 	else if( [message isEqualToString:@"profile_followers"] )
 	{
 		currentTab = 2;
 		[self animateArrow];
 		[self clearTabContents];
-		[self prepareFollowers];
+		[self createFollowers];
 	}
 	else if( [message isEqualToString:@"select_feed"] )
 	{
@@ -232,45 +203,20 @@ enum {
 
 
 #pragma mark -
-#pragma mark Prepare
-
-- (void)prepareProfile
-{
-	if( user.complete )
-	{
-		[self createProfile];
-	}
-	else
-	{
-		[self loadProfile];
-	}
-}
-
-- (void)prepareTrips
-{
-	[self createTrips];	
-}
-
-- (void)prepareFollowings
-{
-	[self createFollowings];
-}
-
-- (void)prepareFollowers
-{
-	[self createFollowers];
-}
-
-
-#pragma mark -
 #pragma mark Load
 
-- (void)loadProfile
+- (void)loadAll
 {
 	[self.loader addTokenWithTokenId:kTokenIdProfile url:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] method:ImTravelingLoaderMethodGET params:nil];
 	[self.loader addTokenWithTokenId:kTokenIdTrips url:[NSString stringWithFormat:@"%@?user_id=%d", API_TRIP_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
 	[self.loader addTokenWithTokenId:kTokenIdFollowing url:[NSString stringWithFormat:@"%@?command=following_list&src_id=%d", API_FOLLOWING_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
 	[self.loader addTokenWithTokenId:kTokenIdFollowers url:[NSString stringWithFormat:@"%@?command=follower_list&src_id=%d", API_FOLLOWERS_LIST, user.userId] method:ImTravelingLoaderMethodGET params:nil];
+	[self.loader startLoading];
+}
+
+- (void)loadProfile
+{
+	[self.loader addTokenWithTokenId:kTokenIdProfile url:[NSString stringWithFormat:@"%@?user_id=%d", API_PROFILE, user.userId] method:ImTravelingLoaderMethodGET params:nil];
 	[self.loader startLoading];
 }
 
@@ -293,22 +239,33 @@ enum {
 	
 	switch( token.tokenId )
 	{
-		case 0:
+		case kTokenIdProfile:
 		{
-			user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
-			user.name = [result objectForKey:@"name"];
-			user.nation = [result objectForKey:@"nation"];
-			user.numFeeds = [[result objectForKey:@"num_feeds"] integerValue];
-			user.numTrips = [[result objectForKey:@"num_trips"] integerValue];
-			user.numFollowers = [[result objectForKey:@"num_followers"] integerValue];
-			user.numFollowings = [[result objectForKey:@"num_followings"] integerValue];
-			user.complete = YES;
+			_numNotifications = [[result objectForKey:@"num_notifications"] integerValue];
+			NSLog( @"numNotifications : %d", _numNotifications );
 			
-			[self createProfile];
+			if( !user.complete )
+			{
+				user.profileImageURL = [NSString stringWithFormat:@"%@%d.jpg", API_PROFILE_IMAGE, user.userId];
+				user.name = [result objectForKey:@"name"];
+				user.nation = [result objectForKey:@"nation"];
+				user.numFeeds = [[result objectForKey:@"num_feeds"] integerValue];
+				user.numTrips = [[result objectForKey:@"num_trips"] integerValue];
+				user.numFollowers = [[result objectForKey:@"num_followers"] integerValue];
+				user.numFollowings = [[result objectForKey:@"num_followings"] integerValue];
+				user.complete = YES;
+				
+				[self createProfile];
+			}
+			else
+			{
+				[self updateNumNotifications];
+			}
+			
 			break;
 		}
 			
-		case 1:
+		case kTokenIdTrips:
 		{
 			if( errorCode != 1 )
 			{
@@ -326,11 +283,11 @@ enum {
 				}
 			}
 			
-			[self prepareTrips];
+			[self createTrips];
 			break;
 		}
 			
-		case 2:
+		case kTokenIdFollowing:
 		{
 			if( errorCode != 1 )
 			{
@@ -348,7 +305,7 @@ enum {
 			break;
 		}
 			
-		case 3:
+		case kTokenIdFollowers:
 		{
 			if( errorCode != 1 )
 			{
@@ -388,7 +345,7 @@ enum {
 					  NSLocalizedString( @"FOLLOWING", @"" ),
 					  user.numFollowings,
 					  NSLocalizedString( @"FOLLOWERS", @"" ),
-					  /*notice*/0,
+					  _numNotifications,
 					  0];
 	
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
@@ -442,6 +399,36 @@ enum {
 	}
 	
 	[self resizeContentHeight];
+}
+
+
+#pragma mark -
+#pragma mark Update
+
+- (void)updateUserName
+{
+	
+}
+
+- (void)updateNumTrips
+{
+	
+}
+
+- (void)updateNumFollowing
+{
+	
+}
+
+- (void)updateNumFollowers
+{
+	
+}
+
+- (void)updateNumNotifications
+{
+	NSString *func = [NSString stringWithFormat:@"$('#noticeText').innerText = %d;", _numNotifications];
+	[self.webView stringByEvaluatingJavaScriptFromString:func];
 }
 
 

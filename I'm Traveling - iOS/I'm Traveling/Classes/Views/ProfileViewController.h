@@ -22,6 +22,7 @@
 	NSMutableArray *trips;
 	NSMutableArray *followings;
 	NSMutableArray *followers;
+	NSInteger _numNotifications;
 	
 	/**
 	 * 0 : Trips
