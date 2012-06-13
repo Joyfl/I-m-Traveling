@@ -10,6 +10,7 @@
 #import "ImTravelingBarButtonItem.h"
 #import "Utils.h"
 #import "NoticeListViewController.h"
+#import "AccountsViewController.h"
 #import "AppDelegate.h"
 #import "ProfileViewController.h"
 
@@ -142,7 +143,9 @@ enum {
 		case 1:
 			if( indexPath.row == 0 )
 			{
-				
+				AccountsViewController *accountsViewController = [[AccountsViewController alloc] init];
+				[self.navigationController pushViewController:accountsViewController animated:YES];
+				[accountsViewController release];
 			}
 			else if( indexPath.row == 1 )
 			{
