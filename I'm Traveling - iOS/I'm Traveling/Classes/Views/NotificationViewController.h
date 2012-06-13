@@ -9,5 +9,11 @@
 #import "UIPullDownWebViewController.h"
 
 @interface NotificationViewController : UIPullDownWebViewController
+{
+	NSInteger _userId;
+	NSMutableArray *_notifications;
+}
+
+- (id)initWithUserId:(NSInteger)userId;
 
 @end

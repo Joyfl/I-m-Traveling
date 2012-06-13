@@ -47,7 +47,7 @@
 	
 	Notification *notification = [[Notification alloc] init];
 	notification.type = NOTIFICATION_TYPE_UPLOADING;
-	notification.numSources = numUploadings;
+	notification.numOthers = numUploadings - 1;
 	notification.source = [UploadManager manager].currentUploading;
 	
 	UIImage *picture = [[UploadManager manager].currentUploading objectForKey:@"picture"];

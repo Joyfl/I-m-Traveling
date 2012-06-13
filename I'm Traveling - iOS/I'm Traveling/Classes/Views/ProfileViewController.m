@@ -61,7 +61,7 @@ enum {
 		_notificationButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		_notificationButton.frame = CGRectMake( 230, 120, 60, 60 );
 		[_notificationButton addTarget:self action:@selector(notificationButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-//		[_scrollView addSubview:_notificationButton];
+		[_scrollView addSubview:_notificationButton];
 		
 		_arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_arrow.png"]];
 		_arrow.frame = CGRectMake( 40, 168, 22, 14 );
@@ -427,6 +427,9 @@ enum {
 
 - (void)updateNumNotifications
 {
+#warning temp
+	[_notificationButton setTitle:[NSString stringWithFormat:@"%d", _numNotifications]  forState:UIControlStateNormal];
+	
 	NSString *func = [NSString stringWithFormat:@"$('#noticeText').innerText = %d;", _numNotifications];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 }
@@ -495,7 +498,7 @@ enum {
 
 - (void)notificationButtonDidTouchUpInside
 {
-	NotificationViewController *notificationViewController = [[NotificationViewController alloc] init];
+	NotificationViewController *notificationViewController = [[NotificationViewController alloc] initWithUserId:user.userId];
 	[self.navigationController pushViewController:notificationViewController animated:YES];
 }
 

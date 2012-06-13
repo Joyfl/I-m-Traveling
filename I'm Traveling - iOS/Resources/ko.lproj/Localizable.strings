@@ -121,12 +121,12 @@
 "FOLLOWERS" = "팔로워";
 
 // Notification
-"USER_LIKE_FEED" = "%@님이 %@님의 피드를 좋아합니다.";
-"USERS_LIKE_FEED" = "%@님 외 %d명이 %@님의 피드를 좋아합니다.";
-"USER_COMMENT_FEED" = "%@님이 %@님의 피드에 댓글을 남겼습니다.";
-"USERS_COMMENT_FEED" = "%@님 외 %d명이 %@님의 피드에 댓글을 남겼습니다.";
-"USER_FOLLOW_USER" = "%@님이 %@님을 팔로우했습니다.";
-"USERS_FOLLOW_USER" = "%@님 외 %d명이 %@님을 팔로우했습니다.";
+"USER_LIKE_FEED" = "%@님이 회원님의 피드를 좋아합니다.";
+"USERS_LIKE_FEED" = "%@님 외 %d명이 회원님의 피드를 좋아합니다.";
+"USER_COMMENT_FEED" = "%@님이 회원님의 피드에 댓글을 남겼습니다.";
+"USERS_COMMENT_FEED" = "%@님 외 %d명이 회원님의 피드에 댓글을 남겼습니다.";
+"USER_FOLLOW_USER" = "%@님이 회원님을 팔로우했습니다.";
+"USERS_FOLLOW_USER" = "%@님 외 %d명이 회원님을 팔로우했습니다.";
 "USER_START_TRIP" = "%@님이 새 여행을 시작했습니다.";
 "USERS_START_TRIP" = "%@님 외 %d명이 새 여행을 시작했습니다.";
 "FEED_ID_UPLOADING" = "피드가 업로드중입니다.";

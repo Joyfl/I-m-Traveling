@@ -19,9 +19,12 @@
 	NSInteger notificationId;
 	NSInteger type;
 	NSDate *time;
-	NSInteger numSources;
-	NSObject *source;
-	NSObject *destination;
+	
+	id source;
+	NSInteger userId;
+	NSString *userName;
+	NSInteger numOthers;
+	
 	NSString *imageURL;
 	
 	BOOL checked;
@@ -30,9 +33,10 @@
 @property (nonatomic, assign) NSInteger notificationId;
 @property (nonatomic, assign) NSInteger type;
 @property (nonatomic, retain) NSDate *time;
-@property (nonatomic, assign) NSInteger numSources;
-@property (nonatomic, retain) NSObject *source;
-@property (nonatomic, retain) NSObject *destination;
+@property (nonatomic, retain) id source;
+@property (nonatomic, assign) NSInteger userId;
+@property (nonatomic, retain) NSString *userName;
+@property (nonatomic, assign) NSInteger numOthers;
 @property (nonatomic, retain) NSString *imageURL;
 @property (nonatomic, assign) BOOL checked;
 @property (nonatomic, readonly) NSString *sentence;
