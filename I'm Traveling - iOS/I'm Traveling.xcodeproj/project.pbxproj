@@ -385,6 +385,7 @@
 		0390B80215883CA3005A8B69 /* FBLoginDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginDialog.m; sourceTree = "<group>"; };
 		0390B80315883CA3005A8B69 /* FBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBRequest.h; sourceTree = "<group>"; };
 		0390B80415883CA3005A8B69 /* FBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBRequest.m; sourceTree = "<group>"; };
+		0390B80E158853D9005A8B69 /* FBConnect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		039B582C14D67B2400E5212C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		039B583114D67C2100E5212C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -838,6 +839,7 @@
 			children = (
 				0390B7FB15883CA3005A8B69 /* Facebook.h */,
 				0390B7FC15883CA3005A8B69 /* Facebook.m */,
+				0390B80E158853D9005A8B69 /* FBConnect.h */,
 				0390B7FD15883CA3005A8B69 /* FBDialog.h */,
 				0390B7FE15883CA3005A8B69 /* FBDialog.m */,
 				0390B7FF15883CA3005A8B69 /* FBFrictionlessRequestSettings.h */,

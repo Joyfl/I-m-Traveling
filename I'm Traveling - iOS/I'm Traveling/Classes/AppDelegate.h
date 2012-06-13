@@ -7,19 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FBConnect.h"
 
 @class ShareViewController, ProfileViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, FBSessionDelegate>
 {
 	UITabBarController *tabBarController;
 	ShareViewController *shareViewController;
 	ProfileViewController *profileViewController;
+	
+	Facebook *facebook;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, retain) ShareViewController *shareViewController;
 @property (nonatomic, retain) ProfileViewController *profileViewController;
+@property (nonatomic, retain) Facebook *facebook;
 
 - (void)presentLoginViewController;
 - (void)presentActionSheet;

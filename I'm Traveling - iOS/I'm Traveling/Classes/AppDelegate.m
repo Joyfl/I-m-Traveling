@@ -14,10 +14,12 @@
 #import "LoginViewController.h"
 #import "Utils.h"
 #import "UploadManager.h"
+#import "Const.h"
+#import "SettingsManager.h"
 
 @implementation AppDelegate
 
-@synthesize window = _window, shareViewController, profileViewController;
+@synthesize window = _window, shareViewController, profileViewController, facebook;
 
 - (void)dealloc
 {
@@ -59,6 +61,8 @@
 	
 	// FeedListViewController에서 MapViewController로 전환될 때 네비게이션바의 위쪽 둥근 모서리를 자연스럽게 처리하기 위해 배경을 검은색으로 설정.
 	tabBarController.view.backgroundColor = [[UIColor alloc] initWithWhite:0 alpha:1.0];
+	
+	facebook = [[Facebook alloc] initWithAppId:FACEBOOK_APP_ID andDelegate:self];
 	
 	[self.window addSubview:tabBarController.view];
 	[tabBarController.view release];
@@ -108,6 +112,11 @@
 	 Save data if appropriate.
 	 See also applicationDidEnterBackground:.
 	 */
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	return [facebook handleOpenURL:url];
 }
 
 #pragma mark -
@@ -226,6 +235,18 @@
 	ImTravelingNavigationController *navigationController = [[ImTravelingNavigationController alloc] initWithRootViewController:shareViewController];
 	[navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation_bar.png"] forBarMetrics:UIBarMetricsDefault];
 	[tabBarController presentModalViewController:navigationController animated:NO];
+}
+
+
+#pragma mark -
+#pragma mark FBSessionDelegate
+
+- (void)fbDidLogin
+{
+	SettingsManager *manager = [SettingsManager manager];
+	[manager setSetting:facebook.accessToken forKey:SETTING_KEY_FACEBOOK_ACCESS_TOKEN];
+	[manager setSetting:facebook.expirationDate	forKey:SETTING_KEY_FACEBOOK_EXPIRATION_DATE];
+	[manager flush];
 }
 
 @end

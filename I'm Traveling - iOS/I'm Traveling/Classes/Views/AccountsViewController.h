@@ -7,6 +7,7 @@
 //
 
 #import "ImTravelingViewController.h"
+#import "Facebook.h"
 
 @interface AccountsViewController : ImTravelingViewController <UITableViewDelegate, UITableViewDataSource>
 {

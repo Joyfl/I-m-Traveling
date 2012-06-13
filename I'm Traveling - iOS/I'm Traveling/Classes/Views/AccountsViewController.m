@@ -7,6 +7,7 @@
 //
 
 #import "AccountsViewController.h"
+#import "AppDelegate.h"
 #import "Const.h"
 
 @implementation AccountsViewController
@@ -34,12 +35,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UIButton *facebookButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-	[facebookButton addTarget:self action:@selector(facebookButtonDidTouchUpInside) forControlEvents:UIControlEventTouchDragInside];
+	UISwitch *facebookSwitch = [[UISwitch alloc] init];
+	[facebookSwitch addTarget:self action:@selector(facebookSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
 	
 	UITableViewCell *cell = [[UITableViewCell alloc] init];
 	cell.textLabel.text = @"Facebook";
-	cell.accessoryView = facebookButton;
+	cell.accessoryView = facebookSwitch;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	return cell;
 }
@@ -48,9 +49,17 @@
 #pragma mark -
 #pragma mark ButtonSelectors
 
-- (void)facebookButtonDidTouchUpInside
+- (void)facebookSwitchValueChanged:(UISwitch *)facebookSwitch
 {
+	if( !facebookSwitch.on ) return;
 	
+	AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+	
+	if( !delegate.facebook.isSessionValid )
+	{
+		NSArray *permissions = [NSArray arrayWithObjects:@"publish_stream", nil];
+		[delegate.facebook authorize:permissions];
+	}
 }
 
 @end
