@@ -244,6 +244,7 @@
 - (void)fbDidLogin
 {
 	SettingsManager *manager = [SettingsManager manager];
+	[manager setSetting:[NSNumber numberWithBool:YES] forKey:SETTING_KEY_FACEBOOK_LINKED];
 	[manager setSetting:facebook.accessToken forKey:SETTING_KEY_FACEBOOK_ACCESS_TOKEN];
 	[manager setSetting:facebook.expirationDate	forKey:SETTING_KEY_FACEBOOK_EXPIRATION_DATE];
 	[manager flush];

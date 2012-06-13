@@ -50,6 +50,8 @@
 #define SETTING_KEY_LOCAL_SAVED_TRIPS			@"local_saved_trips"
 #define SETTING_KEY_LOCAL_SAVED_FEEDS			@"local_saved_feeds"
 #define SETTING_KEY_LOCAL_TRIP_IDS				@"localTripIds"
+
+#define SETTING_KEY_FACEBOOK_LINKED				@"facebookLinked"
 #define SETTING_KEY_FACEBOOK_ACCESS_TOKEN		@"FBAccessTokenKey"
 #define SETTING_KEY_FACEBOOK_EXPIRATION_DATE	@"FBExpirationDateKey"
 

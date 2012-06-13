@@ -7,6 +7,7 @@
 //
 
 #import "AccountsViewController.h"
+#import "SettingsManager.h"
 #import "AppDelegate.h"
 #import "Const.h"
 
@@ -36,6 +37,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UISwitch *facebookSwitch = [[UISwitch alloc] init];
+	facebookSwitch.on = [[[SettingsManager manager] getSettingForKey:SETTING_KEY_FACEBOOK_LINKED] boolValue];
 	[facebookSwitch addTarget:self action:@selector(facebookSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
 	
 	UITableViewCell *cell = [[UITableViewCell alloc] init];
