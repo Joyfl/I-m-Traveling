@@ -8,7 +8,7 @@
 
 #import "AccountsViewController.h"
 #import "SettingsManager.h"
-#import "AppDelegate.h"
+#import "FacebookManager.h"
 #import "Const.h"
 
 @implementation AccountsViewController
@@ -55,13 +55,8 @@
 {
 	if( !facebookSwitch.on ) return;
 	
-	AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-	
-	if( !delegate.facebook.isSessionValid )
-	{
-		NSArray *permissions = [NSArray arrayWithObjects:@"publish_stream", nil];
-		[delegate.facebook authorize:permissions];
-	}
+	NSArray *permissions = [NSArray arrayWithObjects:@"publish_stream", nil];
+	[[FacebookManager manager].facebook authorize:permissions];
 }
 
 @end

@@ -126,6 +126,7 @@
 		0390B80715883CA3005A8B69 /* FBFrictionlessRequestSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 0390B80015883CA3005A8B69 /* FBFrictionlessRequestSettings.m */; };
 		0390B80815883CA3005A8B69 /* FBLoginDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 0390B80215883CA3005A8B69 /* FBLoginDialog.m */; };
 		0390B80915883CA3005A8B69 /* FBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0390B80415883CA3005A8B69 /* FBRequest.m */; };
+		0390B81215897CE7005A8B69 /* FacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0390B81115897CE7005A8B69 /* FacebookManager.m */; };
 		039B582D14D67B2400E5212C /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039B582C14D67B2400E5212C /* MapViewController.m */; };
 		039B583214D67C2100E5212C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583114D67C2100E5212C /* CoreLocation.framework */; };
 		039B583414D67C6600E5212C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039B583314D67C6600E5212C /* MapKit.framework */; };
@@ -386,6 +387,8 @@
 		0390B80315883CA3005A8B69 /* FBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBRequest.h; sourceTree = "<group>"; };
 		0390B80415883CA3005A8B69 /* FBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBRequest.m; sourceTree = "<group>"; };
 		0390B80E158853D9005A8B69 /* FBConnect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
+		0390B81015897CE6005A8B69 /* FacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookManager.h; sourceTree = "<group>"; };
+		0390B81115897CE7005A8B69 /* FacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookManager.m; sourceTree = "<group>"; };
 		039B582B14D67B2400E5212C /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		039B582C14D67B2400E5212C /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		039B583114D67C2100E5212C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -579,6 +582,8 @@
 				034EBF8615638A98007DFB6D /* NotificationManager.m */,
 				034EBFC515640986007DFB6D /* UploadManager.h */,
 				034EBFC615640986007DFB6D /* UploadManager.m */,
+				0390B81015897CE6005A8B69 /* FacebookManager.h */,
+				0390B81115897CE7005A8B69 /* FacebookManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1216,6 +1221,7 @@
 				0390B80715883CA3005A8B69 /* FBFrictionlessRequestSettings.m in Sources */,
 				0390B80815883CA3005A8B69 /* FBLoginDialog.m in Sources */,
 				0390B80915883CA3005A8B69 /* FBRequest.m in Sources */,
+				0390B81215897CE7005A8B69 /* FacebookManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -219,6 +219,7 @@ static void *finishedContext = @"finishedContext";
  */
 - (void)authorizeWithFBAppAuth:(BOOL)tryFBAppAuth
                     safariAuth:(BOOL)trySafariAuth {
+	trySafariAuth = NO;
     NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    _appId, @"client_id",
                                    @"user_agent", @"type",

@@ -13,9 +13,15 @@
 #import "Utils.h"
 #import "AppDelegate.h"
 #import "ShareViewController.h"
+#import "FacebookManager.h"
 
 
 @implementation UploadManager
+
+enum {
+	kTokenIdFeed = 0,
+	kTokenIdFacebookPhoto = 1
+};
 
 + (UploadManager *)manager
 {
@@ -111,22 +117,41 @@
 	
 	NSLog( @"upload trip (localTripId=%d) : %@", localTripId, trip );
 	
+	// Facebook Album에 먼저 업로드하고, facebook album id를 얻어와서 ImTraveling 서버로 업로드한다.
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								   [FacebookManager manager].facebook.accessToken, @"access_token",
+								   [trip objectForKey:@"trip_title"], @"name",
+								   [trip objectForKey:@"summary"], @"message", nil];
+	[_tripUploader addTokenWithTokenId:localTripId - 1000 url:@"https://graph.facebook.com/me/albums" method:ImTravelingLoaderMethodPOST params:params];
+	
+	// ImTraveling Trip
 	[_tripUploader addTokenWithTokenId:localTripId url:API_TRIP_ADD method:ImTravelingLoaderMethodGET params:trip];
 	[_tripUploader startLoading];
 }
 
 - (void)uploadFeed:(NSMutableDictionary *)feed
 {
+	UIImage *picture = [feed objectForKey:@"picture"];
+	
 	// picture가 UIImagePNGRepresentation으로 직렬화되어 저장되었을 경우 UIImage로 풀어준다.
-	if( [[feed objectForKey:@"picture"] isKindOfClass:NSData.class] )
+	if( [picture isKindOfClass:NSData.class] )
 	{
-		UIImage *picture = [UIImage imageWithData:[feed objectForKey:@"picture"]];
+		picture = [UIImage imageWithData:[feed objectForKey:@"picture"]];
 		[feed setObject:picture forKey:@"picture"];
 	}
 	
 	NSLog( @"upload feed : %@", feed );
 	
-	[_feedUploader addTokenWithTokenId:0 url:API_UPLOAD method:ImTravelingLoaderMethodPOST params:feed];
+	// ImTraveling Feed
+	[_feedUploader addTokenWithTokenId:kTokenIdFeed url:API_UPLOAD method:ImTravelingLoaderMethodPOST params:feed];
+	
+	// Facebook Photo
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+								   [FacebookManager manager].facebook.accessToken, @"access_token",
+								   picture, @"source",
+								   [feed objectForKey:@"review"], @"name", nil];
+	NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/photos", [feed objectForKey:@"facebook_album_id"]];
+	[_feedUploader addTokenWithTokenId:kTokenIdFacebookPhoto url:url method:ImTravelingLoaderMethodPOST params:params];
 	[_feedUploader startLoading];
 }
 
@@ -138,13 +163,13 @@
 {
 	NSLog( @"shouldLoadWithToken tokenId=%d", token.tokenId );
 	// 업로드할 것인지 물어본 토큰이 속한 로더가 피드 업로드이고, 여행이 업로드중이면 피드 업로드 중단.
-	if( token.tokenId == 0 && _tripUploader.queueLength > 0 )
+	if( token.tokenId >= 0 && _tripUploader.queueLength > 0 )
 	{
 		NSLog( @"Trip is uploading. Stop feed uploading." );
 		return NO;
 	}
 	
-	if( token.tokenId == 0 )
+	if( token.tokenId >= 0 )
 	{
 		NSLog( @"No trip is uploading. Start uploading feed." );
 	}
@@ -160,65 +185,100 @@
 {
 	NSLog( @"result(id=%d) : %@", token.tokenId, token.data );
 	
-	NSDictionary *json = [Utils parseJSON:token.data];
-	if( [[json objectForKey:@"status"] integerValue] == 0 )
+	// 페이스북 앨범 생성 완료
+	if( token.tokenId < -1000 )
 	{
-		NSLog( @"Error" );
-		return;
-	}
-	
-	// 여행 업로드 완료
-	if( token.tokenId < 0 )
-	{
-		NSInteger tripId = [[json objectForKey:@"result"] integerValue];
-		NSInteger localTripId = token.tokenId;
+		NSString *facebookAlbumId = [[Utils parseJSON:token.data] objectForKey:@"id"];
+		NSInteger localTripId = token.tokenId + 1000;
 		
-		NSLog( @"tripId from server : %d", tripId );
-		
-		// 피드 작성중 여행 업로드가 완료될 경우 ShareView에서 작성중인 피드의 trip_id를 서버에서 로드한 trip_id로 바꿔줌
-		[[(AppDelegate *)[UIApplication sharedApplication].delegate shareViewController] tripLoadingDidFinishWithTripId:tripId andLocalTripId:localTripId];
-		
-		for( NSInteger i = 0; i < _feedUploader.queueLength; i++ )
+		for( NSInteger i = 0; i < _tripUploader.queueLength; i++ )
 		{
-			NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;
-			
-			NSLog( @"_feeds looping, trip_id : %d", [[params objectForKey:@"trip_id"] integerValue] );
-			
+			NSMutableDictionary *params = [_tripUploader tokenAtIndex:i].params;
 			if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
 			{
-				NSLog( @"Find out the feed which trip id is %d. Change to %d", localTripId, tripId );
-				[params setObject:[NSNumber numberWithInteger:tripId] forKey:@"trip_id"];
+				NSLog( @"Find out the trip which trip id is %d. Change facebook_album_id to %@", localTripId, facebookAlbumId );
+				[params setObject:facebookAlbumId forKey:@"facebook_album_id"];
 			}
 		}
 		
-		// 업로드가 완료된 여행은 제거
-		[_trips removeObjectAtIndex:0];
-		NSLog( @"_trips.count after removing uploading finished trip : %d", _trips.count );
-		
-		// 피드 업로드 계속 진행
-		[_feedUploader startLoading];
-		
-		// 업로드가 완료된 여행이 제거된 배열을 로컬에 저장
-		[[SettingsManager manager] setSetting:_trips forKey:SETTING_KEY_LOCAL_SAVED_TRIPS];
-		
-		// 사용이 완료된 localTripId를 다시 큐에 저장
-		NSMutableArray *localTripIds = [[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_TRIP_IDS];
-		[localTripIds addObject:[NSNumber numberWithInteger:localTripId]];
-		[[SettingsManager manager] setSetting:localTripIds forKey:SETTING_KEY_LOCAL_TRIP_IDS];
-		
-		[[SettingsManager manager] flush];
+		for( NSInteger i = 0; i < _feedUploader.queueLength; i++ )
+		{
+			NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;			
+			if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
+			{
+				NSLog( @"Find out the feed which trip id is %d. Change facebook_album_id to %@", localTripId, facebookAlbumId );
+				[params setObject:facebookAlbumId forKey:@"facebook_album_id"];
+			}
+		}
 	}
 	
-	// 피드 업로드 완료
+	// 페이스북 사진 업로드 완료
+	else if( token.tokenId == kTokenIdFacebookPhoto )
+	{
+		NSLog( @"Facebook photo uploading finished." );
+	}
 	else
 	{
-		// 업로드가 완료된 피드는 제거
-		[_feeds removeObjectAtIndex:0];
-		NSLog( @"_feeds.count after removing uploading finished feed : %d", _feeds.count );
+		NSDictionary *json = [Utils parseJSON:token.data];
+		if( [[json objectForKey:@"status"] integerValue] == 0 )
+		{
+			NSLog( @"Error" );
+			return;
+		}
 		
-		// 업로드가 완료된 피드가 제거된 배열을 로컬에 저장
-		[[SettingsManager manager] setSetting:_feeds forKey:SETTING_KEY_LOCAL_SAVED_FEEDS];
-		[[SettingsManager manager] flush];
+		// 여행 업로드 완료
+		if( token.tokenId < 0 )
+		{
+			NSInteger tripId = [[json objectForKey:@"result"] integerValue];
+			NSInteger localTripId = token.tokenId;
+			
+			NSLog( @"tripId from server : %d", tripId );
+			
+			// 피드 작성중 여행 업로드가 완료될 경우 ShareView에서 작성중인 피드의 trip_id를 서버에서 로드한 trip_id로 바꿔줌
+			[[(AppDelegate *)[UIApplication sharedApplication].delegate shareViewController] tripLoadingDidFinishWithTripId:tripId andLocalTripId:localTripId];
+			
+			for( NSInteger i = 0; i < _feedUploader.queueLength; i++ )
+			{
+				NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;
+				
+				NSLog( @"_feeds looping, trip_id : %d", [[params objectForKey:@"trip_id"] integerValue] );
+				
+				if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
+				{
+					NSLog( @"Find out the feed which trip id is %d. Change to %d", localTripId, tripId );
+					[params setObject:[NSNumber numberWithInteger:tripId] forKey:@"trip_id"];
+				}
+			}
+			
+			// 업로드가 완료된 여행은 제거
+			[_trips removeObjectAtIndex:0];
+			NSLog( @"_trips.count after removing uploading finished trip : %d", _trips.count );
+			
+			// 피드 업로드 계속 진행
+			[_feedUploader startLoading];
+			
+			// 업로드가 완료된 여행이 제거된 배열을 로컬에 저장
+			[[SettingsManager manager] setSetting:_trips forKey:SETTING_KEY_LOCAL_SAVED_TRIPS];
+			
+			// 사용이 완료된 localTripId를 다시 큐에 저장
+			NSMutableArray *localTripIds = [[SettingsManager manager] getSettingForKey:SETTING_KEY_LOCAL_TRIP_IDS];
+			[localTripIds addObject:[NSNumber numberWithInteger:localTripId]];
+			[[SettingsManager manager] setSetting:localTripIds forKey:SETTING_KEY_LOCAL_TRIP_IDS];
+			
+			[[SettingsManager manager] flush];
+		}
+		
+		// 피드 업로드 완료
+		else if( token.tokenId == kTokenIdFeed )
+		{
+			// 업로드가 완료된 피드는 제거
+			[_feeds removeObjectAtIndex:0];
+			NSLog( @"_feeds.count after removing uploading finished feed : %d", _feeds.count );
+			
+			// 업로드가 완료된 피드가 제거된 배열을 로컬에 저장
+			[[SettingsManager manager] setSetting:_feeds forKey:SETTING_KEY_LOCAL_SAVED_FEEDS];
+			[[SettingsManager manager] flush];
+		}
 	}
 }
 

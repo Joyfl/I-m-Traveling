@@ -138,6 +138,7 @@
 		trip.summary = [t objectForKey:@"summary"];
 		trip.numFeeds = [[t objectForKey:@"num_feeds"] integerValue];
 		trip.firstFeedId = [[t objectForKey:@"firstfeed_id"] integerValue];
+		trip.facebookAlbumId = [t objectForKey:@"facebook_album_id"];
 		
 		[_trips setObject:trip forKey:[NSNumber numberWithInteger:trip.tripId]];
 		[self addSimpleTrip:trip];

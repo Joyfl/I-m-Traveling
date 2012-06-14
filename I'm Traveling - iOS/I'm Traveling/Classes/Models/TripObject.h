@@ -18,6 +18,7 @@
 	NSString *summary;
 	NSInteger numFeeds;
 	NSInteger firstFeedId;
+	NSString *facebookAlbumId;
 }
 
 @property (nonatomic, assign) NSInteger tripId;
@@ -28,5 +29,6 @@
 @property (nonatomic, retain) NSString *summary;
 @property (nonatomic, assign) NSInteger numFeeds;
 @property (nonatomic, assign) NSInteger firstFeedId;
+@property (nonatomic, retain) NSString *facebookAlbumId;
 
 @end

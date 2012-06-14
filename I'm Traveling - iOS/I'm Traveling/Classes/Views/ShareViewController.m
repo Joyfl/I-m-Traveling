@@ -188,11 +188,17 @@ enum {
 #warning 임시 nation!!
 								 @"KOR", @"nation",
 								 _reviewInput.text, @"review",
+								 selectedTrip.facebookAlbumId, @"facebook_album_id",
 								 [Utils writeJSON:info], @"info", nil];
 	
-	[[UploadManager manager] addFeed:feed];
+	[[UploadManager manager] performSelectorOnMainThread:@selector(addFeed:) withObject:feed waitUntilDone:NO];
 	
 	[self stopBusy];
+	[self performSelectorOnMainThread:@selector(finishAddingFeedToUploadManager) withObject:nil waitUntilDone:NO];
+}
+
+- (void)finishAddingFeedToUploadManager
+{
 	[self dismissModalViewControllerAnimated:YES];
 }
 
