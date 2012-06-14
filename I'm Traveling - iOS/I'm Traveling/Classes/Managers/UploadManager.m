@@ -146,12 +146,16 @@ enum {
 	[_feedUploader addTokenWithTokenId:kTokenIdFeed url:API_UPLOAD method:ImTravelingLoaderMethodPOST params:feed];
 	
 	// Facebook Photo
-	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-								   [FacebookManager manager].facebook.accessToken, @"access_token",
-								   picture, @"source",
-								   [feed objectForKey:@"review"], @"name", nil];
-	NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/photos", [feed objectForKey:@"facebook_album_id"]];
-	[_feedUploader addTokenWithTokenId:kTokenIdFacebookPhoto url:url method:ImTravelingLoaderMethodPOST params:params];
+	if( [[feed objectForKey:@"share_to_facebook"] boolValue] )
+	{
+		NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+									   [FacebookManager manager].facebook.accessToken, @"access_token",
+									   picture, @"source",
+									   [feed objectForKey:@"review"], @"name", nil];
+		NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/photos", [feed objectForKey:@"facebook_album_id"]];
+		[_feedUploader addTokenWithTokenId:kTokenIdFacebookPhoto url:url method:ImTravelingLoaderMethodPOST params:params];
+	}
+	
 	[_feedUploader startLoading];
 }
 
@@ -204,7 +208,7 @@ enum {
 		for( NSInteger i = 0; i < _feedUploader.queueLength; i++ )
 		{
 			NSMutableDictionary *params = [_feedUploader tokenAtIndex:i].params;			
-			if( [[params objectForKey:@"trip_id"] integerValue] == localTripId )
+			if( [[params objectForKey:@"share_to_facebook"] boolValue] && [[params objectForKey:@"trip_id"] integerValue] == localTripId )
 			{
 				NSLog( @"Find out the feed which trip id is %d. Change facebook_album_id to %@", localTripId, facebookAlbumId );
 				[params setObject:facebookAlbumId forKey:@"facebook_album_id"];

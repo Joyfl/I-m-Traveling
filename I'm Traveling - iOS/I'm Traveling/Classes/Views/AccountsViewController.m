@@ -17,7 +17,7 @@
 {
 	if( self = [super init] )
 	{
-		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, WEBVIEW_HEIGHT ) style:UITableViewStyleGrouped];
+		_tableView = [[UITableView alloc] initWithFrame:CGRectMake( 0, 0, 320, self.view.frame.size.height ) style:UITableViewStyleGrouped];
 		_tableView.delegate = self;
 		_tableView.dataSource = self;
 		[self.view addSubview:_tableView];
@@ -37,7 +37,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UISwitch *facebookSwitch = [[UISwitch alloc] init];
-	facebookSwitch.on = [[[SettingsManager manager] getSettingForKey:SETTING_KEY_FACEBOOK_LINKED] boolValue];
+	facebookSwitch.on = [[FacebookManager manager] connected];
 	[facebookSwitch addTarget:self action:@selector(facebookSwitchValueChanged:) forControlEvents:UIControlEventValueChanged];
 	
 	UITableViewCell *cell = [[UITableViewCell alloc] init];
@@ -53,10 +53,16 @@
 
 - (void)facebookSwitchValueChanged:(UISwitch *)facebookSwitch
 {
-	if( !facebookSwitch.on ) return;
-	
-	NSArray *permissions = [NSArray arrayWithObjects:@"publish_stream", nil];
-	[[FacebookManager manager].facebook authorize:permissions];
+	if( facebookSwitch.on )
+	{
+		NSArray *permissions = [NSArray arrayWithObjects:@"publish_stream", nil];
+		[[FacebookManager manager].facebook authorize:permissions];
+	}
+	else
+	{
+		[[SettingsManager manager] setSetting:[NSNumber numberWithBool:NO] forKey:SETTING_KEY_FACEBOOK_LINKED];
+		[[SettingsManager manager] flush];
+	}
 }
 
 @end

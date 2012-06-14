@@ -103,4 +103,13 @@
 	[facebook requestWithGraphPath:@"me/feed" andParams:params andHttpMethod:@"POST" andDelegate:self];
 }
 
+
+#pragma mark -
+#pragma mark
+
+- (BOOL)connected
+{
+	return [[[SettingsManager manager] getSettingForKey:SETTING_KEY_FACEBOOK_LINKED] boolValue];
+}
+
 @end

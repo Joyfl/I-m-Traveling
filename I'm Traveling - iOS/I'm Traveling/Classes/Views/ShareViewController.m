@@ -18,6 +18,8 @@
 #import "Info.h"
 #import "InfoCell.h"
 #import "UploadManager.h"
+#import "FacebookManager.h"
+#import "AccountsViewController.h"
 
 
 @implementation ShareViewController
@@ -29,7 +31,8 @@ enum {
 	kSectionTripPlaceDate = 1,
 	kSectionReview = 2,
 	kSectionInfo = 3,
-	kSectionAddInfo = 4
+	kSectionAddInfo = 4,
+	kSectionSNS = 5
 };
 
 -(id)initWithImage:(UIImage *)image
@@ -52,7 +55,7 @@ enum {
 		_tableView.dataSource = self;
 		_tableView.backgroundColor = [UIColor colorWithRed:0.93 green:0.83 blue:0.73 alpha:1.0];
 		_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		[self.view addSubview:_tableView];
+		[self.view addSubview:_tableView];		
 		
 		UIView *topBackgroundView = [[UIView alloc] initWithFrame:CGRectMake( 0, -300, 320, 300 )];
 		topBackgroundView.backgroundColor = [UIColor darkGrayColor];
@@ -188,8 +191,13 @@ enum {
 #warning 임시 nation!!
 								 @"KOR", @"nation",
 								 _reviewInput.text, @"review",
-								 selectedTrip.facebookAlbumId, @"facebook_album_id",
 								 [Utils writeJSON:info], @"info", nil];
+	
+	if( _shareToFacebook )
+	{
+		[feed setObject:[NSNumber numberWithBool:YES] forKey:@"share_to_facebook"];
+		[feed setObject:selectedTrip.facebookAlbumId forKey:@"facebook_album_id"];
+	}
 	
 	[[UploadManager manager] performSelectorOnMainThread:@selector(addFeed:) withObject:feed waitUntilDone:NO];
 	
@@ -234,7 +242,8 @@ enum {
 	// 2 : Review
 	// 3 : Info
 	// 4 : Add Info
-	return 5;
+	// 5 : SNS
+	return 6;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -244,7 +253,7 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if( section == 3 ) return _info.count;
+	if( section == kSectionInfo ) return _info.count;
 	return 1;
 }
 
@@ -265,6 +274,9 @@ enum {
 			return 80;
 			
 		case kSectionAddInfo:
+			return 80;
+			
+		case kSectionSNS:
 			return 80;
 	}
 	
@@ -449,6 +461,17 @@ enum {
 		[postIt release];
 	}
 	
+	else if( indexPath.section == kSectionSNS )
+	{
+		cell = [[UITableViewCell alloc] init];
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		_facebookButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		_facebookButton.frame = CGRectMake( 10, 0, 50, 50 );
+		[_facebookButton addTarget:self action:@selector(facebookButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
+		[cell addSubview:_facebookButton];
+	}
+	
 	return cell;
 }
 
@@ -589,6 +612,29 @@ enum {
 	[UIView setAnimationDuration:0.25];
 	[_tableView setFrame:CGRectMake( 0, 0, 320, 416 )];
 	[UIView commitAnimations];
+}
+
+- (void)facebookButtonDidTouchUpInside
+{
+	if( !_shareToFacebook )
+	{
+		if( [[FacebookManager manager] connected] )
+		{
+			_shareToFacebook = YES;
+			[_facebookButton setTitle:@"F" forState:UIControlStateNormal];
+		}
+		else
+		{
+			AccountsViewController *accountsViewController = [[AccountsViewController alloc] init];
+			[self.navigationController pushViewController:accountsViewController animated:YES];
+			[accountsViewController release];
+		}
+	}
+	else
+	{
+		_shareToFacebook = NO;
+		[_facebookButton setTitle:@"" forState:UIControlStateNormal];
+	}
 }
 
 

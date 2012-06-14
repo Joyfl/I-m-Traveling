@@ -34,6 +34,9 @@
 	
 	NSMutableArray *_info;
 	
+	UIButton *_facebookButton;
+	BOOL _shareToFacebook;
+	
 	id _currentFirstResponder;
 }
 

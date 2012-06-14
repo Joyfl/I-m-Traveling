@@ -21,6 +21,7 @@
 - (void)makeAlbumWithName:(NSString *)name andDescription:(NSString *)desc;
 - (void)postPhoto;
 
+- (BOOL)connected;
 
 
 @end
