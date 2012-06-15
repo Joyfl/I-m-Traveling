@@ -101,19 +101,19 @@ ul, ol, li
 	text-shadow: 0px 1px 0px #EEEEEE;
 }
 
-li:nth-child(odd)
+.listview li:nth-child(odd)
 {
 	background-image: url("./resource/gradient/odd.png");
 	background-size: 100% 100%;
-	border-top: 1px solid #F4E4D6;
-	border-bottom: 1px solid #D6BDA6;
+	border-top: 1px solid #F6E6D8;
+	border-bottom: 1px solid #F1DFCF;
 }
 
-li:nth-child(even)
+.listview li:nth-child(even)
 {
 	background-image: url("./resource/gradient/even.png");
 	background-size: 100% 100%;
-	border-top: 1px solid #F1DFCF;
+	border-top: 1px solid #D8BA9F;
 	border-bottom: 1px solid #E0BFA0;
 }
 
@@ -164,7 +164,7 @@ li:nth-child(even)
 {
 	float: right;
 	height: 2em;
-	width: 1.2em;
+	width: 1em;
 	margin-right: 1em;
 	background-image: url("./resource/right_arrow.png");
 	background-size: 100% 100%;
@@ -242,7 +242,7 @@ li:nth-child(even)
 	float: right;
 	text-align: right;
 	font-size: 1.2em;
-	color: #87655B;
+	color: #88665C;
 	margin-top: 0.3em;
 }
 
@@ -344,25 +344,9 @@ li:nth-child(even)
 #topArrow
 {
 	height: 2em;
-	width: 3.3em;
-	background-image: url("resource/top_arrow.png");
-	background-size: 100% 100%;
-	margin: 0 auto;
-}
-
-#topShadow
-{
-	top: 2em;
 	width: 100%;
-	height: 3em;
-	position: absolute;
-	z-index: -1;
-	margin-left: 0%;
-	
-	box-shadow: 0em 0em 1em rgba(68, 68, 68, 1);
-	-webkit-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
-	-moz-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
-	-o-box-shadow: 0px 0em 1em rgba(68, 68, 68, 1);
+	background-image: url("resource/top_arrow_full.png");
+	background-size: 100% 100%;
 }
 
 #detail
@@ -437,9 +421,10 @@ li:nth-child(even)
 	height: 3em;
 	padding-top: 0.7em;
 	padding-left: 1em;
-	background-image: url("./resource/gradient/see_all.png");
+	background-image: url("./resource/gradient/odd.png");
 	background-size: 100% 100%;
-	border-top: 1px solid #F7EEE7;
+	border-top: 1px solid #F6E6D8;
+	border-bottom: 1px solid #F1DFCF;
 }
 
 #detail #seeAll span
@@ -456,15 +441,10 @@ li:nth-child(even)
 
 #detail #likeBar
 {
-	background-image: url("./resource/gradient/like_bar.png");
-	/*background: gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
-	background: -webkit-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
-	background: -ms-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
-	background: -moz-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));
-	background: -o-gradient(linear, left top, left bottom, from(#e9cbaf), to(#ebd0b7));*/
-	background-size: 100% 100%;
+	background-image: url("./resource/gradient/like_bar.png");	background-size: 100% 100%;
 	padding: 0.6em;
 	color: #3d2c48;
+	border-top: 1px solid rgb(213, 179, 150);
 	border-bottom: 1px solid #D9A981;
 }
 
@@ -510,7 +490,7 @@ li:nth-child(even)
 	font-size: 1.2em;
 	margin-top: 1.5em;
 	margin-left: 0.4em;
-	color: #87655B;
+	color: #88665C;
 }
 
 #peopleList .arrow
@@ -529,9 +509,8 @@ li:nth-child(even)
 	background-image: url("./resource/gradient/more_comment.png");
 	background-size: 100% 100%;
 	border-top: 1px solid #F7EAE4;
-	border-bottom: 1px solid #A48D7B;
-	padding: 0.7em;
-	padding-left: 0.6em;
+	border-bottom: 1px solid #D2B59D;
+	padding: 0.6em;
 	color: #3d2c48;
 }
 
@@ -548,7 +527,7 @@ li:nth-child(even)
 
 #moreComment span
 {
-	font-size: 1.7em;
+	font-size: 1.5em;
 	font-weight: bold;
 }
 
@@ -580,7 +559,7 @@ li:nth-child(even)
 {
 	font-size: 1.7em;
 	font-weight: bold;
-	color: #3D2C48;
+	color: #3B2E43;
 }
 
 #commentList .time
@@ -593,6 +572,7 @@ li:nth-child(even)
 #commentList .comment
 {
 	font-size: 1.3em;
+	color: #232323;
 }
 
 
@@ -803,22 +783,26 @@ li:nth-child(even)
 
 #notificationList .lowerWrap
 {
-	margin-bottom: 0.4em;
-	margin-top: -0.2em;
+	
 }
 
 #notificationList .text
 {
 	font-size: 1.5em;
+	color: #645040;
+}
+
+#notificationList .bold
+{
 	font-weight: bold;
-	color: #3D2C48;
+	color: #302935;
 }
 
 #notificationList .time
 {
 	font-size: 1.3em;
 	float: left;
-	color: #BFA288;
+	color: #876D56;
 }
 
 

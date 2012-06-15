@@ -38,7 +38,7 @@ function init()
 	clear();
 	
 	//t_fl();
-	//t_fd();
+	t_fd();
 	
 	//t_p();
 	
@@ -51,7 +51,7 @@ function init()
 	//t_ust();
 	//t_mst();
 	
-	t_cl();
+	//t_cl();
 	//t_pl();
 	//t_pll();
 	//t_nl();
@@ -82,7 +82,7 @@ function t_cl() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComm
 function t_cl2() { for(var i = 0; i < dmyComments.length; i++) addComment(dmyComments[i].user_id, dmyComments[i].profile_image_src, dmyComments[i].name, dmyComments[i].time, dmyComments[i].content, true); }
 function t_pl() { for(var i = 0; i < 5; i++) addPerson(123, dmyProfileImage, "바나나", "KOR", false); }
 function t_pll() { for(var i = 0; i < 6; i++) addPlace(i, "뿔레 치킨 맛있긔 ㅋㅅㅋ", "음식점"); }
-function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, dmyProfileImage, "얘가 댓글을 남겼대요", "6분 전"); }
+function t_nl() { for(var i = 0; i < 6; i++) addNotification(i, dmyProfileImage, "<span class=\"bold\">얘</span>가 댓글을 남겼대요", "6분 전"); }
 
 
 
@@ -302,15 +302,11 @@ function createArrow()
 		<topMargin>
 			<topArrow />
 		</topMargin>
-		<topShadow />
 		<page />
 	*/
 
 	var page = $("#page");
-	
-	var topShadow = _("div", "#topShadow", document.body, true);
 	var topMargin = _("div", "#topMargin", document.body, true);
-	
 	var topArrow = _("div", "#topArrow", topMargin);
 	topArrow.onload = function() { topArrow.style.marginLeft = intToPixel(W()/2 - topArrow.clientWidth/2); };
 }
@@ -511,7 +507,7 @@ function fillNotification(wrap, notification_id, image_url, _text, _time)
 	var expensor = _("div", ".expensor", wrap);
 		
 	image.src = image_url;
-	text.innerText = _text;
+	text.innerHTML = _text;
 	time.innerText = _time;
 	
 	setHeight(cover, intToEm(pixelToEm(image.clientHeight)));
@@ -688,7 +684,7 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 		createGap(detail, 1.5);
 	}
 	
-	createGap(detail, 0.1, false, "#E4C1A3");
+	createGap(detail, 0.1, false, "#E7CEBB");
 	
 	var button = _("div", "#seeAll", detail);
 	_("span", ".shadow", button).innerText = see_all_feed_text;
@@ -773,6 +769,7 @@ function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 		_("ul", "#simpleFeedList", $("#page"));
 	var wrap = _("li", "#simpleFeed_" + feed_id, $("#simpleFeedList"));
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
+	listview();
 }
 
 function addUnloadedSimpleFeed(feed_id)
@@ -790,17 +787,19 @@ function modifySimpleFeed(feed_id, picture_url, _place, _time, _review)
 function addUploadingFeed(feed_id, picture_url, _place, _message, _review)
 {
 	if(!$("#uploadingFeedList"))
-		_("ul", "#uploadingFeedList", $("#page"));
+		_("ul", "#uploadingFeedList .listview", $("#page"));
 	var wrap = _("li", "", $("#uploadingFeedList"));
 	fillUploadingFeed(wrap, feed_id, picture_url, _place, _message, _review);
+	listview();
 }
 
 function addSimpleTrip(trip_id, picture_url, title, start_date, end_date, summary, feeds_text)
 {
 	if(!$("#simpleTripList"))
-		_("ul", "#simpleTripList", $("#page"));
+		_("ul", "#simpleTripList .listview", $("#page"));
 	var wrap = _("li", "#simpleTrip_" + trip_id, $("#simpleTripList"));
 	fillSimpleTrip(wrap, trip_id, picture_url, title, start_date, end_date, summary, feeds_text);
+	listview();
 }
 
 function addUnloadedSimpleTrip(trip_id)
@@ -818,32 +817,35 @@ function modifySimpleTrip(trip_id, picture_url, title, start_date, end_date, sum
 function addPerson(user_id, profile_image_url, name, nation, isFollowing)
 {
 	if(!$("#peopleList"))
-		_("ul", "#peopleList", $("#page"));
+		_("ul", "#peopleList .listview", $("#page"));
 	var wrap = _("li", "", $("#peopleList"));
 	fillPerson(wrap, user_id, profile_image_url, name, nation, isFollowing);
+	listview();
 }
 
 function addPlace(place_id, name, category)
 {
 	if(!$("#placeList"))
-		_("ul", "#placeList", $("#page"));
+		_("ul", "#placeList .listview", $("#page"));
 	var wrap = _("li", "", $("#placeList"));
 	fillPlaceList(wrap, place_id, name, category);
+	listview();
 }
 
 function addComment(user_id, profile_image_url, name, _time, _content, is_top)
 {
 	if(!$("#commentList"))
-		_("ul", "#commentList", $("#page"));
+		_("ul", "#commentList .listview", $("#page"));
 	var wrap = _("li", "", $("#commentList"), is_top);
 	fillComment(wrap, user_id, profile_image_url, name, _time, _content);
+	//listview();
 }
 
 function addNotification(notification_id, image_url, text, time)
 {
 	if(!$("#notificationList"))
-		_("ul", "#notificationList", $("#page"));
-	var wrap = _("li", coloring(notificationColor, ""), $("#notificationList"));
+		_("ul", "#notificationList .listview", $("#page"));
+	var wrap = _("li", "", $("#notificationList"));
 	fillNotification(wrap, notification_id, image_url, text, time);
 }
 
@@ -919,6 +921,17 @@ function clear() {
 	
 	if($("#topMargin")) document.body.removeChild($("#topMargin"));
 	if($("#topShadow")) document.body.removeChild($("#topShadow"));
+}
+
+function listview()
+{
+	temp_list = $("<ul>");
+	for(var i = 0; i < temp_list.length; i++)
+	{
+		var count = temp_list[i].childElementCount;
+		if(count % 2 == 0) temp_list[i].style.borderBottom = "1px solid #F6EEE8";
+		else temp_list[i].style.borderBottom = "1px solid #E5CAB2";
+	}
 }
 
 
