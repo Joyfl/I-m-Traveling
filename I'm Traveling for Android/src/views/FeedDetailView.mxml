@@ -4,16 +4,40 @@
 					 xmlns:imt="*">
 	<fx:Script>
 		<![CDATA[
+			import events.ImTravelingLoadEvent;
 			import events.ImTravelingWebViewEvent;
 			
+			import models.Feed;
+			
+			import mx.effects.Parallel;
+			import mx.effects.Tween;
 			import mx.graphics.BitmapScaleMode;
 			
 			import spark.components.Button;
 			import spark.components.Image;
 			import spark.effects.Move;
 			
+			
+			// Feed Detail : 0 ~ 999
+			// Feed Comment : 1000 ~ 1999
+			private static const TOKEN_ID_FIRST_FEED_DETAIL : int = 10000;
+			private static const TOKEN_ID_SEND_COMMENT : int = 10001;
+			private static const TOKEN_ID_LIKE : int = 10002;
+			
 			private var _topImage : Image;
 			private var _bottomImage : Image;
+			
+			private var _ref : int;
+			private var _feedFromPreviousView : Feed;
+			
+			private var _feeds : Vector.<Feed> = new Vector.<Feed>();
+			private var _currentFeedIndex : int;
+			
+			private var _webViews : Vector.<ImTravelingWebView> = new Vector.<ImTravelingWebView>();
+			private function get _leftWebView() : ImTravelingWebView { return _webViews[0]; }
+			private function get _centerWebView() : ImTravelingWebView { return _webViews[1]; }
+			private function get _rightWebView() : ImTravelingWebView { return _webViews[2]; }
+			
 			
 			override protected function onCreationComplete() : void
 			{
@@ -25,12 +49,6 @@
 					_topImage.source = data.topBitmap;
 					_topImage.scaleMode = BitmapScaleMode.STRETCH;
 					_topImage.scaleX = _topImage.scaleY = 2/3;
-					addElement( _topImage );
-					
-					var topMoveEffect : Move = new Move( _topImage );
-					topMoveEffect.duration = 500;
-					topMoveEffect.yTo = -1 * data.topBitmap.height * 2/3;
-					topMoveEffect.play();
 				}
 				
 				_bottomImage = new Image();
@@ -38,30 +56,277 @@
 				_bottomImage.scaleMode = BitmapScaleMode.STRETCH;
 				_bottomImage.y = data.offset * 2/3;
 				_bottomImage.scaleX = _bottomImage.scaleY = 2/3;
-				addElement( _bottomImage );
 				
-				var bottomMoveEffect : Move = new Move( _bottomImage );
-				bottomMoveEffect.duration = 500;
-				bottomMoveEffect.yTo = 150;
-				bottomMoveEffect.play();
+				_feedFromPreviousView = data.feed;
 				
-				stage.removeChild( data.webViewBitmap );
-				data.webViewBitmap.bitmapData.dispose();
-				
-//				_webView = new ImTravelingWebView( stage );
-//				_webView.addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );
-//				_webView.addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
+				for( var i : int = 0; i < 3; i++ )
+				{
+					_webViews[i] = new ImTravelingWebView();
+					_webViews[i].addEventListener( ImTravelingWebViewEvent.LOAD_COMPLETE, onWebViewLoadComplete );
+					_webViews[i].addEventListener( ImTravelingWebViewEvent.RECEIVE_MESSAGE, onReceiveMessage );
+					_webViews[i].loadHTML( "index" );
+				}
+			}
+			
+			override protected function onAddedToStage() : void
+			{
+//				rightFeedButton.x = stage.stageWidth - 44;
 			}
 			
 			private function onWebViewLoadComplete( e : ImTravelingWebViewEvent ) : void
 			{
-				
+				if( e.target == _centerWebView )
+					loadFirstFeedDetail();
 			}
 			
 			private function onReceiveMessage( e : ImTravelingWebViewEvent ) : void
 			{
 				
 			}
+			
+			private function loadFirstFeedDetail() : void
+			{
+				loader.add( Const.API_FEED_DETAIL, {feed_id: _feedFromPreviousView.feedId, ref: 0}, TOKEN_ID_FIRST_FEED_DETAIL );
+				loader.startLoading();
+			}
+			
+			override protected function onLoadComplete( e : ImTravelingLoadEvent ) : void
+			{
+				var json : Object = JSON.parse( e.token.data );
+				var result : Object;
+				
+				if( loader.getErrorCode( json ) >= 0 )
+				{
+					trace( "Error!" );
+					return;
+				}
+				
+				if( e.token.id == TOKEN_ID_FIRST_FEED_DETAIL )
+				{
+					result = json.result;
+					fillFeed( _feedFromPreviousView, result );
+					handleAllFeeds( result.all_feeds, _feedFromPreviousView.feedId );
+					createFeedDetail( _feedFromPreviousView, _currentFeedIndex );
+					animateAppearance();
+					
+					loadFeedDetail( _currentFeedIndex - 1 );
+					loadFeedDetail( _currentFeedIndex + 1 );
+				}
+				
+				// Feed Detail
+				else if( e.token.id / 1000 < 1 )
+				{
+					trace( "feed detail" );
+					
+					result = json.result;
+					var feedIndex : int = e.token.id;
+					
+					var feed : Feed = _feeds[feedIndex];
+					fillFeed( feed, result );
+					
+					_feeds[feedIndex] = feed;
+					
+					createFeedDetail( feed, feedIndex );
+				}
+			}
+			
+			private function handleAllFeeds( allFeeds : Array, currentFeedId : int ) : void
+			{
+				for( var i : int = 0; i < allFeeds.length; i++ )
+				{
+					var f : Object = allFeeds[i];
+					
+					var feed : Feed = new Feed();
+					feed.feedId = f.feed_id;
+					feed.latitude = f.latitude;
+					feed.longitude = f.longitude;
+					
+					// 현재 피드일 경우
+					if( feed.feedId == currentFeedId )
+					{
+						_currentFeedIndex = i;
+					}
+					
+					_feeds.push( feed );
+				}
+			}
+			
+			private function fillFeed( feed : Feed, data : Object ) : void
+			{
+				// ref가 0, 1, 2일 경우에 공통적으로 해당
+				feed.tripId = data.trip_id;
+				feed.review = data.review;
+//				feed.numAllFeeds = data.all_feeds.length;
+				feed.info = data.info;
+				feed.comments = [];
+				
+				// ref가이 1, 2일 경우에 공통적으로 해당
+				if( !feed.userId ) feed.userId = data.user_id;
+				if( !feed.region ) feed.region = data.region;
+				if( !feed.time ) feed.time = data.time;
+				if( !feed.numLikes ) feed.numLikes = data.num_likes;
+				if( !feed.numComments ) feed.numComments = data.num_comments
+				if( !feed.pictureURL ) feed.pictureURL = Const.API_FEED_IMAGE + feed.userId + "_" + feed.feedId + ".jpg";
+				if( !feed.pictureThumbURL ) feed.pictureThumbURL = Const.API_FEED_IMAGE_THUMB + feed.userId + "_" + feed.feedId + ".jpg";
+				if( !feed.profileImageURL ) feed.profileImageURL = Const.API_PROFILE_IMAGE + feed.userId + ".jpg";
+				
+				// ref가 2일 경우에만 해당
+				if( !feed.name ) feed.name = data.name;
+				if( !feed.place ) feed.place = data.place;
+				
+				// 모든 정보가 채워짐
+				feed.complete = true;
+			}
+			
+			private function loadFeedDetail( index : int ) : void
+			{
+				if( 0 <= index && index < _feeds.length )
+				{
+					loader.add( Const.API_FEED_DETAIL, {feed_id: _feeds[index].feedId, ref: 2}, index );
+					loader.startLoading();
+				}
+			}
+			
+			private function createFeedDetail( feed : Feed, index : int ) : void
+			{
+				var webView : ImTravelingWebView;
+				
+				if( index < _currentFeedIndex )
+				{
+					webView = _leftWebView;
+				}
+				else if( _currentFeedIndex < index )
+				{
+					webView = _rightWebView;
+				}
+				else
+				{
+					webView = _centerWebView;
+				}
+				
+				webView.callJavascript( "createFeedDetail",
+					feed.tripId,
+					feed.feedId,
+					feed.userId,
+					feed.profileImageURL,
+					feed.name,
+					feed.time,
+					feed.place,
+					feed.region,
+					feed.pictureThumbURL,
+					feed.pictureURL,
+					feed.pictureRatio,
+					feed.review,
+					JSON.stringify( feed.info ),
+					"N개의 피드 전체보기",
+					"N명이 좋아합니다." );
+			}
+			
+			private function onLeftFeedButtonClick( e : MouseEvent ) : void
+			{
+				if( 0 < _currentFeedIndex )
+				{
+					_currentFeedIndex --;
+					
+					updateLeftRightFeedButtonEnabled();
+					
+					setTimeout( feedChangeAnimationDidFinish, 500 );
+					
+					var webViewoveEffect : Move = new Move( );
+					webViewoveEffect.targets = [_leftWebView, _centerWebView];
+					webViewoveEffect.duration = 500;
+					webViewoveEffect.xBy = stage.stageWidth;
+					webViewoveEffect.play();
+					
+					_rightWebView.x = -1 * stage.stageWidth;
+					
+					var webView : ImTravelingWebView = _webViews[2];
+					_webViews[2] = _webViews[1];
+					_webViews[1] = _webViews[0];
+					_webViews[0] = webView;
+					
+					// 왼쪽 피드 로드
+//					prepareFeedDetail( _currentFeedIndex - 1 );
+				}
+			}
+			
+			private function onRightFeedButtonClick( e : MouseEvent ) : void
+			{
+				_currentFeedIndex ++;
+				
+				updateLeftRightFeedButtonEnabled();
+				
+				setTimeout( feedChangeAnimationDidFinish, 500 );
+				
+				var webViewoveEffect : Move = new Move( );
+				webViewoveEffect.targets = [_centerWebView, _rightWebView];
+				webViewoveEffect.duration = 500;
+				webViewoveEffect.xBy = -stage.stageWidth;
+				webViewoveEffect.play();
+				
+				_leftWebView.x = stage.stageWidth;
+				
+				var webView : ImTravelingWebView = _webViews[0];
+				_webViews[0] = _webViews[1];
+				_webViews[1] = _webViews[2];
+				_webViews[2] = webView;
+			}
+			
+			private function updateLeftRightFeedButtonEnabled() : void
+			{
+				leftFeedButton.enabled = !( _currentFeedIndex == 0 );
+				rightFeedButton.enabled = !( _currentFeedIndex == _feeds.length - 1 );
+			}
+			
+			private function animateAppearance() : void
+			{
+				stage.removeChild( data.webViewBitmap );
+				data.webViewBitmap.bitmapData.dispose();
+				
+				if( _topImage )
+				{
+					addElement( _topImage );
+					var topMoveEffect : Move = new Move( _topImage );
+					topMoveEffect.duration = 500;
+					topMoveEffect.yTo = -1 * data.topBitmap.height * 2/3;
+					topMoveEffect.play();
+				}
+				
+				addElement( _bottomImage );
+				var bottomMoveEffect : Move = new Move( _bottomImage );
+				bottomMoveEffect.duration = 500;
+				bottomMoveEffect.yTo = 128;
+				bottomMoveEffect.play();
+				
+				setTimeout( function() : void
+				{
+					if( _ref == 0 )
+					{
+						for( var i : int = 0; i < _webViews.length; i++ )
+						{
+							_webViews[i].stageWebView.viewPort = new Rectangle( stage.stageWidth * ( i - 1 ), 230, stage.stageWidth, _centerWebView.contentHeight );
+							_webViews[i].stage = stage;
+						}
+						
+						if( _topImage )
+						{
+							removeElement( _topImage );
+							_topImage.source.dispose();
+						}
+						
+						removeElement( _bottomImage );
+						_bottomImage.source.dispose();
+					}
+				}, 500 );
+			}
+			
+			private function feedChangeAnimationDidFinish() : void
+			{
+				
+			}
 		]]>
 	</fx:Script>
+	
+	<s:Button id="leftFeedButton" y="50" width="44" height="44" click="onLeftFeedButtonClick( event )" />
+	<s:Button id="rightFeedButton" x="300" y="50" width="44" height="44" click="onRightFeedButtonClick( event )" />
 </imt:ImTravelingView>

@@ -2,6 +2,7 @@ package
 {
 	import events.ImTravelingWebViewEvent;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -9,15 +10,46 @@ package
 	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.media.StageWebView;
-	import flash.utils.flash_proxy;
+	
+	import mx.core.UIComponent
 
-	public class ImTravelingWebView extends EventDispatcher
+	public class ImTravelingWebView extends UIComponent
 	{
 		public var stageWebView : StageWebView = new StageWebView();
 		
 		private var _scrollY : int;
 		public function get scrollY() : int { return _scrollY; }
 		public function set scrollY( y : int ) : void { callJavascript( "scrollTo", 0, _scrollY = y ); }
+		
+		private var _contentHeight : int;
+		public function get contentHeight() : int { return _contentHeight; }
+		
+		override public function get x() : Number
+		{
+			if( stageWebView.viewPort ) return 0;
+			return stageWebView.viewPort.x;
+		}
+		override public function set x( x : Number ) : void
+		{
+			if( !stageWebView.viewPort ) return;
+			var rect : Rectangle = stageWebView.viewPort;
+			rect.x = x;
+			stageWebView.viewPort = rect;
+		}
+		
+		override public function get y() : Number
+		{
+			if( !stageWebView.viewPort ) return 0;
+			return stageWebView.viewPort.y;
+		}
+		
+		override public function set y( y : Number ) : void
+		{
+			if( !stageWebView.viewPort ) return;
+			var rect : Rectangle = stageWebView.viewPort;
+			rect.y = y;
+			stageWebView.viewPort = rect;
+		}
 		
 		public function set stage( stage : Stage ) : void
 		{
@@ -53,6 +85,7 @@ package
 			trace( "webview load complete" );
 			
 			stageWebView.loadURL( 'javascript:window.onscroll = function() { call( ["scrollY", scrollY] ); }' );
+			stageWebView.loadURL( 'javascript:getHeight = function() { call( ["contentHeight", document.body.clientHeight] ); return document.body.clientHeight; }' );
 			
 			var event : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.LOAD_COMPLETE );
 			event.webView = this;
@@ -69,10 +102,17 @@ package
 				arguments.shift();
 				
 				var message : String = arguments.shift();
-				if( message == "scrollY" )
+				switch( message )
 				{
-					_scrollY = arguments[0];
-					return;
+					case "scrollY":
+						_scrollY = arguments[0];
+						var scrollEvent : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.SCROLL );
+						dispatchEvent( scrollEvent );
+						return;
+						
+					case "contentHeight":
+						_contentHeight = arguments[0];
+						return;
 				}
 				
 				var event : ImTravelingWebViewEvent = new ImTravelingWebViewEvent( ImTravelingWebViewEvent.RECEIVE_MESSAGE );
@@ -91,15 +131,16 @@ package
 				if( args[i] is Number )
 					url += args[i];
 				else
-					url += "\"" + args[i] + "\"";
+					url += "'" + args[i] + "'";
 				
 				if( i < args.length - 1 )
 					url += ",";
 			}
 			
-			url += ");";
+			url += ");getHeight();";
 			
 			stageWebView.loadURL( url );
+			trace( url );
 		}
 	}
 }

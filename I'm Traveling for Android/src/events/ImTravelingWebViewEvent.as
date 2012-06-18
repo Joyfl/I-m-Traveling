@@ -6,6 +6,7 @@ package events
 	{
 		public static const LOAD_COMPLETE : String = "loadComplete";
 		public static const RECEIVE_MESSAGE : String = "receiveMessage";
+		public static const SCROLL : String = "scroll";
 		
 		public var webView : ImTravelingWebView;
 		public var message : String;

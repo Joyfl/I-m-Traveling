@@ -11,6 +11,8 @@ package models
 		public var region : String;
 		public var time : String;
 		public var pictureURL : String;
+		public var pictureThumbURL : String;
+		public var pictureRatio : Number;
 		public var review : String;
 		public var info : Array;
 		public var latitude : Number;

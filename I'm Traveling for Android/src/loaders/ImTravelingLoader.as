@@ -19,20 +19,23 @@ package loaders
 			_loader.addEventListener( Event.COMPLETE, onLoadComplete );
 		}
 		
-		public function load( url : String, params : Object = null, id : int = 0, method : String = "GET" ) : void
+		public function add( url : String, params : Object = null, id : int = 0, method : String = "GET" ) : void
 		{
 			var token : ImTravelingLoaderToken = new ImTravelingLoaderToken();
 			token.url = url;
 			token.id = id;
 			token.params = params;
 			token.method = method;
-			
-			if( _queue.length == 0 )
+			_queue.push( token );
+		}
+		
+		public function startLoading() : void
+		{
+			if( _queue.length > 0 )
 			{
+				var token : ImTravelingLoaderToken = _queue[0];
 				loadToken( token );
 			}
-			
-			_queue.push( token );
 		}
 		
 		public function getErrorCode( json : Object ) : int
@@ -41,11 +44,18 @@ package loaders
 			return -1;
 		}
 		
+		
 		private function loadToken( token : ImTravelingLoaderToken ) : void
 		{
+			var data : URLVariables = new URLVariables();
+			for( var name : String in token.params )
+			{
+				data[name] = token.params[name];
+			}
+			
 			var request : URLRequest = new URLRequest( token.url );
 			request.method = token.method;
-			request.data = token.data;
+			request.data = data;
 			_loader.load( request );
 		}
 		

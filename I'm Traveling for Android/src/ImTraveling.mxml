@@ -2,6 +2,18 @@
 <s:TabbedViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 								  xmlns:s="library://ns.adobe.com/flex/spark" applicationDPI="160"
 								  initialize="init()">
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		
+		s|ActionBar {
+			chromeColor: #81CAE4;
+		}
+		
+		s|TabbedViewNavigator #tabBar {
+			chromeColor: #3E2D26;
+		}
+	</fx:Style>
+	
 	<fx:Script>
 		<![CDATA[
 			private function init() : void
