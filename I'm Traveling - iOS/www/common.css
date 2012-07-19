@@ -253,7 +253,7 @@ ul, ol, li
 
 .content
 {
-	padding: 1em 0em 1em 0em;
+	padding: 1em 0em 1.5em 0em;
 	background-color: #F6E2D1;
 }
 
@@ -280,27 +280,36 @@ ul, ol, li
 	width: 100%;
 }
 
-.content .feedback
+.content .feedbackWrap
 {
 	position: relative;
-	margin-left: 93%;
-	height: 1.5em;
-	width: 13em;
-	top: -2.1em;
-	left: -10.9em;
+	margin: 0 auto;
+	width: 100%;
+	top: -3.5em;
+}
+
+.content .feedback
+{
+	float: right;
+	background-image: url("./resource/deco.png");
+	background-size: 100% 100%;
+	padding-top: 1.4em;
+	padding-left: 1.5em;
+	padding-bottom: 0.5em;
 }
 
 .content .iconWrap
 {
 	float: right;
-	margin-right: 1em;
+	margin-right: 0.3em;
+	margin-left: 0.3em;
 }
 
 .content .icon
 {
 	float: left;
-	width: 1.3em;
-	height: 1.3em;
+	width: 1em;
+	height: 1em;
 }
 
 .content .iconLike
@@ -319,10 +328,10 @@ ul, ol, li
 {
 	text-align: right;
 	float: left;
-	font-size: 1.3em;
+	font-size: 1em;
 	font-weight: bold;
 	margin-left: 0.3em;
-	margin-top: -0.1em;
+	margin-top: 0em;
 }
 
 .content .review

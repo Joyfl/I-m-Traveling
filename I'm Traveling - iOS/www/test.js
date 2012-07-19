@@ -37,8 +37,8 @@ function init()
 	
 	clear();
 	
-	//t_fl();
-	t_fd();
+	t_fl();
+	//t_fd();
 	
 	//t_p();
 	
@@ -166,7 +166,8 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	
 	if(isThumbnail)
 	{
-		var feedback = _("div", ".feedback", thumbnail);
+		var feedbackWrap = _("div", ".feedbackWrap", thumbnail);
+		var feedback = _("div", ".feedback", feedbackWrap);
 	
 		var commentWrap = _("span", ".iconWrap", feedback);
 		var commentIcon = _("div", ".icon .iconComment", commentWrap);
@@ -177,6 +178,8 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		var likeIcon = _("div", ".icon .iconLike", likeWrap);
 		var likeText = _("span", ".iconText .green", likeWrap);
 		likeText.innerText = _likes;
+		
+		var clear = _("div", ".expensor", feedbackWrap);
 	}
 	
 	var pictureWidthPixel = intToPixel(BODY_WIDTH * 0.9);
@@ -578,7 +581,7 @@ function fillProfile(wrap, user_id, profile_image_url, name, nation, trips_num, 
 				<div id=\"travelingInfo\">\
 					<div id=\"nation\">" + nation + "</div>\
 				</div>\
-				<div id=\"noticeWrap\">\
+				<div id=\"noticeWrap\" onclick=\"call([\'notification\']);\">\
 					<div id=\"noticeText\" ></div>\
 				</div>\
 			</div>\
