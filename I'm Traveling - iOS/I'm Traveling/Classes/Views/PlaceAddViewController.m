@@ -139,7 +139,7 @@
 	[params setObject:_nameInput.text forKey:@"place_name"];
 	[params setObject:[NSNumber numberWithFloat:_mapView.region.center.latitude] forKey:@"latitude"];
 	[params setObject:[NSNumber numberWithFloat:_mapView.region.center.longitude] forKey:@"longitude"];
-	[params setObject:_categoryLabel.text forKey:@"category"];
+	[params setObject:[NSNumber numberWithInteger:_selectedCategory] forKey:@"category"];
 	[self.loader addTokenWithTokenId:0 url:API_PLACE_ADD method:ImTravelingLoaderMethodGET params:params];
 	[self.loader startLoading];
 	[params release];
@@ -265,7 +265,7 @@
 	NSDictionary *json = [Utils parseJSON:token.data];
 	if( [self isError:json] )
 	{
-		NSLog( @"Error!" );
+		NSLog( @"Error : %@", token.data );
 		return;
 	}
 	
