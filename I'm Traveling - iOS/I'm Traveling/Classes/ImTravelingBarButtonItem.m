@@ -39,4 +39,20 @@
 	return [super initWithCustomView:button];
 }
 
+
+#pragma mark -
+#pragma mark Getter/Setter
+
+- (NSString *)title
+{
+	UIButton *button = (UIButton *)self.customView;
+	return [button titleForState:UIControlStateNormal];
+}
+
+- (void)setTitle:(NSString *)title
+{
+	UIButton *button = (UIButton *)self.customView;
+	[button setTitle:title forState:UIControlStateNormal];
+}
+
 @end

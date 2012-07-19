@@ -62,6 +62,7 @@
 
 // Feed Detail
 "LIKE" = "Like";
+"UNLIKE" = "Unlike";
 "SEE_ALL_N_FEEDS" = "See all %d feed(s).";
 "N_LIKES_THIS_FEED" = "%d people like(s) this feeds.";
 "LEAVE_A_COMMENT" = "Leave a comment";

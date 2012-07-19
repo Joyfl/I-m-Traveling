@@ -62,6 +62,7 @@
 
 // Feed Detail
 "LIKE" = "좋아요";
+"UNLIKE" = "취소";
 "SEE_ALL_N_FEEDS" = "%d개의 피드 모두보기";
 "N_LIKES_THIS_FEED" = "%d명의 사람들이 이 피드를 좋아합니다.";
 "LEAVE_A_COMMENT" = "댓글 쓰기";

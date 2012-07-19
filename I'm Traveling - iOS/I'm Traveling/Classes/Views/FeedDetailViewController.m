@@ -36,7 +36,8 @@ enum {
 	// Feed Comment : 1000 ~ 1999
 	kTokenIdFirstFeedDetail = 10000,
 	kTokenIdSendComment = 10001,
-	kTokenIdLike = 10002
+	kTokenIdLike = 10002,
+	kTokenIdUnlike = 10003
 };
 
 - (id)initWithFeed:(FeedObject *)feed
@@ -273,7 +274,18 @@ enum {
 
 - (void)preloadFeedDetail
 {
-	[self.loader addTokenWithTokenId:kTokenIdFirstFeedDetail url:[NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref] method:ImTravelingLoaderMethodGET params:nil];
+	NSString *url;
+	
+	if( [Utils loggedIn] )
+	{
+		url = [NSString stringWithFormat:@"%@?feed_id=%d&ref=%d&user_id=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref, [Utils userId]];
+	}
+	else
+	{
+		url = [NSString stringWithFormat:@"%@?feed_id=%d&ref=%d", API_FEED_DETAIL, _feedObjectFromPrevView.feedId, ref];
+	}
+	
+	[self.loader addTokenWithTokenId:kTokenIdFirstFeedDetail url:url method:ImTravelingLoaderMethodGET params:nil];
 	[self.loader startLoading];
 }
 
@@ -314,7 +326,18 @@ enum {
 {
 	if( 0 <= feedIndex && feedIndex < _numAllFeeds )
 	{
-		[self.loader addTokenWithTokenId:feedIndex url:[NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]] method:ImTravelingLoaderMethodGET params:nil];
+		NSString *url;
+		
+		if( [Utils loggedIn] )
+		{
+			url = [NSString stringWithFormat:@"%@?feed_id=%d&ref=2&user_id=%d", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId], [Utils userId]];
+		}
+		else
+		{
+			url = [NSString stringWithFormat:@"%@?feed_id=%d&ref=2", API_FEED_DETAIL, [[_feedDetailObjects objectAtIndex:feedIndex] feedId]];
+		}
+		
+		[self.loader addTokenWithTokenId:feedIndex url:url method:ImTravelingLoaderMethodGET params:nil];
 		[self.loader startLoading];
 	}
 }
@@ -370,6 +393,7 @@ enum {
 
 - (void)loadingDidFinish:(ImTravelingLoaderToken *)token
 {
+	NSLog( @"data : %@", token.data );
 	NSDictionary *json = [Utils parseJSON:token.data];
 	
 	if( [self isError:json] )
@@ -395,6 +419,7 @@ enum {
 		[_feedDetailObjects replaceObjectAtIndex:_currentFeedIndex withObject:feedObject];
 		
 		[self changeNavigationBarTitle];
+		[self setLikeButtonStatus];
 		
 		[self animateAppearance];
 		
@@ -474,6 +499,33 @@ enum {
 			NSString *func = [NSString stringWithFormat:@"$('#likeBar').children[1].innerText = '%@'", str];
 			NSLog( @"%@", func );
 			[self.centerWebView stringByEvaluatingJavaScriptFromString:func];
+			
+			currentFeed.likeable = NO;
+			[self setLikeButtonStatus];
+			
+			_likeButton.enabled = YES;
+		}
+	}
+	
+	// Unlike
+	else if( token.tokenId == kTokenIdUnlike )
+	{
+		NSLog( @"like result : %@", token.data );
+		NSString *result = [json objectForKey:@"result"];
+		if( [result isEqualToString:@"OK"] )
+		{
+			FeedObject *currentFeed = [_feedDetailObjects objectAtIndex:_currentFeedIndex];
+			currentFeed.numLikes --;
+			
+			NSString *str = [NSString stringWithFormat:NSLocalizedString( @"N_LIKES_THIS_FEED", @"" ), currentFeed.numLikes];
+			NSString *func = [NSString stringWithFormat:@"$('#likeBar').children[1].innerText = '%@'", str];
+			NSLog( @"%@", func );
+			[self.centerWebView stringByEvaluatingJavaScriptFromString:func];
+			
+			currentFeed.likeable = YES;
+			[self setLikeButtonStatus];
+			
+			_likeButton.enabled = YES;
 		}
 	}
 }
@@ -487,6 +539,7 @@ enum {
 	feedObject.info = [feed objectForKey:@"info"];
 	feedObject.comments = [[NSMutableArray alloc] init];
 	feedObject.pictureRatio = [[feed objectForKey:@"height"] floatValue] / [[feed objectForKey:@"width"] floatValue];
+	feedObject.likeable = [[feed objectForKey:@"likestatus"] integerValue] == 0;
 	
 	// ref가이 1, 2일 경우에 공통적으로 해당
 	if( !feedObject.userId ) feedObject.userId = [[feed objectForKey:@"user_id"] integerValue];
@@ -834,16 +887,34 @@ enum {
 
 - (void)likeButtonDidTouchUpInside
 {
+	NSInteger tokenId;
+	NSString *command;
+	
+	if( [[_feedDetailObjects objectAtIndex:_currentFeedIndex] likeable] )
+	{
+		tokenId = kTokenIdLike;
+		command = @"like";
+	}
+	else
+	{
+		tokenId = kTokenIdUnlike;
+		command = @"unlike";
+	}
+	
+	NSLog( @"command : %@", command );
+	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 								  [Utils userIdNumber], @"user_id",
 								  [Utils email], @"email",
 								  [Utils password], @"password",
-								  @"like", @"command",
+								  command, @"command",
 								  [NSNumber numberWithInteger:1], @"type",
 								  [Utils userIdNumber], @"src_id",
 								  [NSNumber numberWithInteger:[[_feedDetailObjects objectAtIndex:_currentFeedIndex] feedId]], @"dest_id", nil];
-	[self.loader addTokenWithTokenId:kTokenIdLike url:API_LIKE method:ImTravelingLoaderMethodGET params:params];
+	[self.loader addTokenWithTokenId:tokenId url:API_LIKE method:ImTravelingLoaderMethodGET params:params];
 	[self.loader startLoading];
+	
+	_likeButton.enabled = NO;
 }
 
 - (void)mapViewButtonDidTouchUpInside
@@ -903,6 +974,7 @@ enum {
 		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
 		
 		[self changeNavigationBarTitle];
+		[self setLikeButtonStatus];
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:0];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
@@ -938,6 +1010,7 @@ enum {
 		[self setMapViewRegionLatitude:feedObject.latitude longitude:feedObject.longitude animated:YES];
 		
 		[self changeNavigationBarTitle];
+		[self setLikeButtonStatus];
 		
 		[_webViews exchangeObjectAtIndex:1 withObjectAtIndex:2];
 		[_webViews exchangeObjectAtIndex:0 withObjectAtIndex:2];
@@ -1124,6 +1197,18 @@ enum {
 - (void)changeNavigationBarTitle
 {
 	self.navigationItem.title = [[_feedDetailObjects objectAtIndex:_currentFeedIndex] place];
+}
+
+- (void)setLikeButtonStatus
+{
+	if( [[_feedDetailObjects objectAtIndex:_currentFeedIndex] likeable] )
+	{
+		_likeButton.title = NSLocalizedString( @"LIKE", @"" );
+	}
+	else
+	{
+		_likeButton.title = NSLocalizedString( @"UNLIKE", @"" );
+	}
 }
 
 - (void)setMapViewRegionLatitude:(CGFloat)latitude longitude:(CGFloat)longitude animated:(BOOL)animated
