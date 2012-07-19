@@ -58,11 +58,6 @@ enum {
 		self.webView.scrollView.scrollEnabled = NO;
 		[_scrollView addSubview:self.webView];
 		
-		_notificationButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		_notificationButton.frame = CGRectMake( 230, 120, 60, 60 );
-		[_notificationButton addTarget:self action:@selector(notificationButtonDidTouchUpInside) forControlEvents:UIControlEventTouchUpInside];
-		[_scrollView addSubview:_notificationButton];
-		
 		_arrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_arrow.png"]];
 		_arrow.frame = CGRectMake( 40, 168, 22, 14 );
 		
@@ -184,6 +179,11 @@ enum {
 		[profileViewController activateWithUserId:[[arguments objectAtIndex:0] integerValue] userName:[Utils decodeURI:[arguments objectAtIndex:1]]];
 		[self.navigationController pushViewController:profileViewController animated:YES];
 		[profileViewController release];
+	}
+	else if( [message isEqualToString:@"notification"] )
+	{
+		NotificationViewController *notificationViewController = [[NotificationViewController alloc] initWithUserId:user.userId];
+		[self.navigationController pushViewController:notificationViewController animated:YES];
 	}
 }
 
@@ -373,6 +373,7 @@ enum {
 {
 	for( UserObject *following in followings )
 	{
+#warning temp nation
 		NSString *func = [NSString stringWithFormat:@"addPerson( %d, '%@', '%@', '%@', %d );",
 						  following.userId,
 						  following.profileImageURL,
@@ -427,10 +428,7 @@ enum {
 
 - (void)updateNumNotifications
 {
-#warning temp
-	[_notificationButton setTitle:[NSString stringWithFormat:@"%d", _numNotifications]  forState:UIControlStateNormal];
-	
-	NSString *func = [NSString stringWithFormat:@"$('#noticeText').innerText = %d;", _numNotifications];
+	NSString *func = [NSString stringWithFormat:@"setNumNotification( %d );", _numNotifications];
 	[self.webView stringByEvaluatingJavaScriptFromString:func];
 }
 
@@ -494,12 +492,6 @@ enum {
 - (void)backButtonDidTouchUpInside
 {
 	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)notificationButtonDidTouchUpInside
-{
-	NotificationViewController *notificationViewController = [[NotificationViewController alloc] initWithUserId:user.userId];
-	[self.navigationController pushViewController:notificationViewController animated:YES];
 }
 
 
