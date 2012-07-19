@@ -64,7 +64,7 @@ function init()
 
 // Test Functions
 
-function t_fl() { for(var i = 0; i < 5; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기", 113, 113); }
+function t_fl() { for(var i = 0; i < 5; i++) addFeed(i, i, dmyProfileImage, "설진석", "09 JAN", "여기가 오디징? 점점점 됩니다. 흐히히", "KOR", dmyThumbnailWhite, 0.5, "그러겡 어딜까 가갸거겨고교구규그기 ㅁㅁㅁㄴㄹㄷ ㄴㄹㄷㄹㄴㄹ ㄷ린랴  ㄹ ㄴ  ㅁ ㄴ ㄴ ㅇ ㄴ ㅇ  ㅇㅇㅇ ㄴ ㅇ ㄴ ㅇ ㅁ   ㄴ ㅇ  ㄴㅇ ㅁ ㅈㅇ  ㅇㅁ  ㅇㅁ ㄴ ㅇ ", 120, 120); }
 function t_fd() {createFeedDetail(123, 123, 123, dmyProfileImage, "바나나", "JAN 09", "Yonsei Univ.", "Seoul", dmyThumbnailWhite, dmyThumbnailBlack, 0.5, "review", JSON.stringify(dmyInfo), "See all 4 feeds", "4 people likes this feed"); createMoreComment("이전 댓글 보기"); t_cl(); }
 
 function t_p() { createProfile(123, dmyProfileImage, "Jamie J Seol", "South Korea", 7, "Trips", 72, "Following", 68, "Followers", -1, true); }
@@ -171,26 +171,27 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 	
 		var commentWrap = _("span", ".iconWrap", feedback);
 		var commentIcon = _("div", ".icon .iconComment", commentWrap);
-		var commentText = _("span", ".iconText .blue", commentWrap);
+		var commentText = _("div", ".iconText .blue", commentWrap);
 		commentText.innerText = _comments;
 		
 		var likeWrap = _("span", ".iconWrap", feedback);
 		var likeIcon = _("div", ".icon .iconLike", likeWrap);
-		var likeText = _("span", ".iconText .green", likeWrap);
+		var likeText = _("div", ".iconText .green", likeWrap);
 		likeText.innerText = _likes;
 		
 		var clear = _("div", ".expensor", feedbackWrap);
 	}
 	
-	var pictureWidthPixel = intToPixel(BODY_WIDTH * 0.9);
-	var pictureHeightPixel = intToPixel(BODY_WIDTH * 0.9 * pictureRatio);
+	var pictureWidth = getWidth() * 0.9;
+	var pictureWidthPixel = intToPixel(pictureWidth);
+	var pictureHeightPixel = intToPixel(pictureWidth * pictureRatio);
 	setWidth(cover, pictureWidthPixel);
 	setHeight(cover, pictureHeightPixel);
 	setWidth(preloadBG, pictureWidthPixel);
 	setHeight(preloadBG, pictureHeightPixel);
 	setHeight(picture, pictureHeightPixel);
 	setHeight(thumbnail, pictureHeightPixel);
-	preloadIcon.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
+	preloadIcon.style.marginTop = intToEm(pixelToEm(pictureWidth * pictureRatio / 2) - 2);
 	
 	loaderLow.onload = function(){
 		preloadIcon.style.display = "none";
@@ -198,60 +199,7 @@ function fillThumbnail(thumbnail, pictureUrl, pictureRatio, _likes, _comments, i
 		picture.src = loaderLow.src;
 		if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
 	};
-	
-	/*loaderLow.onload = function(){
-		setTimeout(function(){
-		preloadIcon.style.display = "none";
-		preloadBG.style.display = "none";
-		picture.src = loaderLow.src;}, 2000);
-		//if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
-	};*/
-	
-	
-	
-	/*
-	
-	var preloadIcon = _("div", ".preloadIcon", thumbnail);
-	var preloadBG = _("div", ".preloadBG .picture", thumbnail);
-	var cover = _("div", ".cover .picture", thumbnail);
-	var loaderLow = new Image();
-	var loaderHigh = new Image();
-	var picture = _("img", ".picture", thumbnail);
-	
-	picture.src = src["preloadBG"];
-	loaderLow.src = pictureUrl;
-	if(pictureHighUrl) loaderHigh.src = pictureHighUrl;
-	
-	if(isThumbnail)
-	{
-		var feedback = _("div", ".feedback", thumbnail);
-	
-		var commentWrap = _("span", ".iconWrap", feedback);
-		var commentIcon = _("div", ".icon .iconComment", commentWrap);
-		var commentText = _("span", ".iconText .blue", commentWrap);
-		commentText.innerText = _comments;
 		
-		var likeWrap = _("span", ".iconWrap", feedback);
-		var likeIcon = _("div", ".icon .iconLike", likeWrap);
-		var likeText = _("span", ".iconText .green", likeWrap);
-		likeText.innerText = _likes;
-	}
-	
-	var pictureWidthPixel = intToPixel(BODY_WIDTH * 0.9);
-	var pictureHeightPixel = intToPixel(BODY_WIDTH * 0.9 * pictureRatio);
-	setWidth(cover, pictureWidthPixel);
-	setHeight(cover, pictureHeightPixel);
-	setHeight(picture, pictureHeightPixel);
-	setHeight(thumbnail, pictureHeightPixel);
-	preloadIcon.style.marginTop = intToEm(pixelToEm(BODY_WIDTH * 0.9 * pictureRatio / 2) - 2);
-	
-	loaderLow.onload = function(){
-		preloadIcon.style.display = "none";
-		picture.src = loaderLow.src;
-		if(pictureHighUrl) loaderHigh.onload = function() { picture.src = loaderHigh.src; };
-	};
-	*/
-	
 }
 
 function fillInfoList(infoList, info)

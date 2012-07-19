@@ -285,7 +285,7 @@ ul, ol, li
 	position: relative;
 	margin: 0 auto;
 	width: 100%;
-	top: -3.5em;
+	margin-top: -3.1em;
 }
 
 .content .feedback
@@ -295,21 +295,21 @@ ul, ol, li
 	background-size: 100% 100%;
 	padding-top: 1.4em;
 	padding-left: 1.5em;
-	padding-bottom: 0.5em;
+	padding-bottom: 0.3em;
+	width: 8.5em;
 }
 
 .content .iconWrap
 {
 	float: right;
-	margin-right: 0.3em;
-	margin-left: 0.3em;
+	margin-right: 0.6em;
 }
 
 .content .icon
 {
 	float: left;
-	width: 1em;
-	height: 1em;
+	width: 1.2em;
+	height: 1.2em;
 }
 
 .content .iconLike
@@ -328,10 +328,11 @@ ul, ol, li
 {
 	text-align: right;
 	float: left;
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
 	margin-left: 0.3em;
-	margin-top: 0em;
+	margin-top: -0.2em;
+	min-width: 1.7em;
 }
 
 .content .review
