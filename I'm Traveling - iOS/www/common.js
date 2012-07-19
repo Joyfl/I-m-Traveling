@@ -681,7 +681,8 @@ function fillFeedDetail(wrap, info, trip_id, see_all_feed_text, likes_text)
 	{
 		var infoList = _("ul", "#infoList", detail);
 		fillInfoList(infoList, info);
-		createGap(detail, 1.5);
+		var infoShadowWrap = _("div", "#infoShadowWrap", detail);
+		_("div", "#infoShadow", infoShadowWrap);
 	}
 	
 	createGap(detail, 0.1, false, "#E7CEBB");
@@ -766,7 +767,7 @@ function addFeedTop(feed_id, user_id, profile_image_url, name, time, place, regi
 function addSimpleFeed(feed_id, picture_url, _place, _time, _review)
 {
 	if(!$("#simpleFeedList"))
-		_("ul", "#simpleFeedList", $("#page"));
+		_("ul", "#simpleFeedList .listview", $("#page"));
 	var wrap = _("li", "#simpleFeed_" + feed_id, $("#simpleFeedList"));
 	fillSimpleFeed(wrap, feed_id, picture_url, _place, _time, _review);
 	listview();

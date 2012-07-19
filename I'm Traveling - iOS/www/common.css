@@ -416,6 +416,22 @@ ul, ol, li
 	margin-left: 0.3em;
 }
 
+#detail #infoShadowWrap
+{
+	width: 100%;
+}
+
+#detail #infoShadow
+{
+	height: 1.5em;
+	width: 80%;
+	background-image: url("./resource/info_shadow.png");
+	background-size: 100% 100%;
+	background-position-y: -0.75em;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+}
+
 #detail #seeAll
 {
 	height: 3em;
@@ -441,8 +457,7 @@ ul, ol, li
 
 #detail #likeBar
 {
-	background-image: url("./resource/gradient/like_bar.png");
-	background-size: 100% 100%;
+	background-image: url("./resource/gradient/like_bar.png");	background-size: 100% 100%;
 	padding: 0.6em;
 	color: #3d2c48;
 	border-top: 1px solid rgb(213, 179, 150);
