@@ -142,7 +142,7 @@
 		}
 		else if( [object isKindOfClass:[UIImage class]] )
 		{
-			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"picture\"; filename=\"xoulzzang\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+			[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"xoulzzang\"\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[[NSString stringWithString:@"Content-Type: image/jpeg\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
 			[body appendData:[NSData dataWithData:UIImageJPEGRepresentation( object, 1.0 )]];
 		}

@@ -499,6 +499,8 @@
 								   [NSNumber numberWithInteger:_selectedSex], @"sex",
 								   [Utils dateStringForUpload:_selectedBirthday], @"birthday",
 								   _nationButton.titleLabel.text, @"nation",
+								   [_profileImageButton backgroundImageForState:UIControlStateNormal], @"profile_image",
+								   _coverImageView.image, @"cover_image",
 								   nil];
 	NSLog( @"data : %@", params );
 	[self.loader addTokenWithTokenId:0 url:API_SIGN_UP method:ImTravelingLoaderMethodPOST params:params];
